@@ -1,0 +1,33 @@
+import React from 'react';
+import './App.css';
+
+// Importar los componentes creados
+import Hero from './components/Hero';
+import ValueProposition from './components/ValueProposition';
+import Services from './components/Services';
+import Pricing from './components/Pricing';
+import Portfolio from './components/Portfolio'; // Asegúrate que la extensión sea .tsx si es necesario
+import Team from './components/Team';
+import Process from './components/Process';
+import SpecialOffer from './components/SpecialOffer';
+import Contact from './components/Contact';
+
+function App() {
+  return (
+    <div className="App">
+      <Hero />
+      <ValueProposition />
+      <Services />
+      <Pricing />
+      <Portfolio />
+      <Team />
+      <Process />
+      <SpecialOffer />
+      <Contact />
+      {/* Puedes añadir un Footer aquí si lo creas */}
+    </div>
+  );
+}
+
+export default App;
+
