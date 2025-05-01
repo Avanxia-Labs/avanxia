@@ -104,20 +104,24 @@ const Hero = () => {
             href="#contact"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition duration-300 text-lg shadow-lg"
           >
-            Descubre cómo podemos impulsar tus ventas
+            Impulsa tus ventas
           </a>
         </div>
-        {/* Video a la derecha en desktop */}
-        <div className="flex-1 w-full max-w-2xl hidden md:flex items-center justify-center">
-          <video
-            src="/videos/avanxia_hq.webm"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="rounded-full w-[340px] h-[340px] md:w-[420px] md:h-[420px] lg:w-[520px] lg:h-[520px] object-cover bg-gray-800"
-            poster="/images/portfolio/poolquality/HOME.jpg"
-          />
+        {/* Video a la derecha en desktop, visible en todos los tamaños, con recorte visual y mayor tamaño */}
+        <div
+          className="flex-1 w-full max-w-2xl flex items-center justify-center -mt-[12%] md:mt-0"
+        >
+          <div className="aspect-square w-[260px] sm:w-[320px] md:w-[440px] lg:w-[560px] flex items-center justify-center overflow-hidden">
+            <video
+              src="/videos/avanxia_hq_fixed.webm"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover object-center rounded-full bg-gray-800"
+              poster="/images/portfolio/poolquality/HOME.jpg"
+            />
+          </div>
         </div>
       </div>
     </section>
