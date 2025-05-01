@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ChevronRight, Home } from 'lucide-react'; // Import icons for breadcrumbs
 
 // Mapeo de descripciones extendidas por nombre de proyecto
@@ -7,6 +7,19 @@ const projectDetails: Record<string, string> = {
   'APOLO INSURANCE': `Apolo Insurance, operando en Florida, EE. UU., se enfrentaba al desafío de conectar con un público específico y a menudo escéptico: la comunidad inmigrante hispanohablante. Su objetivo principal era facilitar el acceso a beneficios como Medicaid durante los periodos clave de inscripción, demostrando no solo las ventajas del servicio, sino, sobre todo, estableciendo a Apolo Insurance como una entidad confiable en un sector donde la confianza es primordial.\nPara lograrlo, Avanxia desarrolló una estrategia de comunicación integral. Entendiendo que la confianza se construye a través de la coherencia y el profesionalismo, creamos un Manual de Identidad de Marca completo que definió la voz y el estilo visual de Apolo. Este branding se aplicó meticulosamente en tarjetas de presentación y, crucialmente, en una landing page diseñada específicamente para informar y guiar al usuario hispano a través del proceso de solicitud de Medicaid.\nComplementamos la estrategia con la producción de videos y spots para redes sociales, adaptados cultural y lingüísticamente para resonar con la audiencia. El resultado fue la transformación de Apolo Insurance: de ser percibida como un simple vendedor de seguros, pasó a consolidarse como una marca sólida y fiable, equipada con las herramientas necesarias para presentarse con autoridad y generar la confianza indispensable para servir eficazmente a la comunidad hispana de Florida.`,
   // ...agrega el resto de los proyectos aquí...
 };
+
+interface CaseStudy {
+  id: number;
+  client: string;
+  location: string;
+  serviceType: string;
+  title: string;
+  challenge: string;
+  solution: string;
+  result: string;
+  resourcesPath: string;
+  imageUrl: string;
+}
 
 const Portfolio = () => {
   const caseStudies = [
@@ -190,9 +203,9 @@ const Portfolio = () => {
     // ...rest of the case studies...
   ];
 
-  const [selectedProject, setSelectedProject] = useState<any>(null);
+  const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
 
-  const handleOpenDetail = (study: any) => {
+  const handleOpenDetail = (study: CaseStudy) => {
     setSelectedProject(study);
     window.scrollTo(0, 0); // Scroll to top when opening detail view
   };

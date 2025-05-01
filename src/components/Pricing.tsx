@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Pricing = () => {
   const referencePrices = [
     { service: 'Tarifa por Hora (General)', range: '$40 - $200+' },

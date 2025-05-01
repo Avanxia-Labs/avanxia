@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SpecialOffer = () => {
   return (
     <section id="offer" className="w-full py-16 bg-blue-700 text-white">

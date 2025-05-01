@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 
 // Importar los componentes creados
