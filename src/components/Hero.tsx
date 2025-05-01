@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import type { Engine, Container } from "@tsparticles/engine";
+import type { Engine } from "@tsparticles/engine";
 
 // Hook simple para detectar mobile
 function useIsMobile() {

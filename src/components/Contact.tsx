@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const Contact = () => {
     message: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -17,7 +17,7 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Basic form validation (example)
     if (!formData.name || !formData.email || !formData.message) {
@@ -95,7 +95,7 @@ const Contact = () => {
                 <textarea 
                   name="message" 
                   id="message" 
-                  rows="4" 
+                  rows={4} 
                   value={formData.message}
                   onChange={handleChange}
                   required 
