@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu,
   X,
@@ -13,7 +13,8 @@ import {
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('#hero'); // Placeholder for active link state
+  const [activeLink, setActiveLink] = useState('#hero');
+  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
   // Define navigation links with icons
   const navLinks = [
@@ -33,55 +34,130 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Modified handleLinkClick to also scroll smoothly
   const handleLinkClick = (href: string) => {
-    setActiveLink(href); // Set active link on click (basic implementation)
+    setActiveLink(href);
     setIsMobileMenuOpen(false);
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
+
+  useEffect(() => {
+    // Store section refs
+    navLinks.forEach(link => {
+      sectionRefs.current[link.href] = document.querySelector(link.href);
+    });
+    // Add contact section ref if it exists
+    sectionRefs.current['#contact'] = document.querySelector('#contact');
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const detectionOffset = window.innerHeight / 3;
+      // Define a threshold for the top of the page
+      const topThreshold = 50; 
+
+      let currentActiveLink = '#hero'; // Default to top section
+
+      // Force active link to #hero if scrolled near the top
+      if (scrollPosition < topThreshold) {
+        currentActiveLink = '#hero';
+      } else {
+        // Iterate through navLinks + contact section only if not at the very top
+        const allSections = [...navLinks.map(l => l.href), '#contact'];
+        for (let i = allSections.length - 1; i >= 0; i--) {
+          const href = allSections[i];
+          const section = sectionRefs.current[href];
+          // Check if section exists and its top is within the detection range
+          if (section && section.offsetTop <= scrollPosition + detectionOffset) {
+            currentActiveLink = href;
+            break; // Found the current section
+          }
+        }
+        // If no section is found in the loop (e.g., scrolled past the last section but not back to top)
+        // We might need a fallback, but defaulting to #hero initially handles the top case.
+        // If scrolled below the last section, the last section should remain active based on the loop logic.
+      }
+
+      // Only update state if the active link has actually changed
+      if (activeLink !== currentActiveLink) {
+        setActiveLink(currentActiveLink);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check
+
+    // Cleanup listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [navLinks]); // Rerun effect if navLinks change (though unlikely here)
 
   return (
     <>
-      {/* Main Header - Use new color variables */}
-      <header className="bg-card shadow-sm sticky top-0 z-30 border-b border-border">
+      {/* Main Header - Use CSS variables for background and border */}
+      <header
+        className="shadow-sm sticky top-0 z-30 border-b"
+        style={{ background: 'rgb(var(--color-card))', borderColor: 'rgb(var(--color-border))' }}
+      >
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-          {/* Logo Placeholder */}
-          <div className="text-xl font-bold text-foreground">
+          {/* Logo Placeholder - Use CSS variable */}
+          <div className="text-xl font-bold" style={{ color: 'rgb(var(--color-foreground))' }}>
             Avanxia Labs
           </div>
 
-          {/* Desktop Navigation Links - Use new color variables */}
-          <div className="hidden md:flex space-x-6">
+          {/* Desktop Navigation Links - Differentiate Hover and Active */}
+          <div className="hidden md:flex space-x-6 items-center"> 
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                // Use new color variables for hover/underline
-                className={`relative text-sidebar-foreground hover:text-primary transition duration-300 pb-1 ${
-                  activeLink === link.href ? 'text-primary' : '' // Highlight active link text
-                }
-                           after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
-                           after:bg-primary after:scale-x-0 after:origin-center
-                           after:transition-transform after:duration-300 after:ease-out
-                           hover:after:scale-x-100 ${
-                             activeLink === link.href ? 'after:scale-x-100' : '' // Show underline for active link
-                           }`}
-                onClick={() => setActiveLink(link.href)} // Update active link on click
+                // Underline animation on hover, text color change only on active
+                className={`group relative flex items-center transition duration-300 pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[rgb(var(--color-primary))] after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 ${
+                  activeLink === link.href ? 'after:scale-x-100' : '' // Underline visible when active
+                }`}
+                style={{
+                  // Text color changes only when active
+                  color: activeLink === link.href ? 'rgb(var(--color-primary))' : 'rgb(var(--color-sidebar-foreground))',
+                }}
+                // Remove onMouseOver/onMouseOut for text color change, handled by style prop now
+                onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }} 
               >
+                <link.icon
+                  className="mr-2 h-4 w-4"
+                  style={{
+                    color: 'inherit' // Icon color inherits from text
+                  }}
+                />
                 {link.name}
               </a>
             ))}
           </div>
 
-          {/* Desktop Contact Button - Use new color variables */}
+          {/* Desktop Contact Button - Use CSS variables and gradient hover */}
           <a
             href="#contact"
-            className="hidden md:inline-block bg-primary hover:opacity-90 text-primary-foreground font-semibold py-2 px-4 rounded-lg transition duration-300"
+            className="hidden md:inline-block font-semibold py-2 px-4 rounded-lg transition duration-300"
+            style={{
+              background: 'rgb(var(--color-primary))',
+              color: 'rgb(var(--color-primary-foreground))'
+            }}
+            // Apply gradient on hover using inline style manipulation or a dedicated CSS class
+            onMouseOver={e => { e.currentTarget.style.background = 'var(--gradient-btn)'; }}
+            onMouseOut={e => { e.currentTarget.style.background = 'rgb(var(--color-primary))'; }}
+            onClick={(e) => { e.preventDefault(); handleLinkClick('#contact'); }} // Prevent default and use smooth scroll
           >
             Contacto
           </a>
 
-          {/* Mobile Menu Button - Use new color variables */}
+          {/* Mobile Menu Button - Use CSS variables */}
           <button
-            className="md:hidden text-sidebar-foreground hover:text-primary"
+            className="md:hidden"
+            style={{ color: 'rgb(var(--color-sidebar-foreground))' }}
+            onMouseOver={e => { e.currentTarget.style.color = 'rgb(var(--color-primary))' }}
+            onMouseOut={e => { e.currentTarget.style.color = 'rgb(var(--color-sidebar-foreground))' }}
             onClick={toggleMobileMenu}
             aria-label="Open menu"
           >
@@ -101,9 +177,10 @@ const Header = () => {
 
       {/* Sidebar Panel - Use new color variables and structure */}
       <div
-        className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-sidebar shadow-xl transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 left-0 bottom-0 z-50 w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden ${
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
+        style={{ background: 'rgb(var(--color-sidebar))', color: 'rgb(var(--color-sidebar-foreground))' }}
       >
         {/* Sidebar Header */}
         <div className="flex justify-between items-center p-4 border-b border-border">
@@ -129,19 +206,31 @@ const Header = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  // Apply active styles: background, text color, rounded corners
-                  className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 group ${
-                    isActive
-                      ? 'bg-sidebar-active text-sidebar-active-foreground'
-                      : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-foreground'
-                  }`}
-                  onClick={() => handleLinkClick(link.href)}
+                  style={isActive ? {
+                    background: 'var(--gradient-btn)', 
+                    color: 'rgb(var(--color-primary-foreground))', 
+                    borderRadius: '0.5rem',
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.625rem 0.75rem',
+                    transition: 'background 0.2s, color 0.2s',
+                  } : {
+                    color: 'rgb(var(--color-sidebar-foreground))', 
+                    borderRadius: '0.5rem',
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.625rem 0.75rem',
+                    transition: 'background 0.2s, color 0.2s',
+                  }}
+                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
+                  onMouseOver={e => { if (!isActive) { e.currentTarget.style.background = 'rgb(var(--color-sidebar-hover))'; e.currentTarget.style.color = 'rgb(var(--color-primary))'; } }}
+                  onMouseOut={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--color-sidebar-foreground))'; } }}
                 >
-                  <link.icon
-                    className={`flex-shrink-0 w-5 h-5 mr-3 ${
-                      isActive ? 'text-sidebar-active-foreground' : 'text-sidebar-foreground group-hover:text-foreground'
-                    }`}
-                  />
+                  <link.icon style={{ marginRight: '0.75rem', color: isActive ? 'rgb(var(--color-primary-foreground))' : 'inherit', flexShrink: 0, width: 20, height: 20 }} />
                   {link.name}
                 </a>
               );
@@ -149,7 +238,7 @@ const Header = () => {
           </div>
 
           {/* Separator */}
-          <hr className="border-border my-2" />
+          <hr style={{ borderColor: 'rgb(var(--color-border))', margin: '0.5rem 0' }} />
 
           {/* Link Group 2 */}
           <div className="space-y-1 mb-4">
@@ -159,18 +248,31 @@ const Header = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 group ${
-                    isActive
-                      ? 'bg-sidebar-active text-sidebar-active-foreground'
-                      : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-foreground'
-                  }`}
-                  onClick={() => handleLinkClick(link.href)}
+                  style={isActive ? {
+                    background: 'var(--gradient-btn)', 
+                    color: 'rgb(var(--color-primary-foreground))', 
+                    borderRadius: '0.5rem',
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.625rem 0.75rem',
+                    transition: 'background 0.2s, color 0.2s',
+                  } : {
+                    color: 'rgb(var(--color-sidebar-foreground))', 
+                    borderRadius: '0.5rem',
+                    fontWeight: 500,
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.625rem 0.75rem',
+                    transition: 'background 0.2s, color 0.2s',
+                  }}
+                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
+                  onMouseOver={e => { if (!isActive) { e.currentTarget.style.background = 'rgb(var(--color-sidebar-hover))'; e.currentTarget.style.color = 'rgb(var(--color-primary))'; } }}
+                  onMouseOut={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--color-sidebar-foreground))'; } }}
                 >
-                  <link.icon
-                    className={`flex-shrink-0 w-5 h-5 mr-3 ${
-                      isActive ? 'text-sidebar-active-foreground' : 'text-sidebar-foreground group-hover:text-foreground'
-                    }`}
-                  />
+                  <link.icon style={{ marginRight: '0.75rem', color: isActive ? 'rgb(var(--color-primary-foreground))' : 'inherit', flexShrink: 0, width: 20, height: 20 }} />
                   {link.name}
                 </a>
               );
@@ -183,10 +285,21 @@ const Header = () => {
           {/* Contact Link/Button */}
           <a
             href="#contact"
-            className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 group text-sidebar-foreground hover:bg-sidebar-hover hover:text-foreground"
-            onClick={() => handleLinkClick('#contact')} // Treat contact as a link for consistency
+            style={{
+              color: 'rgb(var(--color-sidebar-foreground))',
+              borderRadius: '0.5rem',
+              padding: '0.625rem 0.75rem',
+              fontWeight: 500,
+              fontSize: '1rem',
+              display: 'flex',
+              alignItems: 'center',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+            onClick={(e) => { e.preventDefault(); handleLinkClick('#contact'); }}
+            onMouseOver={e => { e.currentTarget.style.background = 'rgb(var(--color-sidebar-hover))'; e.currentTarget.style.color = 'rgb(var(--color-primary))'; }}
+            onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgb(var(--color-sidebar-foreground))'; }}
           >
-            <Mail className="flex-shrink-0 w-5 h-5 mr-3 text-sidebar-foreground group-hover:text-foreground" />
+            <Mail style={{ marginRight: '0.75rem', color: 'inherit', flexShrink: 0, width: 20, height: 20 }} />
             Contacto
           </a>
         </nav>
