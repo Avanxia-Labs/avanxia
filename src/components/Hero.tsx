@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine, Container } from "@tsparticles/engine";
@@ -27,16 +27,12 @@ const Hero = () => {
     });
   }, []);
 
-  const particlesLoaded = (container?: Container) => {
-    // Opcional: console.log(container);
-  };
-
   // Opciones de interactividad según dispositivo
   const interactivity = isMobile
     ? {
         events: {
           onClick: { enable: true, mode: "repulse" },
-          resize: true,
+          resize: { enable: true },
         },
         modes: {
           repulse: { distance: 150, duration: 0.4 },
@@ -45,7 +41,7 @@ const Hero = () => {
     : {
         events: {
           onHover: { enable: true, mode: "repulse" },
-          resize: true,
+          resize: { enable: true },
         },
         modes: {
           repulse: { distance: 150, duration: 0.4 },
@@ -58,7 +54,6 @@ const Hero = () => {
       {init && (
         <Particles
           id="tsparticles"
-          particlesLoaded={particlesLoaded}
           options={{
             fullScreen: { enable: false },
             background: {
@@ -84,7 +79,7 @@ const Hero = () => {
                 straight: false,
               },
               number: {
-                density: { enable: true, area: 800 },
+                density: { enable: true, width: 800 },
                 value: 80,
               },
               opacity: { value: 0.8 },
