@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import type { Engine } from "@tsparticles/engine";
+import type { Container, Engine } from "@tsparticles/engine";
 
 // Hook simple para detectar mobile
 function useIsMobile() {
@@ -18,7 +18,10 @@ function useIsMobile() {
 const Hero = () => {
   const [init, setInit] = useState(false);
   const isMobile = useIsMobile();
-  const particlesRef = useRef(null);
+  const particlesRef = useRef<Container | null>(null);
+  const handleParticlesLoaded = useCallback(async (container?: Container): Promise<void> => {
+    particlesRef.current = container ?? null;
+  }, []);
 
   useEffect(() => {
     initParticlesEngine(async (engine: Engine) => {
@@ -56,9 +59,7 @@ const Hero = () => {
       {init && (
         <Particles
           id="tsparticles"
-          loaded={container => {
-            particlesRef.current = container;
-          }}
+          particlesLoaded={handleParticlesLoaded}
           options={{
             fullScreen: { enable: false },
             background: {
