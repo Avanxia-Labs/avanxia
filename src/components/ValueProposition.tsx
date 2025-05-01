@@ -1,4 +1,8 @@
+import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+
 const ValueProposition = () => {
+  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+
   const points = [
     {
       title: 'Calidad y Tecnología Superior',
@@ -25,7 +29,9 @@ const ValueProposition = () => {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">¿Por Qué Elegir Avanxia Labs?</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">
+          <span ref={underlineRef} className="section-title-underline">¿Por Qué Elegir Avanxia Labs?</span>
+        </h2>
         <p className="text-center text-gray-700 mb-10 max-w-4xl mx-auto">
           En Avanxia Labs, combinamos la <strong className="font-semibold">excelencia técnica</strong> con la <strong className="font-semibold">creatividad estratégica</strong> para impulsar el crecimiento de tu negocio en el entorno digital. Somos más que una agencia; somos tu socio digital integral, operando desde México para ofrecer talento latino de primer nivel a precios competitivos para el mercado norteamericano (EE. UU. y Canadá).
         </p>

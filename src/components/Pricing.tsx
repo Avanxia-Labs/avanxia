@@ -1,3 +1,5 @@
+import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+
 const Pricing = () => {
   const referencePrices = [
     { service: 'Tarifa por Hora (General)', range: '$40 - $200+' },
@@ -71,10 +73,14 @@ const Pricing = () => {
     },
   ];
 
+  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+
   return (
     <section id="pricing" className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">Planes y Precios</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">
+          <span ref={underlineRef} className="section-title-underline">Planes y Precios</span>
+        </h2>
 
         {/* Reference Prices Table */}
         <div className="mb-16">

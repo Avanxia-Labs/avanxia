@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronRight, Home } from 'lucide-react'; // Import icons for breadcrumbs
+import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 
 // Mapeo de descripciones extendidas por nombre de proyecto
 const projectDetails: Record<string, string> = {
@@ -204,6 +205,7 @@ const Portfolio = () => {
   ];
 
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
+  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
 
   const handleOpenDetail = (study: CaseStudy) => {
     setSelectedProject(study);
@@ -221,7 +223,9 @@ const Portfolio = () => {
         {!selectedProject ? (
           // Grid View
           <>
-            <h2 className="text-3xl font-bold text-center mb-4">Nuestro Trabajo Habla por Sí Mismo</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">
+              <span ref={underlineRef} className="section-title-underline">Nuestro Trabajo Habla por Sí Mismo</span>
+            </h2>
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
             </p>

@@ -79,3 +79,36 @@ html {
   }
 }
 
+/* Underline animado para títulos de sección */
+.section-title-underline {
+  position: relative;
+  display: inline-block;
+}
+.section-title-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.2em;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, rgb(var(--color-secondary)), rgb(var(--color-primary)));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+}
+
+/* Desktop: underline solo en hover */
+@media (hover: hover) and (pointer: fine) {
+  .section-title-underline:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Mobile: underline visible cuando está activo (clase .active) */
+@media (hover: none) and (pointer: coarse) {
+  .section-title-underline.active::after {
+    transform: scaleX(1);
+  }
+}
+
