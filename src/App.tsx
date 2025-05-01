@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 // Importar los componentes creados
+import Header from './components/Header'; // Import the new Header component
 import Hero from './components/Hero';
 import ValueProposition from './components/ValueProposition';
 import Services from './components/Services';
@@ -15,6 +16,7 @@ import Contact from './components/Contact';
 function App() {
   return (
     <div className="App">
+      <Header /> {/* Add the Header component here */}
       <Hero />
       <ValueProposition />
       <Services />
