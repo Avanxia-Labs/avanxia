@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
-import { useKeenSlider, KeenSliderPlugin } from "keen-slider/react";
+import { useKeenSlider, KeenSliderPlugin, KeenSliderInstance } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import clsx from "clsx";
 import { useState } from "react";
@@ -59,7 +59,7 @@ const points: Point[] = [
 /* --------- AUTOPLAY PLUGIN ---------------------------------------------*/
 const autoplay =
   (interval = 4000): KeenSliderPlugin =>
-  (slider) => {
+  (slider: KeenSliderInstance) => {
     let timer: ReturnType<typeof setTimeout>;
     const clear = () => clearTimeout(timer);
     const next = () => {
@@ -125,7 +125,7 @@ const ValueProposition = () => {
       mode: "snap",
       rubberband: false,
       loop: false,
-      slideChanged(s) {
+      slideChanged(s: KeenSliderInstance) {
         setCurrent(s.track.details.rel);
       },
     },
