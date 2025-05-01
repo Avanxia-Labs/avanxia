@@ -99,7 +99,7 @@ const Header = () => {
     <>
       {/* Main Header - Use CSS variables for background and border */}
       <header
-        className="shadow-sm sticky top-0 z-30 border-b"
+        className="fixed top-0 left-0 w-full z-50"
         style={{ background: 'rgb(var(--color-card))', borderColor: 'rgb(var(--color-border))' }}
       >
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
