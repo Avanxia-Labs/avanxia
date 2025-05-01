@@ -97,9 +97,9 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full z-0 pointer-events-none"
         />
       )}
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 relative z-20">
+      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 relative z-30">
         {/* Texto a la izquierda */}
-        <div className="flex-1 text-center md:text-left">
+        <div className="flex-1 text-center md:text-left z-30 relative">
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
             Transformamos tu Negocio con Estrategias Digitales de <span className="text-blue-400">Alto Impacto</span>
           </h1>
@@ -119,9 +119,9 @@ const Hero = () => {
         </div>
         {/* Video a la derecha en desktop, visible en todos los tamaños, con recorte visual y mayor tamaño */}
         <div
-          className="flex-1 w-full max-w-2xl flex items-center justify-center -mt-[12%] md:mt-0"
+          className="flex-1 w-full max-w-2xl flex items-center justify-center -mt-[12%] md:mt-0 relative z-10"
         >
-          <div className="aspect-square w-[260px] sm:w-[320px] md:w-[440px] lg:w-[560px] flex items-center justify-center overflow-hidden">
+          <div className="aspect-square w-[260px] sm:w-[320px] md:w-[440px] lg:w-[560px] flex items-center justify-center overflow-hidden relative z-10">
             <video
               src="/videos/avanxia_hq_fixed.webm"
               autoPlay
@@ -129,6 +129,7 @@ const Hero = () => {
               muted
               playsInline
               className="w-full h-full object-cover object-center rounded-full"
+              style={{ zIndex: 0, position: 'relative' }}
             />
           </div>
         </div>
