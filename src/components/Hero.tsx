@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
@@ -18,6 +18,7 @@ function useIsMobile() {
 const Hero = () => {
   const [init, setInit] = useState(false);
   const isMobile = useIsMobile();
+  const particlesRef = useRef(null);
 
   useEffect(() => {
     initParticlesEngine(async (engine: Engine) => {
@@ -32,10 +33,11 @@ const Hero = () => {
     ? {
         events: {
           onClick: { enable: true, mode: "repulse" },
+          onTap: { enable: true, mode: "repulse" },
           resize: { enable: true },
         },
         modes: {
-          repulse: { distance: 150, duration: 0.4 },
+          repulse: { distance: 80, duration: 1.2 }, // reacción más suave y lenta en mobile
         },
       }
     : {
@@ -44,7 +46,7 @@ const Hero = () => {
           resize: { enable: true },
         },
         modes: {
-          repulse: { distance: 150, duration: 0.4 },
+          repulse: { distance: 70, duration: 5.2 }, // reacción más suave y lenta en desktop
         },
       };
 
@@ -54,6 +56,9 @@ const Hero = () => {
       {init && (
         <Particles
           id="tsparticles"
+          loaded={container => {
+            particlesRef.current = container;
+          }}
           options={{
             fullScreen: { enable: false },
             background: {
@@ -95,10 +100,14 @@ const Hero = () => {
         {/* Texto a la izquierda */}
         <div className="flex-1 text-center md:text-left">
           <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-            Transformamos tu Negocio con Estrategias Digitales de Alto Impacto
+            Transformamos tu Negocio con Estrategias Digitales de <span className="text-blue-400">Alto Impacto</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
-            Agencia Integral de Marketing, Diseño y Desarrollo Web. Talento Latino con Estándares Internacionales y Precios Competitivos para Norteamérica.
+            Agencia Integral de Marketing, Diseño y Desarrollo Web y Aplicaciones. Talento latino con estándares internacionales y <span className="relative inline-block align-middle px-1.5 border-b-2 border-blue-400" style={{padding:'0.1em 0.4em'}}>
+              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient">
+                precios competitivos para norteamérica
+              </span>
+            </span>.
           </p>
           <a 
             href="#contact"
@@ -118,8 +127,7 @@ const Hero = () => {
               loop
               muted
               playsInline
-              className="w-full h-full object-cover object-center rounded-full bg-gray-800"
-              poster="/images/portfolio/poolquality/HOME.jpg"
+              className="w-full h-full object-cover object-center rounded-full"
             />
           </div>
         </div>
