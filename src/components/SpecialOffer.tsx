@@ -2,7 +2,7 @@ import React from 'react';
 
 const SpecialOffer = () => {
   return (
-    <section id="offer" className="py-16 bg-blue-700 text-white">
+    <section id="offer" className="w-full py-16 bg-blue-700 text-white">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold mb-4">¡Impulsa tu Crecimiento con Nuestra Oferta de Lanzamiento!</h2>
         <p className="mb-6 max-w-2xl mx-auto">
