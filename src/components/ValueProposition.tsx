@@ -53,9 +53,8 @@ const Card = ({ p }: { p: Point }) => {
       ref={glassRef}
       className="glass-panel relative w-full p-8 md:p-10 overflow-hidden flex flex-col"
     >
-      <IconWrapper icon={p.icon} className="text-4xl md:text-5xl mb-5 md:mb-6 text-cyan-300 relative z-10" />
+      <IconWrapper icon={p.icon} className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10" />
       <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
-      {/* Use dangerouslySetInnerHTML to render the HTML in the paragraph */}
       <p
         className="opacity-90 leading-relaxed relative z-10 flex-grow"
         dangerouslySetInnerHTML={{ __html: p.paragraph }}
@@ -69,7 +68,7 @@ const ValueProposition = () => {
   const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
 
   return (
-    <section id="value-proposition" className="py-24 bg-gray-950 text-gray-100">
+    <section id="value-proposition" className="py-24 bg-background text-foreground">
       <div className="container mx-auto px-6">
         {/* Título */}
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
@@ -77,7 +76,7 @@ const ValueProposition = () => {
             ¿Por Qué Elegir Avanxia Labs?
           </span>
         </h2>
-        <p className="text-center text-gray-300 mb-16 max-w-4xl mx-auto text-lg md:text-2xl">
+        <p className="text-center text-foreground opacity-90 mb-16 max-w-4xl mx-auto text-lg md:text-2xl">
           En Avanxia Labs combinamos la <strong>excelencia técnica</strong> con la{" "}
           <strong>creatividad estratégica</strong> para impulsar tu negocio.
         </p>
@@ -90,7 +89,7 @@ const ValueProposition = () => {
         </div>
 
         {/* Cita */}
-        <p className="text-center text-gray-300 mt-16 italic max-w-4xl mx-auto">
+        <p className="text-center text-foreground opacity-90 mt-16 italic max-w-4xl mx-auto">
           “Todo lo que necesita un negocio para crecer online, desde branding
           hasta campañas publicitarias, ejecutado por un equipo full-stack con
           estándares internacionales y tarifas mexicanas.”
