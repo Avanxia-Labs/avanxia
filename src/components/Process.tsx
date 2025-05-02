@@ -1,4 +1,8 @@
+import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+
 const Process = () => {
+  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+
   const steps = [
     {
       title: 'Descubrimiento y Estrategia',
@@ -47,7 +51,9 @@ const Process = () => {
   return (
     <section id="process" className="w-full py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4">Nuestro Proceso Colaborativo Hacia el Éxito</h2>
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+          <span ref={underlineRef} className="section-title-underline">Nuestro Proceso Colaborativo</span>
+        </h2>
         <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
           Creemos en la transparencia y la colaboración. Nuestro proceso está diseñado para asegurar que comprendemos tus necesidades a fondo y trabajamos juntos en cada etapa para lograr los mejores resultados.
         </p>

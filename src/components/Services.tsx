@@ -49,7 +49,7 @@ const Services = () => {
   return (
     <section id="services" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4">
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">Nuestros Servicios 360° para Impulsar tu Negocio</span>
         </h2>
         <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">

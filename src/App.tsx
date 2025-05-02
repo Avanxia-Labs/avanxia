@@ -18,9 +18,9 @@ function App() {
       <Header /> {/* Add the Header component here */}
       <Hero />
       <ValueProposition />
+      <Portfolio />
       <Services />
       <Pricing />
-      <Portfolio />
       <Team />
       <Process />
       <SpecialOffer />

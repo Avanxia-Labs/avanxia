@@ -1,4 +1,8 @@
+import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+
 const Team = () => {
+  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+
   const teamMembers = [
     {
       role: 'Desarrollador Senior',
@@ -41,7 +45,9 @@ const Team = () => {
   return (
     <section id="team" className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-4">Conoce al Equipo Detrás de Avanxia Labs</h2>
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+          <span ref={underlineRef} className="section-title-underline">Conoce el Equipo Detrás de Avanxia</span>
+        </h2>
         <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
           Somos un equipo apasionado y multidisciplinario de estrategas, diseñadores y desarrolladores comprometidos con el éxito de nuestros clientes. Combinamos experiencia, creatividad y conocimiento técnico para ofrecer soluciones digitales de alto impacto.
         </p>

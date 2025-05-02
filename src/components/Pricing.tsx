@@ -78,7 +78,7 @@ const Pricing = () => {
   return (
     <section id="pricing" className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">Planes y Precios</span>
         </h2>
 

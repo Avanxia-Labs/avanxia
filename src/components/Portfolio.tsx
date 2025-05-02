@@ -22,8 +22,54 @@ interface CaseStudy {
   imageUrl: string;
 }
 
+// Card UI con glassmorphism, gradientes y hover moderno
+const PortfolioCard = ({ study, onClick }: { study: CaseStudy; onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="group relative rounded-3xl overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-2 focus:-translate-y-2 outline-none"
+  >
+    {/* glass panel */}
+    <div className="absolute inset-0 bg-white/40 backdrop-blur-md border border-white/30 shadow-lg rounded-[inherit]" />
+    {/* subtle lights */}
+    <div className="absolute -inset-[1px] rounded-[inherit] pointer-events-none
+                    bg-[radial-gradient(circle_at_20%_0%,rgba(59,130,246,.18),transparent_60%),radial-gradient(circle_at_80%_100%,rgba(99,102,241,.18),transparent_60%)]" />
+    {/* image */}
+    <div className="relative aspect-video flex items-center justify-center p-4">
+      <img
+        src={study.imageUrl}
+        alt={study.title}
+        className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
+        loading="lazy"
+      />
+    </div>
+    {/* text */}
+    <div className="relative p-6 text-left">
+      <h3 className="text-lg font-semibold text-gray-800 mb-1">{study.title}</h3>
+      <p className="text-xs font-medium text-blue-600">
+        {study.client} ({study.location}) – {study.serviceType}
+      </p>
+    </div>
+    {/* halo on hover */}
+    <div className="absolute inset-0 rounded-[inherit] ring-0 ring-sky-400/30 opacity-0
+                    group-hover:opacity-100 group-hover:ring-4 transition-all duration-300" />
+  </button>
+);
+
+// Botón con glow animado
+const GlowButton = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <button
+    {...props}
+    className="relative inline-flex items-center justify-center gap-2 px-5 py-3 font-semibold text-white rounded-full
+               bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg overflow-hidden
+               before:absolute before:inset-0 before:bg-white/20 before:opacity-0
+               hover:before:opacity-100 before:transition-opacity before:duration-300"
+  >
+    {children}
+  </button>
+);
+
 const Portfolio = () => {
-  const caseStudies = [
+  const caseStudies: CaseStudy[] = [
     {
       id: 1,
       client: 'Pool Quality Solutions',
@@ -34,8 +80,7 @@ const Portfolio = () => {
       solution: 'Diseño y desarrollo de un sitio web de 5 páginas utilizando tecnologías modernas (React/Next.js), con un enfoque en diseño limpio, atractivo y responsivo. Se incluyó formulario de contacto y optimización SEO básica.',
       result: 'Cliente satisfecho que procedió a contratar servicios adicionales. El sitio web sirve como base para futuras estrategias de marketing digital.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/POOL QUALITY SOLUTIONS/WEB/',
-      imageUrl: 
-'/images/portfolio/poolquality/HOME.jpg', // Use actual path
+      imageUrl: '/images/portfolio/poolquality/HOME.jpg',
     },
     {
       id: 2,
@@ -47,7 +92,7 @@ const Portfolio = () => {
       solution: 'Diseño completo de UI/UX para la plataforma web, incluyendo flujos de usuario, sistema de diseño, gestión de perfiles, planes de pago, reportes y configuración.',
       result: 'Diseño de interfaz listo para la implementación del frontend, sentando las bases para una plataforma financiera robusta.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/GYB/',
-      imageUrl: '/images/portfolio/gyb/HOME.png' // Use actual path
+      imageUrl: '/images/portfolio/gyb/HOME.png'
     },
     {
       id: 3,
@@ -59,7 +104,7 @@ const Portfolio = () => {
       solution: 'Diseño UI/UX de la app móvil (modos claro/oscuro). Creación de spots, anuncios y publicaciones para redes sociales equilibrando ternura y profesionalismo.',
       result: 'Materiales visuales que reflejan la esencia del proyecto, ayudando a conectar con la comunidad y proyectar competencia.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/AUTISM 911/',
-      imageUrl: '/images/portfolio/autism911/FACEBOOK COVER.png' // Use actual path
+      imageUrl: '/images/portfolio/autism911/FACEBOOK COVER.png'
     },
     {
       id: 4,
@@ -71,7 +116,7 @@ const Portfolio = () => {
       solution: 'Branding completo, diseño y desarrollo web para ambas plataformas, producción de video promocional y diseño de tarjetas. Directorio con funcionalidades específicas.',
       result: 'Lanzamiento exitoso de dos plataformas digitales funcionales y visualmente atractivas en el mercado suizo.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/EVEMUNDO/',
-      imageUrl: '/assets/portfolio/evemundo/HOME.png' // Use actual path
+      imageUrl: '/assets/portfolio/evemundo/HOME.png'
     },
     {
       id: 5,
@@ -83,10 +128,9 @@ const Portfolio = () => {
       solution: 'Diseño y desarrollo de sitio web con estética industrial moderna, elementos visuales fuertes y estructura clara.',
       result: 'Un sitio web profesional y robusto que posiciona a Heromatic como actor relevante en su sector.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/HEROMATIC/',
-      imageUrl: 
-'/assets/portfolio/heromatic/HOME.jpg', // Use actual path
+      imageUrl: '/assets/portfolio/heromatic/HOME.jpg',
     },
-     {
+    {
       id: 6,
       client: '4 CAMINOS',
       location: 'Cuba',
@@ -94,10 +138,9 @@ const Portfolio = () => {
       title: 'Redefiniendo la Presencia Digital Audiovisual en Cuba',
       challenge: 'Destacar en el mercado digital cubano emergente, construir marca sólida, reflejar prestigio y superar limitaciones de acceso a internet.',
       solution: 'Estrategia integral de diseño y manejo de redes sociales, identidad visual única, optimización SEO de blog, copywriting adaptado.',
-      result: 'Notable aumento en el reconocimiento de la marca, posicionándola como referente de calidad en su sector en Cuba.',      resourcesPath: 
-'/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/4 CAMINOS/',
-      imageUrl: 
-'/assets/portfolio/4caminos/Blog REALIDAD AUMENTADA REDES SOCIALES.png', // Use actual path
+      result: 'Notable aumento en el reconocimiento de la marca, posicionándola como referente de calidad en su sector en Cuba.',
+      resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/4 CAMINOS/',
+      imageUrl: '/assets/portfolio/4caminos/Blog REALIDAD AUMENTADA REDES SOCIALES.png',
     },
     {
       id: 7,
@@ -109,8 +152,7 @@ const Portfolio = () => {
       solution: 'Manual de Identidad de Marca, tarjetas, landing page para Medicaid, videos y spots adaptados culturalmente.',
       result: 'Transformación de la percepción de la marca, consolidándose como sólida y fiable para la comunidad hispana de Florida.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/APOLO INSURANCE/',
-      imageUrl: 
-'/assets/portfolio/apoloinsurance/LANDING PAGE DESKTOP AND MOBILE.jpg', // Use actual path
+      imageUrl: '/assets/portfolio/apoloinsurance/LANDING PAGE DESKTOP AND MOBILE.jpg',
     },
     {
       id: 8,
@@ -121,10 +163,8 @@ const Portfolio = () => {
       challenge: 'Posicionarse en el segmento premium, crear identidad visual que irradiara lujo, exclusividad y resultados.',
       solution: 'Diseño integral: logo sofisticado, diseño web responsivo (UI/UX), producción de videos para redes sociales.',
       result: 'Presencia digital coherente y lujosa, alineada con las aspiraciones del cliente y su público premium.',
-      resourcesPath: 
-'/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/BELLE RENOVA/',
-      imageUrl: 
-'/assets/portfolio/bellerenova/WEB.jpg', // Use actual path
+      resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/BELLE RENOVA/',
+      imageUrl: '/assets/portfolio/bellerenova/WEB.jpg',
     },
     {
       id: 9,
@@ -135,10 +175,8 @@ const Portfolio = () => {
       challenge: 'Crear identidad visual (logo) que proyectara exclusividad y lujo para atraer clientela de alto perfil.',
       solution: 'Diseño de logotipo minimalista y osado, diseño de tarjetas de presentación distintivas.',
       result: 'Identidad visual cohesiva y sofisticada, posicionando a ByG con imagen de altura y calidad.',
-      resourcesPath: 
-'/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/BYG/',
-      imageUrl: 
-'/assets/portfolio/bygdigitalmarketing/LOGO MOCKUP.jpg', // Use actual path
+      resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/BYG/',
+      imageUrl: '/assets/portfolio/bygdigitalmarketing/LOGO MOCKUP.jpg',
     },
     {
       id: 10,
@@ -150,7 +188,7 @@ const Portfolio = () => {
       solution: 'Diseño de logotipo evocando sutileza y poder revitalizante, extensión a materiales gráficos (flyers).',
       result: 'Identidad de marca estéticamente agradable que comunica eficazmente la propuesta de valor.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/DEW MARKETING/',
-      imageUrl: '/assets/portfolio/dewmarketing/LOGO 2.jpg', // Use actual path
+      imageUrl: '/assets/portfolio/dewmarketing/LOGO 2.jpg',
     },
     {
       id: 11,
@@ -162,7 +200,7 @@ const Portfolio = () => {
       solution: 'Diseño web (UI/UX) utilizando estilo glassmorphism para comunicar innovación y sofisticación.',
       result: 'Sitio web visualmente impactante y tecnológicamente avanzado en su presentación.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/DIGITAL LIFESTYLE DESIGNS/',
-      imageUrl: '/assets/portfolio/digitallifestyledesigns/Desktop - HOME.png', // Use actual path
+      imageUrl: '/assets/portfolio/digitallifestyledesigns/Desktop - HOME.png',
     },
     {
       id: 12,
@@ -174,11 +212,10 @@ const Portfolio = () => {
       solution: 'Contenido para anuncios y redes con estilo visual y narrativo más agresivo y fuerte (edición rápida, alto impacto).',
       result: 'Comunicación efectiva de la fortaleza y capacidad de respuesta del taller a través de carruseles y videos.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/DRIVERS COLLISION CENTER/',
-      imageUrl: '/assets/portfolio/driverscollisioncenter/1.png', // Use actual path
+      imageUrl: '/assets/portfolio/driverscollisioncenter/1.png',
     },
-
     {
-      id: 15,
+      id: 13,
       client: 'Engadi Costa Farm',
       location: 'N/A',
       serviceType: 'UI/UX',
@@ -187,10 +224,10 @@ const Portfolio = () => {
       solution: 'Diseño integral (UI/UX) de la nueva suite, colaboración con desarrollo, QA, librería de iconos personalizados.',
       result: 'Flujos de trabajo más eficientes y amigables, reemplazo exitoso de software anticuado, mejora drástica de productividad.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/ENGADI COSTA FARM/',
-      imageUrl: '/assets/portfolio/engadicostafarm/RAL PHOTO OPERATOR USING THE APP.png', // Use actual path
+      imageUrl: '/assets/portfolio/engadicostafarm/RAL PHOTO OPERATOR USING THE APP.png',
     },
     {
-      id: 16,
+      id: 14,
       client: 'TSC',
       location: 'Suiza',
       serviceType: 'Video Promocional, Seguridad',
@@ -199,9 +236,8 @@ const Portfolio = () => {
       solution: 'Producción de spot/video promocional dinámico, diseño de trípticos y wallpapers, adaptando el mensaje visual a diferentes formatos (totem, redes sociales).',
       result: 'Materiales visuales efectivos para promocionar los servicios de seguridad, reflejando la seriedad y capacidad de la empresa.',
       resourcesPath: '/home/ubuntu/avanxia_portfolio_resources/avanxia_info/CLIENTES PASADOS/TSC/',
-      imageUrl: '/assets/portfolio/tsc/IMG_0387 cuadrado.png', // Use actual path
+      imageUrl: '/assets/portfolio/tsc/IMG_0387 cuadrado.png',
     },
-    // ...rest of the case studies...
   ];
 
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
@@ -223,7 +259,7 @@ const Portfolio = () => {
         {!selectedProject ? (
           // Grid View
           <>
-            <h2 className="text-3xl font-bold text-center mb-4">
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
               <span ref={underlineRef} className="section-title-underline">Nuestro Trabajo Habla por Sí Mismo</span>
             </h2>
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
@@ -232,34 +268,13 @@ const Portfolio = () => {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {caseStudies.map((study) => (
-                <div key={study.id} className="bg-white rounded-lg shadow-lg overflow-hidden group">
-                  <div className="w-full h-48 bg-gray-300 flex items-center justify-center text-gray-500 overflow-hidden">
-                    <img 
-                      src={study.imageUrl} 
-                      alt={study.title} 
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" 
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-gray-800">{study.title}</h3>
-                    <p className="text-sm text-blue-600 font-medium mb-3">{study.client} ({study.location}) - {study.serviceType}</p>
-                    <button
-                      className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 text-sm"
-                      onClick={() => handleOpenDetail(study)}
-                    >
-                      Ver detalles del proyecto
-                    </button>
-                  </div>
-                </div>
+                <PortfolioCard key={study.id} study={study} onClick={() => handleOpenDetail(study)} />
               ))}
             </div>
 
             <div className="text-center mt-12">
-              <a 
-                href="#contact"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-300"
-              >
-                ¿Te gusta lo que ves? Discute tu proyecto
+              <a href="#contact">
+                <GlowButton>¿Te gusta lo que ves? Discute tu proyecto</GlowButton>
               </a>
             </div>
           </>
