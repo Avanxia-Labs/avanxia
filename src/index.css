@@ -180,8 +180,9 @@ small, .text-sm {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: var(--glass-radius);
-  /* Transición para elevación/sombra */
-  transition: box-shadow 0.5s cubic-bezier(.4,0,.2,1),
+  /* Transición suave para cambios de altura */
+  transition: height 0.5s cubic-bezier(0.3, 0, 0.2, 1),
+              box-shadow 0.5s cubic-bezier(.4,0,.2,1),
               transform 0.5s cubic-bezier(.4,0,.2,1);
 }
 
@@ -241,4 +242,59 @@ small, .text-sm {
     transform: scale(1.01);
   }
 }
+
+/* Clase para truncar texto a 4 líneas */
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Número de líneas a mostrar */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Altura máxima inicial (calcula 4 líneas * tu line-height real) */
+  max-height: calc(4 * 1.7em); /* Usa 'em' para basarse en font-size y line-height */
+  /* Transición aplicada aquí para que funcione en ambas direcciones */
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-expanded {
+  /* Solo cambiamos el max-height, la transición ya está en el estado base */
+  max-height: 1000px; /* Un valor grande para permitir expansión completa */
+  -webkit-line-clamp: initial;
+  overflow: visible; /* Puede ser necesario para que el contenido no se corte al expandir */
+}
+
+/* Grid: Alinear items al inicio para evitar que se estiren */
+.grid-align-start {
+  align-items: start;
+}
+
+/* Clases para animación de expansión/colapso */
+.card-content-wrapper {
+  transition: all 0.5s cubic-bezier(0.3, 0, 0.2, 1);
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+.card-content-expanded-height {
+  height: auto; /* El contenedor externo se ajusta a su contenido */
+  transition: height 0.5s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+/* Animación de fade-in para elementos dentro de la tarjeta */
+.card-content-fade {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-content-fade.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0);
+}
+
+.card-content-fade.fade-out {
+  opacity: 0 !important;
+  transform: translateY(10px);
+}
+
+/* Puedes añadir más clases como .line-clamp-3, .line-clamp-5, etc. si las necesitas */
 

@@ -6,6 +6,7 @@ import {
 import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 
 /* --------- ICON WRAPPER -------------------------------------------------*/
 const IconWrapper = ({ icon: Icon, className }: { icon: IconType; className?: string }) => {
@@ -48,17 +49,113 @@ const points: Point[] = [
 /* --------- CARD ---------------------------------------------------------*/
 const Card = ({ p }: { p: Point }) => {
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const textRef = useRef<HTMLDivElement>(null);
+  const [maxHeight, setMaxHeight] = useState<string>('calc(4 * 1.7em)');
+  const [clampActive, setClampActive] = useState(true); // Nuevo estado para controlar el clamp
+  const lineClamp = 4;
+  const TRANSITION_MS = 500;
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1281);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useLayoutEffect(() => {
+    const checkTruncation = () => {
+      const element = textRef.current;
+      if (element && isMobile) {
+        const needsClamp = !isExpanded && clampActive;
+        if (needsClamp) {
+          element.classList.add(`line-clamp-${lineClamp}`);
+          element.classList.remove('text-expanded');
+        } else {
+          element.classList.remove(`line-clamp-${lineClamp}`);
+        }
+        requestAnimationFrame(() => {
+          setIsTruncated(element.scrollHeight > element.clientHeight + 2);
+        });
+      } else if (!isMobile) {
+        setIsTruncated(false);
+      }
+    };
+    checkTruncation();
+    window.addEventListener("resize", checkTruncation);
+    return () => window.removeEventListener("resize", checkTruncation);
+  }, [isMobile, isExpanded, clampActive, p.paragraph, lineClamp]);
+
+  useLayoutEffect(() => {
+    const element = textRef.current;
+    if (!isMobile || !element) return;
+    if (isExpanded) {
+      setClampActive(false); // Quita el clamp antes de expandir
+      setMaxHeight(element.scrollHeight + 'px');
+    } else {
+      setClampActive(false); // Quita el clamp para animar el colapso
+      setMaxHeight(element.scrollHeight + 'px');
+      void element.offsetHeight;
+      setTimeout(() => {
+        setMaxHeight('calc(4 * 1.7em)');
+        // Después de la transición, vuelve a poner el clamp
+        setTimeout(() => setClampActive(true), TRANSITION_MS);
+      }, 30);
+    }
+  }, [isExpanded, isMobile, p.paragraph]);
+
+  const handleToggleExpand = () => setIsExpanded(!isExpanded);
+
   return (
     <div
       ref={glassRef}
-      className="glass-panel relative w-full p-8 md:p-10 overflow-hidden flex flex-col"
+      className="glass-panel relative w-full p-8 md:p-10 flex flex-col overflow-hidden"
     >
       <IconWrapper icon={p.icon} className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10" />
       <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
-      <p
-        className="opacity-90 leading-relaxed relative z-10 flex-grow"
-        dangerouslySetInnerHTML={{ __html: p.paragraph }}
-      />
+      <div
+        ref={textRef}
+        className={`opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isMobile && isExpanded ? ' text-expanded' : ''}`}
+        style={{
+          transition: 'max-height 0.5s cubic-bezier(0.3,0,0.2,1), opacity 0.3s linear',
+          maxHeight: isMobile ? maxHeight : 'none',
+          overflow: isMobile ? 'hidden' : 'visible',
+        }}
+      >
+        <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
+      </div>
+      {isMobile && isTruncated && !isExpanded && (
+        <div className="button-wrapper mt-6 z-10 flex-shrink-0">
+          <button
+            className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
+            type="button"
+            onClick={handleToggleExpand}
+          >
+            Ver más
+          </button>
+        </div>
+      )}
+      {isMobile && isExpanded && (
+        <div className="button-wrapper-expanded mt-6 z-10 flex-shrink-0">
+          <button
+            className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
+            type="button"
+            onClick={handleToggleExpand}
+          >
+            Ver menos
+          </button>
+        </div>
+      )}
+      {!isMobile && (
+        <button
+          className="mt-6 px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
+          type="button"
+        >
+          Ver más
+        </button>
+      )}
     </div>
   );
 };
@@ -81,8 +178,8 @@ const ValueProposition = () => {
           <strong>creatividad estratégica</strong> para impulsar tu negocio.
         </p>
 
-        {/* Grid Layout instead of Carousel */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 grid-align-start">
           {points.map((p, i) => (
             <Card key={i} p={p} />
           ))}
@@ -90,9 +187,9 @@ const ValueProposition = () => {
 
         {/* Cita */}
         <p className="text-center text-foreground opacity-90 mt-16 italic max-w-4xl mx-auto">
-          “Todo lo que necesita un negocio para crecer online, desde branding
+          "Todo lo que necesita un negocio para crecer online, desde branding
           hasta campañas publicitarias, ejecutado por un equipo full-stack con
-          estándares internacionales y tarifas mexicanas.”
+          estándares internacionales y tarifas mexicanas."
         </p>
       </div>
     </section>
