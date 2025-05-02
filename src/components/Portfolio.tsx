@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChevronRight, Home } from 'lucide-react'; // Import icons for breadcrumbs
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
 
 // Mapeo de descripciones extendidas por nombre de proyecto
 const projectDetails: Record<string, string> = {
@@ -23,39 +24,40 @@ interface CaseStudy {
 }
 
 // Card UI con glassmorphism, gradientes y hover moderno
-const PortfolioCard = ({ study, onClick }: { study: CaseStudy; onClick: () => void }) => (
-  <button
-    onClick={onClick}
-    className="group relative rounded-3xl overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-2 focus:-translate-y-2 outline-none"
-  >
-    {/* glass panel */}
-    <div className="absolute inset-0 bg-white/40 backdrop-blur-md border border-white/30 shadow-lg rounded-[inherit]" />
-    {/* subtle lights */}
-    <div className="absolute -inset-[1px] rounded-[inherit] pointer-events-none
-                    bg-[radial-gradient(circle_at_20%_0%,rgba(59,130,246,.18),transparent_60%),radial-gradient(circle_at_80%_100%,rgba(99,102,241,.18),transparent_60%)]" />
-    {/* image */}
-    <div className="relative aspect-video flex items-center justify-center p-4">
-      <img
-        src={study.imageUrl}
-        alt={study.title}
-        className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
-        loading="lazy"
-      />
-    </div>
-    {/* text */}
-    <div className="relative p-6 text-left">
-      <h3 className="text-lg font-semibold text-gray-800 mb-1">{study.title}</h3>
-      <p className="text-xs font-medium text-blue-600">
-        {study.client} ({study.location}) – {study.serviceType}
-      </p>
-    </div>
-    {/* halo on hover */}
-    <div className="absolute inset-0 rounded-[inherit] ring-0 ring-sky-400/30 opacity-0
-                    group-hover:opacity-100 group-hover:ring-4 transition-all duration-300" />
-  </button>
-);
+const PortfolioCard = ({ study, onClick }: { study: CaseStudy; onClick: () => void }) => {
+  const glassRef = useGlassCardActiveOnView<HTMLButtonElement>();
+  return (
+    <button
+      ref={glassRef}
+      onClick={onClick}
+      className="group relative glass-panel overflow-hidden outline-none"
+      // La animación de elevación se maneja en CSS
+    >
+      {/* El gradiente ahora se maneja con ::before/::after en .glass-panel */}
+      {/* subtle lights (opcional, puede interferir con el gradiente) */}
+      {/* <div className="absolute -inset-[1px] rounded-[inherit] pointer-events-none bg-[radial-gradient(circle_at_20%_0%,rgba(59,130,246,.18),transparent_60%),radial-gradient(circle_at_80%_100%,rgba(99,102,241,.18),transparent_60%)]" /> */}
+      {/* image */}
+      <div className="relative aspect-video flex items-center justify-center p-4 z-10">
+        <img
+          src={study.imageUrl}
+          alt={study.title}
+          className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      {/* text */}
+      <div className="relative p-6 text-left z-10">
+        <h3 className="mb-1">{study.title}</h3>
+        <p className="text-xs font-medium text-blue-600">
+          {study.client} ({study.location}) – {study.serviceType}
+        </p>
+      </div>
+      {/* halo on hover */}
+      <div className="absolute inset-0 rounded-[inherit] ring-0 ring-sky-400/30 opacity-0 group-hover:opacity-100 group-hover:ring-4 transition-all duration-300 z-10" />
+    </button>
+  );
+};
 
-// Botón con glow animado
 const GlowButton = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
     {...props}

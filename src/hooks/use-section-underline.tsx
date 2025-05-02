@@ -26,3 +26,30 @@ export function useSectionUnderlineOnView<T extends HTMLElement>() {
 
   return ref;
 }
+
+// Hook para activar el gradiente glassmorphism en mobile al hacer scroll
+export function useGlassCardActiveOnView<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Solo activar en mobile
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      const observer = new window.IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            el.classList.add('active-gradient');
+          } else {
+            el.classList.remove('active-gradient');
+          }
+        },
+        { threshold: 0.5 }
+      );
+      observer.observe(el);
+      return () => observer.disconnect();
+    }
+  }, []);
+
+  return ref;
+}
