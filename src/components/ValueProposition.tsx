@@ -106,7 +106,7 @@ const Card = ({ p }: { p: Point }) => {
       <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
       <div
         ref={textRef}
-        className={`opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isExpanded ? ' text-expanded' : ''}`}
+        className={`text-lg opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isExpanded ? ' text-expanded' : ''}`}
         style={{
           transition: 'max-height 0.5s cubic-bezier(0.3,0,0.2,1), opacity 0.3s linear',
           maxHeight: maxHeight,
