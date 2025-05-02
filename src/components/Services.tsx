@@ -1,4 +1,6 @@
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+import { Button } from "./ui/button";
+import { SecondaryButton } from "./ui/SecondaryButton";
 
 const Services = () => {
   const servicesList = [
@@ -63,20 +65,15 @@ const Services = () => {
             </div>
           ))}
         </div>
-        <div className="text-center mt-12">
-          <a 
-            href="#contact" // Link to contact section later
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-300 mr-4"
-          >
-            Contacta con nosotros
-          </a>
-          <a 
-            href="#pricing" // Link to pricing section later
-            className="bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded transition duration-300"
-          >
-            Consulta nuestros planes
-          </a>
-        </div>
+          <div className="mt-12 flex justify-center gap-4">
+            <Button size="cta" asChild>
+              <a href="#contact">Impulsa tus ventas</a>
+            </Button>
+
+            <SecondaryButton size="cta" asChild>
+              <a href="#pricing">Consulta nuestros planes</a>
+            </SecondaryButton>
+          </div>
       </div>
     </section>
   );

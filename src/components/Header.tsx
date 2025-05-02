@@ -11,6 +11,7 @@ import {
   Mail, // Icon for Contacto
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher'; // Import the new component
+import { Button } from './ui/button';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -109,13 +110,24 @@ const Header = () => {
             <ThemeSwitcher />
           </div>
 
-          <a
-            href="#contact"
-            className="hidden md:inline-block font-semibold py-2 px-4 rounded-lg transition duration-300 ml-4 bg-primary text-primary-foreground hover:bg-[--gradient-btn]"
-            onClick={(e) => { e.preventDefault(); handleLinkClick('#contact'); }}
+          <Button
+            size="tight"
+            /* clases específicas de este caso */
+            className="hidden md:inline-block font-semibold py-2 px-4 ml-4
+                      bg-primary text-primary-foreground hover:bg-[--gradient-btn]"
+            asChild
           >
-            Contacto
-          </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLinkClick('#contact');
+              }}
+            >
+              Contacto
+            </a>
+          </Button>
+
 
           <div className="md:hidden flex items-center space-x-4">
             <ThemeSwitcher />

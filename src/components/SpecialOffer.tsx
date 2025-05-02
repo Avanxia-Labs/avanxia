@@ -1,3 +1,5 @@
+import { Button } from "./ui/button";
+
 const SpecialOffer = () => {
   return (
     <section id="offer" className="w-full py-16 bg-blue-700 text-white">
@@ -15,12 +17,9 @@ const SpecialOffer = () => {
           <p className="text-xs text-gray-600 mb-6">
             <strong>Condiciones:</strong> Válido para nuevos contratos firmados antes del <strong>31 de julio de 2025</strong>. Aplicable a planes Growth Leads y Full 360°.
           </p>
-          <a 
-            href="#contact" // Link to contact section later
-            className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-6 rounded transition duration-300"
-          >
-            Contacta ahora y aprovecha la oferta
-          </a>
+          <Button size="tight" asChild>
+            <a href="#contact">Contacta ahora y aprovecha la oferta</a>
+          </Button>
         </div>
       </div>
     </section>
