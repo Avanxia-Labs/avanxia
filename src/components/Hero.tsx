@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Container, Engine } from "@tsparticles/engine";
-import { Button } from "./ui/button";
 
 // Hook simple para detectar mobile
 function useIsMobile() {
