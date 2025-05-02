@@ -18,12 +18,12 @@ function App() {
       <Header /> {/* Add the Header component here */}
       <Hero />
       <ValueProposition />
+      <SpecialOffer />
       <Portfolio />
       <Services />
       <Pricing />
       <Team />
       <Process />
-      <SpecialOffer />
       <Contact />
       {/* Puedes añadir un Footer aquí si lo creas */}
     </div>
