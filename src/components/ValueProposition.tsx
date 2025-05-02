@@ -6,7 +6,7 @@ import {
 import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 
 /* --------- ICON WRAPPER -------------------------------------------------*/
 const IconWrapper = ({ icon: Icon, className }: { icon: IconType; className?: string }) => {
@@ -51,24 +51,16 @@ const Card = ({ p }: { p: Point }) => {
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTruncated, setIsTruncated] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
   const [maxHeight, setMaxHeight] = useState<string>('calc(4 * 1.7em)');
-  const [clampActive, setClampActive] = useState(true); // Nuevo estado para controlar el clamp
+  const [clampActive, setClampActive] = useState(true);
   const lineClamp = 4;
   const TRANSITION_MS = 500;
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1281);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useLayoutEffect(() => {
     const checkTruncation = () => {
       const element = textRef.current;
-      if (element && isMobile) {
+      if (element) {
         const needsClamp = !isExpanded && clampActive;
         if (needsClamp) {
           element.classList.add(`line-clamp-${lineClamp}`);
@@ -79,32 +71,29 @@ const Card = ({ p }: { p: Point }) => {
         requestAnimationFrame(() => {
           setIsTruncated(element.scrollHeight > element.clientHeight + 2);
         });
-      } else if (!isMobile) {
-        setIsTruncated(false);
       }
     };
     checkTruncation();
     window.addEventListener("resize", checkTruncation);
     return () => window.removeEventListener("resize", checkTruncation);
-  }, [isMobile, isExpanded, clampActive, p.paragraph, lineClamp]);
+  }, [isExpanded, clampActive, p.paragraph, lineClamp]);
 
   useLayoutEffect(() => {
     const element = textRef.current;
-    if (!isMobile || !element) return;
+    if (!element) return;
     if (isExpanded) {
-      setClampActive(false); // Quita el clamp antes de expandir
+      setClampActive(false);
       setMaxHeight(element.scrollHeight + 'px');
     } else {
-      setClampActive(false); // Quita el clamp para animar el colapso
+      setClampActive(false);
       setMaxHeight(element.scrollHeight + 'px');
       void element.offsetHeight;
       setTimeout(() => {
         setMaxHeight('calc(4 * 1.7em)');
-        // Después de la transición, vuelve a poner el clamp
         setTimeout(() => setClampActive(true), TRANSITION_MS);
       }, 30);
     }
-  }, [isExpanded, isMobile, p.paragraph]);
+  }, [isExpanded, p.paragraph]);
 
   const handleToggleExpand = () => setIsExpanded(!isExpanded);
 
@@ -117,16 +106,16 @@ const Card = ({ p }: { p: Point }) => {
       <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
       <div
         ref={textRef}
-        className={`opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isMobile && isExpanded ? ' text-expanded' : ''}`}
+        className={`opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isExpanded ? ' text-expanded' : ''}`}
         style={{
           transition: 'max-height 0.5s cubic-bezier(0.3,0,0.2,1), opacity 0.3s linear',
-          maxHeight: isMobile ? maxHeight : 'none',
-          overflow: isMobile ? 'hidden' : 'visible',
+          maxHeight: maxHeight,
+          overflow: 'hidden',
         }}
       >
         <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
       </div>
-      {isMobile && isTruncated && !isExpanded && (
+      {isTruncated && !isExpanded && (
         <div className="button-wrapper mt-6 z-10 flex-shrink-0">
           <button
             className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
@@ -137,7 +126,7 @@ const Card = ({ p }: { p: Point }) => {
           </button>
         </div>
       )}
-      {isMobile && isExpanded && (
+      {isTruncated && isExpanded && (
         <div className="button-wrapper-expanded mt-6 z-10 flex-shrink-0">
           <button
             className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
@@ -147,14 +136,6 @@ const Card = ({ p }: { p: Point }) => {
             Ver menos
           </button>
         </div>
-      )}
-      {!isMobile && (
-        <button
-          className="mt-6 px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
-          type="button"
-        >
-          Ver más
-        </button>
       )}
     </div>
   );
