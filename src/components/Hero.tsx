@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Container, Engine } from "@tsparticles/engine";
+import { Button } from "@/components/ui/button.tsx";
 
 // Hook simple para detectar mobile
 function useIsMobile() {
@@ -110,12 +111,9 @@ const Hero = () => {
               </span>
             </span>.
           </p>
-          <a 
-            href="#contact"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded transition duration-300 text-lg shadow-lg"
-          >
-            Impulsa tus ventas
-          </a>
+          <Button size="tight" asChild>
+            <a href="#contact">Impulsa tus ventas</a>
+          </Button>
         </div>
         {/* Video a la derecha en desktop, visible en todos los tamaños, con recorte visual y mayor tamaño */}
         <div

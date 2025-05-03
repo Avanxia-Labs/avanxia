@@ -7,6 +7,8 @@ import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
 import { useState, useRef, useLayoutEffect } from "react";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";  
 
 /* --------- ICON WRAPPER -------------------------------------------------*/
 const IconWrapper = ({ icon: Icon, className }: { icon: IconType; className?: string }) => {
@@ -49,59 +51,79 @@ const points: Point[] = [
 /* --------- CARD ---------------------------------------------------------*/
 const Card = ({ p }: { p: Point }) => {
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isTruncated, setIsTruncated] = useState(false);
+
+  const [hasOverflow, setHasOverflow] = useState(false); // no cambia al expandir
+  const [isExpanded, setIsExpanded]   = useState(false);
+
   const textRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState<string>('calc(4 * 1.7em)');
-  const [clampActive, setClampActive] = useState(true);
-  const lineClamp = 4;
+
+  const [maxHeight,  setMaxHeight]   = useState('calc(4 * 1.7em)');
+  const [clampOn,    setClampOn]     = useState(true);
+
+  const lineClamp     = 4;
   const TRANSITION_MS = 500;
 
+  /* ── Detecta overflow SOLO la 1ª vez ───────────────────────────── */
   useLayoutEffect(() => {
-    const checkTruncation = () => {
-      const element = textRef.current;
-      if (element) {
-        const needsClamp = !isExpanded && clampActive;
-        if (needsClamp) {
-          element.classList.add(`line-clamp-${lineClamp}`);
-          element.classList.remove('text-expanded');
-        } else {
-          element.classList.remove(`line-clamp-${lineClamp}`);
-        }
-        requestAnimationFrame(() => {
-          setIsTruncated(element.scrollHeight > element.clientHeight + 2);
-        });
-      }
-    };
-    checkTruncation();
-    window.addEventListener("resize", checkTruncation);
-    return () => window.removeEventListener("resize", checkTruncation);
-  }, [isExpanded, clampActive, p.paragraph, lineClamp]);
+    const el = textRef.current;
+    if (!el) return;
 
+    // si ya detectamos overflow, no hace falta volver a medir
+    if (!hasOverflow && el.scrollHeight > el.clientHeight + 2) {
+      setHasOverflow(true);
+    }
+  }, [hasOverflow]);      // se ejecuta 1 vez (hasOverflow comienza en false)
+
+  /* ── Aplica / quita line‑clamp y recalcula cuando cambia estado ── */
   useLayoutEffect(() => {
-    const element = textRef.current;
-    if (!element) return;
+    const el = textRef.current;
+    if (!el) return;
+
+    const needsClamp = !isExpanded && clampOn;
+    el.classList.toggle(`line-clamp-${lineClamp}`, needsClamp);
+
+    /*  Animar altura --------------------------------------------------- */
     if (isExpanded) {
-      setClampActive(false);
-      setMaxHeight(element.scrollHeight + 'px');
+      setClampOn(false);
+      setMaxHeight(el.scrollHeight + 'px');
     } else {
-      setClampActive(false);
-      setMaxHeight(element.scrollHeight + 'px');
-      void element.offsetHeight;
+      setClampOn(false);
+      setMaxHeight(el.scrollHeight + 'px');  // altura actual
+      void el.offsetHeight;                  // re‑flow
       setTimeout(() => {
         setMaxHeight('calc(4 * 1.7em)');
-        setTimeout(() => setClampActive(true), TRANSITION_MS);
+        setTimeout(() => setClampOn(true), TRANSITION_MS);
       }, 30);
     }
-  }, [isExpanded, p.paragraph]);
+  }, [isExpanded, p.paragraph]);             // se repite si cambian
 
-  const handleToggleExpand = () => setIsExpanded(!isExpanded);
+  const toggle = () => setIsExpanded(!isExpanded);
 
   return (
     <div
-      ref={glassRef}
-      className="glass-panel relative w-full p-8 md:p-10 flex flex-col overflow-hidden"
+    ref={glassRef}
+    className="glass-panel relative w-full p-8 md:p-10 flex flex-col"
+  >
+    {/* icono y título */}
+    <IconWrapper
+      icon={p.icon}
+      className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
+    />
+    <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
+
+    {/* texto truncable */}
+    <div
+      ref={textRef}
+      className="opacity-90 leading-relaxed relative z-10 flex-grow"
+      style={{
+        transition: 'max-height .5s cubic-bezier(.3,0,.2,1)',
+        maxHeight,
+        overflow: 'hidden',
+      }}
     >
+
+      <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
+
       <IconWrapper icon={p.icon} className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10" />
       <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
       <div
@@ -137,7 +159,24 @@ const Card = ({ p }: { p: Point }) => {
           </button>
         </div>
       )}
+
     </div>
+
+    {/* botón fijo, sólo si alguna vez hubo overflow */}
+    {hasOverflow && (
+      <div className="sticky bottom-4 self-start mt-6 z-10">
+        <Button
+          size="tight"
+          className="px-6 py-2 rounded-lg shadow w-max
+                     bg-primary text-white font-semibold
+                     hover:bg-primary/90 transition-colors"
+          onClick={toggle}
+        >
+          {isExpanded ? 'Ver menos' : 'Ver más'}
+        </Button>
+      </div>
+    )}
+  </div>
   );
 };
 
