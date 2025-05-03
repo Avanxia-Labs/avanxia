@@ -1,7 +1,12 @@
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
+
+import { Button } from "./ui/button";
+import { SecondaryButton } from "./ui/SecondaryButton";
+
 // Eliminar el hook problemático y el useRef no utilizado
 // import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
 // import { useRef } from "react";
+
 
 const Services = () => {
   // Imágenes de Unsplash relacionadas con cada servicio
@@ -101,6 +106,17 @@ const Services = () => {
           ))}
         </div>
 
+          <div className="mt-12 flex justify-center gap-4">
+            <Button size="cta" asChild>
+              <a href="#contact">Impulsa tus ventas</a>
+            </Button>
+
+            <SecondaryButton size="cta" asChild>
+              <a href="#pricing">Consulta nuestros planes</a>
+            </SecondaryButton>
+          </div>
+
+
         {/* Secciones de servicios por categoría */}
         {categories.map((category) => (
           <div key={category.id} id={`services-${category.id}`} className="mb-16">
@@ -156,6 +172,7 @@ const Services = () => {
             Consulta nuestros planes
           </a>
         </div>
+
       </div>
     </section>
   );
