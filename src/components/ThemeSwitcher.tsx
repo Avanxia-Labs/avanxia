@@ -38,7 +38,7 @@ const ThemeSwitcher = () => {
       {/* Background changes color */}
       <span
         className={`absolute inset-0 rounded-full transition-colors duration-500 ease-in-out ${
-          isDarkMode ? 'bg-gray-700' : 'bg-cyan-400'
+          isDarkMode ? 'bg-gray-700' : 'bg-gray-200'
         }`}
       ></span>
 
@@ -46,14 +46,14 @@ const ThemeSwitcher = () => {
       <span className="relative h-6 w-full px-1 overflow-hidden">
         {/* Sun Icon */}
         <Sun
-          className={`sun-icon absolute top-1/2 left-1 transform -translate-y-1/2 text-yellow-300 transition-all duration-500 ease-in-out ${
+          className={`sun-icon absolute top-1/2 left-1 transform -translate-y-1/2 text-orange-400 transition-all duration-500 ease-in-out ${
             isDarkMode ? 'opacity-0 -translate-x-6 scale-50' : 'opacity-100 translate-x-0 scale-100'
           }`}
           size={18}
         />
         {/* Moon Icon */}
         <Moon
-          className={`moon-icon absolute top-1/2 right-1 transform -translate-y-1/2 text-slate-300 transition-all duration-500 ease-in-out ${
+          className={`moon-icon absolute top-1/2 right-1 transform -translate-y-1/2 text-gray-500 transition-all duration-500 ease-in-out ${
             isDarkMode ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-6 scale-50'
           }`}
           size={18}
