@@ -23,12 +23,12 @@ function HomePage() {
     <>
       <Hero />
       <ValueProposition />
+      <SpecialOffer />
       <Portfolio />
       <Services />
       <Pricing />
       <Team />
       <Process />
-      <SpecialOffer />
       <Contact />
     </>
   )
