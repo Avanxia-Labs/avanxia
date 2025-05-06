@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "optimize:images": "node src/scripts/optimize-images.js",
+    "optimize:images": "node src/scripts/optimize-images.cjs",
     "build": "pnpm run optimize:images && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
