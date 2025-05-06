@@ -29,7 +29,7 @@ function HomePage() {
       <Team />
       <Process />
       <Contact />
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
