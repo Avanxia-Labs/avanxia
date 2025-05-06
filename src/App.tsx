@@ -1,21 +1,26 @@
-import './App.css';
+// App.tsx
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// Importar los componentes creados
-import Header from './components/Header'; // Import the new Header component
-import Hero from './components/Hero';
-import ValueProposition from './components/ValueProposition';
-import Services from './components/Services';
-import Pricing from './components/Pricing';
-import Portfolio from './components/Portfolio'; // Asegúrate que la extensión sea .tsx si es necesario
-import Team from './components/Team';
-import Process from './components/Process';
-import SpecialOffer from './components/SpecialOffer';
-import Contact from './components/Contact';
+// Componentes generales
+import Header from './components/Header'
+import Footer from './components/Footer' // si lo tienes
+import Hero from './components/Hero'
+import ValueProposition from './components/ValueProposition'
+import Services from './components/Services'
+import Pricing from './components/Pricing'
+import Portfolio from './components/Portfolio'
+import Team from './components/Team'
+import Process from './components/Process'
+import SpecialOffer from './components/SpecialOffer'
+import Contact from './components/Contact'
 
-function App() {
+// Página individual (Evemundo)
+import Evemundo from './components/pages/Evemundo'
+
+function HomePage() {
   return (
-    <div className="App">
-      <Header /> {/* Add the Header component here */}
+    <>
       <Hero />
       <ValueProposition />
       <SpecialOffer />
@@ -25,10 +30,26 @@ function App() {
       <Team />
       <Process />
       <Contact />
-      {/* Puedes añadir un Footer aquí si lo creas */}
-    </div>
-  );
+    </>
+  )
 }
 
-export default App;
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Header />
 
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/evemundo" element={<Evemundo />} />
+        </Routes>
+
+        {/* Si tienes un footer global */}
+        {/* <Footer /> */}
+      </div>
+    </BrowserRouter>
+  )
+}
+
+export default App
