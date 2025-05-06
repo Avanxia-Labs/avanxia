@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Evemundo = () => {
   return (
     <div className="bg-white text-black font-sans">
