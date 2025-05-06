@@ -8,7 +8,7 @@ import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
 import { useState, useRef, useLayoutEffect } from "react";
 import { Button } from "./ui/button";
-import { cn } from "@/lib/utils";  
+/*import { cn } from "@/lib/utils";  
 
 /* --------- ICON WRAPPER -------------------------------------------------*/
 const IconWrapper = ({ icon: Icon, className }: { icon: IconType; className?: string }) => {
@@ -121,45 +121,7 @@ const Card = ({ p }: { p: Point }) => {
         overflow: 'hidden',
       }}
     >
-
       <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
-
-      <IconWrapper icon={p.icon} className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10" />
-      <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
-      <div
-        ref={textRef}
-        className={`text-lg opacity-90 leading-relaxed relative z-10 flex-grow card-content-wrapper${isExpanded ? ' text-expanded' : ''}`}
-        style={{
-          transition: 'max-height 0.5s cubic-bezier(0.3,0,0.2,1), opacity 0.3s linear',
-          maxHeight: maxHeight,
-          overflow: 'hidden',
-        }}
-      >
-        <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
-      </div>
-      {isTruncated && !isExpanded && (
-        <div className="button-wrapper mt-6 z-10 flex-shrink-0">
-          <button
-            className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
-            type="button"
-            onClick={handleToggleExpand}
-          >
-            Ver más
-          </button>
-        </div>
-      )}
-      {isTruncated && isExpanded && (
-        <div className="button-wrapper-expanded mt-6 z-10 flex-shrink-0">
-          <button
-            className="px-6 py-2 rounded-lg bg-primary text-white font-semibold shadow hover:bg-primary/90 transition-colors w-max self-start z-10"
-            type="button"
-            onClick={handleToggleExpand}
-          >
-            Ver menos
-          </button>
-        </div>
-      )}
-
     </div>
 
     {/* botón fijo, sólo si alguna vez hubo overflow */}
