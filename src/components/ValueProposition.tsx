@@ -95,7 +95,7 @@ const Card = ({ p }: { p: Point }) => {
         setTimeout(() => setClampOn(true), TRANSITION_MS);
       }, 30);
     }
-  }, [isExpanded, p.paragraph]);             // se repite si cambian
+  }, [isExpanded, p.paragraph, clampOn]);             // se repite si cambian
 
   const toggle = () => setIsExpanded(!isExpanded);
 
