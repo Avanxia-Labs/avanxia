@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // Componentes generales
 import Header from './components/Header'
-import Footer from './components/Footer' // si lo tienes
 import Hero from './components/Hero'
 import ValueProposition from './components/ValueProposition'
 import Services from './components/Services'
@@ -30,6 +29,7 @@ function HomePage() {
       <Team />
       <Process />
       <Contact />
+      <Footer />
     </>
   )
 }
