@@ -1,7 +1,6 @@
 // Portfolio.tsx (estilo encimado al centro tipo carrusel perspectiva)
 
 import { ChevronRight, Home } from 'lucide-react';
-import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
