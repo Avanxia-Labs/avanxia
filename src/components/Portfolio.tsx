@@ -1,10 +1,16 @@
 // Portfolio.tsx (estilo encimado al centro tipo carrusel perspectiva)
 
 import { ChevronRight, Home } from 'lucide-react';
-import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Navigation, FreeMode, Autoplay } from 'swiper/modules';
+import { motion } from 'framer-motion';
+import 'swiper/swiper-bundle.css';
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Tilt from 'react-parallax-tilt';
+
+
 
 interface CaseStudy {
   id: number;
@@ -24,7 +30,6 @@ interface CaseStudy {
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
   const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
-  const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
 
   const caseStudies: CaseStudy[] = [
@@ -275,9 +280,6 @@ const Portfolio = () => {
 
   const handleCloseDetail = () => setSelectedProject(null);
 
-  const handleNext = () => setActiveIndex((prev) => (prev + 1) % caseStudies.length);
-  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + caseStudies.length) % caseStudies.length);
-
   return (
     <section id="portfolio" className="w-full pt-[calc(64px+4rem)] pb-16 bg-gray-50 relative z-0">
       <div className="container mx-auto px-4">
@@ -291,63 +293,72 @@ const Portfolio = () => {
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
             </p>
+ 
 
-            <div className="relative min-h-[520px] perspective-[1500px] flex items-center justify-center">
-              <div className="relative w-full max-w-6xl min-h-[400px] flex justify-center items-center">
-                  {caseStudies.map((study, index) => {
-                    const offset = index - activeIndex;
-                    if (Math.abs(offset) > 2) return null;
-
-                    const baseTranslateX = 220;
-                    const translateX = offset * baseTranslateX;
-                    const scale = 1 - Math.abs(offset) * 0.1;
-                    const rotateY = offset * 15;
-                    const zIndex = 30 - Math.abs(offset) * 10;
-
-                    return (
-              <button
-                key={study.id}
-                onClick={() => handleOpenDetail(study)}
-                className="absolute left-1/2 w-80 md:w-96 h-60 md:h-72 rounded-xl overflow-hidden shadow-xl transition-all duration-500 bg-white cursor-pointer"
-              style={{
-                left: '50%',
-                transform: `translateX(-50%) translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
-                zIndex,
-                transformStyle: 'preserve-3d',
-              }}
-
-              >
+   <motion.div
+initial={{ opacity: 0, scale: 0.95, y: 40 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+      viewport={{ once: true, amount: 0.7 }} // 👈 aquí el segundo cambio
+      className="bg-background text-foreground font-sans"
+  >
+      <Swiper
+  effect="coverflow"
+  grabCursor={true}
+  centeredSlides={true}
+  initialSlide={2} // 👈 ESTE ES EL CAMBIO CLAVE
+  slidesPerView="auto"
+  freeMode={true}
+  autoplay={{
+    delay: 3000,
+    disableOnInteraction: false,
+  }}
+  coverflowEffect={{
+    rotate: 30,
+    stretch: 0,
+    depth: 200,
+    modifier: 1,
+    slideShadows: true,
+  }}
+  navigation={true}
+  modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
+  className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
+>
+        {caseStudies.map((study) => (
+          <SwiperSlide
+            key={study.id}
+            className="!w-[clamp(280px,80vw,320px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
+            onClick={() => handleOpenDetail(study)}
+          >
+            <Tilt
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
+              glareEnable={true}
+              glareMaxOpacity={0.2}
+              scale={1.02}
+              transitionSpeed={1500}
+              className="w-full h-full"
+            >
+              <div className="relative w-full h-full group rounded-xl overflow-hidden shadow-md">
                 <img
                   src={study.imageUrl}
                   alt={study.title}
-                  className="absolute inset-0 w-full h-full object-cover z-0"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-white bg-black/40 p-4 space-y-2 text-center">
+                <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-4 space-y-2 text-center transition-all duration-300">
                   <div className="text-sm font-semibold truncate">{study.title}</div>
-                  <p className="text-xs mt-6">{study.description}</p>
+                  <p className="text-xs mt-6">{study.description}</p> 
                   <span className="text-xs bg-white text-black rounded-full px-2 py-1 w-fit group-hover:bg-gray-100 transition">
                     Explorar este proyecto
                   </span>
                 </div>
-              </button>
-
-                    );
-                  })}
               </div>
+            </Tilt>
+          </SwiperSlide>
+        ))}
+      </Swiper>  
+    </motion.div>
 
-              <button
-                onClick={handlePrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 text-xl z-20"
-              >
-                ◀
-              </button>
-              <button
-                onClick={handleNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white shadow rounded-full p-2 text-xl z-20"
-              >
-                ▶
-              </button>
-            </div>
 
             <div className="text-center mt-12">
               <a href="#contact">

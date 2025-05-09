@@ -1,4 +1,6 @@
 // src/components/layout/ProjectLayout.tsx
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 
 /** ----- 1. Tipos de ayuda  --------------------------------------- */
@@ -55,8 +57,18 @@ const renderMedia = (m: Media) =>
   );
 
 /** ----- 3. Layout reusable  -------------------------------------- */
-const ProjectLayout = ({ data }: { data: ProjectData }) => (
-    <div className="bg-background text-foreground font-sans">
+const ProjectLayout = ({ data }: { data: ProjectData }) => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+return (
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
+    className="bg-background text-foreground font-sans"
+  >
+   <div className="bg-background text-foreground font-sans">
       {/* header ----------------------------------------------------- */}
       <section className="text-center pt-20 md:pt-28 px-4">
         <h1 className="text-3xl md:text-5xl font-bold">{data.title}</h1>
@@ -137,7 +149,9 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => (
           <span>Contacto</span>
         </div>
       </footer>
-    </div>
+    </div>  </motion.div>
+ 
   );
+};
 
 export default ProjectLayout;
