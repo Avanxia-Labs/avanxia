@@ -9,7 +9,6 @@ import {
 import { ArrowLeft } from "lucide-react";
 import ThemeSwitcher from "./components/ThemeSwitcher"; 
 
-
 // ── Componentes generales ───────────────────────────────
 import Header           from "./components/Header";
 import Hero             from "./components/Hero";
@@ -89,6 +88,7 @@ function Home() {
       <Team />
       <Process />
       <Contact />
+      {/* <Footer /> */}
     </>
   );
 }
