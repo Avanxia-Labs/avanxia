@@ -9,6 +9,8 @@ import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Tilt from 'react-parallax-tilt';
+import { Button } from './ui/button';
+
 
 
 
@@ -81,7 +83,7 @@ const Portfolio = () => {
     location: 'Suiza',
     serviceType: 'Branding, Diseño Web, Video',
     title: 'ENGADI COSTA FARM',
-    slug:'drivers',
+    slug:'engadi',
     description: 'Modernizamos una plataforma agrícola obsoleta con una suite digital intuitiva que mejora la productividad en invernaderos.',
     challenge: 'Crear desde cero dos plataformas digitales interconectadas (red social y directorio) con identidades distintas pero coherentes para el mercado suizo.',
     solution: 'Branding completo, diseño y desarrollo web para ambas plataformas, producción de video promocional y diseño de tarjetas. Directorio con funcionalidades específicas.',
@@ -293,43 +295,43 @@ const Portfolio = () => {
             <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
               Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
             </p>
- 
-
-   <motion.div
-initial={{ opacity: 0, scale: 0.95, y: 40 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
-      viewport={{ once: true, amount: 0.7 }} // 👈 aquí el segundo cambio
-      className="bg-background text-foreground font-sans"
+{/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
+<div className="hidden md:block">
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95, y: 40 }}
+    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+    transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+    viewport={{ once: true, amount: 0.7 }}
+    className="bg-background text-foreground font-sans"
   >
-      <Swiper
-  effect="coverflow"
-  grabCursor={true}
-  centeredSlides={true}
-  initialSlide={2} // 👈 ESTE ES EL CAMBIO CLAVE
-  slidesPerView="auto"
-  freeMode={true}
-  autoplay={{
-    delay: 3000,
-    disableOnInteraction: false,
-  }}
-  coverflowEffect={{
-    rotate: 30,
-    stretch: 0,
-    depth: 200,
-    modifier: 1,
-    slideShadows: true,
-  }}
-  navigation={true}
-  modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
-  className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
->
-        {caseStudies.map((study) => (
-          <SwiperSlide
-            key={study.id}
-            className="!w-[clamp(280px,80vw,320px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
-            onClick={() => handleOpenDetail(study)}
-          >
+    <Swiper
+      effect="coverflow"
+      grabCursor={true}
+      centeredSlides={true}
+      initialSlide={2}
+      slidesPerView="auto"
+      freeMode={true}
+      autoplay={{
+        delay: 3000,
+        disableOnInteraction: false,
+      }}
+      coverflowEffect={{
+        rotate: 30,
+        stretch: 0,
+        depth: 200,
+        modifier: 1,
+        slideShadows: true,
+      }}
+      navigation={true}
+      modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
+      className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
+    >
+      {caseStudies.map((study) => (
+        <SwiperSlide
+          key={study.id}
+          className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
+          onClick={() => handleOpenDetail(study)}
+        >
             <Tilt
               tiltMaxAngleX={10}
               tiltMaxAngleY={10}
@@ -353,18 +355,75 @@ initial={{ opacity: 0, scale: 0.95, y: 40 }}
                   </span>
                 </div>
               </div>
-            </Tilt>
-          </SwiperSlide>
-        ))}
-      </Swiper>  
-    </motion.div>
+            </Tilt>            {/* tu contenido */}
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </motion.div>
+</div>
 
+{/* MOBILE VERSION → CARRUSEL CON FLECHAS Y EFECTO APPLE */}
+<div className="block md:hidden mt-10 px-4">
+  
+  <Swiper
+  slidesPerView={1.3}         // Para que se vean los lados
+  centeredSlides={true}
+  spaceBetween={16}
+  grabCursor={true}
+  navigation={true}
+  modules={[Navigation]}
+  className="relative w-full pb-10"
+>
+
+    {caseStudies.map((study) => (
+      <SwiperSlide
+        key={study.id}
+        className="transition-transform duration-300"
+      >
+<div
+  className="
+    relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300
+    scale-100 opacity-100
+    swiper-slide-prev:scale-90 swiper-slide-next:scale-90
+  "
+>
+  {/* Capa blanca para prev y next */}
+  <div
+    className="
+      absolute inset-0 pointer-events-none rounded-xl z-10
+      hidden swiper-slide-prev:block swiper-slide-next:block
+      bg-white/80
+    "
+  />
+
+
+
+     <img
+            src={study.imageUrl}
+            alt={study.title}
+            className="w-full h-[400px] object-cover"
+          />
+          <div className="p-4 text-center">
+            <h3 className="text-lg font-bold mb-2">{study.title}</h3>
+            <p className="text-sm text-gray-700">{study.description}</p>
+            <button
+              onClick={() => handleOpenDetail(study)}
+              className="mt-4 bg-black text-white text-sm px-4 py-2 rounded-full"
+            >
+              Ver ahora
+            </button>
+          </div>
+        </div>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
 
             <div className="text-center mt-12">
               <a href="#contact">
-                <button className="bg-gradient-to-br from-sky-500 to-indigo-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg">
-                  ¿Te gusta lo que ves? Discute tu proyecto
-                </button>
+                <Button asChild>
+                  <span>¿Te gusta lo que ves? Discute tu proyecto</span>
+                </Button>
               </a>
             </div>
           </>
@@ -431,13 +490,10 @@ initial={{ opacity: 0, scale: 0.95, y: 40 }}
               </div>
             </div>
 
-            <div className="text-center mt-12">
-              <button
-                onClick={handleCloseDetail}
-                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded transition duration-300"
-              >
+            < div className="text-center mt-12">
+              <Button onClick={handleCloseDetail} variant="secondaryDark" size="cta">
                 ← Volver al Portafolio
-              </button>
+              </Button>
             </div>
           </div>
         )}

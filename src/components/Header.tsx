@@ -85,9 +85,9 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border">
-        <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold text-foreground">
+<header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
+  <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
+            <div className="text-xl font-bold text-foreground">
             Avanxia Labs
           </div>
 
@@ -150,11 +150,11 @@ const Header = () => {
         aria-hidden="true"
       />
 
-      <div
-        className={`fixed top-0 left-0 bottom-0 z-50 w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden bg-sidebar text-sidebar-foreground ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
+     <div
+  className={`fixed top-0 left-0 bottom-0 z-50 max-w-[90vw] w-full sm:w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden bg-sidebar text-sidebar-foreground ${
+    isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+  }`}
+>
         <div className="flex justify-between items-center p-4 border-b border-border">
           <div className="text-lg font-bold text-foreground">
             Avanxia Labs
