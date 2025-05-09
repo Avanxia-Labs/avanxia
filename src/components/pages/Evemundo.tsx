@@ -31,6 +31,7 @@ const evemundoData: ProjectData = {
       poster: "/images/portfolio/proyectos/evem1.png",
     },
   ],
+
 };
 
 export default function Evemundo() {
