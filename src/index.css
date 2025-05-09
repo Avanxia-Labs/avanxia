@@ -5,6 +5,10 @@
 html {
   scroll-behavior: smooth;
 }
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
 
 @layer base {
   /* Light theme variables (default) */
@@ -254,6 +258,23 @@ small, .text-sm {
 .swiper-button-next::after {
   font-size: 1.25rem !important;
   font-weight: bold;
+}
+
+.swiper-pagination-bullet {
+  background-color: black;
+  opacity: 0.5;
+}
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+
+.swiper-pagination-bullets {
+  bottom: 0px !important;
+}
+
+.swiper-slide {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 

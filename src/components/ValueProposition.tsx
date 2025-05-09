@@ -58,7 +58,7 @@ const Card = ({ p }: { p: Point }) => {
 
   const textRef = useRef<HTMLDivElement>(null);
 
-  const [maxHeight,  setMaxHeight]   = useState('calc(4 * 1.7em)');
+const [maxHeight, setMaxHeight] = useState<string | undefined>(`calc(4 * 1.7em)`);
   const [clampOn,    setClampOn]     = useState(true);
 
   const lineClamp     = 4;
@@ -103,8 +103,7 @@ const Card = ({ p }: { p: Point }) => {
   return (
     <div
     ref={glassRef}
-    className="glass-panel relative w-full p-8 md:p-10 flex flex-col"
-  >
+className="glass-panel relative w-full min-h-[400px] p-8 md:p-10 flex flex-col"  >
     {/* icono y título */}
     <IconWrapper
       icon={p.icon}
@@ -115,28 +114,37 @@ const Card = ({ p }: { p: Point }) => {
     {/* texto truncable */}
     <div
       ref={textRef}
-      className="opacity-90 leading-relaxed relative z-10 flex-grow"
-      style={{
-        transition: 'max-height .5s cubic-bezier(.3,0,.2,1)',
-        maxHeight,
-        overflow: 'hidden',
-      }}
+className="opacity-90 leading-relaxed relative z-10"
+style={{
+  height: isExpanded ? 'auto' : 'calc(4 * 1.7em)',
+  overflow: 'hidden',
+  transition: 'height 0.4s ease',
+  width: '100%',
+  wordBreak: 'break-word',
+}}
+
+
+
     >
-      <span dangerouslySetInnerHTML={{ __html: p.paragraph }} />
+<span
+  className="break-words"
+  dangerouslySetInnerHTML={{ __html: p.paragraph }}
+/>
     </div>
 
     {/* botón fijo, sólo si alguna vez hubo overflow */}
     {hasOverflow && (
-      <div className="sticky bottom-4 self-start mt-6 z-10">
+<div className="mt-6 z-10">
         <Button
-          size="tight"
-          className="px-6 py-2 rounded-lg shadow w-max
-                     bg-primary text-white font-semibold
-                     hover:bg-primary/90 transition-colors"
-          onClick={toggle}
-        >
-          {isExpanded ? 'Ver menos' : 'Ver más'}
-        </Button>
+  size="tight"
+  className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
+             bg-primary text-white font-semibold
+             hover:bg-primary/90 transition-colors"
+  onClick={toggle}
+>
+  {isExpanded ? 'Ver menos' : 'Ver más'}
+</Button>
+
       </div>
     )}
   </div>
@@ -148,9 +156,9 @@ const ValueProposition = () => {
   const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
 
   return (
-    <section id="value-proposition" className="py-24 bg-background text-foreground">
-      <div className="container mx-auto px-6">
-        {/* Título */}
+    <section id="value-proposition" className="py-24 bg-background text-foreground overflow-x-hidden">
+<div className="container mx-auto px-6 overflow-hidden">
+          {/* Título */}
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">
             ¿Por Qué Elegir Avanxia Labs?
@@ -162,8 +170,8 @@ const ValueProposition = () => {
         </p>
 
         {/* Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 grid-align-start">
-          {points.map((p, i) => (
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 items-stretch w-full">
+            {points.map((p, i) => (
             <Card key={i} p={p} />
           ))}
         </div>
