@@ -85,7 +85,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-card border-b border-border">
+      <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border">
         <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="text-xl font-bold text-foreground">
             Avanxia Labs
