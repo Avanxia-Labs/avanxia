@@ -71,12 +71,10 @@ const Pricing = () => {
       price: '~ $4,000 - $7,500+',
       priceNote: 'Retainer Mensual'
     },
-  ];
-
-  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+  ];  const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
 
   return (
-    <section id="pricing" className="py-16 bg-white">
+    <section id="pricing" className="py-16 bg-background text-foreground dark:bg-background dark:text-foreground">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">Planes y Precios</span>
@@ -84,51 +82,49 @@ const Pricing = () => {
 
         {/* Reference Prices Table */}
         <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-center mb-6">Tabla de Precios de Referencia (Mercado Norteamericano)</h3>
-          <p className="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+          <h3 className="text-2xl font-semibold text-center mb-6 text-foreground">Tabla de Precios de Referencia (Mercado Norteamericano)</h3>
+          <p className="text-center text-foreground/70 dark:text-foreground/70 mb-8 max-w-3xl mx-auto">
             Esta tabla muestra rangos orientativos basados en nuestro análisis. Los precios finales dependerán de la complejidad y alcance específico de cada proyecto.
           </p>
           <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-200 mx-auto max-w-4xl">
+            <table className="min-w-full bg-card dark:bg-card border border-border mx-auto max-w-4xl">
               <thead>
-                <tr className="bg-gray-100 border-b">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Tipo de Servicio</th>
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Rango Orientativo (USD)</th>
+                <tr className="bg-card/50 dark:bg-card/50 border-b">
+                  <th className="text-left py-3 px-4 font-semibold text-foreground">Tipo de Servicio</th>
+                  <th className="text-left py-3 px-4 font-semibold text-foreground">Rango Orientativo (USD)</th>
                 </tr>
               </thead>
               <tbody>
                 {referencePrices.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4 text-gray-800">{item.service}</td>
-                    <td className="py-3 px-4 text-gray-600">{item.range}</td>
+                  <tr key={index} className="border-b hover:bg-card/10 dark:hover:bg-card/10">
+                    <td className="py-3 px-4 text-foreground">{item.service}</td>
+                    <td className="py-3 px-4 text-foreground/70 dark:text-foreground/70">{item.range}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-           <p className="text-center text-sm text-gray-500 mt-4">*Contáctanos para una cotización personalizada.</p>
+          <p className="text-center text-sm text-foreground/50 dark:text-foreground/50 mt-4">*Contáctanos para una cotización personalizada.</p>
         </div>
 
         {/* Avanxia Plans */}
         <div>
-          <h3 className="text-2xl font-semibold text-center mb-6">Planes Avanxia</h3>
-           <p className="text-center text-gray-600 mb-10 max-w-4xl mx-auto">
-             El servicio de <strong>Branding e Identidad Corporativa</strong> se cotiza por separado (con posibles descuentos al contratar un plan superior). Consulta por descuentos en servicios adicionales (ej. mantenimiento) al contratar planes Growth Leads o Full 360°.
-           </p>
+          <h3 className="text-2xl font-semibold text-center mb-6 text-foreground">Planes Avanxia</h3>
+          <p className="text-center text-foreground/70 dark:text-foreground/70 mb-10 max-w-4xl mx-auto">
+            El servicio de <strong>Branding e Identidad Corporativa</strong> se cotiza por separado (con posibles descuentos al contratar un plan superior). Consulta por descuentos en servicios adicionales (ej. mantenimiento) al contratar planes Growth Leads o Full 360°.
+          </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {plans.map((plan, index) => (
-              <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg shadow-md p-6 flex flex-col">
-                <h4 className="text-xl font-bold mb-3 text-blue-700">{plan.name}</h4>
-                <p className="text-sm text-gray-500 mb-2"><strong>Objetivo:</strong> {plan.objective}</p>
-                <p className="text-sm text-gray-500 mb-4"><strong>Ideal para:</strong> {plan.idealFor}</p>
-                <ul className="list-disc list-inside mb-4 text-gray-700 text-sm flex-grow">
-                  {plan.services.map((service, i) => (
-                    <li key={i}>{service}</li>
-                  ))}
+              <div key={index} className="bg-card dark:bg-card border border-border rounded-lg shadow p-6 flex flex-col">
+                <h4 className="text-xl font-bold mb-3 text-primary">{plan.name}</h4>
+                <p className="text-sm text-foreground/70 dark:text-foreground/70 mb-2"><strong>Objetivo:</strong> {plan.objective}</p>
+                <p className="text-sm text-foreground/70 dark:text-foreground/70 mb-4"><strong>Ideal para:</strong> {plan.idealFor}</p>
+                <ul className="list-disc list-inside mb-4 text-foreground text-sm flex-grow">
+                  {plan.services.map((service,i) => <li key={i}>{service}</li>)}
                 </ul>
-                <div className="mt-auto pt-4 border-t border-gray-200">
-                  <p className="text-lg font-semibold text-gray-800">{plan.price}</p>
-                  <p className="text-sm text-gray-500">{plan.priceNote}</p>
+                <div className="mt-auto pt-4 border-t border-border">
+                  <p className="text-lg font-semibold text-foreground">{plan.price}</p>
+                  <p className="text-sm text-foreground/70 dark:text-foreground/70">{plan.priceNote}</p>
                 </div>
               </div>
             ))}
@@ -141,4 +137,3 @@ const Pricing = () => {
 };
 
 export default Pricing;
-
