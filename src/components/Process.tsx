@@ -49,25 +49,29 @@ const Process = () => {
   ];
 
   return (
-    <section id="process" className="w-full py-16 bg-gray-50">
+    <section id="process" className="w-full py-16 bg-background text-foreground dark:bg-background dark:text-foreground">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
-          <span ref={underlineRef} className="section-title-underline">Nuestro Proceso Colaborativo</span>
+          <span ref={underlineRef} className="section-title-underline">
+            Nuestro Proceso Colaborativo
+          </span>
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+        <p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
           Creemos en la transparencia y la colaboración. Nuestro proceso está diseñado para asegurar que comprendemos tus necesidades a fondo y trabajamos juntos en cada etapa para lograr los mejores resultados.
         </p>
         <div className="relative pl-8">
           {/* Vertical line */}
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-blue-200"></div>
-          
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-secondary/20 dark:bg-secondary/20"></div>
+
           {steps.map((step, index) => (
             <div key={index} className="mb-10 relative">
               {/* Dot on the line */}
-              <div className="absolute left-[-0.6rem] top-1 w-5 h-5 bg-blue-600 rounded-full border-4 border-white"></div>
-              
-              <h3 className="text-xl font-semibold mb-3 text-blue-700">{index + 1}. {step.title}</h3>
-              <ul className="list-disc list-inside ml-4 text-gray-700 text-sm space-y-1">
+              <div className="absolute left-[-0.6rem] top-1 w-5 h-5 bg-secondary rounded-full border-4 border-background dark:border-background"></div>
+
+              <h3 className="text-xl font-semibold mb-3 text-primary">
+                {index + 1}. {step.title}
+              </h3>
+              <ul className="list-disc list-inside ml-4 text-foreground/70 dark:text-foreground/70 text-sm space-y-1">
                 {step.details.map((detail, i) => (
                   <li key={i}>{detail}</li>
                 ))}
@@ -75,11 +79,13 @@ const Process = () => {
             </div>
           ))}
         </div>
-        <p className="text-center text-sm text-gray-500 mt-8">*El proceso puede variar ligeramente según el tipo de proyecto.</p>
+        <p className="text-center text-foreground/50 dark:text-foreground/50 text-sm mt-8">
+          *El proceso puede variar ligeramente según el tipo de proyecto.
+        </p>
         <div className="text-center mt-10">
-          <a 
-            href="#contact" // Link to contact section later
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded transition duration-300"
+          <a
+            href="#contact"
+            className="inline-block bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded transition duration-300"
           >
             ¿Listo para comenzar tu proyecto? Hablemos
           </a>
@@ -90,4 +96,3 @@ const Process = () => {
 };
 
 export default Process;
-

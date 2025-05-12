@@ -282,8 +282,14 @@ const Portfolio = () => {
 
   const handleCloseDetail = () => setSelectedProject(null);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+
   return (
-    <section id="portfolio" className="w-full pt-[calc(64px+4rem)] pb-16 bg-gray-50 relative z-0">
+    <section
+      id="portfolio"
+      className="w-full pt-[calc(64px+4rem)] pb-16 bg-background text-foreground dark:bg-background dark:text-foreground relative z-0"
+    >
       <div className="container mx-auto px-4">
         {!selectedProject ? (
           <>
@@ -292,132 +298,114 @@ const Portfolio = () => {
                 Nuestro Trabajo Habla por Sí Mismo
               </span>
             </h2>
-            <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+            <p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
               Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
             </p>
-{/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
-<div className="hidden md:block">
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95, y: 40 }}
-    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-    transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
-    viewport={{ once: true, amount: 0.7 }}
-    className="bg-background text-foreground font-sans"
-  >
-    <Swiper
-      effect="coverflow"
-      grabCursor={true}
-      centeredSlides={true}
-      initialSlide={2}
-      slidesPerView="auto"
-      freeMode={true}
-      autoplay={{
-        delay: 3000,
-        disableOnInteraction: false,
-      }}
-      coverflowEffect={{
-        rotate: 30,
-        stretch: 0,
-        depth: 200,
-        modifier: 1,
-        slideShadows: true,
-      }}
-      navigation={true}
-      modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
-      className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
-    >
-      {caseStudies.map((study) => (
-        <SwiperSlide
-          key={study.id}
-          className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
-          onClick={() => handleOpenDetail(study)}
-        >
-            <Tilt
-              tiltMaxAngleX={10}
-              tiltMaxAngleY={10}
-              glareEnable={true}
-              glareMaxOpacity={0.2}
-              scale={1.02}
-              transitionSpeed={1500}
-              className="w-full h-full"
-            >
-              <div className="relative w-full h-full group rounded-xl overflow-hidden shadow-md">
-                <img
-                  src={study.imageUrl}
-                  alt={study.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-4 space-y-2 text-center transition-all duration-300">
-                  <div className="text-sm font-semibold truncate">{study.title}</div>
-                  <p className="text-xs mt-6">{study.description}</p> 
-                  <span className="text-xs bg-white text-black rounded-full px-2 py-1 w-fit group-hover:bg-gray-100 transition">
-                    Explorar este proyecto
-                  </span>
-                </div>
-              </div>
-            </Tilt>            {/* tu contenido */}
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </motion.div>
-</div>
 
-{/* MOBILE VERSION → CARRUSEL CON FLECHAS Y EFECTO APPLE */}
-<div className="block md:hidden mt-10 px-4">
-  
-  <Swiper
-  slidesPerView={1.3}         // Para que se vean los lados
-  centeredSlides={true}
-  spaceBetween={16}
-  grabCursor={true}
-  navigation={true}
-  modules={[Navigation]}
-  className="relative w-full pb-10"
->
+            {/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
+            <div className="hidden md:block">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 40 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+                viewport={{ once: true, amount: 0.7 }}
+              >
+                <Swiper
+                  effect="coverflow"
+                  grabCursor
+                  centeredSlides
+                  initialSlide={2}
+                  slidesPerView="auto"
+                  freeMode
+                  autoplay={{ delay: 3000, disableOnInteraction: false }}
+                  coverflowEffect={{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
+                  navigation
+                  modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
+                  className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
+                >
+                  {caseStudies.map((study) => (
+                    <SwiperSlide
+                      key={study.id}
+                      className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
+                      onClick={() => handleOpenDetail(study)}
+                    >
+                      <Tilt
+                        tiltMaxAngleX={10}
+                        tiltMaxAngleY={10}
+                        glareEnable
+                        glareMaxOpacity={0.2}
+                        scale={1.02}
+                        transitionSpeed={1500}
+                        className="w-full h-full"
+                      >
+                        <div className="relative w-full h-full group rounded-xl overflow-hidden">
+                          <img
+                            src={study.imageUrl}
+                            alt={study.title}
+                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-4 space-y-2 text-center transition-all duration-300">
+                            <div className="text-sm font-semibold truncate">{study.title}</div>
+                            <p className="text-xs mt-6">{study.description}</p>
+                            <span className="text-xs bg-primary text-primary-foreground rounded-full px-2 py-1 w-fit transition">
+                              Explorar este proyecto
+                            </span>
+                          </div>
+                        </div>
+                      </Tilt>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </motion.div>
+            </div>
 
-    {caseStudies.map((study) => (
-      <SwiperSlide
-        key={study.id}
-        className="transition-transform duration-300"
-      >
-<div
-  className="
-    relative bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300
-    scale-100 opacity-100
-    swiper-slide-prev:scale-90 swiper-slide-next:scale-90
-  "
->
-  {/* Capa blanca para prev y next */}
-  <div
-    className="
-      absolute inset-0 pointer-events-none rounded-xl z-10
-      hidden swiper-slide-prev:block swiper-slide-next:block
-      bg-white/80
-    "
-  />
-
-
-
-     <img
-            src={study.imageUrl}
-            alt={study.title}
-            className="w-full h-[400px] object-cover"
-          />
-          <div className="p-4 text-center">
-            <h3 className="text-lg font-bold mb-2">{study.title}</h3>
-            <p className="text-sm text-gray-700">{study.description}</p>
-            <button
-              onClick={() => handleOpenDetail(study)}
-              className="mt-4 bg-black text-white text-sm px-4 py-2 rounded-full"
-            >
-              Ver ahora
-            </button>
-          </div>
-        </div>
-      </SwiperSlide>
-    ))}
-  </Swiper>
-</div>
+            {/* MOBILE VERSION → CARRUSEL CON FLECHAS Y EFECTO APPLE */}
+            <div className="block md:hidden mt-10 px-4">
+              <Swiper
+                slidesPerView={1.3}
+                centeredSlides
+                spaceBetween={16}
+                grabCursor
+                navigation
+                onSwiper={(s) => setActiveIndex(s.realIndex)}
+                onSlideChange={(s) => setActiveIndex(s.realIndex)}
+                modules={[Navigation]}
+                className="relative w-full pb-10"
+              >
+                {caseStudies.map((study, index) => {
+                  const isPrev = index === activeIndex - 1;
+                  const isNext = index === activeIndex + 1;
+                  return (
+                    <SwiperSlide
+                      key={study.id}
+                      className={`transition-transform duration-300 ${
+                        isPrev || isNext
+                          ? 'scale-90 opacity-40 z-10 bg-card/95 backdrop-blur-xl dark:bg-card/95'
+                          : 'scale-100 opacity-100 z-20 bg-card dark:bg-card'
+                      }`}
+                    >
+                      <div className="mobile-slide rounded-xl shadow-lg overflow-hidden transition-all duration-300">
+                        <img
+                          src={study.imageUrl}
+                          alt={study.title}
+                          className="w-full h-[400px] object-cover"
+                        />
+                        <div className="p-4 text-center">
+                          <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
+                          <p className="text-sm text-foreground/70 dark:text-foreground/70">{study.description}</p>
+                          <button
+                            onClick={() => handleOpenDetail(study)}
+                            className="mt-4 bg-primary text-primary-foreground rounded-full px-4 py-2"
+                          >
+                            Ver ahora
+                          </button>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </div>
 
             <div className="text-center mt-12">
               <a href="#contact">
@@ -429,12 +417,12 @@ const Portfolio = () => {
           </>
         ) : (
           <div className="animate-fade-in">
-            <nav className="flex mb-8 text-gray-600" aria-label="Breadcrumb">
+            <nav className="flex mb-8 text-foreground/70 dark:text-foreground/70" aria-label="Breadcrumb">
               <ol className="inline-flex items-center space-x-1 md:space-x-3">
                 <li className="inline-flex items-center">
                   <button
                     onClick={handleCloseDetail}
-                    className="inline-flex items-center text-sm font-medium hover:text-blue-600"
+                    className="inline-flex items-center text-sm font-medium hover:text-primary"
                   >
                     <Home className="w-4 h-4 mr-2.5" /> Portafolio
                   </button>
@@ -442,55 +430,55 @@ const Portfolio = () => {
                 <li>
                   <div className="flex items-center">
                     <ChevronRight className="w-4 h-4" />
-                    <span className="ml-1 text-sm font-medium md:ml-2">
-                      {selectedProject.title}
+                    <span className="ml-1 text-sm font-medium md:ml-2 text-foreground">
+                      {selectedProject?.title}
                     </span>
                   </div>
                 </li>
               </ol>
             </nav>
 
-            <div className="relative w-full mx-auto bg-white rounded-lg shadow-xl p-6 md:p-10">
-              <h2 className="text-3xl font-bold mb-6 text-blue-700 text-center">
-                {selectedProject.title}
+            <div className="relative w-full mx-auto bg-card text-foreground dark:bg-card dark:text-foreground rounded-lg shadow-xl p-6 md:p-10">
+              <h2 className="text-3xl font-bold mb-6 text-primary text-center">
+                {selectedProject?.title}
               </h2>
               <div className="w-full flex flex-col lg:flex-row gap-8 items-start mb-6">
                 <div className="flex-1 lg:flex-[2] flex items-center justify-center">
                   <img
-                    src={selectedProject.imageUrl}
-                    alt={selectedProject.title}
+                    src={selectedProject?.imageUrl}
+                    alt={selectedProject?.title}
                     className="w-full max-h-[70vh] object-contain rounded shadow-lg mb-4 lg:mb-0"
                   />
                 </div>
-                <div className="flex-1 lg:flex-[3] text-gray-700 whitespace-pre-line text-base md:text-lg">
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                <div className="flex-1 lg:flex-[3] text-foreground whitespace-pre-line text-base md:text-lg">
+                  <h3 className="text-xl font-semibold mb-3 text-foreground">
                     Descripción Detallada
                   </h3>
-                  <p>{selectedProject.description}</p>
-                  <div className="mt-6 border-t pt-4 text-sm text-gray-600">
+                  <p className="text-foreground/90 mb-6">{selectedProject?.description}</p>
+                  <div className="mt-6 border-t pt-4 text-foreground/70 text-sm">
                     <p className="mb-2">
-                      <strong className="font-medium text-gray-800">Desafío:</strong>{' '}
-                      {selectedProject.challenge}
+                      <strong className="font-medium text-foreground">Desafío:</strong>{' '}
+                      {selectedProject?.challenge}
                     </p>
                     <p className="mb-2">
-                      <strong className="font-medium text-gray-800">Solución:</strong>{' '}
-                      {selectedProject.solution}
+                      <strong className="font-medium text-foreground">Solución:</strong>{' '}
+                      {selectedProject?.solution}
                     </p>
                     <p>
-                      <strong className="font-medium text-gray-800">Resultado:</strong>{' '}
-                      {selectedProject.result}
+                      <strong className="font-medium text-foreground">Resultado:</strong>{' '}
+                      {selectedProject?.result}
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="text-center text-gray-500 text-base border-t pt-4 mt-6">
-                <strong>Cliente:</strong> {selectedProject.client} &nbsp;|&nbsp;
-                <strong>Ubicación:</strong> {selectedProject.location} &nbsp;|&nbsp;
-                <strong>Servicios:</strong> {selectedProject.serviceType}
+              <div className="text-center text-foreground/70 text-base border-t pt-4 mt-6">
+                <strong>Cliente:</strong> {selectedProject?.client} &nbsp;|&nbsp;
+                <strong>Ubicación:</strong> {selectedProject?.location} &nbsp;|&nbsp;
+                <strong>Servicios:</strong> {selectedProject?.serviceType}
               </div>
             </div>
 
-            < div className="text-center mt-12">
+            <div className="text-center mt-12">
               <Button onClick={handleCloseDetail} variant="secondaryDark" size="cta">
                 ← Volver al Portafolio
               </Button>
