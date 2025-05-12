@@ -58,7 +58,7 @@ const Card = ({ p }: { p: Point }) => {
 
   const textRef = useRef<HTMLDivElement>(null);
 
-const [maxHeight, setMaxHeight] = useState<string | undefined>(`calc(4 * 1.7em)`);
+const [, setMaxHeight] = useState<string | undefined>(`calc(4 * 1.7em)`);
   const [clampOn,    setClampOn]     = useState(true);
 
   const lineClamp     = 4;
