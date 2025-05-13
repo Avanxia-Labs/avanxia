@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Menu,
   X,
@@ -14,6 +15,7 @@ import ThemeSwitcher from './ThemeSwitcher'; // Import the new component
 import { Button } from './ui/button';
 
 const Header = () => {
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('#hero');
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
@@ -87,12 +89,36 @@ const Header = () => {
     <>
 <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
   <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
-      <div className="w-[250px] h-auto">
-        <img
-          src="/images/portfolio/proyectos/logo.png"
-          alt="Avanxia Labs Logo"
-          className="w-full h-auto object-contain"
-        />
+      <div className="w-[250px] h-auto cursor-pointer">
+        <a 
+          href="/"
+          onClick={(e) => { 
+            e.preventDefault(); 
+            // Si ya estamos en la página principal, solo desplazamos al hero
+            if (window.location.pathname === '/') {
+              const heroSection = document.querySelector('#hero');
+              if (heroSection) {
+                heroSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            } else {
+              // Si estamos en otra página, primero navegamos al home
+              navigate('/');
+              // Añadimos un pequeño retraso para asegurar que la navegación se completa
+              setTimeout(() => {
+                const heroSection = document.querySelector('#hero');
+                if (heroSection) {
+                  heroSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 100);
+            }
+          }}
+        >
+          <img
+            src="/images/portfolio/proyectos/logo.png"
+            alt="Avanxia Labs Logo"
+            className="w-full h-auto object-contain"
+          />
+        </a>
       </div>
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
