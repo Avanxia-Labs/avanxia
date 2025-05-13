@@ -233,7 +233,6 @@ importers:
         version: 8.32.0(eslint@9.26.0(jiti@1.21.7))(typescript@5.6.3)
       vite:
         specifier: ^6.0.1
-
         version: 6.3.5(@types/node@22.15.17)(jiti@1.21.7)(yaml@2.7.1)
       vite-imagetools:
         specifier: ^7.0.5
@@ -2358,7 +2357,6 @@ packages:
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
-<<<<<<< HEAD
   framer-motion@12.10.5:
     resolution: {integrity: sha512-p6VF1YkwWvNDFzg5IQ5lqPx11Td4TQ6LqDnshV7sWj0Nrp4dwz2/aEzmgh9WA9ridcTIJ625Fr0oiuhgqIoFwQ==}
     peerDependencies:
@@ -2372,11 +2370,10 @@ packages:
         optional: true
       react-dom:
         optional: true
-=======
+
   fresh@2.0.0:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
     engines: {node: '>= 0.8'}
->>>>>>> b761f7b22ee660d44562b8e0558dd1fe3a7161b6
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -5561,7 +5558,6 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-<<<<<<< HEAD
   framer-motion@12.10.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       motion-dom: 12.10.5
@@ -5570,9 +5566,8 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-=======
+
   fresh@2.0.0: {}
->>>>>>> b761f7b22ee660d44562b8e0558dd1fe3a7161b6
 
   fsevents@2.3.3:
     optional: true
