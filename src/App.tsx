@@ -5,7 +5,9 @@ import {
   Route,
   Outlet,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import ThemeSwitcher from "./components/ThemeSwitcher"; 
 
@@ -137,36 +139,63 @@ function Home() {
   );
 }
 
+// Componente para persistir la ruta y restaurarla tras recargar
+function PersistRoute() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Guardar la ruta actual en localStorage
+  useEffect(() => {
+    localStorage.setItem('lastPath', location.pathname);
+  }, [location.pathname]);
+
+  // Restaurar la ruta tras recargar
+  useEffect(() => {
+    const lastPath = localStorage.getItem('lastPath');
+    const currentPath = location.pathname;
+    
+    // Si estamos en la raíz pero había otra ruta guardada, restaurarla
+    if (lastPath && lastPath !== '/' && currentPath === '/') {
+      navigate(lastPath);
+    }
+  }, [navigate]); // Solo se ejecuta una vez al montar el componente
+
+  return null; // Este componente no renderiza nada
+}
+
 // ── App (sin BrowserRouter porque está en main.tsx) ─────
 export default function App() {
   return (
-    <Routes>
-      {/* Rutas CON navbar */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-      </Route>
+    <>
+      <PersistRoute />
 
-      {/* Rutas SIN navbar */}
-      <Route element={<PlainLayout />}>
-        <Route path="/proyectos/evemundo" element={<Evemundo />} />
-        <Route path="/proyectos/gyb" element={<Gyb />} />
-        <Route path="/proyectos/drivers" element={<Drivers />} />
-        <Route path="/proyectos/pool" element={<Pool />} />
-        <Route path="/proyectos/heromatic" element={<Heromatic />} />
-        <Route path="/proyectos/smart" element={<Smart />} />
-        <Route path="/proyectos/autism" element={<Autism />} />
-        <Route path="/proyectos/cuatrocaminos" element={<CuatroCaminos />} />
-        <Route path="/proyectos/star" element={<StarCH />} />
-        <Route path="/proyectos/hai" element={<Hai />} />
-        <Route path="/proyectos/incometax" element={<Incometax />} />
-        <Route path="/proyectos/redentor" element={<Redentor />} />
-        <Route path="/proyectos/apolo" element={<Apolo />} />
-        <Route path="/proyectos/digital" element={<Digital />} />
-        <Route path="/proyectos/dew" element={<Dew />} />
-        <Route path="/proyectos/milenio" element={<Milenio />} />
-        <Route path="/proyectos/engadi" element={<Engadi />} />
-      </Route>
-    </Routes>
+      <Routes>
+        {/* Rutas CON navbar */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+
+        {/* Rutas SIN navbar */}
+        <Route element={<PlainLayout />}>
+          <Route path="/proyectos/evemundo" element={<Evemundo />} />
+          <Route path="/proyectos/gyb" element={<Gyb />} />
+          <Route path="/proyectos/drivers" element={<Drivers />} />
+          <Route path="/proyectos/pool" element={<Pool />} />
+          <Route path="/proyectos/heromatic" element={<Heromatic />} />
+          <Route path="/proyectos/smart" element={<Smart />} />
+          <Route path="/proyectos/autism" element={<Autism />} />
+          <Route path="/proyectos/cuatrocaminos" element={<CuatroCaminos />} />
+          <Route path="/proyectos/star" element={<StarCH />} />
+          <Route path="/proyectos/hai" element={<Hai />} />
+          <Route path="/proyectos/incometax" element={<Incometax />} />
+          <Route path="/proyectos/redentor" element={<Redentor />} />
+          <Route path="/proyectos/apolo" element={<Apolo />} />
+          <Route path="/proyectos/digital" element={<Digital />} />
+          <Route path="/proyectos/dew" element={<Dew />} />
+          <Route path="/proyectos/milenio" element={<Milenio />} />
+          <Route path="/proyectos/engadi" element={<Engadi />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
-
