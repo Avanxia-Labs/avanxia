@@ -239,6 +239,72 @@ small, .text-sm {
 }
 
 /* Mobile: activa gradiente al hacer scroll (cuando .active-gradient está presente) */
+
+/* Botones de proceso con gradiente */
+.process-button-active {
+  background-color: var(--primary) !important; /* Usar variable del sistema */
+  color: var(--primary-foreground);
+  position: relative;
+  z-index: 1;
+  /* Sombra para efecto 3D */
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+  /* Asegurar opacidad completa */
+  opacity: 1 !important;
+  border: none;
+}
+
+/* Sin efectos de gradiente en los botones activos para que sean sólidos */
+
+
+/* Estilos para botones inactivos - usando glass-panel */
+.process-button-inactive {
+  /* Heredar propiedades del glass-panel */
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  color: var(--foreground);
+  position: relative;
+  box-shadow: var(--glass-shadow);
+  opacity: 1 !important;
+  overflow: hidden;
+}
+
+/* Aplicar mismos efectos de gradiente que glass-panel */
+.process-button-inactive::before,
+.process-button-inactive::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.process-button-inactive::before {
+  background: radial-gradient(ellipse at 0% 0%, rgba(0,178,255,0.22) 0%, transparent 70%),
+              radial-gradient(ellipse at 100% 100%, rgba(46,104,255,0.22) 0%, transparent 70%);
+  opacity: 1;
+}
+
+.process-button-inactive::after {
+  background: radial-gradient(ellipse at 100% 0%, rgba(0,178,255,0.22) 0%, transparent 70%),
+              radial-gradient(ellipse at 0% 100%, rgba(46,104,255,0.22) 0%, transparent 70%);
+  opacity: 0;
+}
+
+.process-button-inactive:hover::before {
+  opacity: 0;
+}
+
+.process-button-inactive:hover::after {
+  opacity: 1;
+}
+
+.process-button-inactive:hover {
+  transform: scale(0.95) !important;
+}
 @media (hover: none) and (pointer: coarse) {
   .glass-panel.active-gradient {
     box-shadow: 0 12px 40px 0 rgba(31,38,135,0.16);
