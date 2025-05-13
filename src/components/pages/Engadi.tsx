@@ -6,13 +6,13 @@ const engadiData: ProjectData = {
     "Modernizamos una plataforma agrícola obsoleta con una suite digital intuitiva que mejora la productividad en invernaderos.",
   mediaMain: {
     type: "img",
-    src: "/images/portfolio/proyectos/engadi.png",
-    alt: "Vista principal de la suite Engadi",
+    src: "/images/portfolio/proyectos/engadi2.png",
+    alt: "Diseño de interfaz para Engadi",
   },
   mediaSecondary: {
     type: "img",
-    src: "/images/portfolio/proyectos/engadi2.png",
-    alt: "Diseño de interfaz para Engadi",
+    src: "/images/portfolio/proyectos/engadi.png",
+    alt: "Vista principal de la suite Engadi",
   },
   caption: "Rediseñando la Automatización Agrícola con UX Centrada en el Usuario",
   description:
