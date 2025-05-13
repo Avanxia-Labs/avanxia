@@ -15,8 +15,7 @@ const Services = () => {
       title: 'Branding e Identidad Corporativa',
       description: 'Creamos marcas memorables. Desde el naming y diseño de logotipo hasta el desarrollo de un manual de marca completo que guíe la comunicación visual de tu empresa.',
       icon: '🎨',
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'
-    },
+      image: '/images/portfolio/services/branding.png'    },
     {
       title: 'Diseño y Desarrollo Web',
       description: 'Construimos sitios web modernos, rápidos y optimizados. Nos especializamos en tecnologías como React/Next.js y NestJS para ofrecer un rendimiento superior.',
@@ -27,43 +26,43 @@ const Services = () => {
       title: 'Desarrollo de Aplicaciones Web y Móviles',
       description: 'Transformamos tus ideas en aplicaciones funcionales y escalables. Desarrollamos soluciones full-stack y serverless adaptadas a tus necesidades específicas.',
       icon: '📱',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/desarrollo.png'
     },
     {
       title: 'Gestión de Redes Sociales',
       description: 'Maximizamos tu presencia en redes sociales con un estilo único que te convierta en referente en tu nicho. Te guiamos desde la estrategia hasta la gestión de comunidades.',
       icon: '🌐',
-      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/redes_sociales.png'
     },
     {
       title: 'Publicidad Pagada (Paid Media)',
       description: 'Aumentamos tu visibilidad y generamos leads cualificados a través de campañas efectivas en Google Ads, Meta Ads, LinkedIn Ads y TikTok Ads.',
       icon: '📊',
-      image: 'https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/publicidad.png'
     },
     {
       title: 'SEO y Marketing de Contenidos',
       description: 'Mejoramos tu posicionamiento orgánico en buscadores. Creamos contenido relevante, optimizamos tu sitio y construimos enlaces de calidad.',
       icon: '🔍',
-      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/seo.png'
     },
     {
       title: 'Email Marketing y Automatización',
       description: 'Creamos y gestionamos campañas de email marketing para nutrir leads y fidelizar clientes. Implementamos flujos de automatización con herramientas como HubSpot.',
       icon: '✉️',
-      image: 'https://images.unsplash.com/photo-1515168833906-d2a3b82b302b?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/digitaldd.png'
     },
     {
       title: 'Producción Audiovisual',
       description: 'Damos vida a tu marca con contenido visual único y original. Creamos fotografía de producto, videos corporativos, motion graphics y spots publicitarios.',
       icon: '🎬',
-      image: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/digital.png'
     },
     {
       title: 'Impresión y Material POP',
       description: 'Complementamos tu estrategia digital con materiales impresos de alta calidad, desde tarjetas de presentación hasta elementos para puntos de venta (POP).',
       icon: '🖨️',
-      image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/pop.png'
     },
     {
       title: 'Mantenimiento y Soporte Web',

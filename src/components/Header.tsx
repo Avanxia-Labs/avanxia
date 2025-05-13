@@ -87,10 +87,13 @@ const Header = () => {
     <>
 <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
   <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
-            <div className="text-xl font-bold text-foreground">
-            Avanxia Labs
-          </div>
-
+      <div className="w-[250px] h-auto">
+        <img
+          src="/images/portfolio/proyectos/logo.png"
+          alt="Avanxia Labs Logo"
+          className="w-full h-auto object-contain"
+        />
+      </div>
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
               <a
