@@ -193,7 +193,10 @@ return (
           {/* Título y descripción */}
           <div className="text-center max-w-4xl mx-auto mb-10">
             <h1 className="text-3xl md:text-5xl font-bold drop-shadow-sm">{data.title}</h1>
-            <p className="text-lg max-w-2xl mx-auto mt-4 opacity-90 leading-relaxed drop-shadow-sm">{data.intro}</p>
+            <p 
+              className="text-lg max-w-2xl mx-auto mt-4 opacity-90 leading-relaxed drop-shadow-sm" 
+              dangerouslySetInnerHTML={{ __html: data.intro }}
+            ></p>
           </div>
           
           {/* Imagen principal integrada dentro de la misma sección */}
