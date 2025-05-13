@@ -130,8 +130,8 @@ const Hero = () => {
               style={{ zIndex: 0, position: 'relative' }}
             />
           </div>
+          </div>
         </div>
-      </div>
     </section>
   );
 };

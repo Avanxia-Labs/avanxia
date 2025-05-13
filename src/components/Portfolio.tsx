@@ -282,7 +282,8 @@ const Portfolio = () => {
 
   const handleCloseDetail = () => setSelectedProject(null);
 
-  const [activeIndex, setActiveIndex] = useState(0);
+const [, setActiveDesktopIndex] = useState(0);
+const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
 
   return (
@@ -302,110 +303,124 @@ const Portfolio = () => {
               Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
             </p>
 
-            {/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
-            <div className="hidden md:block">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 40 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
-                viewport={{ once: true, amount: 0.7 }}
-              >
-                <Swiper
-                  effect="coverflow"
-                  grabCursor
-                  centeredSlides
-                  initialSlide={2}
-                  slidesPerView="auto"
-                  freeMode
-                  autoplay={{ delay: 3000, disableOnInteraction: false }}
-                  coverflowEffect={{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
-                  navigation
-                  modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
-                  className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
-                >
-                  {caseStudies.map((study) => (
-                    <SwiperSlide
-                      key={study.id}
-                      className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
-                      onClick={() => handleOpenDetail(study)}
-                    >
-                      <Tilt
-                        tiltMaxAngleX={10}
-                        tiltMaxAngleY={10}
-                        glareEnable
-                        glareMaxOpacity={0.2}
-                        scale={1.02}
-                        transitionSpeed={1500}
-                        className="w-full h-full"
-                      >
-                        <div className="relative w-full h-full group rounded-xl overflow-hidden">
-                          <img
-                            src={study.imageUrl}
-                            alt={study.title}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-4 space-y-2 text-center transition-all duration-300">
-                            <div className="text-sm font-semibold truncate">{study.title}</div>
-                            <p className="text-xs mt-6">{study.description}</p>
-                            <span className="text-xs bg-primary text-primary-foreground rounded-full px-2 py-1 w-fit transition">
-                              Explorar este proyecto
-                            </span>
-                          </div>
-                        </div>
-                      </Tilt>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </motion.div>
+{/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
+<div className="hidden md:block">
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95, y: 40 }}
+    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+    transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+    viewport={{ once: true, amount: 0.7 }}
+  >
+    <Swiper
+      effect="coverflow"
+      grabCursor
+      centeredSlides
+      initialSlide={1}
+      slidesPerView="auto"
+      freeMode
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      coverflowEffect={{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
+      navigation
+      modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
+      className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
+      onSlideChange={(s) => setActiveDesktopIndex(s.realIndex)}
+    >
+      {caseStudies.map((study) => (
+        <SwiperSlide
+          key={`desktop-${study.id}`}
+          className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
+          onClick={() => handleOpenDetail(study)}
+        >
+          <Tilt
+            tiltMaxAngleX={10}
+            tiltMaxAngleY={10}
+            glareEnable
+            glareMaxOpacity={0.2}
+            scale={1.02}
+            transitionSpeed={1500}
+            className="w-full h-full overflow-hidden rounded-xl"
+          >
+            <div className="relative w-full h-full group">
+              <img
+                src={study.imageUrl}
+                alt={study.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-6 space-y-4 text-center transition-all duration-300">
+                <div className="text-xl md:text-2xl lg:text-3xl font-bold truncate">
+                  {study.title}
+                </div>
+                <p className="text-sm md:text-base lg:text-lg mt-2 max-w-[80%]">
+                  {study.description}
+                </p>
+                <span className="text-sm md:text-base bg-primary text-primary-foreground rounded-full px-3 py-1 md:px-4 md:py-2 w-fit transition">
+                  Explorar este proyecto
+                </span>
+              </div>
             </div>
+          </Tilt>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  </motion.div>
+</div>
 
-            {/* MOBILE VERSION → CARRUSEL CON FLECHAS Y EFECTO APPLE */}
-            <div className="block md:hidden mt-10 px-4">
-              <Swiper
-                slidesPerView={1.3}
-                centeredSlides
-                spaceBetween={16}
-                grabCursor
-                navigation
-                onSwiper={(s) => setActiveIndex(s.realIndex)}
-                onSlideChange={(s) => setActiveIndex(s.realIndex)}
-                modules={[Navigation]}
-                className="relative w-full pb-10"
+
+{/* MOBILE VERSION → CARRUSEL AUTOPLAY */}
+<div className="block md:hidden mt-10 px-4">
+  <Swiper
+    slidesPerView={1.6}
+    centeredSlides
+    initialSlide={1}
+    spaceBetween={16}
+    grabCursor
+    navigation
+    autoplay={{ delay: 3000, disableOnInteraction: false }}
+    speed={500}
+    loop
+    modules={[Navigation, Autoplay]}
+    onSlideChange={(s) => setActiveMobileIndex(s.realIndex)}
+    className="relative w-full pb-10"
+  >
+    {caseStudies.map((study, index) => {
+      const isPrev = index === activeMobileIndex - 1;
+      const isNext = index === activeMobileIndex + 1;
+      const mobileSrc = study.imageUrl.replace(
+        '/images/portfolio/proyectos/',
+        '/images/portfolio/proyectos/mobile/'
+      );
+      return (
+        <SwiperSlide
+          key={`mobile-${study.id}`}
+          className={`transition-transform duration-300 ${
+            isPrev || isNext
+              ? 'scale-90 opacity-40 z-10 bg-card/95 backdrop-blur-xl dark:bg-card/95'
+              : 'scale-100 opacity-100 z-20 bg-card dark:bg-card'
+          }`}
+        >
+          <div className="mobile-slide rounded-xl shadow-lg overflow-hidden transition-all duration-300">
+            <img
+              src={mobileSrc}
+              alt={study.title}
+              className="w-full h-[250px] object-cover rounded-t-xl"
+            />
+            <div className="p-4 text-center">
+              <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
+              <p className="text-sm text-foreground/70 dark:text-foreground/70">{study.description}</p>
+              <button
+                onClick={() => handleOpenDetail(study)}
+                className="mt-4 bg-primary text-primary-foreground rounded-full px-4 py-2"
               >
-                {caseStudies.map((study, index) => {
-                  const isPrev = index === activeIndex - 1;
-                  const isNext = index === activeIndex + 1;
-                  return (
-                    <SwiperSlide
-                      key={study.id}
-                      className={`transition-transform duration-300 ${
-                        isPrev || isNext
-                          ? 'scale-90 opacity-40 z-10 bg-card/95 backdrop-blur-xl dark:bg-card/95'
-                          : 'scale-100 opacity-100 z-20 bg-card dark:bg-card'
-                      }`}
-                    >
-                      <div className="mobile-slide rounded-xl shadow-lg overflow-hidden transition-all duration-300">
-                        <img
-                          src={study.imageUrl}
-                          alt={study.title}
-                          className="w-full h-[400px] object-cover"
-                        />
-                        <div className="p-4 text-center">
-                          <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
-                          <p className="text-sm text-foreground/70 dark:text-foreground/70">{study.description}</p>
-                          <button
-                            onClick={() => handleOpenDetail(study)}
-                            className="mt-4 bg-primary text-primary-foreground rounded-full px-4 py-2"
-                          >
-                            Ver ahora
-                          </button>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
+                Ver ahora
+              </button>
             </div>
+          </div>
+        </SwiperSlide>
+      );
+    })}
+  </Swiper>
+</div>
+
 
             <div className="text-center mt-12">
               <a href="#contact">
