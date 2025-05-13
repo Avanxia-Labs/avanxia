@@ -9,7 +9,9 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
-import ThemeSwitcher from "./components/ThemeSwitcher"; 
+import ThemeSwitcher from "./components/ThemeSwitcher";
+import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
+import GreetingDemo from "./components/GreetingDemo";
 
 // ── Componentes generales ───────────────────────────────
 import Header           from "./components/Header";
@@ -168,11 +170,13 @@ export default function App() {
   return (
     <>
       <PersistRoute />
+      <PersonalizedGreeting />
 
       <Routes>
         {/* Rutas CON navbar */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/demo-saludos" element={<GreetingDemo />} />
         </Route>
 
         {/* Rutas SIN navbar */}
