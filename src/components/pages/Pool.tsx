@@ -7,7 +7,7 @@ const poolData: ProjectData = {
   // ‑‑ Si quieres el salto de línea “QUALITY↵SOLUTIONS”, usa <br /> como se indica abajo
   title: "POOL QUALITY SOLUTIONS",
   intro:
-    "Rediseñamos la presencia digital de Pool Quality Solutions con un sitio moderno y claro, transmitiendo confianza, profesionalismo y experiencia en cada detalle.",
+    'Rediseñamos la presencia digital de <a href="https://poolqualitysolutions.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Pool Quality Solutions</a> con un sitio moderno y claro, transmitiendo confianza, profesionalismo y experiencia en cada detalle.',
   mediaMain: {
     type: "img",
     src: "/images/portfolio/proyectos/pool1.png",

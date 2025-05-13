@@ -132,9 +132,9 @@ function Home() {
       <ValueProposition />
       <SpecialOffer />
       <Services />
+      <Process />
       <Pricing />
       <Team />
-      <Process />
       <Contact />
       {/* <Footer /> */}
     </>
