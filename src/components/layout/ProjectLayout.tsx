@@ -43,13 +43,30 @@ const InfoCard = ({ title, text }: { title: string; text: string }) => {
 
 
 /** ----- 2. Renderizador de media  -------------------------------- */
-const renderMedia = (m: Media) =>
+const renderMedia = (m: Media, isMain = false) =>
   m.type === "img" ? (
-    <img
-      src={m.src}
-      alt={m.alt}
-      className="w-full max-w-4xl h-auto object-contain mx-auto"
-    />
+    isMain ? (
+      <motion.img
+        src={m.src}
+        alt={m.alt}
+        className="w-full max-w-4xl h-auto object-contain mx-auto"
+        animate={{ 
+          y: [0, -10, 0],  // Movimiento sutil hacia arriba y abajo
+        }}
+        transition={{ 
+          duration: 6,     // Un ciclo completo toma 6 segundos
+          ease: "easeInOut", 
+          repeat: Infinity,  // Repetir indefinidamente
+          repeatType: "reverse"  // Alternar dirección para un movimiento suave
+        }}
+      />
+    ) : (
+      <img
+        src={m.src}
+        alt={m.alt}
+        className="w-full max-w-4xl h-auto object-contain mx-auto"
+      />
+    )
   ) : (
     <video
       src={m.src}
@@ -174,7 +191,7 @@ return (
           />
         )}
         <div className="relative z-10">
-          {renderMedia(data.mediaMain)}
+          {renderMedia(data.mediaMain, true)}
         </div>
       </section>
   
@@ -241,7 +258,7 @@ return (
             />
           )}
           <div className="relative z-10">
-            {renderMedia(data.mediaSecondary)}
+            {renderMedia(data.mediaSecondary, false)}
           </div>
         </section>
       )}
