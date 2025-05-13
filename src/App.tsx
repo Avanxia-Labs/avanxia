@@ -128,9 +128,9 @@ function Home() {
   return (
     <>
       <Hero />
+      <Portfolio />
       <ValueProposition />
       <SpecialOffer />
-      <Portfolio />
       <Services />
       <Pricing />
       <Team />
