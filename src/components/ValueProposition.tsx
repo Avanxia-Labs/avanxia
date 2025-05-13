@@ -6,7 +6,7 @@ import {
 import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef } from "react";
 import { Button } from "./ui/button";
 // import { cn } from "@/lib/utils";  
 
@@ -49,105 +49,97 @@ const points: Point[] = [
   },
 ];
 
-/* --------- CARD ---------------------------------------------------------*/
-const Card = ({ p }: { p: Point }) => {
+/* --------- CARD WRAPPER -------------------------------------------------*/
+const CardWrapper = ({ p }: { p: Point; index?: number }) => {
+  // Track if this specific card is expanded
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Reference to measure the card content
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  // Toggle expanded state for this card only
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+  
+  // Apply glass card effect
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
-
-  const [hasOverflow, setHasOverflow] = useState(false); // no cambia al expandir
-  const [isExpanded, setIsExpanded]   = useState(false);
-
-  const textRef = useRef<HTMLDivElement>(null);
-
-const [, setMaxHeight] = useState<string | undefined>(`calc(4 * 1.7em)`);
-  const [clampOn,    setClampOn]     = useState(true);
-
-  const lineClamp     = 4;
-  const TRANSITION_MS = 500;
-
-  /* ── Detecta overflow SOLO la 1ª vez ───────────────────────────── */
-  useLayoutEffect(() => {
-    const el = textRef.current;
-    if (!el) return;
-
-    // si ya detectamos overflow, no hace falta volver a medir
-    if (!hasOverflow && el.scrollHeight > el.clientHeight + 2) {
-      setHasOverflow(true);
-    }
-  }, [hasOverflow]);      // se ejecuta 1 vez (hasOverflow comienza en false)
-
-  /* ── Aplica / quita line‑clamp y recalcula cuando cambia estado ── */
-  useLayoutEffect(() => {
-    const el = textRef.current;
-    if (!el) return;
-
-    const needsClamp = !isExpanded && clampOn;
-    el.classList.toggle(`line-clamp-${lineClamp}`, needsClamp);
-
-    /*  Animar altura --------------------------------------------------- */
-    if (isExpanded) {
-      setClampOn(false);
-      setMaxHeight(el.scrollHeight + 'px');
-    } else {
-      setClampOn(false);
-      setMaxHeight(el.scrollHeight + 'px');  // altura actual
-      void el.offsetHeight;                  // re‑flow
-      setTimeout(() => {
-        setMaxHeight('calc(4 * 1.7em)');
-        setTimeout(() => setClampOn(true), TRANSITION_MS);
-      }, 30);
-    }
-  }, [isExpanded, p.paragraph, clampOn]);             // se repite si cambian
-
-  const toggle = () => setIsExpanded(!isExpanded);
-
+  
   return (
-    <div
-    ref={glassRef}
-className="glass-panel relative w-full min-h-[400px] p-8 md:p-10 flex flex-col"  >
-    {/* icono y título */}
-    <IconWrapper
-      icon={p.icon}
-      className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
-    />
-    <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
-
-    {/* texto truncable */}
-    <div
-      ref={textRef}
-className="opacity-90 leading-relaxed relative z-10"
-style={{
-  height: isExpanded ? 'auto' : 'calc(4 * 1.7em)',
-  overflow: 'hidden',
-  transition: 'height 0.4s ease',
-  width: '100%',
-  wordBreak: 'break-word',
-}}
-
-
-
-    >
-<span
-  className="break-words"
-  dangerouslySetInnerHTML={{ __html: p.paragraph }}
-/>
+    <div className="relative min-h-[450px]">
+      {/* Fixed height container - all cards look the same height */}
+      {!isExpanded && (
+        <div 
+          ref={glassRef}
+          className="glass-panel w-full p-8 md:p-10 flex flex-col min-h-[450px]"
+        >
+          {/* Card header content */}
+          <div className="mb-6">
+            <IconWrapper
+              icon={p.icon}
+              className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
+            />
+            <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
+          </div>
+          
+          {/* Text content - truncated to 4 lines */}
+          <div 
+            ref={contentRef} 
+            className="opacity-90 leading-relaxed line-clamp-4"
+          >
+            <span 
+              className="break-words"
+              dangerouslySetInnerHTML={{ __html: p.paragraph }}
+            />
+          </div>
+          
+          {/* Button container - always at same position for all cards */}
+          <div className="absolute bottom-8 md:bottom-10 left-8 md:left-10 right-8 md:right-10 z-10">
+            <Button
+              size="tight"
+              className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
+                     bg-primary text-white font-semibold
+                     hover:bg-primary/90 transition-colors"
+              onClick={toggleExpanded}
+            >
+              Ver más
+            </Button>
+          </div>
+        </div>
+      )}
+      
+      {/* Expanded card - completely replaces the default card when expanded */}
+      {isExpanded && (
+        <div className="glass-panel w-full p-8 md:p-10 flex flex-col rounded-xl shadow-lg">
+          <div className="mb-6">
+            <IconWrapper
+              icon={p.icon}
+              className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
+            />
+            <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
+          </div>
+          
+          <div className="opacity-90 leading-relaxed mb-6">
+            <span 
+              className="break-words"
+              dangerouslySetInnerHTML={{ __html: p.paragraph }}
+            />
+          </div>
+          
+          <div className="mt-auto pt-4">
+            <Button
+              size="tight"
+              className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
+                     bg-primary text-white font-semibold
+                     hover:bg-primary/90 transition-colors"
+              onClick={toggleExpanded}
+            >
+              Ver menos
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
-
-    {/* botón fijo, sólo si alguna vez hubo overflow */}
-    {hasOverflow && (
-<div className="mt-6 z-10">
-        <Button
-  size="tight"
-  className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
-             bg-primary text-white font-semibold
-             hover:bg-primary/90 transition-colors"
-  onClick={toggle}
->
-  {isExpanded ? 'Ver menos' : 'Ver más'}
-</Button>
-
-      </div>
-    )}
-  </div>
   );
 };
 
@@ -157,7 +149,7 @@ const ValueProposition = () => {
 
   return (
     <section id="value-proposition" className="py-24 bg-background text-foreground overflow-x-hidden">
-<div className="container mx-auto px-6 overflow-hidden">
+      <div className="container mx-auto px-6 overflow-hidden">
           {/* Título */}
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">
@@ -170,9 +162,11 @@ const ValueProposition = () => {
         </p>
 
         {/* Grid Layout */}
-<div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 items-stretch w-full">
-            {points.map((p, i) => (
-            <Card key={i} p={p} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full">
+          {points.map((p, i) => (
+            <div key={i} className="relative z-0">
+              <CardWrapper p={p} index={i} />
+            </div>
           ))}
         </div>
 
