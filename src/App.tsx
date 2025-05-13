@@ -59,7 +59,28 @@ function PlainLayout() {
       <header className="fixed top-0 left-0 w-full bg-white dark:bg-[#0f172a] text-card-foreground border-b border-border z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between h-12 px-4">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              navigate('/');
+              // Damos tiempo para que la página cargue antes de hacer scroll
+              setTimeout(() => {
+                const portfolioSection = document.getElementById('portfolio');
+                // Buscamos el contenedor de proyectos, que debe ser un div con clase que contiene tarjetas
+                const projectsContainer = portfolioSection?.querySelector('.swiper-wrapper') || 
+                                          portfolioSection?.querySelectorAll('div')?.item(1); // Segundo div dentro de la sección
+                
+                if (projectsContainer) {
+                  // Ajustar la vista para centrarlo y que se vea bien
+                  projectsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  // Scroll adicional para bajar un poco más
+                  setTimeout(() => {
+                    window.scrollBy({ top: 100, behavior: 'smooth' });
+                  }, 500);
+                } else {
+                  // Fallback: ir a la sección Portfolio
+                  portfolioSection?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }, 300); // Aumentamos el tiempo de espera para asegurar que la página cargue completamente
+            }}
             className="flex items-center gap-2 text-sm font-medium hover:opacity-80"
           >
             <ArrowLeft size={16} />
