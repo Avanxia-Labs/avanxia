@@ -60,26 +60,49 @@ function PlainLayout() {
         <div className="max-w-7xl mx-auto flex items-center justify-between h-12 px-4">
           <button
             onClick={() => {
+              // Primero navegamos a la raíz
               navigate('/');
-              // Damos tiempo para que la página cargue antes de hacer scroll
-              setTimeout(() => {
+              
+              // Luego navegamos directamente al ID del portfolio usando una función que trabaja en ambos móviles y desktop
+              const scrollToPortfolio = () => {
+                // 1. Asegurarnos que la sección existe
                 const portfolioSection = document.getElementById('portfolio');
-                // Buscamos el contenedor de proyectos, que debe ser un div con clase que contiene tarjetas
-                const projectsContainer = portfolioSection?.querySelector('.swiper-wrapper') || 
-                                          portfolioSection?.querySelectorAll('div')?.item(1); // Segundo div dentro de la sección
-                
-                if (projectsContainer) {
-                  // Ajustar la vista para centrarlo y que se vea bien
-                  projectsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  // Scroll adicional para bajar un poco más
-                  setTimeout(() => {
-                    window.scrollBy({ top: 100, behavior: 'smooth' });
-                  }, 500);
-                } else {
-                  // Fallback: ir a la sección Portfolio
-                  portfolioSection?.scrollIntoView({ behavior: 'smooth' });
+                if (!portfolioSection) {
+                  // Si no existe, intentamos de nuevo en un momento
+                  setTimeout(scrollToPortfolio, 100);
+                  return;
                 }
-              }, 300); // Aumentamos el tiempo de espera para asegurar que la página cargue completamente
+                
+                // 2. Primero ir directamente a la sección portfolio
+                portfolioSection.scrollIntoView({ behavior: 'smooth' });
+                
+                // 3. Después de un momento, ajustar la posición para ver los proyectos
+                setTimeout(() => {
+                  // Detectar si estamos en móvil
+                  const isMobile = window.innerWidth <= 768;
+                  
+                  // En móvil hacemos un scroll adicional para asegurarnos que los proyectos son visibles
+                  if (isMobile) {
+                    // Ajuste estándar para móviles - mueve la vista debajo del título
+                    window.scrollBy({ top: 150, behavior: 'smooth' });
+                    
+                    // Segundo ajuste para asegurar que los proyectos sean visibles
+                    setTimeout(() => {
+                      const projectCards = document.querySelectorAll('#portfolio .swiper-slide, #portfolio [class*="card"]');
+                      if (projectCards && projectCards.length > 0) {
+                        const firstCard = projectCards[0];
+                        firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }, 400);
+                  } else {
+                    // En desktop, scroll adicional más suave
+                    window.scrollBy({ top: 200, behavior: 'smooth' });
+                  }
+                }, 600);
+              };
+              
+              // Iniciamos la función después de un breve retraso para permitir la carga
+              setTimeout(scrollToPortfolio, 300);
             }}
             className="flex items-center gap-2 text-sm font-medium hover:opacity-80"
           >
