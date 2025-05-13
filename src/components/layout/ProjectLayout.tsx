@@ -1,6 +1,9 @@
 // src/components/layout/ProjectLayout.tsx
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { Container, Engine } from "@tsparticles/engine";
 
 
 /** ----- 1. Tipos de ayuda  --------------------------------------- */
@@ -56,8 +59,59 @@ const renderMedia = (m: Media) =>
     />
   );
 
+// Hook simple para detectar mobile
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
 /** ----- 3. Layout reusable  -------------------------------------- */
 const ProjectLayout = ({ data }: { data: ProjectData }) => {
+  // Partículas de fondo
+  const [init, setInit] = useState(false);
+  const isMobile = useIsMobile();
+  const particlesRef = useRef<Container | null>(null);
+
+  const handleParticlesLoaded = useCallback(async (container?: Container): Promise<void> => {
+    particlesRef.current = container ?? null;
+  }, []);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine: Engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  // Opciones de interactividad según dispositivo
+  const interactivity = isMobile
+    ? {
+        events: {
+          onClick: { enable: true, mode: "repulse" },
+          onTap: { enable: true, mode: "repulse" },
+          resize: { enable: true },
+        },
+        modes: {
+          repulse: { distance: 80, duration: 1.2 },
+        },
+      }
+    : {
+        events: {
+          onHover: { enable: true, mode: "repulse" },
+          resize: { enable: true },
+        },
+        modes: {
+          repulse: { distance: 70, duration: 5.2 },
+        },
+      };
+      
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -76,8 +130,52 @@ return (
       </section>
   
       {/* media principal ------------------------------------------- */}
-      <section className="flex justify-center items-center py-10">
-        {renderMedia(data.mediaMain)}
+      <section className="flex justify-center items-center py-10 relative overflow-hidden">
+        {/* Partículas interactivas */}
+        {init && (
+          <Particles
+            id="tsparticles-project"
+            particlesLoaded={handleParticlesLoaded}
+            options={{
+              fullScreen: { enable: false },
+              background: {
+                color: { value: "transparent" },
+              },
+              fpsLimit: 120,
+              interactivity,
+              particles: {
+                color: { value: "#00e0ff" },
+                links: {
+                  color: "#00e0ff",
+                  distance: 150,
+                  enable: true,
+                  opacity: 0.4,
+                  width: 1.5,
+                },
+                move: {
+                  direction: "none",
+                  enable: true,
+                  outModes: { default: "bounce" },
+                  random: false,
+                  speed: 1.5,
+                  straight: false,
+                },
+                number: {
+                  density: { enable: true, width: 800 },
+                  value: 60,
+                },
+                opacity: { value: 0.6 },
+                shape: { type: "circle" },
+                size: { value: { min: 1, max: 4 } },
+              },
+              detectRetina: true,
+            }}
+            className="absolute inset-0 w-full h-full z-0"
+          />
+        )}
+        <div className="relative z-10">
+          {renderMedia(data.mediaMain)}
+        </div>
       </section>
   
       {/* bloque oscuro --------------------------------------------- */}
@@ -100,8 +198,51 @@ return (
   
       {/* media secundaria (solo imágenes) ----------------------------- */}
       {data.mediaSecondary?.type === "img" && (
-        <section className="flex justify-center items-center py-10">
-          {renderMedia(data.mediaSecondary)}
+        <section className="flex justify-center items-center py-10 relative overflow-hidden">
+          {/* Partículas interactivas */}
+          {init && (
+            <Particles
+              id="tsparticles-secondary"
+              options={{
+                fullScreen: { enable: false },
+                background: {
+                  color: { value: "transparent" },
+                },
+                fpsLimit: 120,
+                interactivity,
+                particles: {
+                  color: { value: "#00e0ff" },
+                  links: {
+                    color: "#00e0ff",
+                    distance: 150,
+                    enable: true,
+                    opacity: 0.4,
+                    width: 1.5,
+                  },
+                  move: {
+                    direction: "none",
+                    enable: true,
+                    outModes: { default: "bounce" },
+                    random: false,
+                    speed: 1.5,
+                    straight: false,
+                  },
+                  number: {
+                    density: { enable: true, width: 800 },
+                    value: 60,
+                  },
+                  opacity: { value: 0.6 },
+                  shape: { type: "circle" },
+                  size: { value: { min: 1, max: 4 } },
+                },
+                detectRetina: true,
+              }}
+              className="absolute inset-0 w-full h-full z-0"
+            />
+          )}
+          <div className="relative z-10">
+            {renderMedia(data.mediaSecondary)}
+          </div>
         </section>
       )}
       {/* medios extra (0‑n) ---------------------------------------- */}
