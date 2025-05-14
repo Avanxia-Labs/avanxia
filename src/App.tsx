@@ -13,17 +13,15 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
 import GreetingDemo from "./components/GreetingDemo";
 
+import HomePage from "@/components/pages/routes/HomePage";
+import ServicesPage from "@/components/pages/routes/ServicesPage";
+import AboutPage from "@/components/pages/routes/AboutPage";
+import ContactPage from "@/components/pages/routes/ContactPage";
+import PreciosPage from "@/components/pages/routes/Precios";
+
+
 // ── Componentes generales ───────────────────────────────
 import Header           from "./components/Header";
-import Hero             from "./components/Hero";
-import ValueProposition from "./components/ValueProposition";
-import Services         from "./components/Services";
-import Pricing          from "./components/Pricing";
-import Portfolio        from "./components/Portfolio";
-import Team             from "./components/Team";
-import Process          from "./components/Process";
-import SpecialOffer     from "./components/SpecialOffer";
-import Contact          from "./components/Contact";
 
 // ── Página individual ───────────────────────────────────
 import Evemundo         from "./components/pages/Evemundo";
@@ -43,7 +41,6 @@ import Digital from "./components/pages/Digital";
 import Dew from "./components/pages/Dew";
 import Milenio from "./components/pages/Milenio";
 import Engadi from "./components/pages/Engadi";
-import Footer from "./components/Footer";
 
 // ── Layouts ─────────────────────────────────────────────
 function MainLayout() {
@@ -124,23 +121,6 @@ function PlainLayout() {
   );
 }
 
-// ── Página Home ─────────────────────────────────────────
-function Home() {
-  return (
-    <>
-      <Hero />
-      <Portfolio />
-      <ValueProposition />
-      <SpecialOffer />
-      <Services />
-      <Process />
-      <Pricing />
-      <Team />
-      <Contact />
-      <Footer />
-    </>
-  );
-}
 
 // Componente para persistir la ruta y restaurarla tras recargar
 function PersistRoute() {
@@ -174,10 +154,12 @@ export default function App() {
       <PersonalizedGreeting />
 
       <Routes>
-        {/* Rutas CON navbar */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/demo-saludos" element={<GreetingDemo />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/precios" element={<PreciosPage />} />
         </Route>
 
         {/* Rutas SIN navbar */}
