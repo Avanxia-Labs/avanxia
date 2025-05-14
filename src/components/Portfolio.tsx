@@ -98,7 +98,7 @@ const Portfolio = () => {
     serviceType: 'Diseño Web',
     title: ' POOL QUALITY SOLUTIONS',
     slug:'pool',
-    description: 'Desarrollamos contenido visual impactante para posicionar a Drivers como una solución rápida y confiable tras un accidente.',
+    description: 'Rediseñamos la presencia digital de Pool Quality Solutions con un sitio moderno y claro, transmitiendo confianza, profesionalismo y experiencia en cada detalle.',
     challenge: 'Crear un sitio web que reflejara solidez y modernidad industrial, comunicando confianza y capacidad tecnológica.',
     solution: 'Diseño y desarrollo de sitio web con estética industrial moderna, elementos visuales fuertes y estructura clara.',
     result: 'Un sitio web profesional y robusto que posiciona a Heromatic como actor relevante en su sector.',
@@ -112,7 +112,7 @@ const Portfolio = () => {
     serviceType: 'UI/UX',
     title: 'EVEMUNDO',
     slug:'evemundo',
-    description: 'Construimos la identidad y comunicación de Apolo Insurance para conectar con la comunidad hispana y posicionarla como una marca confiable en el sector de seguros.',
+    description: 'Desarrollamos branding, sitios web y contenido audiovisual para Evemundo, creando una presencia digital sólida en Suiza para dos proyectos interconectados.',
     challenge: 'Diseñar la interfaz de usuario (UI/UX) para una nueva plataforma financiera competitiva, asegurando una experiencia intuitiva y profesional.',
     solution: 'Diseño completo de UI/UX para la plataforma web, incluyendo flujos de usuario, sistema de diseño, gestión de perfiles, planes de pago, reportes y configuración.',
     result: 'Diseño de interfaz listo para la implementación del frontend, sentando las bases para una plataforma financiera robusta.',
@@ -420,15 +420,13 @@ const [activeMobileIndex, setActiveMobileIndex] = useState(0);
     })}
   </Swiper>
 </div>
-
-
-            <div className="text-center mt-12">
-              <a href="#contact">
-                <Button asChild>
-                  <span>¿Te gusta lo que ves? Discute tu proyecto</span>
-                </Button>
-              </a>
-            </div>
+   <div className="text-center mt-12 px-4">
+  <a href="#contact">
+    <Button asChild className="w-full sm:w-auto text-sm sm:text-base px-4 py-3 whitespace-normal leading-snug text-center">
+      <span>¿Te gusta lo que ves? Discute tu proyecto</span>
+    </Button>
+  </a>
+</div>
           </>
         ) : (
           <div className="animate-fade-in">

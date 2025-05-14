@@ -20,7 +20,7 @@ const Services = () => {
       title: 'Diseño y Desarrollo Web',
       description: 'Construimos sitios web modernos, rápidos y optimizados. Nos especializamos en tecnologías como React/Next.js y NestJS para ofrecer un rendimiento superior.',
       icon: '💻',
-      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/diseñ_des.png'
     },
     {
       title: 'Desarrollo de Aplicaciones Web y Móviles',
@@ -50,7 +50,7 @@ const Services = () => {
       title: 'Email Marketing y Automatización',
       description: 'Creamos y gestionamos campañas de email marketing para nutrir leads y fidelizar clientes. Implementamos flujos de automatización con herramientas como HubSpot.',
       icon: '✉️',
-      image: '/images/portfolio/services/digitaldd.png'
+      image: '/images/portfolio/services/email_mark.png'
     },
     {
       title: 'Producción Audiovisual',
@@ -68,7 +68,7 @@ const Services = () => {
       title: 'Mantenimiento y Soporte Web',
       description: 'Ofrecemos servicios de mantenimiento técnico, actualizaciones de contenido y soporte continuo para asegurar el óptimo funcionamiento de tu sitio web.',
       icon: '🛠️',
-      image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80'
+      image: '/images/portfolio/services/mant_soporte.png'
     },
   ];
 
@@ -104,17 +104,16 @@ const Services = () => {
             </a>
           ))}
         </div>
-
-          <div className="mt-12 flex justify-center gap-4">
-            <Button size="cta" asChild>
-              <a href="#contact">Impulsa tus ventas</a>
-            </Button>
-
-            <SecondaryButton size="cta" asChild>
-              <a href="#pricing">Consulta nuestros planes</a>
-            </SecondaryButton>
-          </div>
-
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 px-4 max-w-2xl mx-auto mb-10">
+          <SecondaryButton asChild className="w-full sm:w-auto text-center">
+            <a className="inline-block w-full text-center whitespace-nowrap" href="#contact">Impulsa tus ventas</a>
+          </SecondaryButton>
+          <Button asChild className="w-full sm:w-auto text-center px-3">
+            <a className="inline-block w-full text-center whitespace-nowrap" href="#pricing">
+              Consulta nuestros planes
+            </a>
+          </Button>
+        </div>
 
         {/* Secciones de servicios por categoría */}
         {categories.map((category) => (
@@ -156,21 +155,17 @@ const Services = () => {
           </div>
         ))}
 
-        {/* Botones CTA */}
-        <div className="text-center mt-12">
-          <a
-            href="#contact"
-            className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold shadow hover:bg-primary/90 transition-colors mr-4"
-          >
-            Contacta con nosotros
-          </a>
-          <a
-            href="#pricing"
-            className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold shadow hover:bg-primary/90 transition-colors"
-          >
+      <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 px-4 max-w-2xl mx-auto mb-10">
+        <SecondaryButton asChild className="w-full sm:w-auto text-center">
+          <a className="inline-block w-full text-center whitespace-nowrap" href="#contact">Contacta con nosotros</a>
+        </SecondaryButton>
+        <Button asChild className="w-full sm:w-auto text-center px-3">
+          <a className="inline-block w-full text-center whitespace-nowrap" href="#pricing">
             Consulta nuestros planes
           </a>
-        </div>
+        </Button>
+      </div>
+
 
       </div>
     </section>
