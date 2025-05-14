@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
-import GreetingDemo from "./components/GreetingDemo";
+// import GreetingDemo from "./components/GreetingDemo";
 
 import HomePage from "@/components/pages/routes/HomePage";
 import ServicesPage from "@/components/pages/routes/ServicesPage";
