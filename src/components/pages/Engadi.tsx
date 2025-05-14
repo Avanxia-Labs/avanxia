@@ -11,7 +11,7 @@ const engadiData: ProjectData = {
   },
   mediaSecondary: {
     type: "img",
-    src: "/images/portfolio/proyectos/engadi.png",
+    src: "/images/portfolio/proyectos/engadi1.png",
     alt: "Vista principal de la suite Engadi",
   },
   caption: "Rediseñando la Automatización Agrícola con UX Centrada en el Usuario",

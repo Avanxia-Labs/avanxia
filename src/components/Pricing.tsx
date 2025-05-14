@@ -1,7 +1,41 @@
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { Check } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "./ui/button";
+
 
 const Pricing = () => {
+
+  // Orden visual: [1, 2, 0, 3]
+const visualOrder = [2, 1, 0, 3];
+
+  // Animación escalonada
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.2, // controla el delay entre tarjetas
+      delayChildren: 0.4,
+    },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, scale: 0.9, y: 30 },
+  show: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2, // delay específico por tarjeta
+      duration: 0.6,
+      ease: [0.25, 0.8, 0.25, 1],
+    },
+  }),
+};
+
+
+
   const referencePrices = [
     { service: 'Tarifa por Hora (General)', range: '$40 - $200+' },
     { service: 'SEO (Retainer Mensual)', range: '$1,000 - $7,500+' },
@@ -77,7 +111,6 @@ const Pricing = () => {
   return (
     <section id="pricing" className="py-20 bg-background text-foreground dark:bg-background dark:text-foreground">
       <div className="container mx-auto px-4">
-        {/* Modern, Clean Pricing Header */}
         <div className="text-center mb-16">
           <p className="text-primary font-medium mb-2">Pricing Plans</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -88,15 +121,29 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* Modern Card Layout */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {plans.map((plan, index) => {
-            // Determine if this is the featured plan (for this example, let's mark Growth Leads as featured)
+        <motion.div
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport= {{ once: false, amount: 0.3 }   }     
+          >
+         {plans.map((plan, index) => {
+            const visualIndex = visualOrder[index] ?? index;
             const isFeatured = plan.name === 'Growth Leads';
-            
+
             return (
-              <div key={index} className={`relative glass-panel overflow-hidden ${isFeatured ? 'border-primary/50' : ''} group`}>
-                {/* Highlight badge for featured plan */}
+              <motion.div
+                key={index}
+                variants={cardVariant}
+                custom={visualIndex}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: false, amount: 0.3 }}
+                className={`relative glass-panel overflow-hidden group shadow-xl transition-all duration-500
+                  ${isFeatured ? 'border-primary/50 order-first md:order-none' : 'order-none'}
+                `}              
+                >
                 {isFeatured && (
                   <div className="absolute top-0 inset-x-0">
                     <div className="bg-amber-400 text-amber-950 text-sm font-medium py-1 px-4 rounded-b-lg mx-auto w-fit shadow-sm">
@@ -104,13 +151,11 @@ const Pricing = () => {
                     </div>
                   </div>
                 )}
-                
-                {/* Card header */}
+
                 <div className={`relative z-10 p-6 pt-${isFeatured ? '12' : '6'}`}>
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                   <p className="text-sm text-foreground/60 h-12">{plan.objective}</p>
-                  
-                  {/* Pricing */}
+
                   <div className="mt-6 mb-6">
                     <div className="text-3xl font-bold">
                       {plan.price.includes('-') ? plan.price.split('-')[0].trim() : plan.price}
@@ -118,14 +163,12 @@ const Pricing = () => {
                     </div>
                     <div className="text-sm text-foreground/60 mt-1">{plan.priceNote}</div>
                   </div>
-                  
-                  {/* CTA Button */}
-                  <button className={`w-full py-3 px-4 rounded-lg font-medium transition-all ${isFeatured ? 'bg-primary text-white hover:bg-primary/90' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>
-                    Elegir plan
-                  </button>
+
+                <Button asChild className={`w-full ${isFeatured ? '' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>
+                  <a href="#contact">Elegir plan</a>
+                </Button>
                 </div>
-                
-                {/* Features section */}
+
                 <div className="p-6 relative z-10 border-t border-border">
                   <p className="font-medium mb-4">Para {plan.idealFor.split(',')[0]}</p>
                   <ul className="space-y-3">
@@ -137,41 +180,59 @@ const Pricing = () => {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
-        
-        {/* Reference Prices Table with updated styling */}
-        <div className="mt-24 max-w-5xl mx-auto">
-          <h3 className="text-2xl font-bold text-center mb-3">Tabla de Precios de Referencia</h3>
-          <p className="text-center text-foreground/70 mb-8 max-w-3xl mx-auto">
-            Rangos orientativos basados en el mercado norteamericano. Los precios finales dependerán de la complejidad y alcance de cada proyecto.
+        </motion.div>
+
+        <motion.div
+          className="mt-24 max-w-5xl mx-auto px-4"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">Planes y Precios</span>
+            </h2>
+           <h3 className="text-2xl font-semibold text-center mb-6">Tabla de Precios de Referencia (Mercado Norteamericano)</h3>
+          <p className="text-center font-semibold text-gray-600 mb-8 max-w-3xl mx-auto">
+            Esta tabla muestra rangos orientativos basados en nuestro análisis. Los precios finales dependerán de la complejidad y alcance específico de cada proyecto.
           </p>
-          <div className="overflow-x-auto bg-card/30 rounded-xl p-1 border border-border/50">
-            <table className="w-full">
+
+          <div className="overflow-x-auto rounded-2xl border border-border/30 bg-card/60 backdrop-blur-md shadow-2xl transition-all duration-500 hover:shadow-[0_10px_60px_-10px_rgba(46,104,255,0.3)]">
+            <table className="w-full divide-y divide-border text-sm md:text-base">
               <thead>
-                <tr className="bg-muted/50 text-foreground">
-                  <th className="text-left py-3 px-4 font-medium rounded-l-lg">Tipo de Servicio</th>
-                  <th className="text-right py-3 px-4 font-medium rounded-r-lg">Rango Orientativo (USD)</th>
+                <tr className="bg-muted/60 backdrop-blur-lg text-left text-foreground font-semibold">
+                  <th className="py-4 px-6">Tipo de Servicio</th>
+                  <th className="py-4 px-6 text-right">Rango Orientativo (USD)</th>
                 </tr>
               </thead>
               <tbody>
                 {referencePrices.map((item, index) => (
-                  <tr key={index} className="hover:bg-muted/30 transition-colors border-b border-border/50 last:border-0">
-                    <td className="py-3 px-4 text-foreground">{item.service}</td>
-                    <td className="py-3 px-4 text-foreground font-medium text-right">{item.range}</td>
+                  <tr
+                    key={index}
+                    className="hover:bg-primary/10 transition-colors duration-300"
+                  >
+                    <td className="py-4 px-6 text-foreground font-medium">
+                      {item.service}
+                    </td>
+                    <td className="py-4 px-6 text-right text-primary font-bold">
+                      {item.range}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-center text-sm text-foreground/50 mt-4">*Contáctanos para una cotización personalizada.</p>
-        </div>
 
+          <p className="text-center text-sm text-foreground/50 mt-6 italic">
+            *Contáctanos para una cotización personalizada.
+          </p>
+        </motion.div>
       </div>
-    </section>
-  );
+    </section> 
+    );
 };
 
 export default Pricing;

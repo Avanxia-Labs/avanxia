@@ -43,6 +43,7 @@ import Digital from "./components/pages/Digital";
 import Dew from "./components/pages/Dew";
 import Milenio from "./components/pages/Milenio";
 import Engadi from "./components/pages/Engadi";
+import Footer from "./components/Footer";
 
 // ── Layouts ─────────────────────────────────────────────
 function MainLayout() {
@@ -136,7 +137,7 @@ function Home() {
       <Pricing />
       <Team />
       <Contact />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

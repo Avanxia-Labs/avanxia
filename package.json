@@ -12,6 +12,7 @@
     "optimize:videos": "node src/scripts/optimize-videos.cjs ./raw-videos ./public/videos --crf 23 --preset slow --width 1920"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",
