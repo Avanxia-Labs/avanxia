@@ -22,11 +22,11 @@ const Header = () => {
 
   const navLinks = [
     { name: 'Inicio', href: '#hero', icon: Home },
-    { name: 'Servicios', href: '#services', icon: Briefcase },
-    { name: 'Precios', href: '#pricing', icon: Tag },
     { name: 'Portafolio', href: '#portfolio', icon: LayoutGrid },
-    { name: 'Equipo', href: '#team', icon: Users },
+    { name: 'Servicios', href: '#services', icon: Briefcase },
     { name: 'Proceso', href: '#process', icon: Workflow },
+    { name: 'Precios', href: '#pricing', icon: Tag },
+    { name: 'Equipo', href: '#team', icon: Users },
   ];
 
   const linkGroup1 = navLinks.slice(0, 3);
@@ -143,7 +143,7 @@ const Header = () => {
             size="tight"
             /* clases específicas de este caso */
             className="hidden md:inline-block font-semibold py-2 px-4 ml-4
-                      bg-primary text-primary-foreground hover:bg-[--gradient-btn]"
+                      bg-primary text-primary-foreground"
             asChild
           >
             <a

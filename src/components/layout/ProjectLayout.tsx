@@ -26,6 +26,7 @@ export interface ProjectData {
 
 /* ---------- tarjeta estilo “Valor” ------------------------- */
 import { useGlassCardActiveOnView } from "@/hooks/use-section-underline"; // misma ruta que ya usas
+import Footer from "../Footer";
 
 const InfoCard = ({ title, text }: { title: string; text: string }) => {
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
@@ -50,15 +51,17 @@ const renderMedia = (m: Media, isMain = false) =>
         src={m.src}
         alt={m.alt}
         className="w-full max-w-4xl h-auto object-contain mx-auto"
-        animate={{ 
-          y: [0, -10, 0],  // Movimiento sutil hacia arriba y abajo
-        }}
-        transition={{ 
-          duration: 6,     // Un ciclo completo toma 6 segundos
-          ease: "easeInOut", 
-          repeat: Infinity,  // Repetir indefinidamente
-          repeatType: "reverse"  // Alternar dirección para un movimiento suave
-        }}
+      animate={{
+  y: [0, -25, 0],
+  scale: [1, 1.03, 1],
+}}
+transition={{
+  duration: 4,
+  ease: [0.45, 0, 0.55, 1], // ease-in-out natural
+  repeat: Infinity,
+  repeatType: "mirror"
+}}
+
       />
     ) : (
       <img
@@ -268,16 +271,10 @@ return (
   </section>
 )}
 
-      {/* footer ----------------------------------------------------- */}
-      <footer className="bg-[#0f172a] dark:bg-card text-white dark:text-foreground text-center py-10 mt-16 border-t border-border">
-        <p className="text-sm">© AVANXIA – Todos los derechos reservados</p>
-        <div className="flex justify-center gap-6 text-sm mt-2">
-          <span>Inicio</span>
-          <span>Portafolio</span>
-          <span>Contacto</span>
-        </div>
-      </footer>
-    </div>  </motion.div>
+<Footer />
+</div>  
+    
+    </motion.div>
  
   );
 };

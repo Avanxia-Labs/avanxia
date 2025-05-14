@@ -30,12 +30,12 @@ const driversData: ProjectData = {
     {
       type: "video",
       src: "/videos/drivers2-opt.mp4",
-      poster: "/images/portfolio/proyectos/drivers2.png",
+      poster: "/images/portfolio/proyectos/drivers1.png",
     },
     {
       type: "video",
       src: "/videos/drivers3-opt.mp4",
-      poster: "/images/portfolio/proyectos/drivers3.png",
+      poster: "/images/portfolio/proyectos/drivers1.png",
     },
   ],
 };

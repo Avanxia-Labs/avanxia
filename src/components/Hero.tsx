@@ -98,10 +98,10 @@ const Hero = () => {
           className="absolute inset-0 w-full h-full z-0 pointer-events-none"
         />
       )}
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 relative z-30">
+      <div className="container mx-auto px-4 sm:px-6 md:px-12 pt-10 md:pt-0 flex flex-col md:flex-row items-center justify-between gap-10 relative z-30 max-w-screen-xl">
         {/* Texto a la izquierda */}
         <div className="flex-1 text-center md:text-left z-30 relative">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight">
             Transformamos tu Negocio con Estrategias Digitales de <span className="text-blue-400">Alto Impacto</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
