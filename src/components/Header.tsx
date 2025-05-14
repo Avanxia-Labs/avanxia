@@ -6,10 +6,10 @@ import {
   X,
   Home, // Icon for Inicio
   Briefcase, // Icon for Servicios
-  Tag, // Icon for Precios
-  LayoutGrid, // Icon for Portafolio
+  // Tag, // Icon for Precios
+  // LayoutGrid, // Icon for Portafolio
   Users, // Icon for Equipo
-  Workflow, // Icon for Proceso
+  // Workflow, // Icon for Proceso
   Mail, // Icon for Contacto
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher'; // Import the new component
