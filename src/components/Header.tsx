@@ -1,14 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 import {
   Menu,
   X,
   Home, // Icon for Inicio
   Briefcase, // Icon for Servicios
-  Tag, // Icon for Precios
-  LayoutGrid, // Icon for Portafolio
+  // Tag, // Icon for Precios
+  // LayoutGrid, // Icon for Portafolio
   Users, // Icon for Equipo
-  Workflow, // Icon for Proceso
+  // Workflow, // Icon for Proceso
   Mail, // Icon for Contacto
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher'; // Import the new component
@@ -17,17 +18,14 @@ import { Button } from './ui/button';
 const Header = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('#hero');
-  const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
-  const navLinks = [
-    { name: 'Inicio', href: '#hero', icon: Home },
-    { name: 'Portafolio', href: '#portfolio', icon: LayoutGrid },
-    { name: 'Servicios', href: '#services', icon: Briefcase },
-    { name: 'Proceso', href: '#process', icon: Workflow },
-    { name: 'Precios', href: '#pricing', icon: Tag },
-    { name: 'Equipo', href: '#team', icon: Users },
-  ];
+const navLinks = [
+  { name: 'Inicio', to: '/', icon: Home },
+  { name: 'Servicios', to: '/services', icon: Briefcase },
+  { name: 'Sobre Nosotros', to: '/about', icon: Users },
+  { name: 'precios', to: '/precios', icon: Users },
+];
+
 
   const linkGroup1 = navLinks.slice(0, 3);
   const linkGroup2 = navLinks.slice(3);
@@ -35,55 +33,6 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  const handleLinkClick = (href: string) => {
-    setActiveLink(href);
-    setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    navLinks.forEach(link => {
-      sectionRefs.current[link.href] = document.querySelector(link.href);
-    });
-    sectionRefs.current['#contact'] = document.querySelector('#contact');
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const detectionOffset = window.innerHeight / 3;
-      const topThreshold = 50;
-
-      let currentActiveLink = '#hero';
-
-      if (scrollPosition < topThreshold) {
-        currentActiveLink = '#hero';
-      } else {
-        const allSections = [...navLinks.map(l => l.href), '#contact'];
-        for (let i = allSections.length - 1; i >= 0; i--) {
-          const href = allSections[i];
-          const section = sectionRefs.current[href];
-          if (section && section.offsetTop <= scrollPosition + detectionOffset) {
-            currentActiveLink = href;
-            break;
-          }
-        }
-      }
-
-      if (activeLink !== currentActiveLink) {
-        setActiveLink(currentActiveLink);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [navLinks]);
 
   return (
     <>
@@ -122,40 +71,37 @@ const Header = () => {
       </div>
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
-              <a
+              <NavLink
                 key={link.name}
-                href={link.href}
-                className={`group relative flex items-center transition duration-300 pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 ${
-                  activeLink === link.href
-                    ? 'after:scale-x-100 text-primary'
-                    : 'text-sidebar-foreground'
-                }`}
-                onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
+                to={link.to}
+                className={({ isActive }) =>
+                  `group relative flex items-center transition duration-300 pb-1
+                  after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+                  after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out
+                  hover:after:scale-x-100 ${
+                    isActive ? 'after:scale-x-100 text-primary' : 'text-sidebar-foreground'
+                  }`
+                }
               >
                 <link.icon className="mr-2 h-4 w-4" />
                 {link.name}
-              </a>
+              </NavLink>
             ))}
+
             <ThemeSwitcher />
           </div>
 
           <Button
             size="tight"
-            /* clases específicas de este caso */
             className="hidden md:inline-block font-semibold py-2 px-4 ml-4
                       bg-primary text-primary-foreground"
             asChild
           >
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                handleLinkClick('#contact');
-              }}
-            >
+            <NavLink to="/contact">
               Contacto
-            </a>
+            </NavLink>
           </Button>
+
 
 
           <div className="md:hidden flex items-center space-x-4">
@@ -196,62 +142,65 @@ const Header = () => {
             <X size={24} />
           </button>
         </div>
-
         <nav className="flex flex-col p-3 mt-4 flex-grow">
           <div className="space-y-1 mb-4">
-            {linkGroup1.map((link) => {
-              const isActive = activeLink === link.href;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
+            {linkGroup1.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.to}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
                     isActive
                       ? 'bg-[--gradient-btn] text-primary-foreground'
                       : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
-                  }`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
-                >
-                  <link.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive ? 'text-primary-foreground' : 'text-inherit'}`} />
-                  {link.name}
-                </a>
-              );
-            })}
+                  }`
+                }
+              >
+                <link.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                {link.name}
+              </NavLink>
+            ))}
           </div>
 
           <hr className="border-border my-2" />
 
           <div className="space-y-1 mb-4">
-            {linkGroup2.map((link) => {
-              const isActive = activeLink === link.href;
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
+            {linkGroup2.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.to}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
                     isActive
                       ? 'bg-[--gradient-btn] text-primary-foreground'
                       : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
-                  }`}
-                  onClick={(e) => { e.preventDefault(); handleLinkClick(link.href); }}
-                >
-                  <link.icon className={`mr-3 h-5 w-5 flex-shrink-0 ${isActive ? 'text-primary-foreground' : 'text-inherit'}`} />
-                  {link.name}
-                </a>
-              );
-            })}
+                  }`
+                }
+              >
+                <link.icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                {link.name}
+              </NavLink>
+            ))}
           </div>
 
           <hr className="border-border my-2" />
 
-          <a
-            href="#contact"
-            className="flex items-center rounded-md px-3 py-2.5 text-base font-medium text-sidebar-foreground transition-colors duration-200 hover:bg-sidebar-hover hover:text-primary"
-            onClick={(e) => { e.preventDefault(); handleLinkClick('#contact'); }}
+          <NavLink
+            to="/contact"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
+                isActive
+                  ? 'bg-[--gradient-btn] text-primary-foreground'
+                  : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
+              }`
+            }
           >
             <Mail className="mr-3 h-5 w-5 flex-shrink-0" />
             Contacto
-          </a>
+          </NavLink>
 
           <div className="mt-auto pt-4 border-t border-border">
             <div className="flex justify-center">
