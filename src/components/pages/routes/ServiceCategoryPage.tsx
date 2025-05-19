@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, LightbulbIcon, Target, List, Calendar, Award } from 'lucide-react';
 import { categoriesData, ServiceCategory } from '../../../data/categoriesData';
-import { servicesData, ServicePlan } from '../../../data/servicesData';
+import { servicesData, serviceAddons, ServicePlan, ServiceAddon } from '../../../data/servicesData';
+import AddonsSelector from '@/components/AddonsSelector';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
@@ -323,6 +324,48 @@ const ServiceCategoryPage: React.FC = () => {
                 </motion.div>
               ))}
             </motion.div>
+          </motion.section>
+        )}
+
+        {/* ── Sección de Addons y Bonuses (Solo para desarrollo web por ahora) ───────────── */}
+        {category.id === 'desarrollo-web' && categoryPlans.length > 0 && (
+          <motion.section
+            className="mb-12 sm:mb-16 md:mb-20"
+            variants={sectionAnimation}
+            initial="hidden"
+            animate="visible"
+          >
+            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+              Personaliza Tu Solución de {category.name}
+            </h2>
+            
+            {categoryPlans.map((plan) => {
+              // Filtrar addons y bonuses para este plan específico
+              const planAddons = serviceAddons.filter(
+                addon => addon.type === 'addon' && 
+                      addon.categoryId === category.id && 
+                      addon.compatiblePlans.includes(plan.id)
+              );
+              
+              const planBonuses = serviceAddons.filter(
+                bonus => bonus.type === 'bonus' && 
+                      bonus.categoryId === category.id && 
+                      (plan.includedBonuses?.includes(bonus.id) || false)
+              );
+              
+              return planAddons.length > 0 || planBonuses.length > 0 ? (
+                <div key={`addons-${plan.id}`} className="mb-16">
+                  <h3 className="text-2xl font-semibold text-center mb-8 text-foreground/90">
+                    Para el plan: <span className="text-primary">{plan.name}</span>
+                  </h3>
+                  <AddonsSelector 
+                    plan={plan} 
+                    addons={planAddons} 
+                    bonuses={planBonuses} 
+                  />
+                </div>
+              ) : null;
+            })}
           </motion.section>
         )}
 

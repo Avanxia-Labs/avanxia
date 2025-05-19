@@ -1,5 +1,19 @@
 // src/data/servicesData.ts
 
+// Interfaz para addons y bonos
+export interface ServiceAddon {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: string; // A qué categoría pertenece este addon
+  compatiblePlans: string[]; // IDs de los planes con los que es compatible
+  highlighted?: boolean; // Si está destacado visualmente
+  iconEmoji?: string; // Emoji para representar el addon visualmente
+  benefits: string[]; // Lista de beneficios que proporciona el addon
+  type: 'addon' | 'bonus'; // Si es un addon de pago o un bonus gratuito
+}
+
 export interface ServicePlan {
   id: string;
   categoryId: string;
@@ -16,7 +30,127 @@ export interface ServicePlan {
   slug: string;
   featured?: boolean;
   duration?: string;
+  availableAddons?: string[]; // IDs de los addons disponibles para este plan
+  includedBonuses?: string[]; // IDs de los bonuses que ya están incluidos
 }
+
+// Definición de addons y bonos disponibles
+export const serviceAddons: ServiceAddon[] = [
+  // Addons para Desarrollo Web
+  {
+    id: "addon-redes-sociales",
+    name: "Arranque en Redes Sociales",
+    description: "Creación y configuración básica de 1 perfil de red social (Facebook o Instagram) alineado con la landing page.",
+    price: 70,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-esencial-plan"],
+    iconEmoji: "📱",
+    benefits: [
+      "Creación y configuración básica de 1 perfil de red social",
+      "Diseño de foto de perfil y portada básica",
+      "Redacción y diseño de 3 posts de lanzamiento"
+    ],
+    type: "addon"
+  },
+  {
+    id: "addon-formulario-avanzado",
+    name: "Formulario Avanzado con Subida de Archivos",
+    description: "Mejora tu formulario de contacto con la capacidad de subir archivos y más campos personalizados.",
+    price: 120,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-esencial-plan", "web-profesional-plan"],
+    iconEmoji: "📄",
+    benefits: [
+      "Subida de archivos segura",
+      "Campos personalizados adicionales",
+      "Validaciones avanzadas",
+      "Almacenamiento seguro de archivos"
+    ],
+    type: "addon"
+  },
+  {
+    id: "addon-backend-nestjs",
+    name: "Backend con NestJS",
+    description: "Integración de backend potente con NestJS para funcionalidades más avanzadas y personalizadas.",
+    price: 350,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-profesional-plan"],
+    highlighted: true,
+    iconEmoji: "⚙️",
+    benefits: [
+      "Desarrollo de API personalizada",
+      "Gestión de datos avanzada",
+      "Autenticación y autorización",
+      "Integración con bases de datos"
+    ],
+    type: "addon"
+  },
+  {
+    id: "addon-blog-extra",
+    name: "Artículos de Blog Adicionales",
+    description: "Amplía tu lanzamiento con artículos adicionales optimizados para SEO.",
+    price: 150,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-profesional-plan"],
+    iconEmoji: "📝",
+    benefits: [
+      "2 artículos adicionales (800 palabras c/u)",
+      "Optimización SEO completa",
+      "Investigación de palabras clave",
+      "Imágenes de stock incluidas"
+    ],
+    type: "addon"
+  },
+  // Bonuses incluidos en los paquetes
+  {
+    id: "bonus-hosting-dominio-esencial",
+    name: "Hosting y Dominio por 1 Año",
+    description: "Despliegue y alojamiento en Vercel (o plataforma similar) durante el primer año.",
+    price: 0,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-esencial-plan"],
+    iconEmoji: "🌐",
+    benefits: [
+      "Hosting de Alto Rendimiento en Vercel",
+      "Registro o configuración de dominio por 1 año",
+      "Certificado SSL incluido"
+    ],
+    type: "bonus"
+  },
+  {
+    id: "bonus-contenido-visibilidad",
+    name: "Bonus de Contenido y Visibilidad",
+    description: "Impulsa el lanzamiento de tu sitio con contenido estratégico y presencia en redes sociales.",
+    price: 0,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-profesional-plan"],
+    highlighted: true,
+    iconEmoji: "🚀",
+    benefits: [
+      "Creación/optimización de 2 perfiles de redes sociales",
+      "5 Posts de lanzamiento para RRSS",
+      "1 Artículo de blog inaugural (800 palabras)",
+      "Optimización SEO del contenido inicial"
+    ],
+    type: "bonus"
+  },
+  {
+    id: "bonus-hosting-dominio-profesional",
+    name: "Hosting Premium y Dominio por 1 Año",
+    description: "Despliegue y alojamiento en Vercel (o plataforma similar) durante el primer año con mayor capacidad.",
+    price: 0,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-profesional-plan"],
+    iconEmoji: "☁️",
+    benefits: [
+      "Hosting de Alto Rendimiento con recursos ampliados",
+      "Registro o configuración de dominio por 1 año",
+      "Certificado SSL incluido",
+      "Configuración de dominios personalizados"
+    ],
+    type: "bonus"
+  }
+];
 
 export const servicesData: ServicePlan[] = [
   // === Identidad de Marca y Branding ===
@@ -119,7 +253,7 @@ export const servicesData: ServicePlan[] = [
       "Optimización de velocidad de carga (Core Web Vitals)",
       "Formulario de contacto/captura de leads integrado",
       "Conexión con Google Analytics y Search Console",
-      "Hosting básico por 1 año (opcional, costo adicional)"
+      "Hosting básico por 1 año (incluido)"
     ],
     sellingPoints: [
       "Maximiza conversiones con una página enfocada y persuasiva.",
@@ -128,6 +262,8 @@ export const servicesData: ServicePlan[] = [
     ],
     shortDescription: "Lanza tu proyecto con una landing page veloz, SEO-friendly y enfocada en conversiones.",
     slug: "web-esencial",
+    availableAddons: ["addon-redes-sociales", "addon-formulario-avanzado"],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
   },
   {
     id: "web-profesional-plan",
@@ -142,12 +278,15 @@ export const servicesData: ServicePlan[] = [
     includes: [
       "Diseño web UI/UX personalizado y responsive (hasta 5-7 secciones)",
       "Desarrollo con Next.js/React y CMS Headless (Strapi/Sanity) para autogestión",
-      "Blog integrado",
+      "Blog integrado con primer artículo inaugural",
       "Optimización SEO técnica avanzada",
       "Integración con herramientas de marketing (CRM, Email Marketing)",
       "Seguridad y rendimiento optimizados",
-      "Capacitación para gestión de contenidos"
+      "Capacitación para gestión de contenidos",
+      "Hosting premium y dominio por 1 año incluidos"
     ],
+    availableAddons: ["addon-formulario-avanzado", "addon-backend-nestjs", "addon-blog-extra"],
+    includedBonuses: ["bonus-contenido-visibilidad", "bonus-hosting-dominio-profesional"],
     sellingPoints: [
       "Un sitio web que crece contigo y se adapta a tus necesidades.",
       "Control total sobre tu contenido con un CMS moderno y fácil de usar.",
