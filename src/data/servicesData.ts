@@ -39,6 +39,7 @@ export const servicesData: ServicePlan[] = [
       "Fundamentos sólidos para tu comunicación visual.",
       "Entrega rápida y eficiente para no detener tu lanzamiento."
     ],
+    longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible, similar al 'solo logo' de algunas agencias, te entregamos no solo un diseño de logotipo profesional, sino una mini guía de estilo. Esto supera la oferta de competidores como IMTEX (Logo $83), proporcionando un valor tangible inmediato. Cubrimos el tiempo de diseño conceptual y la creación de herramientas básicas para que tu marca luzca consistente.",
     shortDescription: "Lanza tu marca con un logo profesional y los elementos visuales clave.",
     slug: "plan-identidad-esencial",
     featured: false,
@@ -63,6 +64,7 @@ export const servicesData: ServicePlan[] = [
       "Coherencia de marca garantizada en múltiples plataformas.",
       "Materiales listos para usar que ahorran tiempo y esfuerzo."
     ],
+    longDescription: "Nos posicionamos estratégicamente ofreciendo un valor excepcional. Comparado con ofertas como la de Brandana (Identidad $528), nuestro Branding Profesional no solo compite en precio, sino que entrega un Mini Manual de Marca más robusto y el diseño de aplicaciones clave listas para usar. Esto no es solo diseño; es una inversión en la percepción y profesionalismo de tu empresa.",
     shortDescription: "Desarrolla una identidad de marca integral que te posicione como referente.",
     slug: "plan-branding-completo",
     featured: true,
@@ -90,6 +92,7 @@ export const servicesData: ServicePlan[] = [
       "Tecnología de vanguardia para una experiencia de usuario superior.",
       "Rápida implementación para tus campañas urgentes."
     ],
+    longDescription: "Entendemos que este precio es significativamente superior a ofertas básicas de landing pages en WordPress de competidores similares. La diferencia radica fundamentalmente en la tecnología y la calidad del desarrollo. Una landing page construida con Next.js y React ofrece una velocidad de carga, seguridad y potencial de SEO incomparables frente a una plantilla básica de WordPress. Este precio cubre aproximadamente una semana de desarrollo dedicado (40-50 horas), incluyendo diseño semi-personalizado eficiente, desarrollo frontend, configuración y pruebas, asegurando un producto de alta calidad que justifica la inversión.",
     shortDescription: "Una landing page optimizada y de alta conversión para tus campañas.",
     slug: "plan-landing-page-impacto"
   },
@@ -115,6 +118,7 @@ export const servicesData: ServicePlan[] = [
       "Control total sobre tu contenido con un CMS moderno y fácil de usar.",
       "Posicionamiento sólido en buscadores y una experiencia de usuario impecable."
     ],
+    longDescription: "Este precio refleja el valor de una solución profesional y estratégica desarrollada sobre pilares tecnológicos de vanguardia (Next.js, React y un CMS Headless). A diferencia de soluciones más económicas como Brandana Web Corp ($1,950), no solo ofrecemos un sitio atractivo, sino una plataforma con fundaciones tecnológicas sólidas que garantizan velocidad, seguridad, escalabilidad y un mejor posicionamiento orgánico. La inclusión de un CMS Headless es clave, otorgándote control total sobre tu contenido y flexibilidad que los sitios estáticos o WordPress básico no pueden ofrecer.",
     shortDescription: "Un sitio web corporativo completo, autogestionable y optimizado para crecer.",
     slug: "plan-web-corporativa-avanzada",
     featured: true,
@@ -358,7 +362,7 @@ export const servicesData: ServicePlan[] = [
     name: "Plan Podcast Producción Starter",
     type: "plan",
     price: 300,
-    priceType: "por episodio",
+    priceType: "único",
     idealFor: "Creadores de contenido o empresas que quieren lanzar un podcast de calidad profesional.",
     includes: [
       "Edición y limpieza de audio (hasta 60 min de audio crudo)",

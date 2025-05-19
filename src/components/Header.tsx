@@ -155,18 +155,14 @@ const Header = () => {
                             
                             return (
                               <div key={category.id} className={`${index !== 0 ? 'border-t border-border/30' : ''}`}>
-                                <NavLink
-                                  to={`/soluciones/${category.slug}`}
-                                  onClick={() => setIsServicesMenuOpen(false)}
-                                  className={({ isActive }) =>
-                                    `flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 ${
-                                      isActive ? 'bg-muted text-primary' : 'text-foreground hover:bg-muted hover:text-primary'
-                                    }`
-                                  }
+                                <a 
+                                  href={`/servicios/${category.slug}`}
+                                  className="flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 cursor-pointer
+                                    text-foreground hover:bg-muted hover:text-primary"
                                 >
                                   <CategoryIcon className="w-5 h-5 mr-3 text-primary flex-shrink-0" />
                                   <span>{category.name}</span>
-                                </NavLink>
+                                </a>
                               </div>
                             );
                           })}
