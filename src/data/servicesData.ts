@@ -15,70 +15,104 @@ export interface ServicePlan {
   imagePlaceholder?: string;
   slug: string;
   featured?: boolean;
+  duration?: string;
 }
 
 export const servicesData: ServicePlan[] = [
   // === Identidad de Marca y Branding ===
   {
-    id: "plan-identidad-esencial",
+    id: "branding-esencial-plan",
     categoryId: "identidad-de-marca",
-    name: "Plan Identidad Esencial",
+    name: "BRANDING ESENCIAL – Tu Logo Profesional y Kit de Inicio de Marca",
     type: "plan",
-    price: 600,
+    price: 280,
     priceType: "único",
-    idealFor: "Emprendedores y startups que necesitan un logo profesional y elementos básicos para empezar.",
+    duration: "1 – 2 semanas",
+    featured: false,
+    idealFor: "Startups, emprendedores y pequeños negocios que buscan establecer una imagen profesional desde el día cero.",
     includes: [
-      "Diseño de Logotipo Profesional (3 conceptos iniciales)",
-      "Paleta de Colores Primarios y Secundarios",
-      "Selección Tipográfica Corporativa",
-      "Manual de Marca Básico (PDF)",
-      "Archivos finales en formatos vectoriales y rasterizados (.AI, .EPS, .SVG, .PNG, .JPG)"
+      "Diseño de Logotipo Profesional y Original (2 propuestas, hasta 2 rondas de revisión)",
+      "Definición de Paleta de Colores (HEX, RGB, CMYK)",
+      "Selección Tipográfica Estratégica",
+      "Entrega Completa de Archivos del Logotipo (AI, EPS, SVG, PNG, JPG)",
+      "Mini Guía de Estilo de Marca (PDF práctico de 1 página)"
     ],
     sellingPoints: [
-      "Inicia con una imagen profesional y coherente.",
-      "Fundamentos sólidos para tu comunicación visual.",
-      "Entrega rápida y eficiente para no detener tu lanzamiento."
+      "Logotipo a medida que refleja la esencia de tu negocio.",
+      "Mini guía de estilo que asegura coherencia visual desde el día uno.",
+      "Inversión accesible con alto retorno de valor."
     ],
-    longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible, similar al 'solo logo' de algunas agencias, te entregamos no solo un diseño de logotipo profesional, sino una mini guía de estilo. Esto supera la oferta de competidores como IMTEX (Logo $83), proporcionando un valor tangible inmediato. Cubrimos el tiempo de diseño conceptual y la creación de herramientas básicas para que tu marca luzca consistente.",
-    shortDescription: "Lanza tu marca con un logo profesional y los elementos visuales clave.",
-    slug: "plan-identidad-esencial",
-    featured: false,
+    shortDescription: "¿Listo para lanzar tu proyecto con una identidad profesional? Obtén un logotipo a medida y una mini guía de estilo por solo $280 USD.",
+    longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible te entregamos no solo un logotipo profesional, sino también una mini guía de estilo que asegura coherencia visual. Esto supera ofertas como IMTEX ($83) al brindar un valor tangible inmediato y cobertura de todo el proceso creativo.",
+    slug: "branding-esencial",
+    imagePlaceholder: "/images/placeholders/branding-esencial.jpg",
   },
   {
-    id: "plan-branding-completo",
+    id: "branding-profesional-plan",
     categoryId: "identidad-de-marca",
-    name: "Plan Branding Completo",
+    name: "BRANDING PROFESIONAL – Identidad Visual Completa y Estratégica",
     type: "plan",
-    price: 1200,
+    price: 550,
     priceType: "único",
-    idealFor: "Empresas establecidas o startups que buscan una identidad de marca integral y detallada.",
+    duration: "2 – 3 semanas",
+    featured: true,
+    idealFor: "Empresas en crecimiento y negocios establecidos que necesitan una identidad visual cohesiva aplicada en múltiples plataformas.",
     includes: [
-      "Todo lo del Plan Identidad Esencial",
-      "Diseño de Papelería Corporativa (Tarjetas de visita, Hoja membretada, Sobre)",
-      "Plantillas para Redes Sociales (Perfil, Portada, Post - 3 diseños)",
-      "Manual de Marca Extendido (incluye usos correctos e incorrectos, iconografía, tono de voz básico)",
-      "Mockups de aplicación de marca"
+      "Todo lo incluido en Branding Esencial",
+      "Paleta de Colores Corporativa Completa (primarios, secundarios, acento, neutros)",
+      "Sistema Tipográfico Detallado (jerarquías para web e impreso)",
+      "Mini Manual de Marca (PDF 5-8 páginas) con directrices de uso y ejemplos",
+      "Diseño de 2 Aplicaciones de Marca Clave (p.ej. tarjeta digital, firma email, plantilla de post)"
     ],
     sellingPoints: [
-      "Una identidad visual robusta y versátil para todos tus puntos de contacto.",
-      "Coherencia de marca garantizada en múltiples plataformas.",
-      "Materiales listos para usar que ahorran tiempo y esfuerzo."
+      "Identidad visual robusta y coherente en todas las plataformas.",
+      "Manual de marca detallado que simplifica la aplicación.",
+      "Aplicaciones de diseño listas para impresionar a tus clientes."
     ],
-    longDescription: "Nos posicionamos estratégicamente ofreciendo un valor excepcional. Comparado con ofertas como la de Brandana (Identidad $528), nuestro Branding Profesional no solo compite en precio, sino que entrega un Mini Manual de Marca más robusto y el diseño de aplicaciones clave listas para usar. Esto no es solo diseño; es una inversión en la percepción y profesionalismo de tu empresa.",
-    shortDescription: "Desarrolla una identidad de marca integral que te posicione como referente.",
-    slug: "plan-branding-completo",
+    shortDescription: "Eleva tu marca con un manual de estilo robusto y aplicaciones de diseño profesionales listas para usar.",
+    longDescription: "Nos posicionamos estratégicamente entregando un valor excepcional. Frente a ofertas como Brandana ($528), nuestro Branding Profesional no solo compite en precio, sino que incluye un manual de marca más completo y aplicaciones claves para una coherencia inmediata en todos tus puntos de contacto.",
+    slug: "branding-profesional",
+    imagePlaceholder: "/images/placeholders/branding-profesional.jpg",
+  },
+  {
+    id: "branding-integral-plan",
+    categoryId: "identidad-de-marca",
+    name: "BRANDING INTEGRAL – Transformación de Marca: Estrategia, Identidad y Lanzamiento Digital",
+    type: "plan",
+    price: 950,
+    priceType: "único",
+    duration: "4 – 5 semanas",
     featured: true,
+    idealFor: "Empresas ambiciosas que buscan una transformación completa de marca, desde la estrategia hasta el lanzamiento digital.",
+    includes: [
+      "Sesión Profunda de Consultoría Estratégica de Marca (90-120 min)",
+      "Diseño de Logotipo Premium con revisiones ilimitadas (en marco razonable)",
+      "Manual de Marca Exhaustivo (10-15+ páginas) con análisis de competencia y tono de voz",
+      "Diseño de 4 Aplicaciones de Marca Premium (tarjeta, firma email, plantillas RRSS, presentación, etc.)",
+      "Bonus de Lanzamiento Digital en Redes Sociales (3-5 posts de lanzamiento diseñados y redactados)"
+    ],
+    sellingPoints: [
+      "Consultoría estratégica que alinea negocio y marca.",
+      "Manual exhaustivo y diseño premium ilimitado.",
+      "Lanzamiento digital con impacto inmediato en redes sociales."
+    ],
+    shortDescription: "Transforma tu negocio con una identidad visual excepcional, una estrategia de marca sólida y un lanzamiento digital de alto impacto.",
+    longDescription: "Nuestro paquete más completo: incluye consultoría estratégica, diseño premium, manual exhaustivo y un bonus de lanzamiento digital. Supera ofertas de la competencia (Millares $833) al integrar estrategia, identidad y activación en un único servicio integral.",
+    slug: "branding-integral",
+    imagePlaceholder: "/images/placeholders/branding-integral.jpg",
   },
 
   // === Desarrollo Web ===
   {
-    id: "plan-landing-page-impacto",
+    id: "web-esencial-plan",
     categoryId: "desarrollo-web",
-    name: "Plan Landing Page de Impacto",
+    name: "WEB ESENCIAL – Landing Page Moderna y Eficiente con Next.js/React",
     type: "plan",
-    price: 750,
+    price: 680,
     priceType: "único",
-    idealFor: "Campañas de marketing, lanzamiento de productos/servicios, o captación de leads específica.",
+    duration: "1 – 1.5 semanas",
+    featured: true,
+    idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
     includes: [
       "Diseño personalizado y responsive (adaptable a móviles)",
       "Desarrollo con Next.js/React para máxima velocidad y SEO",
@@ -92,18 +126,19 @@ export const servicesData: ServicePlan[] = [
       "Tecnología de vanguardia para una experiencia de usuario superior.",
       "Rápida implementación para tus campañas urgentes."
     ],
-    longDescription: "Entendemos que este precio es significativamente superior a ofertas básicas de landing pages en WordPress de competidores similares. La diferencia radica fundamentalmente en la tecnología y la calidad del desarrollo. Una landing page construida con Next.js y React ofrece una velocidad de carga, seguridad y potencial de SEO incomparables frente a una plantilla básica de WordPress. Este precio cubre aproximadamente una semana de desarrollo dedicado (40-50 horas), incluyendo diseño semi-personalizado eficiente, desarrollo frontend, configuración y pruebas, asegurando un producto de alta calidad que justifica la inversión.",
-    shortDescription: "Una landing page optimizada y de alta conversión para tus campañas.",
-    slug: "plan-landing-page-impacto"
+    shortDescription: "Lanza tu proyecto con una landing page veloz, SEO-friendly y enfocada en conversiones.",
+    slug: "web-esencial",
   },
   {
-    id: "plan-web-corporativa-avanzada",
+    id: "web-profesional-plan",
     categoryId: "desarrollo-web",
-    name: "Plan Web Corporativa Avanzada",
+    name: "WEB PROFESIONAL – Sitio Web Completo de Alto Rendimiento con Next.js/React",
     type: "plan",
-    price: "Desde 2500",
+    price: 1980,
     priceType: "único",
-    idealFor: "Empresas que buscan una presencia online robusta, profesional y escalable.",
+    duration: "4 – 5 semanas",
+    featured: true,
+    idealFor: "PyMEs y empresas en expansión que necesitan un sitio web robusto y multi-página.",
     includes: [
       "Diseño web UI/UX personalizado y responsive (hasta 5-7 secciones)",
       "Desarrollo con Next.js/React y CMS Headless (Strapi/Sanity) para autogestión",
@@ -118,10 +153,8 @@ export const servicesData: ServicePlan[] = [
       "Control total sobre tu contenido con un CMS moderno y fácil de usar.",
       "Posicionamiento sólido en buscadores y una experiencia de usuario impecable."
     ],
-    longDescription: "Este precio refleja el valor de una solución profesional y estratégica desarrollada sobre pilares tecnológicos de vanguardia (Next.js, React y un CMS Headless). A diferencia de soluciones más económicas como Brandana Web Corp ($1,950), no solo ofrecemos un sitio atractivo, sino una plataforma con fundaciones tecnológicas sólidas que garantizan velocidad, seguridad, escalabilidad y un mejor posicionamiento orgánico. La inclusión de un CMS Headless es clave, otorgándote control total sobre tu contenido y flexibilidad que los sitios estáticos o WordPress básico no pueden ofrecer.",
-    shortDescription: "Un sitio web corporativo completo, autogestionable y optimizado para crecer.",
-    slug: "plan-web-corporativa-avanzada",
-    featured: true,
+    shortDescription: "Sitio corporativo completo con CMS headless, SEO avanzado y escalabilidad asegurada.",
+    slug: "web-profesional",
   },
 
   // === Marketing Digital y Gestión de Redes Sociales ===
