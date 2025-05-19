@@ -1,0 +1,101 @@
+# Task ID: 5
+# Title: Homepage Hero and Core Sections
+# Status: done
+# Dependencies: 3, 4
+# Priority: high
+# Description: Develop the homepage with hero section, featured projects, value proposition, and contact form.
+# Details:
+1. Create a Hero component with animated elements using Framer Motion:
+```tsx
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/Button'
+import { NavLink } from 'react-router-dom'
+
+export function Hero() {
+  return (
+    <section className="relative overflow-hidden py-20 md:py-32">
+      <div className="container relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+            Digital Solutions for <span className="text-primary">Modern Businesses</span>
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground">
+            We create exceptional digital experiences that transform businesses and delight users.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg">
+              <NavLink to="/portfolio">View Our Work</NavLink>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <NavLink to="/contact">Get in Touch</NavLink>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+      {/* Background elements/particles */}
+    </section>
+  )
+}
+```
+
+2. Create a FeaturedProjects component for the homepage:
+```tsx
+import { motion } from 'framer-motion'
+import { NavLink } from 'react-router-dom'
+import { Button } from '@/components/ui/Button'
+import { ProjectCard } from '@/components/ProjectCard'
+import { featuredProjects } from '@/data/projects'
+
+export function FeaturedProjects() {
+  return (
+    <section className="py-20 bg-muted/50">
+      <div className="container">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight">Featured Projects</h2>
+            <p className="mt-4 text-muted-foreground">Explore our most impactful digital solutions</p>
+          </div>
+          <Button asChild variant="outline" className="mt-4 md:mt-0">
+            <NavLink to="/portfolio">View All Projects</NavLink>
+          </Button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProjects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+```
+
+3. Create a ValueProposition component
+4. Create a ServicesOverview component
+5. Implement a ContactForm component with React Hook Form and Zod validation
+6. Add a Testimonials section with a carousel using Embla Carousel
+7. Implement a StatsSection to highlight company achievements
+8. Assemble all sections in the HomePage component
+
+# Test Strategy:
+1. Test responsive layout on various screen sizes
+2. Verify animations work correctly and don't cause layout shifts
+3. Test navigation links to other sections of the site
+4. Ensure images load optimally with proper sizing
+5. Test contact form validation and submission
+6. Verify carousel navigation in testimonials section
+7. Test accessibility of all interactive elements
+8. Measure and optimize performance metrics (LCP, CLS, etc.)

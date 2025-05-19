@@ -1,0 +1,286 @@
+# Task ID: 9
+# Title: Animation and Interactive Elements
+# Status: done
+# Dependencies: 4, 5, 6, 7
+# Priority: medium
+# Description: Implement animations, transitions, and interactive elements using Framer Motion and other libraries.
+# Details:
+1. Create a useScrollAnimation hook for scroll-triggered animations:
+```typescript
+// src/hooks/useScrollAnimation.ts
+import { useInView } from 'framer-motion'
+import { useRef } from 'react'
+
+export function useScrollAnimation() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  
+  return { ref, isInView }
+}
+```
+
+2. Create a FadeIn component for consistent fade animations:
+```tsx
+// src/components/animations/FadeIn.tsx
+import { motion } from 'framer-motion'
+import { useScrollAnimation } from '@/hooks/useScrollAnimation'
+
+interface FadeInProps {
+  children: React.ReactNode
+  direction?: 'up' | 'down' | 'left' | 'right'
+  delay?: number
+  duration?: number
+  className?: string
+}
+
+export function FadeIn({ 
+  children, 
+  direction = 'up', 
+  delay = 0, 
+  duration = 0.5,
+  className = ''
+}: FadeInProps) {
+  const { ref, isInView } = useScrollAnimation()
+  
+  const getDirectionValues = () => {
+    switch (direction) {
+      case 'up': return { y: 20, x: 0 }
+      case 'down': return { y: -20, x: 0 }
+      case 'left': return { y: 0, x: 20 }
+      case 'right': return { y: 0, x: -20 }
+      default: return { y: 0, x: 0 }
+    }
+  }
+  
+  const { x, y } = getDirectionValues()
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y, x }}
+      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
+      transition={{ duration, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+```
+
+3. Create a ParallaxSection component:
+```tsx
+// src/components/animations/ParallaxSection.tsx
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+
+interface ParallaxSectionProps {
+  children: React.ReactNode
+  className?: string
+  speed?: number
+}
+
+export function ParallaxSection({ 
+  children, 
+  className = '', 
+  speed = 0.2 
+}: ParallaxSectionProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start']
+  })
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, speed * 100])
+  
+  return (
+    <motion.div ref={ref} className={className}>
+      <motion.div style={{ y }}>{children}</motion.div>
+    </motion.div>
+  )
+}
+```
+
+4. Create a TiltCard component using React Parallax Tilt:
+```tsx
+// src/components/animations/TiltCard.tsx
+import Tilt from 'react-parallax-tilt'
+
+interface TiltCardProps {
+  children: React.ReactNode
+  className?: string
+  tiltMaxAngleX?: number
+  tiltMaxAngleY?: number
+  perspective?: number
+  scale?: number
+  transitionSpeed?: number
+  gyroscope?: boolean
+}
+
+export function TiltCard({
+  children,
+  className = '',
+  tiltMaxAngleX = 10,
+  tiltMaxAngleY = 10,
+  perspective = 1000,
+  scale = 1.05,
+  transitionSpeed = 500,
+  gyroscope = false
+}: TiltCardProps) {
+  return (
+    <Tilt
+      className={className}
+      tiltMaxAngleX={tiltMaxAngleX}
+      tiltMaxAngleY={tiltMaxAngleY}
+      perspective={perspective}
+      scale={scale}
+      transitionSpeed={transitionSpeed}
+      gyroscope={gyroscope}
+    >
+      {children}
+    </Tilt>
+  )
+}
+```
+
+5. Create a CountUp animation component:
+```tsx
+// src/components/animations/CountUp.tsx
+import { useEffect, useState } from 'react'
+import { useInView } from 'framer-motion'
+import { useRef } from 'react'
+
+interface CountUpProps {
+  end: number
+  duration?: number
+  prefix?: string
+  suffix?: string
+  className?: string
+}
+
+export function CountUp({ 
+  end, 
+  duration = 2000, 
+  prefix = '', 
+  suffix = '',
+  className = ''
+}: CountUpProps) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true })
+  
+  useEffect(() => {
+    if (!isInView) return
+    
+    let startTime: number
+    let animationFrame: number
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const progress = Math.min((timestamp - startTime) / duration, 1)
+      setCount(Math.floor(progress * end))
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate)
+      }
+    }
+    
+    animationFrame = requestAnimationFrame(animate)
+    
+    return () => cancelAnimationFrame(animationFrame)
+  }, [end, duration, isInView])
+  
+  return (
+    <span ref={ref} className={className}>
+      {prefix}{count}{suffix}
+    </span>
+  )
+}
+```
+
+6. Create a background particles component using tsParticles:
+```tsx
+// src/components/animations/ParticlesBackground.tsx
+import { useCallback } from 'react'
+import Particles from 'react-tsparticles'
+import { loadFull } from 'tsparticles'
+import type { Engine } from 'tsparticles-engine'
+
+export function ParticlesBackground() {
+  const particlesInit = useCallback(async (engine: Engine) => {
+    await loadFull(engine)
+  }, [])
+  
+  return (
+    <Particles
+      id="tsparticles"
+      init={particlesInit}
+      className="absolute inset-0 -z-10"
+      options={{
+        fullScreen: false,
+        background: {
+          color: {
+            value: 'transparent',
+          },
+        },
+        fpsLimit: 120,
+        particles: {
+          color: {
+            value: '#888888',
+          },
+          links: {
+            color: '#888888',
+            distance: 150,
+            enable: true,
+            opacity: 0.2,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            outModes: {
+              default: 'bounce',
+            },
+            random: false,
+            speed: 1,
+            straight: false,
+          },
+          number: {
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 80,
+          },
+          opacity: {
+            value: 0.2,
+          },
+          shape: {
+            type: 'circle',
+          },
+          size: {
+            value: { min: 1, max: 3 },
+          },
+        },
+        detectRetina: true,
+      }}
+    />
+  )
+}
+```
+
+7. Create page transition animations
+8. Implement scroll-triggered animations for sections
+9. Add hover effects for interactive elements
+10. Create loading state animations
+
+# Test Strategy:
+1. Test all animation components in isolation
+2. Verify animations trigger correctly on scroll
+3. Test performance impact of animations on different devices
+4. Ensure animations degrade gracefully on less powerful devices
+5. Test page transition animations
+6. Verify hover effects work correctly
+7. Test loading state animations
+8. Ensure animations don't cause layout shifts (check CLS)
+9. Test animations with reduced motion preferences enabled
+10. Verify particles background renders correctly

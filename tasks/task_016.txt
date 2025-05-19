@@ -1,0 +1,27 @@
+# Task ID: 16
+# Title: Modificaciones en ValueProposition.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo ValueProposition.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 3.1: Añadir o Modificar Punto para Incluir UVP [pending]
+### Dependencies: None
+### Description: Revisa los points existentes. Considera añadir un cuarto punto o modificar uno de los existentes para enfatizar la ventaja de "calidad internacional con precios competitivos desde México para Norteamérica".
+### Details:
+Si añades un nuevo punto (ejemplo):
+{
+  title: "Ventaja Global, Sabor Local",
+  desc: "Calidad internacional con precios inteligentes para Norteamérica.",
+  paragraph: "Operamos desde México con un equipo de primer nivel, lo que nos permite ofrecerte <strong>servicios de desarrollo y marketing digital que compiten con los mejores del mundo, pero con una estructura de costos más eficiente.</strong> Obtienes acceso a talento excepcional y tecnología de punta, maximizando tu inversión sin sacrificar calidad. Es la combinación perfecta de estándares internacionales y la ventaja competitiva que solo el talento mexicano puede ofrecer.",
+  icon: FaGlobeAmericas, // Importa un ícono adecuado, ej. de react-icons/fa
+}
+
+Nota para el dev: Si añades un nuevo punto, asegúrate de que el grid se ajuste bien (podría ser `md:grid-cols-2 lg:grid-cols-4` o mantener 3 y que el último ocupe más espacio, o simplemente que la última fila tenga uno solo centrado si son 4 puntos). Si son 3 puntos, el grid `md:grid-cols-3` está bien. Si pasas a 4, quizá `md:grid-cols-2 lg:grid-cols-2` o `md:grid-cols-2 lg:grid-cols-4` si quieres mantenerlos más pequeños. Evalúa visualmente.
+

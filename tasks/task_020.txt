@@ -1,0 +1,35 @@
+# Task ID: 20
+# Title: Modificaciones en Portfolio.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo Portfolio.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 7.1: Añadir Campos a Interfaz y Datos de CaseStudy [pending]
+### Dependencies: None
+### Description: Añadir campos opcionales 'results' y 'testimonial' a la interfaz CaseStudy y a los datos de ejemplo.
+### Details:
+Acción:
+En la interfaz CaseStudy, añade dos nuevas propiedades opcionales:
+interface CaseStudy {
+  // ... otras propiedades
+  results?: string; // Para describir los resultados/impacto del proyecto
+  testimonial?: string; // Para una cita de testimonio del cliente
+}
+
+En el array caseStudies, para cada objeto, añade estas nuevas propiedades con datos de ejemplo o placeholders si la información real no está disponible aún.
+{
+  id: 2,
+  client: 'Autism 911',
+  // ... otras propiedades
+  imageUrl: '/images/portfolio/proyectos/gyb.png',
+  results: 'Incremento del X% en la interacción de usuarios y retroalimentación positiva sobre la nueva UI/UX.', // Ejemplo
+  testimonial: '"El equipo de Avanxia realmente entendió nuestras necesidades y entregó un diseño que superó nuestras expectativas." - Nombre Cliente' // Ejemplo
+}
+

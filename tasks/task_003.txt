@@ -1,0 +1,72 @@
+# Task ID: 3
+# Title: Routing and Navigation Structure
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Set up React Router DOM v7 for site navigation with proper route configuration and layout structure.
+# Details:
+1. Create a router configuration using React Router DOM v7:
+```tsx
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import RootLayout from './layouts/RootLayout'
+import HomePage from './pages/HomePage'
+import PortfolioPage from './pages/PortfolioPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import ServicesPage from './pages/ServicesPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
+import NotFoundPage from './pages/NotFoundPage'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    errorElement: <NotFoundPage />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'portfolio', element: <PortfolioPage /> },
+      { path: 'portfolio/:projectId', element: <ProjectDetailPage /> },
+      { path: 'services', element: <ServicesPage /> },
+      { path: 'about', element: <AboutPage /> },
+      { path: 'contact', element: <ContactPage /> }
+    ]
+  }
+])
+
+export function Router() {
+  return <RouterProvider router={router} />
+}
+```
+
+2. Create a RootLayout component with header, main content area, and footer:
+```tsx
+import { Outlet } from 'react-router-dom'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+
+export default function RootLayout() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  )
+}
+```
+
+3. Create basic page components for each route
+4. Implement active link highlighting in navigation
+5. Add breadcrumbs component for improved navigation
+6. Set up scroll restoration for page transitions
+
+# Test Strategy:
+1. Test navigation between all routes
+2. Verify active link highlighting works correctly
+3. Test breadcrumbs display the correct path
+4. Ensure 404 page displays for invalid routes
+5. Test scroll restoration on navigation
+6. Verify route transitions are smooth
+7. Test deep linking directly to nested routes

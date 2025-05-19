@@ -1,0 +1,42 @@
+# Task ID: 18
+# Title: Modificaciones en Team.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo Team.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 5.1: Modificar Texto Introductorio del Equipo [pending]
+### Dependencies: None
+### Description: Modificar el texto introductorio de la sección del equipo.
+### Details:
+OLD TEXT:
+<p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
+  Somos un equipo apasionado y multidisciplinario de estrategas, diseñadores y desarrolladores comprometidos con el éxito de nuestros clientes. Combinamos experiencia, creatividad y conocimiento técnico para ofrecer soluciones digitales de alto impacto.
+</p>
+
+NEW TEXT (Sugerencia):
+<p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
+  Conoce al equipo de Avanxia Labs: un colectivo de estrategas, diseñadores y desarrolladores senior basados en México, con experiencia global. Estamos dedicados a aplicar <strong>estándares internacionales de calidad y la última tecnología</strong> para entregar soluciones digitales que realmente impulsan tu negocio en Norteamérica y más allá.
+</p>
+
+## 2. Tarea 5.2: Modificar Estructura de teamMembers (Opcional) [pending]
+### Dependencies: None
+### Description: En el array teamMembers, para cada miembro, añade dos nuevas propiedades: image: string (para la ruta a una imagen) y detailedBio: string (para una biografía más extensa). Inicialmente pueden ser strings vacíos o placeholders.
+### Details:
+Ejemplo de un miembro modificado:
+{
+  role: 'Socio Operativo (Ismael)',
+  skills: 'Gestión de Proyectos, Estrategia, UX, Relaciones con Clientes',
+  description: 'Lidera la ejecución y la visión estratégica de los proyectos.',
+  image: '/images/team/ismael.jpg', // Placeholder path
+  detailedBio: 'Ismael cuenta con X años de experiencia ayudando a empresas a transformar sus ideas en realidad digital...' // Placeholder bio
+}
+
+Nota para el dev: Esto es solo el cambio en la estructura de datos. La renderización de la imagen y la bio detallada (quizás en un modal al hacer clic) sería una tarea de desarrollo adicional.
+

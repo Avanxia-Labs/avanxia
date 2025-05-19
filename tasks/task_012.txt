@@ -1,0 +1,285 @@
+# Task ID: 12
+# Title: Deployment and CI/CD Setup
+# Status: done
+# Dependencies: 1, 10
+# Priority: medium
+# Description: Configure deployment pipeline, CI/CD, and analytics for the website.
+# Details:
+1. Create a Netlify configuration file (netlify.toml):
+```toml
+# netlify.toml
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security and caching
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://analytics.example.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.example.com; font-src 'self' data:; connect-src 'self' https://api.example.com;"
+
+# Cache control for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+```
+
+2. Create a GitHub Actions workflow for CI/CD (.github/workflows/ci.yml):
+```yaml
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Lint
+        run: pnpm lint
+      
+      - name: Type check
+        run: pnpm typecheck
+      
+      - name: Build
+        run: pnpm build
+      
+      - name: Optimize images
+        run: pnpm optimize-images
+      
+      - name: Deploy to Netlify (preview)
+        if: github.event_name == 'pull_request'
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: './dist'
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy preview for PR #${{ github.event.number }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      
+      - name: Deploy to Netlify (production)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: './dist'
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Production deploy from GitHub Actions"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+```
+
+3. Add scripts to package.json for deployment:
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
+    "optimize-images": "node scripts/optimize-images.js",
+    "optimize-videos": "node scripts/optimize-videos.js",
+    "prepare-deploy": "pnpm optimize-images && pnpm optimize-videos && pnpm build"
+  }
+}
+```
+
+4. Set up Google Analytics:
+```tsx
+// src/utils/analytics.ts
+export const GA_TRACKING_ID = 'G-XXXXXXXXXX' // Replace with actual tracking ID
+
+// Initialize Google Analytics
+export const initGA = () => {
+  if (typeof window !== 'undefined') {
+    // Add Google Analytics script
+    const script = document.createElement('script')
+    script.async = true
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`
+    document.head.appendChild(script)
+    
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function() {
+      window.dataLayer.push(arguments)
+    }
+    window.gtag('js', new Date())
+    window.gtag('config', GA_TRACKING_ID, {
+      anonymize_ip: true,
+      cookie_flags: 'SameSite=None;Secure',
+    })
+  }
+}
+
+// Track page views
+export const pageview = (url: string) => {
+  if (typeof window.gtag !== 'undefined') {
+    window.gtag('config', GA_TRACKING_ID, {
+      page_path: url,
+    })
+  }
+}
+
+// Track events
+export const event = ({ action, category, label, value }: {
+  action: string
+  category: string
+  label?: string
+  value?: number
+}) => {
+  if (typeof window.gtag !== 'undefined') {
+    window.gtag('event', action, {
+      event_category: category,
+      event_label: label,
+      value: value,
+    })
+  }
+}
+```
+
+5. Add analytics to the app:
+```tsx
+// src/App.tsx
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { initGA, pageview } from './utils/analytics'
+
+export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
+  const location = useLocation()
+  
+  useEffect(() => {
+    // Initialize Google Analytics
+    initGA()
+  }, [])
+  
+  useEffect(() => {
+    // Track page views
+    pageview(location.pathname + location.search)
+  }, [location])
+  
+  return <>{children}</>
+}
+```
+
+6. Create a robots.txt file:
+```
+# robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://www.avanxia.com/sitemap.xml
+```
+
+7. Create a sitemap.xml generator script:
+```javascript
+// scripts/generate-sitemap.js
+const fs = require('fs')
+const path = require('path')
+
+const SITE_URL = 'https://www.avanxia.com'
+
+// Define your routes
+const routes = [
+  '/',
+  '/services',
+  '/portfolio',
+  '/about',
+  '/contact',
+  // Add dynamic routes if needed
+]
+
+// Generate sitemap XML
+const generateSitemap = () => {
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+  .map(
+    (route) => `  <url>
+    <loc>${SITE_URL}${route}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>${route === '/' ? '1.0' : '0.8'}</priority>
+  </url>`
+  )
+  .join('\n')}
+</urlset>`
+
+  fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), sitemap)
+  console.log('Sitemap generated successfully!')
+}
+
+generateSitemap()
+```
+
+8. Add the sitemap generator to package.json:
+```json
+{
+  "scripts": {
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "build": "tsc && vite build && pnpm generate-sitemap"
+  }
+}
+```
+
+9. Configure environment variables for different environments
+10. Set up monitoring and error tracking with a service like Sentry
+
+# Test Strategy:
+1. Test the build process locally to ensure it completes successfully
+2. Verify Netlify configuration works correctly with redirects and headers
+3. Test GitHub Actions workflow with a test PR
+4. Ensure image and video optimization scripts run correctly in the CI pipeline
+5. Verify Google Analytics tracking works for page views and events
+6. Test sitemap generation to ensure it includes all routes
+7. Validate robots.txt and sitemap.xml with online tools
+8. Test environment variables in different deployment environments
+9. Verify error tracking captures and reports issues correctly
+10. Test performance metrics in production environment using Lighthouse

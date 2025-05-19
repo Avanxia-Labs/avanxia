@@ -1,0 +1,49 @@
+# Task ID: 15
+# Title: Modificaciones en Hero.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo Hero.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 2.1: Modificar Texto del Encabezado H1 [pending]
+### Dependencies: None
+### Description: Modificar el texto del encabezado <h1>.
+### Details:
+OLD TEXT:
+<h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight">
+  Transformamos tu Negocio con Estrategias Digitales de <span className="text-blue-400">Alto Impacto</span>
+</h1>
+
+NEW TEXT (Sugerencia):
+<h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight">
+  Marketing y Desarrollo Web de Élite Mundial, con la <span className="text-blue-400">Ventaja Competitiva Mexicana</span> para Norteamérica
+</h1>
+
+## 2. Tarea 2.2: Modificar Texto del Párrafo debajo del H1 [pending]
+### Dependencies: None
+### Description: Modificar el texto del párrafo <p> debajo del H1.
+### Details:
+OLD TEXT:
+<p className="text-lg md:text-2xl mb-8 max-w-3xl">
+  Agencia Integral de Marketing, Diseño y Desarrollo Web y Aplicaciones. Talento latino con estándares internacionales y <span className="relative inline-block align-middle px-1.5 border-b-2 border-blue-400" style={{padding:'0.1em 0.4em'}}>
+    <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient">
+      precios competitivos para norteamérica
+    </span>
+  </span>.
+</p>
+
+NEW TEXT (Sugerencia):
+<p className="text-lg md:text-2xl mb-8 max-w-3xl">
+  Somos tu socio estratégico en México para soluciones digitales premium: Marketing, Diseño y Desarrollo Web/Apps. Entregamos <strong>calidad y tecnología de clase mundial</strong> con la eficiencia y el ingenio del talento mexicano, ofreciendo <span className="relative inline-block align-middle px-1.5 border-b-2 border-blue-400" style={{padding:'0.1em 0.4em'}}>
+    <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient">
+      precios altamente competitivos para el mercado norteamericano
+    </span>
+  </span>.
+</p>
+

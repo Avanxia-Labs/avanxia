@@ -1,0 +1,306 @@
+# Task ID: 11
+# Title: Personalized User Experience
+# Status: pending
+# Dependencies: 2, 3, 4
+# Priority: low
+# Description: Implement personalized greeting system and user preference storage for theme and other settings.
+# Details:
+1. Create a user preferences context:
+```tsx
+// src/context/UserPreferencesContext.tsx
+import { createContext, useContext, useEffect, useState } from 'react'
+
+type UserPreferences = {
+  name?: string
+  lastVisit?: string
+  visitCount: number
+  referrer?: string
+}
+
+type UserPreferencesContextType = {
+  preferences: UserPreferences
+  updatePreferences: (newPrefs: Partial<UserPreferences>) => void
+  resetPreferences: () => void
+}
+
+const defaultPreferences: UserPreferences = {
+  visitCount: 0
+}
+
+const UserPreferencesContext = createContext<UserPreferencesContextType | undefined>(undefined)
+
+export function UserPreferencesProvider({ children }: { children: React.ReactNode }) {
+  const [preferences, setPreferences] = useState<UserPreferences>(defaultPreferences)
+  
+  // Load preferences from localStorage on mount
+  useEffect(() => {
+    const storedPrefs = localStorage.getItem('userPreferences')
+    if (storedPrefs) {
+      try {
+        const parsedPrefs = JSON.parse(storedPrefs)
+        setPreferences(parsedPrefs)
+      } catch (error) {
+        console.error('Failed to parse stored preferences:', error)
+      }
+    }
+    
+    // Update visit information
+    updatePreferences({
+      lastVisit: new Date().toISOString(),
+      visitCount: (preferences.visitCount || 0) + 1,
+      referrer: document.referrer || undefined
+    })
+  }, [])
+  
+  // Save preferences to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('userPreferences', JSON.stringify(preferences))
+  }, [preferences])
+  
+  const updatePreferences = (newPrefs: Partial<UserPreferences>) => {
+    setPreferences(prev => ({ ...prev, ...newPrefs }))
+  }
+  
+  const resetPreferences = () => {
+    setPreferences(defaultPreferences)
+    localStorage.removeItem('userPreferences')
+  }
+  
+  return (
+    <UserPreferencesContext.Provider value={{ preferences, updatePreferences, resetPreferences }}>
+      {children}
+    </UserPreferencesContext.Provider>
+  )
+}
+
+export function useUserPreferences() {
+  const context = useContext(UserPreferencesContext)
+  if (context === undefined) {
+    throw new Error('useUserPreferences must be used within a UserPreferencesProvider')
+  }
+  return context
+}
+```
+
+2. Create a personalized greeting component:
+```tsx
+// src/components/PersonalizedGreeting.tsx
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useUserPreferences } from '@/context/UserPreferencesContext'
+import { Button } from '@/components/ui/Button'
+import { X } from 'lucide-react'
+
+export function PersonalizedGreeting() {
+  const { preferences, updatePreferences } = useUserPreferences()
+  const [isVisible, setIsVisible] = useState(true)
+  const [nameInput, setNameInput] = useState('')
+  const [isEditing, setIsEditing] = useState(!preferences.name)
+  
+  const isReturningUser = preferences.visitCount > 1
+  const lastVisitDate = preferences.lastVisit 
+    ? new Date(preferences.lastVisit) 
+    : null
+  
+  const getTimeBasedGreeting = () => {
+    const hour = new Date().getHours()
+    if (hour < 12) return 'Good morning'
+    if (hour < 18) return 'Good afternoon'
+    return 'Good evening'
+  }
+  
+  const getLastVisitMessage = () => {
+    if (!lastVisitDate) return ''
+    
+    const daysSinceLastVisit = Math.floor(
+      (new Date().getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24)
+    )
+    
+    if (daysSinceLastVisit === 0) return 'Welcome back today!'
+    if (daysSinceLastVisit === 1) return 'Welcome back! It\'s been a day since your last visit.'
+    if (daysSinceLastVisit < 7) return `Welcome back! It\'s been ${daysSinceLastVisit} days since your last visit.`
+    if (daysSinceLastVisit < 30) return 'Welcome back! It\'s been a while since your last visit.'
+    return 'Welcome back! It\'s been a long time since your last visit.'
+  }
+  
+  const handleSubmitName = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (nameInput.trim()) {
+      updatePreferences({ name: nameInput.trim() })
+      setIsEditing(false)
+    }
+  }
+  
+  const handleClose = () => {
+    setIsVisible(false)
+  }
+  
+  if (!isVisible) return null
+  
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="bg-primary/10 p-4 rounded-lg mb-8 relative"
+      >
+        <button
+          onClick={handleClose}
+          className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
+          aria-label="Close greeting"
+        >
+          <X size={16} />
+        </button>
+        
+        {isEditing ? (
+          <form onSubmit={handleSubmitName} className="flex gap-2">
+            <input
+              type="text"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              placeholder="Enter your name"
+              className="flex-1 px-3 py-1 rounded border"
+              autoFocus
+            />
+            <Button type="submit" size="sm">Save</Button>
+          </form>
+        ) : (
+          <div>
+            <p className="font-medium">
+              {getTimeBasedGreeting()}{preferences.name ? `, ${preferences.name}` : ''}!
+              {isReturningUser && (
+                <span className="ml-1 text-sm font-normal">{getLastVisitMessage()}</span>
+              )}
+            </p>
+            {!preferences.name && (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="text-sm text-primary hover:underline mt-1"
+              >
+                Personalize your experience
+              </button>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </AnimatePresence>
+  )
+}
+```
+
+3. Add the UserPreferencesProvider to the app:
+```tsx
+// src/main.tsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { ThemeProvider } from './components/ThemeProvider'
+import { UserPreferencesProvider } from './context/UserPreferencesContext'
+import { Router } from './Router'
+import './styles/globals.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <UserPreferencesProvider>
+        <Router />
+      </UserPreferencesProvider>
+    </ThemeProvider>
+  </React.StrictMode>
+)
+```
+
+4. Create a user preferences page:
+```tsx
+// src/components/UserPreferencesDialog.tsx
+import { useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/Dialog'
+import { Button } from '@/components/ui/Button'
+import { useUserPreferences } from '@/context/UserPreferencesContext'
+import { useTheme } from 'next-themes'
+
+export function UserPreferencesDialog() {
+  const { preferences, updatePreferences, resetPreferences } = useUserPreferences()
+  const { theme, setTheme } = useTheme()
+  const [name, setName] = useState(preferences.name || '')
+  const [open, setOpen] = useState(false)
+  
+  const handleSave = () => {
+    updatePreferences({ name: name.trim() || undefined })
+    setOpen(false)
+  }
+  
+  const handleReset = () => {
+    resetPreferences()
+    setName('')
+    setOpen(false)
+  }
+  
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm">Preferences</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Your Preferences</DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-4 py-4">
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium">
+              Your Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Enter your name"
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="theme" className="text-sm font-medium">
+              Theme
+            </label>
+            <select
+              id="theme"
+              value={theme}
+              onChange={(e) => setTheme(e.target.value)}
+              className="w-full p-2 border rounded"
+            >
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </div>
+          
+          <div className="pt-4 flex justify-between">
+            <Button variant="outline" onClick={handleReset}>Reset</Button>
+            <Button onClick={handleSave}>Save</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+5. Add analytics tracking for user interactions
+6. Implement content recommendations based on browsing history
+7. Create a cookie consent banner
+8. Add a feature to remember form inputs
+
+# Test Strategy:
+1. Test user preferences storage in localStorage
+2. Verify personalized greeting displays correctly for new and returning users
+3. Test time-based greeting logic
+4. Ensure preferences dialog saves and loads correctly
+5. Test theme preference persistence
+6. Verify visit count increments correctly
+7. Test reset functionality for preferences
+8. Ensure form input memory works correctly
+9. Test cookie consent banner functionality
+10. Verify analytics tracking respects user privacy settings

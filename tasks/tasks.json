@@ -1,0 +1,808 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Project Setup and Configuration",
+      "description": "Initialize the project with React 18, TypeScript, Vite, and configure essential tools and dependencies.",
+      "details": "1. Create a new Vite project with React and TypeScript template\n```bash\npnpm create vite avanxia-portfolio-web --template react-ts\ncd avanxia-portfolio-web\npnpm install\n```\n2. Install core dependencies:\n```bash\npnpm add react-router-dom@7 @radix-ui/react-* tailwind-merge class-variance-authority clsx next-themes framer-motion react-hook-form zod @hookform/resolvers sonner lucide-react react-icons\n```\n3. Install dev dependencies:\n```bash\npnpm add -D tailwindcss postcss autoprefixer eslint typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser\n```\n4. Initialize Tailwind CSS:\n```bash\npnpm dlx tailwindcss init -p\n```\n5. Configure tsconfig.json, eslint, and other configuration files\n6. Set up project folder structure:\n   - src/\n     - components/\n     - layouts/\n     - pages/\n     - hooks/\n     - utils/\n     - types/\n     - styles/\n     - assets/\n     - data/\n     - context/",
+      "testStrategy": "1. Verify all dependencies install correctly\n2. Ensure the development server starts without errors\n3. Confirm TypeScript compilation works\n4. Test that Tailwind CSS is properly configured\n5. Validate ESLint rules are working",
+      "priority": "high",
+      "dependencies": [],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 2,
+      "title": "Theme System Implementation",
+      "description": "Implement a dark/light theme system using next-themes with Tailwind CSS.",
+      "details": "1. Configure Tailwind CSS for theme support in tailwind.config.js:\n```javascript\nmodule.exports = {\n  content: ['./src/**/*.{js,jsx,ts,tsx}'],\n  darkMode: 'class',\n  theme: {\n    extend: {\n      colors: {\n        // Define brand colors here\n        primary: { /* color values */ },\n        secondary: { /* color values */ },\n        // Add dark mode specific colors\n        dark: { /* dark theme colors */ }\n      }\n    }\n  },\n  plugins: []\n}\n```\n\n2. Create a ThemeProvider component using next-themes:\n```tsx\nimport { ThemeProvider as NextThemesProvider } from 'next-themes'\nimport { type ReactNode } from 'react'\n\ninterface ThemeProviderProps {\n  children: ReactNode\n}\n\nexport function ThemeProvider({ children }: ThemeProviderProps) {\n  return (\n    <NextThemesProvider attribute=\"class\" defaultTheme=\"system\" enableSystem>\n      {children}\n    </NextThemesProvider>\n  )\n}\n```\n\n3. Create a ThemeToggle component:\n```tsx\nimport { useTheme } from 'next-themes'\nimport { Sun, Moon } from 'lucide-react'\n\nexport function ThemeToggle() {\n  const { theme, setTheme } = useTheme()\n  \n  return (\n    <button\n      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}\n      className=\"p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800\"\n      aria-label=\"Toggle theme\"\n    >\n      <Sun className=\"h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0\" />\n      <Moon className=\"absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100\" />\n    </button>\n  )\n}\n```\n\n4. Wrap the application with ThemeProvider in main.tsx\n5. Add CSS variables for theme colors in global.css",
+      "testStrategy": "1. Test theme toggle functionality in both light and dark modes\n2. Verify system preference detection works correctly\n3. Ensure theme persists across page refreshes\n4. Test theme transition animations\n5. Validate all UI components render correctly in both themes",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Routing and Navigation Structure",
+      "description": "Set up React Router DOM v7 for site navigation with proper route configuration and layout structure.",
+      "details": "1. Create a router configuration using React Router DOM v7:\n```tsx\nimport { createBrowserRouter, RouterProvider } from 'react-router-dom'\nimport RootLayout from './layouts/RootLayout'\nimport HomePage from './pages/HomePage'\nimport PortfolioPage from './pages/PortfolioPage'\nimport ProjectDetailPage from './pages/ProjectDetailPage'\nimport ServicesPage from './pages/ServicesPage'\nimport AboutPage from './pages/AboutPage'\nimport ContactPage from './pages/ContactPage'\nimport NotFoundPage from './pages/NotFoundPage'\n\nconst router = createBrowserRouter([\n  {\n    path: '/',\n    element: <RootLayout />,\n    errorElement: <NotFoundPage />,\n    children: [\n      { index: true, element: <HomePage /> },\n      { path: 'portfolio', element: <PortfolioPage /> },\n      { path: 'portfolio/:projectId', element: <ProjectDetailPage /> },\n      { path: 'services', element: <ServicesPage /> },\n      { path: 'about', element: <AboutPage /> },\n      { path: 'contact', element: <ContactPage /> }\n    ]\n  }\n])\n\nexport function Router() {\n  return <RouterProvider router={router} />\n}\n```\n\n2. Create a RootLayout component with header, main content area, and footer:\n```tsx\nimport { Outlet } from 'react-router-dom'\nimport Header from '../components/Header'\nimport Footer from '../components/Footer'\n\nexport default function RootLayout() {\n  return (\n    <div className=\"flex min-h-screen flex-col\">\n      <Header />\n      <main className=\"flex-1\">\n        <Outlet />\n      </main>\n      <Footer />\n    </div>\n  )\n}\n```\n\n3. Create basic page components for each route\n4. Implement active link highlighting in navigation\n5. Add breadcrumbs component for improved navigation\n6. Set up scroll restoration for page transitions",
+      "testStrategy": "1. Test navigation between all routes\n2. Verify active link highlighting works correctly\n3. Test breadcrumbs display the correct path\n4. Ensure 404 page displays for invalid routes\n5. Test scroll restoration on navigation\n6. Verify route transitions are smooth\n7. Test deep linking directly to nested routes",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 4,
+      "title": "Core UI Components Development",
+      "description": "Develop reusable UI components using Radix UI primitives and Tailwind CSS for consistent design across the site.",
+      "details": "1. Create a Button component with variants:\n```tsx\nimport { cva, type VariantProps } from 'class-variance-authority'\nimport { cn } from '@/utils/cn'\n\nconst buttonVariants = cva(\n  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',\n  {\n    variants: {\n      variant: {\n        default: 'bg-primary text-white hover:bg-primary/90',\n        outline: 'border border-input hover:bg-accent hover:text-accent-foreground',\n        ghost: 'hover:bg-accent hover:text-accent-foreground',\n      },\n      size: {\n        default: 'h-10 py-2 px-4',\n        sm: 'h-9 px-3',\n        lg: 'h-11 px-8',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n      size: 'default',\n    },\n  }\n)\n\ninterface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}\n\nexport function Button({ className, variant, size, ...props }: ButtonProps) {\n  return <button className={cn(buttonVariants({ variant, size, className }))} {...props} />\n}\n```\n\n2. Create a Card component for project displays:\n```tsx\nimport { cn } from '@/utils/cn'\n\ninterface CardProps extends React.HTMLAttributes<HTMLDivElement> {}\n\nexport function Card({ className, ...props }: CardProps) {\n  return <div className={cn('rounded-lg border bg-card shadow-sm', className)} {...props} />\n}\n\ninterface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}\n\nexport function CardHeader({ className, ...props }: CardHeaderProps) {\n  return <div className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />\n}\n\n// Add CardTitle, CardDescription, CardContent, CardFooter components\n```\n\n3. Create a Header component with navigation:\n```tsx\nimport { NavLink } from 'react-router-dom'\nimport { ThemeToggle } from './ThemeToggle'\nimport { Button } from './Button'\n\nexport function Header() {\n  return (\n    <header className=\"sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur\">\n      <div className=\"container flex h-16 items-center justify-between\">\n        <div className=\"flex items-center gap-6\">\n          <NavLink to=\"/\" className=\"flex items-center space-x-2\">\n            <img src=\"/logo.svg\" alt=\"Avanxia\" className=\"h-8 w-auto\" />\n            <span className=\"font-bold\">Avanxia</span>\n          </NavLink>\n          <nav className=\"hidden md:flex gap-6\">\n            <NavLink to=\"/services\" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Services</NavLink>\n            <NavLink to=\"/portfolio\" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Portfolio</NavLink>\n            <NavLink to=\"/about\" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>About</NavLink>\n            <NavLink to=\"/contact\" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Contact</NavLink>\n          </nav>\n        </div>\n        <div className=\"flex items-center gap-4\">\n          <ThemeToggle />\n          <Button asChild className=\"hidden md:inline-flex\">\n            <NavLink to=\"/contact\">Get Started</NavLink>\n          </Button>\n          {/* Mobile menu button */}\n        </div>\n      </div>\n    </header>\n  )\n}\n```\n\n4. Create a Footer component\n5. Implement mobile navigation menu using Radix UI Dialog\n6. Create form components (input, textarea, select, checkbox)\n7. Implement toast notification system with Sonner",
+      "testStrategy": "1. Test all UI components in isolation\n2. Verify components render correctly in both light and dark themes\n3. Test responsive behavior on different screen sizes\n4. Ensure accessibility standards are met (keyboard navigation, ARIA attributes)\n5. Test form components with various input states\n6. Verify toast notifications display correctly\n7. Test mobile navigation menu functionality",
+      "priority": "high",
+      "dependencies": [
+        1,
+        2
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Homepage Hero and Core Sections",
+      "description": "Develop the homepage with hero section, featured projects, value proposition, and contact form.",
+      "details": "1. Create a Hero component with animated elements using Framer Motion:\n```tsx\nimport { motion } from 'framer-motion'\nimport { Button } from '@/components/ui/Button'\nimport { NavLink } from 'react-router-dom'\n\nexport function Hero() {\n  return (\n    <section className=\"relative overflow-hidden py-20 md:py-32\">\n      <div className=\"container relative z-10\">\n        <motion.div\n          initial={{ opacity: 0, y: 20 }}\n          animate={{ opacity: 1, y: 0 }}\n          transition={{ duration: 0.5 }}\n          className=\"mx-auto max-w-3xl text-center\"\n        >\n          <h1 className=\"text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl\">\n            Digital Solutions for <span className=\"text-primary\">Modern Businesses</span>\n          </h1>\n          <p className=\"mt-6 text-lg text-muted-foreground\">\n            We create exceptional digital experiences that transform businesses and delight users.\n          </p>\n          <div className=\"mt-10 flex flex-col sm:flex-row gap-4 justify-center\">\n            <Button asChild size=\"lg\">\n              <NavLink to=\"/portfolio\">View Our Work</NavLink>\n            </Button>\n            <Button asChild variant=\"outline\" size=\"lg\">\n              <NavLink to=\"/contact\">Get in Touch</NavLink>\n            </Button>\n          </div>\n        </motion.div>\n      </div>\n      {/* Background elements/particles */}\n    </section>\n  )\n}\n```\n\n2. Create a FeaturedProjects component for the homepage:\n```tsx\nimport { motion } from 'framer-motion'\nimport { NavLink } from 'react-router-dom'\nimport { Button } from '@/components/ui/Button'\nimport { ProjectCard } from '@/components/ProjectCard'\nimport { featuredProjects } from '@/data/projects'\n\nexport function FeaturedProjects() {\n  return (\n    <section className=\"py-20 bg-muted/50\">\n      <div className=\"container\">\n        <div className=\"flex flex-col md:flex-row justify-between items-start md:items-center mb-12\">\n          <div>\n            <h2 className=\"text-3xl font-bold tracking-tight\">Featured Projects</h2>\n            <p className=\"mt-4 text-muted-foreground\">Explore our most impactful digital solutions</p>\n          </div>\n          <Button asChild variant=\"outline\" className=\"mt-4 md:mt-0\">\n            <NavLink to=\"/portfolio\">View All Projects</NavLink>\n          </Button>\n        </div>\n        \n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n          {featuredProjects.map((project, index) => (\n            <motion.div\n              key={project.id}\n              initial={{ opacity: 0, y: 20 }}\n              animate={{ opacity: 1, y: 0 }}\n              transition={{ duration: 0.4, delay: index * 0.1 }}\n            >\n              <ProjectCard project={project} />\n            </motion.div>\n          ))}\n        </div>\n      </div>\n    </section>\n  )\n}\n```\n\n3. Create a ValueProposition component\n4. Create a ServicesOverview component\n5. Implement a ContactForm component with React Hook Form and Zod validation\n6. Add a Testimonials section with a carousel using Embla Carousel\n7. Implement a StatsSection to highlight company achievements\n8. Assemble all sections in the HomePage component",
+      "testStrategy": "1. Test responsive layout on various screen sizes\n2. Verify animations work correctly and don't cause layout shifts\n3. Test navigation links to other sections of the site\n4. Ensure images load optimally with proper sizing\n5. Test contact form validation and submission\n6. Verify carousel navigation in testimonials section\n7. Test accessibility of all interactive elements\n8. Measure and optimize performance metrics (LCP, CLS, etc.)",
+      "priority": "high",
+      "dependencies": [
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Portfolio and Project Detail Pages",
+      "description": "Develop the portfolio listing page and individual project detail pages with case studies.",
+      "details": "1. Create data models for projects:\n```typescript\n// src/types/project.ts\nexport interface Project {\n  id: string\n  title: string\n  slug: string\n  client: string\n  category: string\n  tags: string[]\n  description: string\n  challenge: string\n  solution: string\n  results: string\n  testimonial?: {\n    quote: string\n    author: string\n    position: string\n    company: string\n  }\n  images: {\n    thumbnail: string\n    hero: string\n    gallery: string[]\n  }\n  technologies: string[]\n  url?: string\n  date: string\n}\n```\n\n2. Create sample project data in src/data/projects.ts\n\n3. Implement the PortfolioPage component with filtering:\n```tsx\nimport { useState } from 'react'\nimport { motion } from 'framer-motion'\nimport { ProjectCard } from '@/components/ProjectCard'\nimport { projects } from '@/data/projects'\n\nconst categories = ['All', 'Web Development', 'Mobile Apps', 'E-commerce', 'Branding']\n\nexport default function PortfolioPage() {\n  const [activeCategory, setActiveCategory] = useState('All')\n  \n  const filteredProjects = activeCategory === 'All' \n    ? projects \n    : projects.filter(project => project.category === activeCategory)\n  \n  return (\n    <div className=\"container py-12 md:py-20\">\n      <h1 className=\"text-4xl font-bold tracking-tight mb-8\">Our Portfolio</h1>\n      \n      <div className=\"flex overflow-x-auto pb-4 mb-8 gap-2\">\n        {categories.map(category => (\n          <button\n            key={category}\n            onClick={() => setActiveCategory(category)}\n            className={`px-4 py-2 rounded-full whitespace-nowrap ${activeCategory === category \n              ? 'bg-primary text-white' \n              : 'bg-muted hover:bg-muted/80'}`}\n          >\n            {category}\n          </button>\n        ))}\n      </div>\n      \n      <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">\n        {filteredProjects.map((project, index) => (\n          <motion.div\n            key={project.id}\n            initial={{ opacity: 0, y: 20 }}\n            animate={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.4, delay: index * 0.1 }}\n          >\n            <ProjectCard project={project} />\n          </motion.div>\n        ))}\n      </div>\n    </div>\n  )\n}\n```\n\n4. Create the ProjectDetailPage component:\n```tsx\nimport { useParams, NavLink } from 'react-router-dom'\nimport { motion } from 'framer-motion'\nimport { ArrowLeft, Globe, Calendar } from 'lucide-react'\nimport { Button } from '@/components/ui/Button'\nimport { projects } from '@/data/projects'\n\nexport default function ProjectDetailPage() {\n  const { projectId } = useParams()\n  const project = projects.find(p => p.slug === projectId)\n  \n  if (!project) {\n    return <div className=\"container py-20\">Project not found</div>\n  }\n  \n  return (\n    <div className=\"container py-12 md:py-20\">\n      <NavLink to=\"/portfolio\" className=\"inline-flex items-center text-muted-foreground hover:text-foreground mb-8\">\n        <ArrowLeft className=\"mr-2 h-4 w-4\" />\n        Back to Portfolio\n      </NavLink>\n      \n      <motion.div\n        initial={{ opacity: 0 }}\n        animate={{ opacity: 1 }}\n        transition={{ duration: 0.5 }}\n      >\n        <img \n          src={project.images.hero} \n          alt={project.title} \n          className=\"w-full h-[50vh] object-cover rounded-lg mb-8\" \n        />\n        \n        <div className=\"grid grid-cols-1 lg:grid-cols-3 gap-12\">\n          <div className=\"lg:col-span-2\">\n            <h1 className=\"text-4xl font-bold tracking-tight mb-4\">{project.title}</h1>\n            <p className=\"text-xl text-muted-foreground mb-8\">{project.description}</p>\n            \n            <div className=\"space-y-8\">\n              <section>\n                <h2 className=\"text-2xl font-semibold mb-4\">The Challenge</h2>\n                <p>{project.challenge}</p>\n              </section>\n              \n              <section>\n                <h2 className=\"text-2xl font-semibold mb-4\">Our Solution</h2>\n                <p>{project.solution}</p>\n              </section>\n              \n              <section>\n                <h2 className=\"text-2xl font-semibold mb-4\">Results</h2>\n                <p>{project.results}</p>\n              </section>\n            </div>\n          </div>\n          \n          <div className=\"lg:col-span-1\">\n            <div className=\"bg-muted rounded-lg p-6 sticky top-24\">\n              <h3 className=\"text-lg font-semibold mb-4\">Project Details</h3>\n              \n              <div className=\"space-y-4\">\n                <div>\n                  <p className=\"text-sm text-muted-foreground\">Client</p>\n                  <p className=\"font-medium\">{project.client}</p>\n                </div>\n                \n                <div>\n                  <p className=\"text-sm text-muted-foreground\">Category</p>\n                  <p className=\"font-medium\">{project.category}</p>\n                </div>\n                \n                <div>\n                  <p className=\"text-sm text-muted-foreground\">Date</p>\n                  <p className=\"font-medium flex items-center\">\n                    <Calendar className=\"h-4 w-4 mr-2\" />\n                    {project.date}\n                  </p>\n                </div>\n                \n                {project.url && (\n                  <div>\n                    <p className=\"text-sm text-muted-foreground\">Website</p>\n                    <a \n                      href={project.url} \n                      target=\"_blank\" \n                      rel=\"noopener noreferrer\"\n                      className=\"font-medium flex items-center text-primary hover:underline\"\n                    >\n                      <Globe className=\"h-4 w-4 mr-2\" />\n                      Visit Site\n                    </a>\n                  </div>\n                )}\n                \n                <div>\n                  <p className=\"text-sm text-muted-foreground\">Technologies</p>\n                  <div className=\"flex flex-wrap gap-2 mt-2\">\n                    {project.technologies.map(tech => (\n                      <span key={tech} className=\"px-2 py-1 bg-background rounded text-xs\">\n                        {tech}\n                      </span>\n                    ))}\n                  </div>\n                </div>\n              </div>\n              \n              <Button className=\"w-full mt-6\">\n                <NavLink to=\"/contact\">Start a Similar Project</NavLink>\n              </Button>\n            </div>\n          </div>\n        </div>\n      </motion.div>\n    </div>\n  )\n}\n```\n\n5. Create a ProjectCard component for the portfolio listing\n6. Implement image galleries with Swiper or Embla Carousel\n7. Add related projects section to project detail pages\n8. Implement smooth transitions between portfolio and project details",
+      "testStrategy": "1. Test portfolio filtering functionality\n2. Verify project cards display correctly with proper image loading\n3. Test navigation between portfolio and project detail pages\n4. Ensure project detail page loads correct data based on URL parameter\n5. Test responsive layout on different screen sizes\n6. Verify image galleries work correctly with navigation\n7. Test related projects navigation\n8. Ensure back button works correctly from project detail to portfolio",
+      "priority": "medium",
+      "dependencies": [
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 7,
+      "title": "Services and Team Sections",
+      "description": "Develop the services page with detailed offerings and the team section highlighting key professionals.",
+      "details": "1. Create data models for services and team members:\n```typescript\n// src/types/service.ts\nexport interface Service {\n  id: string\n  title: string\n  slug: string\n  icon: string\n  shortDescription: string\n  longDescription: string\n  benefits: string[]\n  features: {\n    title: string\n    description: string\n  }[]\n  process: {\n    step: number\n    title: string\n    description: string\n  }[]\n}\n\n// src/types/team.ts\nexport interface TeamMember {\n  id: string\n  name: string\n  position: string\n  bio: string\n  image: string\n  socialLinks?: {\n    platform: string\n    url: string\n  }[]\n  skills: string[]\n}\n```\n\n2. Create sample data for services and team members\n\n3. Implement the ServicesPage component:\n```tsx\nimport { motion } from 'framer-motion'\nimport { NavLink } from 'react-router-dom'\nimport { services } from '@/data/services'\nimport { Button } from '@/components/ui/Button'\n\nexport default function ServicesPage() {\n  return (\n    <div className=\"container py-12 md:py-20\">\n      <h1 className=\"text-4xl font-bold tracking-tight mb-4\">Our Services</h1>\n      <p className=\"text-xl text-muted-foreground mb-12 max-w-3xl\">\n        We offer comprehensive digital solutions tailored to your business needs.\n      </p>\n      \n      <div className=\"space-y-24\">\n        {services.map((service, index) => (\n          <motion.section\n            key={service.id}\n            initial={{ opacity: 0, y: 20 }}\n            animate={{ opacity: 1, y: 0 }}\n            transition={{ duration: 0.5, delay: index * 0.1 }}\n            className={`grid grid-cols-1 lg:grid-cols-2 gap-12 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}\n          >\n            <div>\n              <div className=\"inline-flex items-center justify-center p-4 bg-primary/10 rounded-lg mb-6\">\n                <span className=\"text-primary text-2xl\">{service.icon}</span>\n              </div>\n              <h2 className=\"text-3xl font-bold mb-4\">{service.title}</h2>\n              <p className=\"text-muted-foreground mb-6\">{service.longDescription}</p>\n              \n              <h3 className=\"text-xl font-semibold mb-4\">Key Benefits</h3>\n              <ul className=\"space-y-2 mb-8\">\n                {service.benefits.map((benefit, i) => (\n                  <li key={i} className=\"flex items-start\">\n                    <span className=\"text-primary mr-2\">✓</span>\n                    {benefit}\n                  </li>\n                ))}\n              </ul>\n              \n              <Button asChild>\n                <NavLink to=\"/contact?service=${service.slug}\">Request This Service</NavLink>\n              </Button>\n            </div>\n            \n            <div className=\"bg-muted rounded-lg p-8\">\n              <h3 className=\"text-xl font-semibold mb-6\">Our Process</h3>\n              <div className=\"space-y-6\">\n                {service.process.map((step) => (\n                  <div key={step.step} className=\"flex\">\n                    <div className=\"flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white font-bold mr-4\">\n                      {step.step}\n                    </div>\n                    <div>\n                      <h4 className=\"font-medium\">{step.title}</h4>\n                      <p className=\"text-sm text-muted-foreground\">{step.description}</p>\n                    </div>\n                  </div>\n                ))}\n              </div>\n            </div>\n          </motion.section>\n        ))}\n      </div>\n    </div>\n  )\n}\n```\n\n4. Create the TeamSection component:\n```tsx\nimport { motion } from 'framer-motion'\nimport { teamMembers } from '@/data/team'\n\nexport function TeamSection() {\n  return (\n    <section className=\"py-20 bg-muted/30\">\n      <div className=\"container\">\n        <div className=\"text-center mb-12\">\n          <h2 className=\"text-3xl font-bold tracking-tight mb-4\">Meet Our Team</h2>\n          <p className=\"text-muted-foreground max-w-2xl mx-auto\">\n            Our talented professionals bring expertise and passion to every project.\n          </p>\n        </div>\n        \n        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">\n          {teamMembers.map((member, index) => (\n            <motion.div\n              key={member.id}\n              initial={{ opacity: 0, y: 20 }}\n              animate={{ opacity: 1, y: 0 }}\n              transition={{ duration: 0.4, delay: index * 0.1 }}\n              className=\"bg-background rounded-lg overflow-hidden shadow-sm\"\n            >\n              <img \n                src={member.image} \n                alt={member.name} \n                className=\"w-full h-64 object-cover object-center\" \n              />\n              <div className=\"p-6\">\n                <h3 className=\"text-xl font-bold\">{member.name}</h3>\n                <p className=\"text-primary mb-4\">{member.position}</p>\n                <p className=\"text-muted-foreground text-sm mb-4\">{member.bio}</p>\n                \n                <div className=\"flex flex-wrap gap-2\">\n                  {member.skills.map(skill => (\n                    <span key={skill} className=\"px-2 py-1 bg-muted rounded text-xs\">\n                      {skill}\n                    </span>\n                  ))}\n                </div>\n                \n                {member.socialLinks && (\n                  <div className=\"flex gap-4 mt-4\">\n                    {member.socialLinks.map(link => (\n                      <a \n                        key={link.platform} \n                        href={link.url} \n                        target=\"_blank\" \n                        rel=\"noopener noreferrer\"\n                        className=\"text-muted-foreground hover:text-foreground\"\n                      >\n                        {/* Social icon based on platform */}\n                      </a>\n                    ))}\n                  </div>\n                )}\n              </div>\n            </motion.div>\n          ))}\n        </div>\n      </div>\n    </section>\n  )\n}\n```\n\n5. Create individual service detail components\n6. Implement a service comparison table\n7. Add team member detail modals or pages\n8. Create a company timeline/history component",
+      "testStrategy": "1. Test services page layout and responsive design\n2. Verify all service details display correctly\n3. Test navigation between services\n4. Ensure team member cards display correctly with proper image loading\n5. Test social links in team member profiles\n6. Verify service comparison table is readable on all devices\n7. Test team member detail modals or pages\n8. Ensure all animations work correctly",
+      "priority": "medium",
+      "dependencies": [
+        3,
+        4
+      ],
+      "status": "in-progress",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Contact and Lead Generation Forms",
+      "description": "Implement contact forms with validation and lead generation features including special offers.",
+      "details": "1. Create form schemas using Zod:\n```typescript\n// src/schemas/contact.ts\nimport { z } from 'zod'\n\nexport const contactFormSchema = z.object({\n  name: z.string().min(2, { message: 'Name must be at least 2 characters' }),\n  email: z.string().email({ message: 'Please enter a valid email address' }),\n  phone: z.string().optional(),\n  company: z.string().optional(),\n  service: z.string().optional(),\n  message: z.string().min(10, { message: 'Message must be at least 10 characters' }),\n  budget: z.enum(['< $5,000', '$5,000 - $10,000', '$10,000 - $25,000', '$25,000 - $50,000', '$50,000+']).optional(),\n  timeline: z.enum(['ASAP', '1-3 months', '3-6 months', '6+ months']).optional(),\n  termsAccepted: z.literal(true, {\n    errorMap: () => ({ message: 'You must accept the terms and conditions' }),\n  }),\n})\n\nexport type ContactFormValues = z.infer<typeof contactFormSchema>\n```\n\n2. Create the ContactForm component with React Hook Form:\n```tsx\nimport { useForm } from 'react-hook-form'\nimport { zodResolver } from '@hookform/resolvers/zod'\nimport { toast } from 'sonner'\nimport { contactFormSchema, type ContactFormValues } from '@/schemas/contact'\nimport { Button } from '@/components/ui/Button'\n\nexport function ContactForm() {\n  const form = useForm<ContactFormValues>({\n    resolver: zodResolver(contactFormSchema),\n    defaultValues: {\n      name: '',\n      email: '',\n      phone: '',\n      company: '',\n      service: '',\n      message: '',\n      termsAccepted: false,\n    },\n  })\n  \n  const onSubmit = async (data: ContactFormValues) => {\n    try {\n      // In a real app, you would send this data to your backend\n      console.log('Form data:', data)\n      \n      // Simulate API call\n      await new Promise(resolve => setTimeout(resolve, 1000))\n      \n      toast.success('Message sent successfully! We\\'ll be in touch soon.')\n      form.reset()\n    } catch (error) {\n      toast.error('Failed to send message. Please try again.')\n      console.error(error)\n    }\n  }\n  \n  return (\n    <form onSubmit={form.handleSubmit(onSubmit)} className=\"space-y-6\">\n      <div className=\"grid grid-cols-1 md:grid-cols-2 gap-6\">\n        <div className=\"space-y-2\">\n          <label htmlFor=\"name\" className=\"text-sm font-medium\">\n            Name <span className=\"text-red-500\">*</span>\n          </label>\n          <input\n            id=\"name\"\n            {...form.register('name')}\n            className=\"w-full p-3 border rounded-md\"\n          />\n          {form.formState.errors.name && (\n            <p className=\"text-sm text-red-500\">{form.formState.errors.name.message}</p>\n          )}\n        </div>\n        \n        <div className=\"space-y-2\">\n          <label htmlFor=\"email\" className=\"text-sm font-medium\">\n            Email <span className=\"text-red-500\">*</span>\n          </label>\n          <input\n            id=\"email\"\n            type=\"email\"\n            {...form.register('email')}\n            className=\"w-full p-3 border rounded-md\"\n          />\n          {form.formState.errors.email && (\n            <p className=\"text-sm text-red-500\">{form.formState.errors.email.message}</p>\n          )}\n        </div>\n        \n        {/* Add other form fields: phone, company, service dropdown, budget, timeline */}\n        \n        <div className=\"space-y-2 md:col-span-2\">\n          <label htmlFor=\"message\" className=\"text-sm font-medium\">\n            Message <span className=\"text-red-500\">*</span>\n          </label>\n          <textarea\n            id=\"message\"\n            {...form.register('message')}\n            rows={5}\n            className=\"w-full p-3 border rounded-md\"\n          />\n          {form.formState.errors.message && (\n            <p className=\"text-sm text-red-500\">{form.formState.errors.message.message}</p>\n          )}\n        </div>\n        \n        <div className=\"md:col-span-2\">\n          <label className=\"flex items-center gap-2\">\n            <input\n              type=\"checkbox\"\n              {...form.register('termsAccepted')}\n              className=\"h-4 w-4\"\n            />\n            <span className=\"text-sm\">\n              I accept the <a href=\"/terms\" className=\"text-primary hover:underline\">Terms and Conditions</a>\n            </span>\n          </label>\n          {form.formState.errors.termsAccepted && (\n            <p className=\"text-sm text-red-500 mt-1\">{form.formState.errors.termsAccepted.message}</p>\n          )}\n        </div>\n      </div>\n      \n      <Button type=\"submit\" className=\"w-full\" disabled={form.formState.isSubmitting}>\n        {form.formState.isSubmitting ? 'Sending...' : 'Send Message'}\n      </Button>\n    </form>\n  )\n}\n```\n\n3. Create the ContactPage component:\n```tsx\nimport { ContactForm } from '@/components/ContactForm'\nimport { motion } from 'framer-motion'\n\nexport default function ContactPage() {\n  return (\n    <div className=\"container py-12 md:py-20\">\n      <div className=\"grid grid-cols-1 lg:grid-cols-2 gap-12\">\n        <motion.div\n          initial={{ opacity: 0, x: -20 }}\n          animate={{ opacity: 1, x: 0 }}\n          transition={{ duration: 0.5 }}\n        >\n          <h1 className=\"text-4xl font-bold tracking-tight mb-4\">Get in Touch</h1>\n          <p className=\"text-xl text-muted-foreground mb-8\">\n            Ready to start your next project? Contact us today for a free consultation.\n          </p>\n          \n          <div className=\"space-y-6 mb-8\">\n            <div>\n              <h3 className=\"text-lg font-semibold mb-2\">Email</h3>\n              <p className=\"text-muted-foreground\">info@avanxia.com</p>\n            </div>\n            \n            <div>\n              <h3 className=\"text-lg font-semibold mb-2\">Phone</h3>\n              <p className=\"text-muted-foreground\">+1 (555) 123-4567</p>\n            </div>\n            \n            <div>\n              <h3 className=\"text-lg font-semibold mb-2\">Address</h3>\n              <p className=\"text-muted-foreground\">\n                123 Digital Avenue<br />\n                Tech District<br />\n                San Francisco, CA 94107\n              </p>\n            </div>\n          </div>\n          \n          <div className=\"bg-primary/10 p-6 rounded-lg\">\n            <h3 className=\"text-lg font-semibold mb-2\">Special Offer</h3>\n            <p className=\"mb-4\">Get a free website audit and consultation when you contact us this month!</p>\n            <p className=\"text-sm text-muted-foreground\">Valid until December 31, 2023</p>\n          </div>\n        </motion.div>\n        \n        <motion.div\n          initial={{ opacity: 0, x: 20 }}\n          animate={{ opacity: 1, x: 0 }}\n          transition={{ duration: 0.5, delay: 0.2 }}\n          className=\"bg-muted p-8 rounded-lg\"\n        >\n          <ContactForm />\n        </motion.div>\n      </div>\n    </div>\n  )\n}\n```\n\n4. Create a LeadMagnet component for special offers:\n```tsx\nimport { useState } from 'react'\nimport { toast } from 'sonner'\nimport { Button } from '@/components/ui/Button'\n\nexport function LeadMagnet() {\n  const [email, setEmail] = useState('')\n  const [isSubmitting, setIsSubmitting] = useState(false)\n  \n  const handleSubmit = async (e: React.FormEvent) => {\n    e.preventDefault()\n    if (!email) return\n    \n    setIsSubmitting(true)\n    try {\n      // Simulate API call\n      await new Promise(resolve => setTimeout(resolve, 1000))\n      \n      toast.success('Thanks for subscribing! Check your email for your free guide.')\n      setEmail('')\n    } catch (error) {\n      toast.error('Failed to subscribe. Please try again.')\n    } finally {\n      setIsSubmitting(false)\n    }\n  }\n  \n  return (\n    <div className=\"bg-primary text-white p-8 rounded-lg\">\n      <h3 className=\"text-xl font-bold mb-2\">Get Our Free Guide</h3>\n      <p className=\"mb-4\">\"10 Essential Strategies for Digital Success in 2024\"</p>\n      \n      <form onSubmit={handleSubmit} className=\"flex flex-col sm:flex-row gap-3\">\n        <input\n          type=\"email\"\n          value={email}\n          onChange={(e) => setEmail(e.target.value)}\n          placeholder=\"Your email address\"\n          required\n          className=\"flex-1 px-4 py-2 rounded text-foreground\"\n        />\n        <Button \n          type=\"submit\" \n          disabled={isSubmitting}\n          className=\"bg-white text-primary hover:bg-white/90\"\n        >\n          {isSubmitting ? 'Sending...' : 'Get It Free'}\n        </Button>\n      </form>\n    </div>\n  )\n}\n```\n\n5. Implement form submission handling (in a real app, this would connect to a backend)\n6. Create a newsletter subscription component\n7. Add a floating contact button that appears on scroll\n8. Implement a contact success/thank you page",
+      "testStrategy": "1. Test form validation for all required fields\n2. Verify error messages display correctly\n3. Test form submission flow (success and error states)\n4. Ensure toast notifications appear correctly\n5. Test form reset after successful submission\n6. Verify special offer component displays correctly\n7. Test newsletter subscription form\n8. Ensure contact information is displayed correctly\n9. Test responsive layout on different screen sizes\n10. Verify floating contact button appears/disappears correctly on scroll",
+      "priority": "high",
+      "dependencies": [
+        3,
+        4
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 9,
+      "title": "Animation and Interactive Elements",
+      "description": "Implement animations, transitions, and interactive elements using Framer Motion and other libraries.",
+      "details": "1. Create a useScrollAnimation hook for scroll-triggered animations:\n```typescript\n// src/hooks/useScrollAnimation.ts\nimport { useInView } from 'framer-motion'\nimport { useRef } from 'react'\n\nexport function useScrollAnimation() {\n  const ref = useRef<HTMLDivElement>(null)\n  const isInView = useInView(ref, { once: true, amount: 0.2 })\n  \n  return { ref, isInView }\n}\n```\n\n2. Create a FadeIn component for consistent fade animations:\n```tsx\n// src/components/animations/FadeIn.tsx\nimport { motion } from 'framer-motion'\nimport { useScrollAnimation } from '@/hooks/useScrollAnimation'\n\ninterface FadeInProps {\n  children: React.ReactNode\n  direction?: 'up' | 'down' | 'left' | 'right'\n  delay?: number\n  duration?: number\n  className?: string\n}\n\nexport function FadeIn({ \n  children, \n  direction = 'up', \n  delay = 0, \n  duration = 0.5,\n  className = ''\n}: FadeInProps) {\n  const { ref, isInView } = useScrollAnimation()\n  \n  const getDirectionValues = () => {\n    switch (direction) {\n      case 'up': return { y: 20, x: 0 }\n      case 'down': return { y: -20, x: 0 }\n      case 'left': return { y: 0, x: 20 }\n      case 'right': return { y: 0, x: -20 }\n      default: return { y: 0, x: 0 }\n    }\n  }\n  \n  const { x, y } = getDirectionValues()\n  \n  return (\n    <motion.div\n      ref={ref}\n      initial={{ opacity: 0, y, x }}\n      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}\n      transition={{ duration, delay }}\n      className={className}\n    >\n      {children}\n    </motion.div>\n  )\n}\n```\n\n3. Create a ParallaxSection component:\n```tsx\n// src/components/animations/ParallaxSection.tsx\nimport { useRef } from 'react'\nimport { motion, useScroll, useTransform } from 'framer-motion'\n\ninterface ParallaxSectionProps {\n  children: React.ReactNode\n  className?: string\n  speed?: number\n}\n\nexport function ParallaxSection({ \n  children, \n  className = '', \n  speed = 0.2 \n}: ParallaxSectionProps) {\n  const ref = useRef<HTMLDivElement>(null)\n  const { scrollYProgress } = useScroll({\n    target: ref,\n    offset: ['start end', 'end start']\n  })\n  \n  const y = useTransform(scrollYProgress, [0, 1], [0, speed * 100])\n  \n  return (\n    <motion.div ref={ref} className={className}>\n      <motion.div style={{ y }}>{children}</motion.div>\n    </motion.div>\n  )\n}\n```\n\n4. Create a TiltCard component using React Parallax Tilt:\n```tsx\n// src/components/animations/TiltCard.tsx\nimport Tilt from 'react-parallax-tilt'\n\ninterface TiltCardProps {\n  children: React.ReactNode\n  className?: string\n  tiltMaxAngleX?: number\n  tiltMaxAngleY?: number\n  perspective?: number\n  scale?: number\n  transitionSpeed?: number\n  gyroscope?: boolean\n}\n\nexport function TiltCard({\n  children,\n  className = '',\n  tiltMaxAngleX = 10,\n  tiltMaxAngleY = 10,\n  perspective = 1000,\n  scale = 1.05,\n  transitionSpeed = 500,\n  gyroscope = false\n}: TiltCardProps) {\n  return (\n    <Tilt\n      className={className}\n      tiltMaxAngleX={tiltMaxAngleX}\n      tiltMaxAngleY={tiltMaxAngleY}\n      perspective={perspective}\n      scale={scale}\n      transitionSpeed={transitionSpeed}\n      gyroscope={gyroscope}\n    >\n      {children}\n    </Tilt>\n  )\n}\n```\n\n5. Create a CountUp animation component:\n```tsx\n// src/components/animations/CountUp.tsx\nimport { useEffect, useState } from 'react'\nimport { useInView } from 'framer-motion'\nimport { useRef } from 'react'\n\ninterface CountUpProps {\n  end: number\n  duration?: number\n  prefix?: string\n  suffix?: string\n  className?: string\n}\n\nexport function CountUp({ \n  end, \n  duration = 2000, \n  prefix = '', \n  suffix = '',\n  className = ''\n}: CountUpProps) {\n  const [count, setCount] = useState(0)\n  const ref = useRef<HTMLSpanElement>(null)\n  const isInView = useInView(ref, { once: true })\n  \n  useEffect(() => {\n    if (!isInView) return\n    \n    let startTime: number\n    let animationFrame: number\n    \n    const animate = (timestamp: number) => {\n      if (!startTime) startTime = timestamp\n      const progress = Math.min((timestamp - startTime) / duration, 1)\n      setCount(Math.floor(progress * end))\n      \n      if (progress < 1) {\n        animationFrame = requestAnimationFrame(animate)\n      }\n    }\n    \n    animationFrame = requestAnimationFrame(animate)\n    \n    return () => cancelAnimationFrame(animationFrame)\n  }, [end, duration, isInView])\n  \n  return (\n    <span ref={ref} className={className}>\n      {prefix}{count}{suffix}\n    </span>\n  )\n}\n```\n\n6. Create a background particles component using tsParticles:\n```tsx\n// src/components/animations/ParticlesBackground.tsx\nimport { useCallback } from 'react'\nimport Particles from 'react-tsparticles'\nimport { loadFull } from 'tsparticles'\nimport type { Engine } from 'tsparticles-engine'\n\nexport function ParticlesBackground() {\n  const particlesInit = useCallback(async (engine: Engine) => {\n    await loadFull(engine)\n  }, [])\n  \n  return (\n    <Particles\n      id=\"tsparticles\"\n      init={particlesInit}\n      className=\"absolute inset-0 -z-10\"\n      options={{\n        fullScreen: false,\n        background: {\n          color: {\n            value: 'transparent',\n          },\n        },\n        fpsLimit: 120,\n        particles: {\n          color: {\n            value: '#888888',\n          },\n          links: {\n            color: '#888888',\n            distance: 150,\n            enable: true,\n            opacity: 0.2,\n            width: 1,\n          },\n          move: {\n            enable: true,\n            outModes: {\n              default: 'bounce',\n            },\n            random: false,\n            speed: 1,\n            straight: false,\n          },\n          number: {\n            density: {\n              enable: true,\n              area: 800,\n            },\n            value: 80,\n          },\n          opacity: {\n            value: 0.2,\n          },\n          shape: {\n            type: 'circle',\n          },\n          size: {\n            value: { min: 1, max: 3 },\n          },\n        },\n        detectRetina: true,\n      }}\n    />\n  )\n}\n```\n\n7. Create page transition animations\n8. Implement scroll-triggered animations for sections\n9. Add hover effects for interactive elements\n10. Create loading state animations",
+      "testStrategy": "1. Test all animation components in isolation\n2. Verify animations trigger correctly on scroll\n3. Test performance impact of animations on different devices\n4. Ensure animations degrade gracefully on less powerful devices\n5. Test page transition animations\n6. Verify hover effects work correctly\n7. Test loading state animations\n8. Ensure animations don't cause layout shifts (check CLS)\n9. Test animations with reduced motion preferences enabled\n10. Verify particles background renders correctly",
+      "priority": "medium",
+      "dependencies": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 10,
+      "title": "Media Optimization and Performance",
+      "description": "Implement image and video optimization, lazy loading, and performance improvements.",
+      "details": "1. Create an optimized image component:\n```tsx\n// src/components/ui/OptimizedImage.tsx\nimport { useState, useEffect } from 'react'\nimport { cn } from '@/utils/cn'\n\ninterface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {\n  src: string\n  alt: string\n  className?: string\n  width?: number\n  height?: number\n  sizes?: string\n  priority?: boolean\n}\n\nexport function OptimizedImage({\n  src,\n  alt,\n  className,\n  width,\n  height,\n  sizes = '100vw',\n  priority = false,\n  ...props\n}: OptimizedImageProps) {\n  const [isLoaded, setIsLoaded] = useState(false)\n  const [currentSrc, setCurrentSrc] = useState(priority ? src : '')\n  \n  useEffect(() => {\n    if (!priority) {\n      const observer = new IntersectionObserver((entries) => {\n        entries.forEach((entry) => {\n          if (entry.isIntersecting) {\n            setCurrentSrc(src)\n            observer.disconnect()\n          }\n        })\n      })\n      \n      const imgElement = document.querySelector(`[data-img-src=\"${src}\"]`)\n      if (imgElement) observer.observe(imgElement)\n      \n      return () => observer.disconnect()\n    }\n  }, [src, priority])\n  \n  return (\n    <div \n      className={cn('relative overflow-hidden', className)}\n      style={{ aspectRatio: width && height ? width / height : undefined }}\n      data-img-src={src}\n    >\n      {currentSrc && (\n        <img\n          src={currentSrc}\n          alt={alt}\n          width={width}\n          height={height}\n          onLoad={() => setIsLoaded(true)}\n          className={cn(\n            'w-full h-full object-cover transition-opacity duration-500',\n            isLoaded ? 'opacity-100' : 'opacity-0'\n          )}\n          {...props}\n        />\n      )}\n      {!isLoaded && (\n        <div className=\"absolute inset-0 bg-muted animate-pulse\" />\n      )}\n    </div>\n  )\n}\n```\n\n2. Create a script for image optimization using Sharp:\n```javascript\n// scripts/optimize-images.js\nconst sharp = require('sharp')\nconst fs = require('fs')\nconst path = require('path')\nconst glob = require('glob')\n\nconst inputDir = 'src/assets/images'\nconst outputDir = 'public/images'\n\n// Create output directory if it doesn't exist\nif (!fs.existsSync(outputDir)) {\n  fs.mkdirSync(outputDir, { recursive: true })\n}\n\n// Get all image files\nconst imageFiles = glob.sync(`${inputDir}/**/*.{jpg,jpeg,png}`, { nodir: true })\n\n// Process each image\nasync function processImages() {\n  for (const file of imageFiles) {\n    const filename = path.basename(file)\n    const relativePath = path.relative(inputDir, path.dirname(file))\n    const outputPath = path.join(outputDir, relativePath)\n    \n    // Create output subdirectory if needed\n    if (!fs.existsSync(outputPath)) {\n      fs.mkdirSync(outputPath, { recursive: true })\n    }\n    \n    // Original size WebP\n    await sharp(file)\n      .webp({ quality: 80 })\n      .toFile(path.join(outputPath, `${path.parse(filename).name}.webp`))\n    \n    // Thumbnail (400px width)\n    await sharp(file)\n      .resize(400, null, { withoutEnlargement: true })\n      .webp({ quality: 75 })\n      .toFile(path.join(outputPath, `${path.parse(filename).name}-400.webp`))\n    \n    // Medium size (800px width)\n    await sharp(file)\n      .resize(800, null, { withoutEnlargement: true })\n      .webp({ quality: 75 })\n      .toFile(path.join(outputPath, `${path.parse(filename).name}-800.webp`))\n    \n    // Large size (1200px width)\n    await sharp(file)\n      .resize(1200, null, { withoutEnlargement: true })\n      .webp({ quality: 75 })\n      .toFile(path.join(outputPath, `${path.parse(filename).name}-1200.webp`))\n    \n    console.log(`Processed: ${file}`)\n  }\n}\n\nprocessImages()\n  .then(() => console.log('Image optimization complete!'))\n  .catch(err => console.error('Error optimizing images:', err))\n```\n\n3. Add the script to package.json:\n```json\n{\n  \"scripts\": {\n    \"optimize-images\": \"node scripts/optimize-images.js\"\n  }\n}\n```\n\n4. Create a video optimization component:\n```tsx\n// src/components/ui/OptimizedVideo.tsx\nimport { useState, useEffect, useRef } from 'react'\nimport { cn } from '@/utils/cn'\n\ninterface OptimizedVideoProps {\n  src: string\n  poster?: string\n  className?: string\n  autoPlay?: boolean\n  loop?: boolean\n  muted?: boolean\n  controls?: boolean\n  preload?: 'auto' | 'metadata' | 'none'\n}\n\nexport function OptimizedVideo({\n  src,\n  poster,\n  className,\n  autoPlay = true,\n  loop = true,\n  muted = true,\n  controls = false,\n  preload = 'metadata'\n}: OptimizedVideoProps) {\n  const [isVisible, setIsVisible] = useState(false)\n  const videoRef = useRef<HTMLVideoElement>(null)\n  \n  useEffect(() => {\n    const observer = new IntersectionObserver(\n      (entries) => {\n        entries.forEach((entry) => {\n          if (entry.isIntersecting) {\n            setIsVisible(true)\n            observer.disconnect()\n          }\n        })\n      },\n      { threshold: 0.1 }\n    )\n    \n    if (videoRef.current) {\n      observer.observe(videoRef.current)\n    }\n    \n    return () => observer.disconnect()\n  }, [])\n  \n  return (\n    <video\n      ref={videoRef}\n      className={cn('w-full', className)}\n      poster={poster}\n      autoPlay={isVisible && autoPlay}\n      loop={loop}\n      muted={muted}\n      controls={controls}\n      preload={preload}\n      playsInline\n    >\n      {isVisible && <source src={src} type=\"video/mp4\" />}\n      Your browser does not support the video tag.\n    </video>\n  )\n}\n```\n\n5. Create a script for video optimization using FFmpeg (requires FFmpeg to be installed):\n```javascript\n// scripts/optimize-videos.js\nconst { execSync } = require('child_process')\nconst fs = require('fs')\nconst path = require('path')\nconst glob = require('glob')\n\nconst inputDir = 'src/assets/videos'\nconst outputDir = 'public/videos'\n\n// Create output directory if it doesn't exist\nif (!fs.existsSync(outputDir)) {\n  fs.mkdirSync(outputDir, { recursive: true })\n}\n\n// Get all video files\nconst videoFiles = glob.sync(`${inputDir}/**/*.{mp4,mov}`, { nodir: true })\n\n// Process each video\nfunction processVideos() {\n  for (const file of videoFiles) {\n    const filename = path.basename(file)\n    const relativePath = path.relative(inputDir, path.dirname(file))\n    const outputPath = path.join(outputDir, relativePath)\n    \n    // Create output subdirectory if needed\n    if (!fs.existsSync(outputPath)) {\n      fs.mkdirSync(outputPath, { recursive: true })\n    }\n    \n    const outputFile = path.join(outputPath, `${path.parse(filename).name}.mp4`)\n    \n    // Optimize video using FFmpeg\n    const command = `ffmpeg -i \"${file}\" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k -movflags +faststart -vf \"scale='min(1280,iw)':'-2'\" \"${outputFile}\"`\n    \n    try {\n      execSync(command)\n      console.log(`Processed: ${file}`)\n    } catch (error) {\n      console.error(`Error processing ${file}:`, error.message)\n    }\n    \n    // Generate poster image\n    const posterFile = path.join(outputPath, `${path.parse(filename).name}-poster.jpg`)\n    const posterCommand = `ffmpeg -i \"${outputFile}\" -ss 00:00:01 -frames:v 1 \"${posterFile}\"`\n    \n    try {\n      execSync(posterCommand)\n      console.log(`Generated poster for: ${file}`)\n    } catch (error) {\n      console.error(`Error generating poster for ${file}:`, error.message)\n    }\n  }\n}\n\nprocessVideos()\nconsole.log('Video optimization complete!')\n```\n\n6. Add the script to package.json:\n```json\n{\n  \"scripts\": {\n    \"optimize-videos\": \"node scripts/optimize-videos.js\"\n  }\n}\n```\n\n7. Implement lazy loading for all components\n8. Add resource hints (preconnect, prefetch) for critical resources\n9. Configure Vite for optimal production builds\n10. Implement code splitting for routes",
+      "testStrategy": "1. Test image optimization script with various image types and sizes\n2. Verify optimized images load correctly and maintain quality\n3. Test video optimization script with different video formats\n4. Ensure lazy loading works correctly for images and videos\n5. Measure performance improvements using Lighthouse\n6. Test loading times on slow connections\n7. Verify resource hints are working correctly\n8. Test code splitting by analyzing bundle sizes\n9. Ensure optimized media works across different browsers\n10. Verify fallbacks work when WebP is not supported",
+      "priority": "medium",
+      "dependencies": [
+        1
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 11,
+      "title": "Personalized User Experience",
+      "description": "Implement personalized greeting system and user preference storage for theme and other settings.",
+      "details": "1. Create a user preferences context:\n```tsx\n// src/context/UserPreferencesContext.tsx\nimport { createContext, useContext, useEffect, useState } from 'react'\n\ntype UserPreferences = {\n  name?: string\n  lastVisit?: string\n  visitCount: number\n  referrer?: string\n}\n\ntype UserPreferencesContextType = {\n  preferences: UserPreferences\n  updatePreferences: (newPrefs: Partial<UserPreferences>) => void\n  resetPreferences: () => void\n}\n\nconst defaultPreferences: UserPreferences = {\n  visitCount: 0\n}\n\nconst UserPreferencesContext = createContext<UserPreferencesContextType | undefined>(undefined)\n\nexport function UserPreferencesProvider({ children }: { children: React.ReactNode }) {\n  const [preferences, setPreferences] = useState<UserPreferences>(defaultPreferences)\n  \n  // Load preferences from localStorage on mount\n  useEffect(() => {\n    const storedPrefs = localStorage.getItem('userPreferences')\n    if (storedPrefs) {\n      try {\n        const parsedPrefs = JSON.parse(storedPrefs)\n        setPreferences(parsedPrefs)\n      } catch (error) {\n        console.error('Failed to parse stored preferences:', error)\n      }\n    }\n    \n    // Update visit information\n    updatePreferences({\n      lastVisit: new Date().toISOString(),\n      visitCount: (preferences.visitCount || 0) + 1,\n      referrer: document.referrer || undefined\n    })\n  }, [])\n  \n  // Save preferences to localStorage whenever they change\n  useEffect(() => {\n    localStorage.setItem('userPreferences', JSON.stringify(preferences))\n  }, [preferences])\n  \n  const updatePreferences = (newPrefs: Partial<UserPreferences>) => {\n    setPreferences(prev => ({ ...prev, ...newPrefs }))\n  }\n  \n  const resetPreferences = () => {\n    setPreferences(defaultPreferences)\n    localStorage.removeItem('userPreferences')\n  }\n  \n  return (\n    <UserPreferencesContext.Provider value={{ preferences, updatePreferences, resetPreferences }}>\n      {children}\n    </UserPreferencesContext.Provider>\n  )\n}\n\nexport function useUserPreferences() {\n  const context = useContext(UserPreferencesContext)\n  if (context === undefined) {\n    throw new Error('useUserPreferences must be used within a UserPreferencesProvider')\n  }\n  return context\n}\n```\n\n2. Create a personalized greeting component:\n```tsx\n// src/components/PersonalizedGreeting.tsx\nimport { useState } from 'react'\nimport { motion, AnimatePresence } from 'framer-motion'\nimport { useUserPreferences } from '@/context/UserPreferencesContext'\nimport { Button } from '@/components/ui/Button'\nimport { X } from 'lucide-react'\n\nexport function PersonalizedGreeting() {\n  const { preferences, updatePreferences } = useUserPreferences()\n  const [isVisible, setIsVisible] = useState(true)\n  const [nameInput, setNameInput] = useState('')\n  const [isEditing, setIsEditing] = useState(!preferences.name)\n  \n  const isReturningUser = preferences.visitCount > 1\n  const lastVisitDate = preferences.lastVisit \n    ? new Date(preferences.lastVisit) \n    : null\n  \n  const getTimeBasedGreeting = () => {\n    const hour = new Date().getHours()\n    if (hour < 12) return 'Good morning'\n    if (hour < 18) return 'Good afternoon'\n    return 'Good evening'\n  }\n  \n  const getLastVisitMessage = () => {\n    if (!lastVisitDate) return ''\n    \n    const daysSinceLastVisit = Math.floor(\n      (new Date().getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24)\n    )\n    \n    if (daysSinceLastVisit === 0) return 'Welcome back today!'\n    if (daysSinceLastVisit === 1) return 'Welcome back! It\\'s been a day since your last visit.'\n    if (daysSinceLastVisit < 7) return `Welcome back! It\\'s been ${daysSinceLastVisit} days since your last visit.`\n    if (daysSinceLastVisit < 30) return 'Welcome back! It\\'s been a while since your last visit.'\n    return 'Welcome back! It\\'s been a long time since your last visit.'\n  }\n  \n  const handleSubmitName = (e: React.FormEvent) => {\n    e.preventDefault()\n    if (nameInput.trim()) {\n      updatePreferences({ name: nameInput.trim() })\n      setIsEditing(false)\n    }\n  }\n  \n  const handleClose = () => {\n    setIsVisible(false)\n  }\n  \n  if (!isVisible) return null\n  \n  return (\n    <AnimatePresence>\n      <motion.div\n        initial={{ opacity: 0, y: -20 }}\n        animate={{ opacity: 1, y: 0 }}\n        exit={{ opacity: 0, y: -20 }}\n        className=\"bg-primary/10 p-4 rounded-lg mb-8 relative\"\n      >\n        <button\n          onClick={handleClose}\n          className=\"absolute top-2 right-2 text-muted-foreground hover:text-foreground\"\n          aria-label=\"Close greeting\"\n        >\n          <X size={16} />\n        </button>\n        \n        {isEditing ? (\n          <form onSubmit={handleSubmitName} className=\"flex gap-2\">\n            <input\n              type=\"text\"\n              value={nameInput}\n              onChange={(e) => setNameInput(e.target.value)}\n              placeholder=\"Enter your name\"\n              className=\"flex-1 px-3 py-1 rounded border\"\n              autoFocus\n            />\n            <Button type=\"submit\" size=\"sm\">Save</Button>\n          </form>\n        ) : (\n          <div>\n            <p className=\"font-medium\">\n              {getTimeBasedGreeting()}{preferences.name ? `, ${preferences.name}` : ''}!\n              {isReturningUser && (\n                <span className=\"ml-1 text-sm font-normal\">{getLastVisitMessage()}</span>\n              )}\n            </p>\n            {!preferences.name && (\n              <button\n                onClick={() => setIsEditing(true)}\n                className=\"text-sm text-primary hover:underline mt-1\"\n              >\n                Personalize your experience\n              </button>\n            )}\n          </div>\n        )}\n      </motion.div>\n    </AnimatePresence>\n  )\n}\n```\n\n3. Add the UserPreferencesProvider to the app:\n```tsx\n// src/main.tsx\nimport React from 'react'\nimport ReactDOM from 'react-dom/client'\nimport { ThemeProvider } from './components/ThemeProvider'\nimport { UserPreferencesProvider } from './context/UserPreferencesContext'\nimport { Router } from './Router'\nimport './styles/globals.css'\n\nReactDOM.createRoot(document.getElementById('root')!).render(\n  <React.StrictMode>\n    <ThemeProvider>\n      <UserPreferencesProvider>\n        <Router />\n      </UserPreferencesProvider>\n    </ThemeProvider>\n  </React.StrictMode>\n)\n```\n\n4. Create a user preferences page:\n```tsx\n// src/components/UserPreferencesDialog.tsx\nimport { useState } from 'react'\nimport { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/Dialog'\nimport { Button } from '@/components/ui/Button'\nimport { useUserPreferences } from '@/context/UserPreferencesContext'\nimport { useTheme } from 'next-themes'\n\nexport function UserPreferencesDialog() {\n  const { preferences, updatePreferences, resetPreferences } = useUserPreferences()\n  const { theme, setTheme } = useTheme()\n  const [name, setName] = useState(preferences.name || '')\n  const [open, setOpen] = useState(false)\n  \n  const handleSave = () => {\n    updatePreferences({ name: name.trim() || undefined })\n    setOpen(false)\n  }\n  \n  const handleReset = () => {\n    resetPreferences()\n    setName('')\n    setOpen(false)\n  }\n  \n  return (\n    <Dialog open={open} onOpenChange={setOpen}>\n      <DialogTrigger asChild>\n        <Button variant=\"outline\" size=\"sm\">Preferences</Button>\n      </DialogTrigger>\n      <DialogContent>\n        <DialogHeader>\n          <DialogTitle>Your Preferences</DialogTitle>\n        </DialogHeader>\n        \n        <div className=\"space-y-4 py-4\">\n          <div className=\"space-y-2\">\n            <label htmlFor=\"name\" className=\"text-sm font-medium\">\n              Your Name\n            </label>\n            <input\n              id=\"name\"\n              type=\"text\"\n              value={name}\n              onChange={(e) => setName(e.target.value)}\n              className=\"w-full p-2 border rounded\"\n              placeholder=\"Enter your name\"\n            />\n          </div>\n          \n          <div className=\"space-y-2\">\n            <label htmlFor=\"theme\" className=\"text-sm font-medium\">\n              Theme\n            </label>\n            <select\n              id=\"theme\"\n              value={theme}\n              onChange={(e) => setTheme(e.target.value)}\n              className=\"w-full p-2 border rounded\"\n            >\n              <option value=\"system\">System</option>\n              <option value=\"light\">Light</option>\n              <option value=\"dark\">Dark</option>\n            </select>\n          </div>\n          \n          <div className=\"pt-4 flex justify-between\">\n            <Button variant=\"outline\" onClick={handleReset}>Reset</Button>\n            <Button onClick={handleSave}>Save</Button>\n          </div>\n        </div>\n      </DialogContent>\n    </Dialog>\n  )\n}\n```\n\n5. Add analytics tracking for user interactions\n6. Implement content recommendations based on browsing history\n7. Create a cookie consent banner\n8. Add a feature to remember form inputs",
+      "testStrategy": "1. Test user preferences storage in localStorage\n2. Verify personalized greeting displays correctly for new and returning users\n3. Test time-based greeting logic\n4. Ensure preferences dialog saves and loads correctly\n5. Test theme preference persistence\n6. Verify visit count increments correctly\n7. Test reset functionality for preferences\n8. Ensure form input memory works correctly\n9. Test cookie consent banner functionality\n10. Verify analytics tracking respects user privacy settings",
+      "priority": "low",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "pending",
+      "subtasks": []
+    },
+    {
+      "id": 12,
+      "title": "Deployment and CI/CD Setup",
+      "description": "Configure deployment pipeline, CI/CD, and analytics for the website.",
+      "details": "1. Create a Netlify configuration file (netlify.toml):\n```toml\n# netlify.toml\n[build]\n  command = \"pnpm run build\"\n  publish = \"dist\"\n\n# Redirects and rewrites\n[[redirects]]\n  from = \"/*\"\n  to = \"/index.html\"\n  status = 200\n\n# Headers for security and caching\n[[headers]]\n  for = \"/*\"\n  [headers.values]\n    X-Frame-Options = \"DENY\"\n    X-XSS-Protection = \"1; mode=block\"\n    X-Content-Type-Options = \"nosniff\"\n    Referrer-Policy = \"strict-origin-when-cross-origin\"\n    Content-Security-Policy = \"default-src 'self'; script-src 'self' 'unsafe-inline' https://analytics.example.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://images.example.com; font-src 'self' data:; connect-src 'self' https://api.example.com;\"\n\n# Cache control for static assets\n[[headers]]\n  for = \"/assets/*\"\n  [headers.values]\n    Cache-Control = \"public, max-age=31536000, immutable\"\n```\n\n2. Create a GitHub Actions workflow for CI/CD (.github/workflows/ci.yml):\n```yaml\nname: CI/CD\n\non:\n  push:\n    branches: [ main ]\n  pull_request:\n    branches: [ main ]\n\njobs:\n  build-and-test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v3\n      \n      - name: Setup Node.js\n        uses: actions/setup-node@v3\n        with:\n          node-version: '18'\n      \n      - name: Install pnpm\n        uses: pnpm/action-setup@v2\n        with:\n          version: 8\n          run_install: false\n      \n      - name: Get pnpm store directory\n        id: pnpm-cache\n        shell: bash\n        run: |\n          echo \"STORE_PATH=$(pnpm store path)\" >> $GITHUB_OUTPUT\n      \n      - name: Setup pnpm cache\n        uses: actions/cache@v3\n        with:\n          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}\n          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}\n          restore-keys: |\n            ${{ runner.os }}-pnpm-store-\n      \n      - name: Install dependencies\n        run: pnpm install\n      \n      - name: Lint\n        run: pnpm lint\n      \n      - name: Type check\n        run: pnpm typecheck\n      \n      - name: Build\n        run: pnpm build\n      \n      - name: Optimize images\n        run: pnpm optimize-images\n      \n      - name: Deploy to Netlify (preview)\n        if: github.event_name == 'pull_request'\n        uses: nwtgck/actions-netlify@v2\n        with:\n          publish-dir: './dist'\n          production-deploy: false\n          github-token: ${{ secrets.GITHUB_TOKEN }}\n          deploy-message: \"Deploy preview for PR #${{ github.event.number }}\"\n        env:\n          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}\n          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}\n      \n      - name: Deploy to Netlify (production)\n        if: github.event_name == 'push' && github.ref == 'refs/heads/main'\n        uses: nwtgck/actions-netlify@v2\n        with:\n          publish-dir: './dist'\n          production-deploy: true\n          github-token: ${{ secrets.GITHUB_TOKEN }}\n          deploy-message: \"Production deploy from GitHub Actions\"\n        env:\n          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}\n          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}\n```\n\n3. Add scripts to package.json for deployment:\n```json\n{\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"tsc && vite build\",\n    \"lint\": \"eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0\",\n    \"typecheck\": \"tsc --noEmit\",\n    \"preview\": \"vite preview\",\n    \"optimize-images\": \"node scripts/optimize-images.js\",\n    \"optimize-videos\": \"node scripts/optimize-videos.js\",\n    \"prepare-deploy\": \"pnpm optimize-images && pnpm optimize-videos && pnpm build\"\n  }\n}\n```\n\n4. Set up Google Analytics:\n```tsx\n// src/utils/analytics.ts\nexport const GA_TRACKING_ID = 'G-XXXXXXXXXX' // Replace with actual tracking ID\n\n// Initialize Google Analytics\nexport const initGA = () => {\n  if (typeof window !== 'undefined') {\n    // Add Google Analytics script\n    const script = document.createElement('script')\n    script.async = true\n    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`\n    document.head.appendChild(script)\n    \n    // Initialize gtag\n    window.dataLayer = window.dataLayer || []\n    window.gtag = function() {\n      window.dataLayer.push(arguments)\n    }\n    window.gtag('js', new Date())\n    window.gtag('config', GA_TRACKING_ID, {\n      anonymize_ip: true,\n      cookie_flags: 'SameSite=None;Secure',\n    })\n  }\n}\n\n// Track page views\nexport const pageview = (url: string) => {\n  if (typeof window.gtag !== 'undefined') {\n    window.gtag('config', GA_TRACKING_ID, {\n      page_path: url,\n    })\n  }\n}\n\n// Track events\nexport const event = ({ action, category, label, value }: {\n  action: string\n  category: string\n  label?: string\n  value?: number\n}) => {\n  if (typeof window.gtag !== 'undefined') {\n    window.gtag('event', action, {\n      event_category: category,\n      event_label: label,\n      value: value,\n    })\n  }\n}\n```\n\n5. Add analytics to the app:\n```tsx\n// src/App.tsx\nimport { useEffect } from 'react'\nimport { useLocation } from 'react-router-dom'\nimport { initGA, pageview } from './utils/analytics'\n\nexport function AnalyticsProvider({ children }: { children: React.ReactNode }) {\n  const location = useLocation()\n  \n  useEffect(() => {\n    // Initialize Google Analytics\n    initGA()\n  }, [])\n  \n  useEffect(() => {\n    // Track page views\n    pageview(location.pathname + location.search)\n  }, [location])\n  \n  return <>{children}</>\n}\n```\n\n6. Create a robots.txt file:\n```\n# robots.txt\nUser-agent: *\nAllow: /\n\nSitemap: https://www.avanxia.com/sitemap.xml\n```\n\n7. Create a sitemap.xml generator script:\n```javascript\n// scripts/generate-sitemap.js\nconst fs = require('fs')\nconst path = require('path')\n\nconst SITE_URL = 'https://www.avanxia.com'\n\n// Define your routes\nconst routes = [\n  '/',\n  '/services',\n  '/portfolio',\n  '/about',\n  '/contact',\n  // Add dynamic routes if needed\n]\n\n// Generate sitemap XML\nconst generateSitemap = () => {\n  const sitemap = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n${routes\n  .map(\n    (route) => `  <url>\n    <loc>${SITE_URL}${route}</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${route === '/' ? '1.0' : '0.8'}</priority>\n  </url>`\n  )\n  .join('\\n')}\n</urlset>`\n\n  fs.writeFileSync(path.join(__dirname, '../public/sitemap.xml'), sitemap)\n  console.log('Sitemap generated successfully!')\n}\n\ngenerateSitemap()\n```\n\n8. Add the sitemap generator to package.json:\n```json\n{\n  \"scripts\": {\n    \"generate-sitemap\": \"node scripts/generate-sitemap.js\",\n    \"build\": \"tsc && vite build && pnpm generate-sitemap\"\n  }\n}\n```\n\n9. Configure environment variables for different environments\n10. Set up monitoring and error tracking with a service like Sentry",
+      "testStrategy": "1. Test the build process locally to ensure it completes successfully\n2. Verify Netlify configuration works correctly with redirects and headers\n3. Test GitHub Actions workflow with a test PR\n4. Ensure image and video optimization scripts run correctly in the CI pipeline\n5. Verify Google Analytics tracking works for page views and events\n6. Test sitemap generation to ensure it includes all routes\n7. Validate robots.txt and sitemap.xml with online tools\n8. Test environment variables in different deployment environments\n9. Verify error tracking captures and reports issues correctly\n10. Test performance metrics in production environment using Lighthouse",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        10
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 13,
+      "title": "Aplicar Instrucciones Generales para el Desarrollador",
+      "description": "Asegurar que se sigan las instrucciones generales de desarrollo durante la implementación de todas las tareas subsiguientes.",
+      "details": "Control de Versiones: Antes de empezar, asegúrate de estar en una nueva rama de Git (por ejemplo, feature/pricing-content-update). Realiza commits pequeños y descriptivos para cada tarea o grupo de tareas completadas.\nPruebas: Después de cada cambio, revisa la página en el navegador (en varios tamaños de pantalla si es relevante) para asegurarte de que los cambios se ven bien y nada se ha roto.\nClaridad: Si alguna instrucción no es clara, por favor, pregunta antes de implementar.\nArchivos: Los cambios se realizarán principalmente en los archivos .tsx que se indican.",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": []
+    },
+    {
+      "id": 14,
+      "title": "Modificaciones en Pricing.tsx",
+      "description": "Implementar los cambios especificados en el archivo Pricing.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 1.1: Modificar Estructura de Datos plans - Planes de Proyecto Único",
+          "description": "Para los planes Presence Landing y Starter Web:\nCambia la propiedad price de un rango a un precio base \"Desde X USD\".\nRenombra la propiedad services a priceDetails y asegúrate de que los detalles sean más específicos sobre lo que incluye el precio base.\nAñade una nueva propiedad opcional optionalAddOns: Array<{ name: string; price: string }> para listar mejoras con costo adicional.\nAñade (o modifica) la propiedad priceNote para ser más específico sobre el tipo de pago y tiempo de entrega.",
+          "details": "Ejemplo para Presence Landing (aplicar lógica similar a Starter Web):\n// OLD (conceptual):\n// price: '~ $800 - $1,200',\n// services: [\n//   'Diseño y Desarrollo de Landing Page (hasta 3 secciones)',\n//   'Diseño Responsive (Móvil y Escritorio)',\n//   'Formulario de Contacto Básico',\n//   'Optimización SEO On-page Básica',\n//   'Configuración de Google Analytics',\n// ],\n// priceNote: 'Proyecto único'\n\n// NEW:\nprice: 'Desde $800 USD',\npriceDetails: [\n  'Diseño y Desarrollo de Landing Page (hasta 3 secciones clave)',\n  'Diseño Responsive (Móvil y Escritorio)',\n  'Formulario de Contacto Básico (integrado a tu email)',\n  'Optimización SEO On-page Esencial (títulos, metadescripciones)',\n  'Configuración de Google Analytics Básico',\n],\noptionalAddOns: [\n  { name: 'Sección adicional personalizada', price: '+$200 USD' },\n  { name: 'Blog básico integrado (hasta 3 artículos iniciales)', price: '+$300 USD' },\n  { name: 'Integración con CRM (básica, ej. Hubspot free)', price: '+$150 USD' },\n],\npriceNote: 'Pago único. Tiempo estimado de entrega: 2-3 semanas.'",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        },
+        {
+          "id": 2,
+          "title": "Tarea 1.2: Modificar Estructura de Datos plans - Planes de Retainer Mensual",
+          "description": "Para los planes Growth Leads y Full 360°:\nHaz la propiedad services mucho más específica con entregables mensuales claros.\nAñade una nota clara sobre el presupuesto de pauta no incluido.\nConsidera añadir una recomendación de compromiso mínimo en priceNote.",
+          "details": "Ejemplo para Growth Leads (aplicar lógica similar a Full 360°):\n// OLD (conceptual):\n// services: [\n//   'Gestión de Campañas PPC (Google/Meta Ads - presupuesto no incluido)',\n//   'Optimización SEO Continua',\n//   'Marketing de Contenidos (Ej: 2 blogs/mes)',\n//   'Gestión Básica de Redes Sociales (Ej: 2 plataformas, 8 posts/mes)',\n//   'Reporte Mensual de Resultados',\n// ],\n// priceNote: 'Retainer Mensual'\n\n// NEW:\nservices: [\n  'Gestión y Optimización de Campañas PPC (Google Ads y/o Meta Ads)',\n  'Nota: El presupuesto para la pauta publicitaria NO está incluido y es cubierto por el cliente.',\n  'Estrategia y Ejecución SEO Continua (monitoreo y optimización para hasta X palabras clave)',\n  'Marketing de Contenidos (2 artículos de blog de ~800 palabras/mes, optimizados para SEO, o equivalente en contenido visual)',\n  'Gestión de Redes Sociales (2 plataformas, 8-12 posts diseñados y programados/mes, con monitoreo básico de interacciones)',\n  'Reporte Mensual Detallado de Rendimiento (KPIs clave, análisis y recomendaciones)',\n  'Reunión Estratégica Mensual (hasta 60 minutos)',\n],\npriceNote: 'Retainer Mensual. Compromiso mínimo de 3 meses recomendado.'",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        },
+        {
+          "id": 3,
+          "title": "Tarea 1.3: Texto Introductorio de la Sección de Precios",
+          "description": "Actualizar el texto introductorio de la sección de precios según las especificaciones.",
+          "details": "OLD TEXT:\n<p className=\"text-foreground/70 max-w-2xl mx-auto\">\n  El servicio de <strong>Branding e Identidad Corporativa</strong> se cotiza por separado. Consulta por descuentos en servicios adicionales al contratar planes superiores.\n</p>\n\nNEW TEXT (Sugerencia):\n<p className=\"text-foreground/70 max-w-3xl mx-auto\">\n  Ofrecemos planes flexibles y transparentes diseñados para impulsar tu crecimiento. El servicio de <strong>Branding e Identidad Corporativa Completa</strong> tiene un costo base y se puede integrar a cualquier plan (ver detalles abajo o <a href=\"#branding-package\" className=\"text-primary hover:underline\">consulta nuestro Paquete Fundacional de Marca</a>). Los precios mostrados son en USD.\n</p>\n\nNota para el dev: El enlace `#branding-package` es un marcador, necesitarás crear un `id=\"branding-package\"` en la nueva sección de branding.",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        },
+        {
+          "id": 4,
+          "title": "Tarea 1.4: Añadir Sección/Paquete de Branding",
+          "description": "Debajo del <div> que muestra los planes principales, o donde sea más lógico visualmente, añade una nueva sección o tarjeta que detalle un paquete de branding.",
+          "details": "Contenido Sugerido para el Paquete de Branding (llámalo \"Paquete Fundacional de Marca\" o similar):\nNombre: Paquete Fundacional de Marca\nObjetivo: Construir una identidad de marca sólida y profesional que siente las bases para tu éxito.\nIdeal para: Nuevos negocios o marcas que buscan un refresh profesional antes de invertir en web o marketing.\nPrecio: Desde $1,200 USD (o el precio que definas)\nDetalles/Servicios:\nConsultoría de marca y definición de valores.\nDiseño de Logotipo (3 propuestas iniciales, hasta 3 rondas de revisión sobre la seleccionada).\nPaleta de colores y selección tipográfica.\nManual de Marca Básico (PDF con guías de uso del logo, colores, tipografías).\nDiseño de 2 aplicaciones clave (ej: Tarjeta de presentación digital, Plantilla para post de Redes Sociales).\nPriceNote: Proyecto único. Tiempo estimado de entrega: 3-4 semanas.\n\nNota para el dev: Puedes reutilizar la estructura de las tarjetas de planes existentes para mantener la consistencia visual. Asegúrate de añadir id=\"branding-package\" a esta sección para el enlace de la Tarea 1.3.",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        },
+        {
+          "id": 5,
+          "title": "Tarea 1.5: Modificar Texto de Botones de CTA",
+          "description": "Modificar el texto de los botones de CTA en las tarjetas de planes.",
+          "details": "OLD TEXT (en el botón): Elegir plan\nNEW TEXT (en el botón): Discutir este Plan o Solicitar Propuesta",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        },
+        {
+          "id": 6,
+          "title": "Tarea 1.6: Reforzar Texto Introductorio de Tabla de Precios",
+          "description": "Reforzar el texto introductorio de la tabla de precios de referencia.",
+          "details": "OLD TEXT:\n<p className=\"text-center font-semibold text-gray-600 mb-8 max-w-3xl mx-auto\">\n  Esta tabla muestra rangos orientativos basados en nuestro análisis. Los precios finales dependerán de la complejidad y alcance específico de cada proyecto.\n</p>\n\nNEW TEXT (Sugerencia):\n<p className=\"text-center font-semibold text-foreground/80 mb-8 max-w-3xl mx-auto\">\n  Para poner nuestros planes en perspectiva, esta tabla muestra rangos orientativos para servicios de calidad equiparable en el mercado Norteamericano. En Avanxia Labs, te ofrecemos <strong>estándares internacionales con la ventaja competitiva del talento mexicano.</strong> Los precios finales siempre dependerán de la complejidad y alcance específico de tu proyecto.\n</p>",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 14
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Modificaciones en Hero.tsx",
+      "description": "Implementar los cambios especificados en el archivo Hero.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 2.1: Modificar Texto del Encabezado H1",
+          "description": "Modificar el texto del encabezado <h1>.",
+          "details": "OLD TEXT:\n<h1 className=\"text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight\">\n  Transformamos tu Negocio con Estrategias Digitales de <span className=\"text-blue-400\">Alto Impacto</span>\n</h1>\n\nNEW TEXT (Sugerencia):\n<h1 className=\"text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight\">\n  Marketing y Desarrollo Web de Élite Mundial, con la <span className=\"text-blue-400\">Ventaja Competitiva Mexicana</span> para Norteamérica\n</h1>",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 15
+        },
+        {
+          "id": 2,
+          "title": "Tarea 2.2: Modificar Texto del Párrafo debajo del H1",
+          "description": "Modificar el texto del párrafo <p> debajo del H1.",
+          "details": "OLD TEXT:\n<p className=\"text-lg md:text-2xl mb-8 max-w-3xl\">\n  Agencia Integral de Marketing, Diseño y Desarrollo Web y Aplicaciones. Talento latino con estándares internacionales y <span className=\"relative inline-block align-middle px-1.5 border-b-2 border-blue-400\" style={{padding:'0.1em 0.4em'}}>\n    <span className=\"bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient\">\n      precios competitivos para norteamérica\n    </span>\n  </span>.\n</p>\n\nNEW TEXT (Sugerencia):\n<p className=\"text-lg md:text-2xl mb-8 max-w-3xl\">\n  Somos tu socio estratégico en México para soluciones digitales premium: Marketing, Diseño y Desarrollo Web/Apps. Entregamos <strong>calidad y tecnología de clase mundial</strong> con la eficiencia y el ingenio del talento mexicano, ofreciendo <span className=\"relative inline-block align-middle px-1.5 border-b-2 border-blue-400\" style={{padding:'0.1em 0.4em'}}>\n    <span className=\"bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient\">\n      precios altamente competitivos para el mercado norteamericano\n    </span>\n  </span>.\n</p>",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 15
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Modificaciones en ValueProposition.tsx",
+      "description": "Implementar los cambios especificados en el archivo ValueProposition.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 3.1: Añadir o Modificar Punto para Incluir UVP",
+          "description": "Revisa los points existentes. Considera añadir un cuarto punto o modificar uno de los existentes para enfatizar la ventaja de \"calidad internacional con precios competitivos desde México para Norteamérica\".",
+          "details": "Si añades un nuevo punto (ejemplo):\n{\n  title: \"Ventaja Global, Sabor Local\",\n  desc: \"Calidad internacional con precios inteligentes para Norteamérica.\",\n  paragraph: \"Operamos desde México con un equipo de primer nivel, lo que nos permite ofrecerte <strong>servicios de desarrollo y marketing digital que compiten con los mejores del mundo, pero con una estructura de costos más eficiente.</strong> Obtienes acceso a talento excepcional y tecnología de punta, maximizando tu inversión sin sacrificar calidad. Es la combinación perfecta de estándares internacionales y la ventaja competitiva que solo el talento mexicano puede ofrecer.\",\n  icon: FaGlobeAmericas, // Importa un ícono adecuado, ej. de react-icons/fa\n}\n\nNota para el dev: Si añades un nuevo punto, asegúrate de que el grid se ajuste bien (podría ser `md:grid-cols-2 lg:grid-cols-4` o mantener 3 y que el último ocupe más espacio, o simplemente que la última fila tenga uno solo centrado si son 4 puntos). Si son 3 puntos, el grid `md:grid-cols-3` está bien. Si pasas a 4, quizá `md:grid-cols-2 lg:grid-cols-2` o `md:grid-cols-2 lg:grid-cols-4` si quieres mantenerlos más pequeños. Evalúa visualmente.",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 16
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Modificaciones en Services.tsx",
+      "description": "Implementar los cambios especificados en el archivo Services.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 4.1: Refinar Descripción de Servicio Web",
+          "description": "Tomar la descripción de \"Diseño y Desarrollo Web\" y reenfocarla para enfatizar beneficios.",
+          "details": "OLD TEXT (description para 'Diseño y Desarrollo Web'):\n'Construimos sitios web modernos, rápidos y optimizados. Nos especializamos en tecnologías como React/Next.js y NestJS para ofrecer un rendimiento superior.'\n\nNEW TEXT (description para 'Diseño y Desarrollo Web'):\n'No solo construimos sitios web, creamos plataformas de conversión optimizadas para que alcances tus objetivos de negocio. Usando React/Next.js y NestJS, garantizamos experiencias de usuario impecables, rendimiento superior y escalabilidad para tu futuro.'\n\nNota para el dev: Aplica una lógica similar de \"beneficio para el cliente\" a las descripciones de otros servicios si el tiempo lo permite, pero este es el ejemplo principal.",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 17
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Modificaciones en Team.tsx",
+      "description": "Implementar los cambios especificados en el archivo Team.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 5.1: Modificar Texto Introductorio del Equipo",
+          "description": "Modificar el texto introductorio de la sección del equipo.",
+          "details": "OLD TEXT:\n<p className=\"text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto\">\n  Somos un equipo apasionado y multidisciplinario de estrategas, diseñadores y desarrolladores comprometidos con el éxito de nuestros clientes. Combinamos experiencia, creatividad y conocimiento técnico para ofrecer soluciones digitales de alto impacto.\n</p>\n\nNEW TEXT (Sugerencia):\n<p className=\"text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto\">\n  Conoce al equipo de Avanxia Labs: un colectivo de estrategas, diseñadores y desarrolladores senior basados en México, con experiencia global. Estamos dedicados a aplicar <strong>estándares internacionales de calidad y la última tecnología</strong> para entregar soluciones digitales que realmente impulsan tu negocio en Norteamérica y más allá.\n</p>",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 18
+        },
+        {
+          "id": 2,
+          "title": "Tarea 5.2: Modificar Estructura de teamMembers (Opcional)",
+          "description": "En el array teamMembers, para cada miembro, añade dos nuevas propiedades: image: string (para la ruta a una imagen) y detailedBio: string (para una biografía más extensa). Inicialmente pueden ser strings vacíos o placeholders.",
+          "details": "Ejemplo de un miembro modificado:\n{\n  role: 'Socio Operativo (Ismael)',\n  skills: 'Gestión de Proyectos, Estrategia, UX, Relaciones con Clientes',\n  description: 'Lidera la ejecución y la visión estratégica de los proyectos.',\n  image: '/images/team/ismael.jpg', // Placeholder path\n  detailedBio: 'Ismael cuenta con X años de experiencia ayudando a empresas a transformar sus ideas en realidad digital...' // Placeholder bio\n}\n\nNota para el dev: Esto es solo el cambio en la estructura de datos. La renderización de la imagen y la bio detallada (quizás en un modal al hacer clic) sería una tarea de desarrollo adicional.",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 18
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Modificaciones en Contact.tsx",
+      "description": "Implementar los cambios especificados en el archivo Contact.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 6.1: Actualizar handleSubmit para Claridad",
+          "description": "Actualizar la función handleSubmit para mayor claridad sobre el estado actual de la integración.",
+          "details": "OLD CODE (dentro de handleSubmit):\nconsole.log('Form data submitted:', formData);\nalert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');\n\nNEW CODE (dentro de handleSubmit):\n// TODO: Implementar la integración con un servicio de email (EmailJS, SendGrid) o un endpoint de backend.\n// La siguiente línea es temporal para simular el envío:\nconsole.log('Form data submitted:', formData); \nalert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto. (Simulación frontend)');",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 19
+        },
+        {
+          "id": 2,
+          "title": "Tarea 6.2: Verificar y Corregir Enlace de LinkedIn",
+          "description": "Verificar y corregir el enlace de LinkedIn en la sección de contacto.",
+          "details": "Acción: Busca la sección de LinkedIn:\n<a href=\"#\" target=\"_blank\" rel=\"noopener noreferrer\" className=\"text-secondary hover:underline\">\n  Avanxia Labs\n</a>\n\nCorrección: Reemplaza \"#\" con la URL real del perfil de LinkedIn de Avanxia Labs. Si aún no existe, deja un comentario para que se cree y se actualice luego.\nEjemplo: href=\"https://www.linkedin.com/company/avanxialabs\" (si esa es la URL)",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 19
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Modificaciones en Portfolio.tsx",
+      "description": "Implementar los cambios especificados en el archivo Portfolio.tsx.",
+      "details": "",
+      "testStrategy": "",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "medium",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Tarea 7.1: Añadir Campos a Interfaz y Datos de CaseStudy",
+          "description": "Añadir campos opcionales 'results' y 'testimonial' a la interfaz CaseStudy y a los datos de ejemplo.",
+          "details": "Acción:\nEn la interfaz CaseStudy, añade dos nuevas propiedades opcionales:\ninterface CaseStudy {\n  // ... otras propiedades\n  results?: string; // Para describir los resultados/impacto del proyecto\n  testimonial?: string; // Para una cita de testimonio del cliente\n}\n\nEn el array caseStudies, para cada objeto, añade estas nuevas propiedades con datos de ejemplo o placeholders si la información real no está disponible aún.\n{\n  id: 2,\n  client: 'Autism 911',\n  // ... otras propiedades\n  imageUrl: '/images/portfolio/proyectos/gyb.png',\n  results: 'Incremento del X% en la interacción de usuarios y retroalimentación positiva sobre la nueva UI/UX.', // Ejemplo\n  testimonial: '\"El equipo de Avanxia realmente entendió nuestras necesidades y entregó un diseño que superó nuestras expectativas.\" - Nombre Cliente' // Ejemplo\n}",
+          "status": "pending",
+          "dependencies": [],
+          "parentTaskId": 20
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "Implementar Configurador de Soluciones con React Context API",
+      "description": "Desarrollar un sistema integral de configuración de soluciones que permita a los usuarios seleccionar servicios y planes, visualizar su selección y obtener un estimado de precio, utilizando React Context API para la gestión del estado. Este sistema forma parte de una revitalización web completa para hacer el sitio más atractivo y eficaz para vender.",
+      "status": "pending",
+      "dependencies": [],
+      "priority": "high",
+      "details": "Esta implementación se realizará en varias fases:\n\n### Fase 0: Preparación y Planificación\n\n1. **Definir la Estructura de servicesData.ts**:\n   - Crear un archivo src/data/servicesData.ts\n   - Definir la interfaz ServiceOrPlanItem con propiedades como id, type, name, descriptions, category, price, priceRange, priceType, features, etc.\n   - Poblar servicesData.ts con todos los servicios y planes actuales\n   - Asignar precios o rangos a cada servicio individual\n\n### Fase 1: Refactorización de Componentes Existentes\n\n1. **Refactorizar Services.tsx**:\n   - Importar datos desde servicesData.ts\n   - Filtrar para mostrar solo servicios (item.type === 'service')\n   - Agrupar por categoría y mostrar información relevante\n   - Añadir botón \"Añadir a Solución\" (funcionalidad posterior)\n\n2. **Refactorizar Pricing.tsx**:\n   - Importar datos desde servicesData.ts\n   - Filtrar para mostrar planes y elementos destacados\n   - Modificar la lógica de isFeatured\n   - Cambiar \"Elegir plan\" por \"Añadir a Solución\"\n\n### Fase 2: Implementación del Configurador de Soluciones\n\n1. **Crear SolutionContext.tsx**:\n   - Implementar un contexto de React con los siguientes estados:\n     - `selectedItems`: Array de servicios/planes seleccionados\n     - `estimatedTotal`: Número que representa el costo total estimado\n   - Implementar las siguientes funciones:\n     - `addItem(item)`: Añade un ítem y previene duplicados\n     - `removeItem(itemId)`: Elimina un ítem por su ID\n     - `clearSolution()`: Vacía la selección completa\n     - `calculateTotal(items)`: Calcula el total basado en los precios de los ítems\n\n2. **Crear SolutionSidebar.tsx**:\n   - Desarrollar un componente de barra lateral o modal que muestre:\n     - Lista de ítems seleccionados con opción de eliminar\n     - Total estimado formateado\n     - Botón \"Continuar para Cotizar\" que redirija a la sección de contacto\n     - Botón \"Vaciar Solución\"\n   - Implementar un ícono fijo en la página que muestre/oculte la barra lateral\n\n3. **Integrar con Componentes Existentes**:\n   - Modificar Services.tsx y Pricing.tsx para:\n     - Añadir botones \"Añadir a Solución\" en cada tarjeta de servicio/plan\n     - Cambiar visualmente el botón cuando un ítem ya está añadido\n     - Conectar estos botones con la función `addItem` del contexto\n\n### Fase 3: Mejorar el Formulario de Contacto y Flujo\n\n1. **Modificar Contact.tsx**:\n   - Implementar almacenamiento temporal de la selección en localStorage\n   - Mostrar los ítems seleccionados y el total estimado en el formulario\n   - Reemplazar los select de \"Plan\" y \"Servicio Individual\" con un área que muestre la solución seleccionada\n   - Incluir esta información en los datos que se envían al backend\n   - Limpiar localStorage después de enviar el formulario\n\n### Fase 4: Mejoras de Copywriting y Contenido General\n\n1. **Revisar y mejorar textos** en:\n   - Hero.tsx\n   - ValueProposition.tsx\n   - Services.tsx\n   - Pricing.tsx\n   - Portfolio.tsx\n   - SpecialOffer.tsx\n   - Footer.tsx\n\n### Fase 5: Pruebas y Refinamiento\n\n1. **Pruebas Exhaustivas**:\n   - Funcionalidad del configurador\n   - Flujo de contacto\n   - Responsividad\n   - Errores de consola\n   - Velocidad de carga\n\n2. **Revisión de UX/UI**:\n   - Intuitividad del proceso\n   - Claridad de precios y contenido\n   - Atractivo de llamadas a la acción\n\n3. **Consideraciones Adicionales**:\n   - Manejo de errores\n   - Performance\n   - Accesibilidad\n   - Persistencia de datos\n\nEsta implementación debe integrarse con el sistema de datos de servicios (servicesData.ts) y formar parte de una estrategia integral para hacer la web más atractiva y eficaz para vender.",
+      "testStrategy": "Para verificar la correcta implementación del Configurador de Soluciones, se deben realizar las siguientes pruebas:\n\n1. **Pruebas de Funcionalidad del Contexto**:\n   - Verificar que `addItem` añade correctamente un ítem al estado y previene duplicados\n   - Comprobar que `removeItem` elimina el ítem correcto por ID\n   - Confirmar que `clearSolution` vacía completamente la selección\n   - Validar que `calculateTotal` calcula correctamente el total para diferentes tipos de precios\n\n2. **Pruebas de Interfaz de Usuario**:\n   - Comprobar que los botones \"Añadir a Solución\" aparecen en todas las tarjetas de servicios y planes\n   - Verificar que el botón cambia visualmente cuando un ítem ya está añadido\n   - Confirmar que el ícono para mostrar/ocultar la barra lateral funciona correctamente\n   - Validar que la barra lateral muestra correctamente todos los ítems seleccionados y el total\n\n3. **Pruebas de Integración**:\n   - Verificar que al hacer clic en \"Continuar para Cotizar\" se redirige correctamente a la sección de contacto\n   - Comprobar que los datos seleccionados se almacenan en localStorage\n   - Confirmar que el formulario de contacto muestra correctamente los ítems seleccionados\n   - Validar que los datos de la selección se incluyen en el envío del formulario\n\n4. **Pruebas de Responsividad**:\n   - Verificar la visualización correcta en dispositivos móviles, tablets y desktops\n   - Comprobar que la barra lateral/modal se adapta correctamente a diferentes tamaños de pantalla\n\n5. **Pruebas de Casos Límite**:\n   - Probar con una gran cantidad de ítems seleccionados\n   - Verificar el comportamiento cuando no hay ítems seleccionados\n   - Comprobar el manejo de errores cuando los datos de servicios no están disponibles\n\n6. **Pruebas de Rendimiento**:\n   - Medir el tiempo de respuesta al añadir/eliminar ítems\n   - Verificar que no hay problemas de rendimiento con múltiples ítems\n\n7. **Pruebas de Contenido y Copywriting**:\n   - Verificar que los textos actualizados se muestran correctamente\n   - Comprobar que los mensajes son claros y efectivos\n   - Validar que las llamadas a la acción son atractivas y funcionan como se espera\n\n8. **Pruebas de Flujo Completo**:\n   - Realizar pruebas end-to-end del proceso completo desde la selección hasta el envío del formulario\n   - Verificar que la experiencia del usuario es fluida y sin interrupciones\n\nDocumentar todos los resultados de las pruebas y corregir cualquier problema identificado antes de considerar la tarea como completada.",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "[DEV] Crear estructura de archivo servicesData.ts",
+          "description": "Crear el archivo base para almacenar los datos de servicios y planes",
+          "dependencies": [],
+          "details": "Crear el archivo en src/data/servicesData.ts y establecer la estructura básica del archivo",
+          "status": "done",
+          "testStrategy": "Verificar que el archivo se crea correctamente en la ubicación especificada"
+        },
+        {
+          "id": 2,
+          "title": "[DEV] Definir interfaz ServiceOrPlanItem",
+          "description": "Crear la interfaz TypeScript que define la estructura de datos para servicios y planes",
+          "dependencies": [
+            1
+          ],
+          "details": "Definir la interfaz con propiedades como id, type, name, descriptions, category, price, priceRange, priceType, features, etc.",
+          "status": "done",
+          "testStrategy": "Validar que la interfaz incluya todas las propiedades necesarias y use tipos correctos"
+        },
+        {
+          "id": 3,
+          "title": "[CONTENIDO/ESTRATEGIA] Recopilar información de servicios actuales",
+          "description": "Recopilar todos los servicios actuales con sus descripciones y características",
+          "dependencies": [
+            2
+          ],
+          "details": "Crear una lista completa de todos los servicios ofrecidos actualmente, incluyendo descripciones, características y categorías",
+          "status": "done",
+          "testStrategy": "Verificar que todos los servicios actuales estén documentados correctamente"
+        },
+        {
+          "id": 4,
+          "title": "[CONTENIDO/ESTRATEGIA] Recopilar información de planes actuales",
+          "description": "Recopilar todos los planes actuales con sus características y precios",
+          "dependencies": [
+            2
+          ],
+          "details": "Crear una lista completa de todos los planes ofrecidos actualmente, incluyendo características, precios y beneficios",
+          "status": "done",
+          "testStrategy": "Verificar que todos los planes actuales estén documentados correctamente"
+        },
+        {
+          "id": 5,
+          "title": "[DEV] Poblar servicesData.ts con servicios y planes",
+          "description": "Implementar los datos recopilados en el archivo servicesData.ts",
+          "dependencies": [
+            2,
+            3,
+            4
+          ],
+          "details": "Convertir la información recopilada a objetos TypeScript que cumplan con la interfaz ServiceOrPlanItem",
+          "status": "done",
+          "testStrategy": "Validar que los datos se formateen correctamente y cumplan con la interfaz definida"
+        },
+        {
+          "id": 6,
+          "title": "[CONTENIDO/ESTRATEGIA] Asignar precios o rangos a cada servicio",
+          "description": "Definir precios o rangos de precios para cada servicio individual",
+          "dependencies": [
+            5
+          ],
+          "details": "Revisar y asignar precios o rangos de precios realistas para cada servicio basado en el esfuerzo y valor proporcionado",
+          "status": "done",
+          "testStrategy": "Verificar que todos los servicios tengan precios o rangos asignados y sean coherentes con el mercado"
+        },
+        {
+          "id": 7,
+          "title": "[DEV] Refactorizar Services.tsx para usar servicesData",
+          "description": "Modificar el componente Services para utilizar los datos centralizados",
+          "dependencies": [
+            5,
+            6
+          ],
+          "details": "Importar datos desde servicesData.ts, filtrar para mostrar solo servicios (item.type === 'service'), agrupar por categoría y mostrar información relevante",
+          "status": "done",
+          "testStrategy": "Comprobar que los servicios se muestren correctamente agrupados por categoría"
+        },
+        {
+          "id": 8,
+          "title": "[DEV] Añadir botón 'Añadir a Solución' en Services.tsx",
+          "description": "Implementar botón en cada tarjeta de servicio para añadirlo a la solución",
+          "dependencies": [
+            7
+          ],
+          "details": "Añadir un botón visualmente atractivo en cada tarjeta de servicio que posteriormente se conectará con la funcionalidad del contexto",
+          "status": "done",
+          "testStrategy": "Verificar que el botón aparezca correctamente en cada tarjeta de servicio"
+        },
+        {
+          "id": 9,
+          "title": "[DEV] Refactorizar Pricing.tsx para usar servicesData",
+          "description": "Modificar el componente Pricing para utilizar los datos centralizados",
+          "dependencies": [
+            5,
+            6
+          ],
+          "details": "Importar datos desde servicesData.ts, filtrar para mostrar planes y elementos destacados, y modificar la lógica de isFeatured",
+          "status": "pending",
+          "testStrategy": "Comprobar que los planes se muestren correctamente con sus características y precios"
+        },
+        {
+          "id": 10,
+          "title": "[DEV] Cambiar 'Elegir plan' por 'Añadir a Solución' en Pricing.tsx",
+          "description": "Actualizar el texto y funcionalidad de los botones en la sección de precios",
+          "dependencies": [
+            9
+          ],
+          "details": "Modificar los botones existentes para que digan 'Añadir a Solución' en lugar de 'Elegir plan'",
+          "status": "pending",
+          "testStrategy": "Verificar que el texto de los botones se actualice correctamente"
+        },
+        {
+          "id": 11,
+          "title": "[DEV] Crear archivo SolutionContext.tsx",
+          "description": "Implementar el contexto de React para gestionar el estado de la solución",
+          "dependencies": [
+            5
+          ],
+          "details": "Crear un nuevo archivo para el contexto que gestionará el estado global de la solución seleccionada",
+          "status": "pending",
+          "testStrategy": "Verificar que el archivo se cree correctamente y exporte el contexto"
+        },
+        {
+          "id": 12,
+          "title": "[DEV] Implementar estados en SolutionContext",
+          "description": "Definir los estados necesarios para el contexto de la solución",
+          "dependencies": [
+            11
+          ],
+          "details": "Implementar estados para selectedItems (array de servicios/planes seleccionados) y estimatedTotal (costo total estimado)",
+          "status": "pending",
+          "testStrategy": "Comprobar que los estados se inicialicen correctamente"
+        },
+        {
+          "id": 13,
+          "title": "[DEV] Implementar función addItem en SolutionContext",
+          "description": "Crear función para añadir ítems a la solución evitando duplicados",
+          "dependencies": [
+            12
+          ],
+          "details": "Implementar la función addItem que añade un ítem al array selectedItems y previene duplicados",
+          "status": "pending",
+          "testStrategy": "Probar que la función añada correctamente ítems y evite duplicados"
+        },
+        {
+          "id": 14,
+          "title": "[DEV] Implementar función removeItem en SolutionContext",
+          "description": "Crear función para eliminar ítems de la solución por ID",
+          "dependencies": [
+            12
+          ],
+          "details": "Implementar la función removeItem que elimina un ítem del array selectedItems por su ID",
+          "status": "pending",
+          "testStrategy": "Probar que la función elimine correctamente ítems por ID"
+        },
+        {
+          "id": 15,
+          "title": "[DEV] Implementar función clearSolution en SolutionContext",
+          "description": "Crear función para vaciar completamente la selección",
+          "dependencies": [
+            12
+          ],
+          "details": "Implementar la función clearSolution que vacía el array selectedItems",
+          "status": "pending",
+          "testStrategy": "Probar que la función vacíe correctamente el array de ítems seleccionados"
+        },
+        {
+          "id": 16,
+          "title": "[DEV] Implementar función calculateTotal en SolutionContext",
+          "description": "Crear función para calcular el total basado en los precios de los ítems",
+          "dependencies": [
+            12
+          ],
+          "details": "Implementar la función calculateTotal que calcula el total basado en los precios de los ítems seleccionados",
+          "status": "pending",
+          "testStrategy": "Probar que la función calcule correctamente el total con diferentes combinaciones de ítems"
+        },
+        {
+          "id": 17,
+          "title": "[DEV] Crear componente SolutionSidebar.tsx",
+          "description": "Desarrollar el componente de barra lateral para mostrar la solución seleccionada",
+          "dependencies": [
+            16
+          ],
+          "details": "Crear un nuevo componente que mostrará la lista de ítems seleccionados, el total estimado y opciones para gestionar la solución",
+          "status": "pending",
+          "testStrategy": "Verificar que el componente se renderice correctamente"
+        },
+        {
+          "id": 18,
+          "title": "[DEV] Implementar lista de ítems seleccionados en SolutionSidebar",
+          "description": "Mostrar los ítems seleccionados con opción de eliminar",
+          "dependencies": [
+            17
+          ],
+          "details": "Desarrollar la sección que muestra la lista de ítems seleccionados con un botón para eliminar cada ítem",
+          "status": "pending",
+          "testStrategy": "Comprobar que los ítems se muestren correctamente y que el botón de eliminar funcione"
+        },
+        {
+          "id": 19,
+          "title": "[DEV] Implementar total estimado en SolutionSidebar",
+          "description": "Mostrar el total estimado formateado",
+          "dependencies": [
+            17,
+            16
+          ],
+          "details": "Desarrollar la sección que muestra el total estimado formateado como precio",
+          "status": "pending",
+          "testStrategy": "Verificar que el total se muestre correctamente formateado"
+        },
+        {
+          "id": 20,
+          "title": "[DEV] Implementar botones de acción en SolutionSidebar",
+          "description": "Añadir botones 'Continuar para Cotizar' y 'Vaciar Solución'",
+          "dependencies": [
+            17,
+            15
+          ],
+          "details": "Añadir botones para continuar a la sección de contacto y para vaciar la solución",
+          "status": "pending",
+          "testStrategy": "Comprobar que los botones se muestren correctamente y realicen las acciones esperadas"
+        },
+        {
+          "id": 21,
+          "title": "[DEV] Implementar ícono fijo para mostrar/ocultar SolutionSidebar",
+          "description": "Crear un ícono fijo en la página que muestre/oculte la barra lateral",
+          "dependencies": [
+            17
+          ],
+          "details": "Desarrollar un ícono flotante que permita mostrar y ocultar la barra lateral de solución",
+          "status": "pending",
+          "testStrategy": "Verificar que el ícono se muestre correctamente y que al hacer clic muestre/oculte la barra lateral"
+        },
+        {
+          "id": 22,
+          "title": "[DEV] Integrar SolutionContext con Services.tsx",
+          "description": "Conectar los botones 'Añadir a Solución' con la función addItem del contexto",
+          "dependencies": [
+            8,
+            13
+          ],
+          "details": "Modificar Services.tsx para utilizar el contexto y conectar los botones con la función addItem",
+          "status": "pending",
+          "testStrategy": "Probar que al hacer clic en los botones se añadan los ítems a la solución"
+        },
+        {
+          "id": 23,
+          "title": "[DEV] Integrar SolutionContext con Pricing.tsx",
+          "description": "Conectar los botones 'Añadir a Solución' con la función addItem del contexto",
+          "dependencies": [
+            10,
+            13
+          ],
+          "details": "Modificar Pricing.tsx para utilizar el contexto y conectar los botones con la función addItem",
+          "status": "pending",
+          "testStrategy": "Probar que al hacer clic en los botones se añadan los ítems a la solución"
+        },
+        {
+          "id": 24,
+          "title": "[DEV] Implementar cambio visual en botones para ítems ya añadidos",
+          "description": "Cambiar visualmente el botón cuando un ítem ya está añadido a la solución",
+          "dependencies": [
+            22,
+            23
+          ],
+          "details": "Modificar los botones para que cambien su apariencia cuando el ítem correspondiente ya está en la solución",
+          "status": "pending",
+          "testStrategy": "Verificar que los botones cambien visualmente cuando los ítems están añadidos"
+        },
+        {
+          "id": 25,
+          "title": "[DEV] Implementar almacenamiento en localStorage para la solución",
+          "description": "Guardar temporalmente la selección en localStorage",
+          "dependencies": [
+            16
+          ],
+          "details": "Modificar SolutionContext para guardar y recuperar la selección de localStorage",
+          "status": "pending",
+          "testStrategy": "Comprobar que la selección persista al recargar la página"
+        },
+        {
+          "id": 26,
+          "title": "[DEV] Modificar Contact.tsx para mostrar ítems seleccionados",
+          "description": "Mostrar los ítems seleccionados y el total estimado en el formulario de contacto",
+          "dependencies": [
+            25
+          ],
+          "details": "Modificar el formulario de contacto para mostrar la lista de ítems seleccionados y el total estimado",
+          "status": "pending",
+          "testStrategy": "Verificar que los ítems seleccionados y el total se muestren correctamente en el formulario"
+        },
+        {
+          "id": 27,
+          "title": "[DEV] Reemplazar selects en Contact.tsx con área de solución",
+          "description": "Sustituir los select de 'Plan' y 'Servicio Individual' con un área que muestre la solución seleccionada",
+          "dependencies": [
+            26
+          ],
+          "details": "Eliminar los selects existentes y reemplazarlos con un área que muestre la solución configurada",
+          "status": "pending",
+          "testStrategy": "Comprobar que los selects se reemplacen correctamente y que la solución se muestre adecuadamente"
+        },
+        {
+          "id": 28,
+          "title": "[DEV] Incluir información de la solución en datos enviados al backend",
+          "description": "Añadir los ítems seleccionados y el total estimado a los datos enviados al backend",
+          "dependencies": [
+            27
+          ],
+          "details": "Modificar la lógica de envío del formulario para incluir la información de la solución",
+          "status": "pending",
+          "testStrategy": "Verificar que los datos de la solución se incluyan correctamente en la petición al backend"
+        },
+        {
+          "id": 29,
+          "title": "[DEV] Implementar limpieza de localStorage después de enviar formulario",
+          "description": "Limpiar localStorage después de enviar el formulario de contacto",
+          "dependencies": [
+            28
+          ],
+          "details": "Añadir lógica para limpiar los datos de la solución en localStorage después de enviar el formulario exitosamente",
+          "status": "pending",
+          "testStrategy": "Comprobar que localStorage se limpie correctamente después de enviar el formulario"
+        },
+        {
+          "id": 30,
+          "title": "[CONTENIDO/MARKETING] Revisar y mejorar textos en componentes principales",
+          "description": "Actualizar el copywriting en todos los componentes principales",
+          "dependencies": [
+            7,
+            9
+          ],
+          "details": "Revisar y mejorar los textos en Hero.tsx, ValueProposition.tsx, Services.tsx, Pricing.tsx, Portfolio.tsx, SpecialOffer.tsx y Footer.tsx",
+          "status": "pending",
+          "testStrategy": "Verificar que los textos sean claros, persuasivos y estén alineados con la estrategia de marketing"
+        },
+        {
+          "id": 31,
+          "title": "[DEV/QA] Realizar pruebas de funcionalidad del configurador",
+          "description": "Probar exhaustivamente todas las funcionalidades del configurador de soluciones",
+          "dependencies": [
+            24,
+            29
+          ],
+          "details": "Probar la adición y eliminación de ítems, el cálculo del total, la persistencia en localStorage y el flujo completo hasta el envío del formulario",
+          "status": "pending",
+          "testStrategy": "Crear casos de prueba que cubran todos los escenarios posibles de uso del configurador"
+        },
+        {
+          "id": 32,
+          "title": "[DEV/QA] Realizar pruebas de responsividad",
+          "description": "Verificar que todos los componentes sean responsivos en diferentes dispositivos",
+          "dependencies": [
+            31
+          ],
+          "details": "Probar la visualización y funcionalidad en dispositivos móviles, tablets y desktops de diferentes tamaños",
+          "status": "pending",
+          "testStrategy": "Utilizar herramientas de desarrollo del navegador para simular diferentes dispositivos y verificar la correcta visualización"
+        },
+        {
+          "id": 33,
+          "title": "[DEV/QA] Implementar manejo de errores",
+          "description": "Añadir manejo de errores en todas las funcionalidades críticas",
+          "dependencies": [
+            31
+          ],
+          "details": "Implementar try/catch en operaciones críticas, mostrar mensajes de error amigables y registrar errores para depuración",
+          "status": "pending",
+          "testStrategy": "Provocar errores intencionalmente para verificar que se manejen correctamente"
+        },
+        {
+          "id": 34,
+          "title": "[DEV/QA] Optimizar performance",
+          "description": "Mejorar el rendimiento de la aplicación, especialmente en el configurador",
+          "dependencies": [
+            31
+          ],
+          "details": "Optimizar renderizados, implementar memoización donde sea necesario y minimizar operaciones costosas",
+          "status": "pending",
+          "testStrategy": "Utilizar herramientas de performance del navegador para medir y comparar el rendimiento antes y después de las optimizaciones"
+        },
+        {
+          "id": 35,
+          "title": "[TODOS] Realizar revisión final de UX/UI",
+          "description": "Evaluar la intuitividad del proceso, claridad de precios y contenido, y atractivo de llamadas a la acción",
+          "dependencies": [
+            30,
+            32,
+            33,
+            34
+          ],
+          "details": "Realizar una revisión completa de la experiencia de usuario, incluyendo pruebas con usuarios reales si es posible",
+          "status": "pending",
+          "testStrategy": "Recopilar feedback de usuarios y stakeholders sobre la experiencia completa del configurador"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+# Task ID: 14
+# Title: Modificaciones en Pricing.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo Pricing.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 1.1: Modificar Estructura de Datos plans - Planes de Proyecto Único [pending]
+### Dependencies: None
+### Description: Para los planes Presence Landing y Starter Web:
+Cambia la propiedad price de un rango a un precio base "Desde X USD".
+Renombra la propiedad services a priceDetails y asegúrate de que los detalles sean más específicos sobre lo que incluye el precio base.
+Añade una nueva propiedad opcional optionalAddOns: Array<{ name: string; price: string }> para listar mejoras con costo adicional.
+Añade (o modifica) la propiedad priceNote para ser más específico sobre el tipo de pago y tiempo de entrega.
+### Details:
+Ejemplo para Presence Landing (aplicar lógica similar a Starter Web):
+// OLD (conceptual):
+// price: '~ $800 - $1,200',
+// services: [
+//   'Diseño y Desarrollo de Landing Page (hasta 3 secciones)',
+//   'Diseño Responsive (Móvil y Escritorio)',
+//   'Formulario de Contacto Básico',
+//   'Optimización SEO On-page Básica',
+//   'Configuración de Google Analytics',
+// ],
+// priceNote: 'Proyecto único'
+
+// NEW:
+price: 'Desde $800 USD',
+priceDetails: [
+  'Diseño y Desarrollo de Landing Page (hasta 3 secciones clave)',
+  'Diseño Responsive (Móvil y Escritorio)',
+  'Formulario de Contacto Básico (integrado a tu email)',
+  'Optimización SEO On-page Esencial (títulos, metadescripciones)',
+  'Configuración de Google Analytics Básico',
+],
+optionalAddOns: [
+  { name: 'Sección adicional personalizada', price: '+$200 USD' },
+  { name: 'Blog básico integrado (hasta 3 artículos iniciales)', price: '+$300 USD' },
+  { name: 'Integración con CRM (básica, ej. Hubspot free)', price: '+$150 USD' },
+],
+priceNote: 'Pago único. Tiempo estimado de entrega: 2-3 semanas.'
+
+## 2. Tarea 1.2: Modificar Estructura de Datos plans - Planes de Retainer Mensual [pending]
+### Dependencies: None
+### Description: Para los planes Growth Leads y Full 360°:
+Haz la propiedad services mucho más específica con entregables mensuales claros.
+Añade una nota clara sobre el presupuesto de pauta no incluido.
+Considera añadir una recomendación de compromiso mínimo en priceNote.
+### Details:
+Ejemplo para Growth Leads (aplicar lógica similar a Full 360°):
+// OLD (conceptual):
+// services: [
+//   'Gestión de Campañas PPC (Google/Meta Ads - presupuesto no incluido)',
+//   'Optimización SEO Continua',
+//   'Marketing de Contenidos (Ej: 2 blogs/mes)',
+//   'Gestión Básica de Redes Sociales (Ej: 2 plataformas, 8 posts/mes)',
+//   'Reporte Mensual de Resultados',
+// ],
+// priceNote: 'Retainer Mensual'
+
+// NEW:
+services: [
+  'Gestión y Optimización de Campañas PPC (Google Ads y/o Meta Ads)',
+  'Nota: El presupuesto para la pauta publicitaria NO está incluido y es cubierto por el cliente.',
+  'Estrategia y Ejecución SEO Continua (monitoreo y optimización para hasta X palabras clave)',
+  'Marketing de Contenidos (2 artículos de blog de ~800 palabras/mes, optimizados para SEO, o equivalente en contenido visual)',
+  'Gestión de Redes Sociales (2 plataformas, 8-12 posts diseñados y programados/mes, con monitoreo básico de interacciones)',
+  'Reporte Mensual Detallado de Rendimiento (KPIs clave, análisis y recomendaciones)',
+  'Reunión Estratégica Mensual (hasta 60 minutos)',
+],
+priceNote: 'Retainer Mensual. Compromiso mínimo de 3 meses recomendado.'
+
+## 3. Tarea 1.3: Texto Introductorio de la Sección de Precios [pending]
+### Dependencies: None
+### Description: Actualizar el texto introductorio de la sección de precios según las especificaciones.
+### Details:
+OLD TEXT:
+<p className="text-foreground/70 max-w-2xl mx-auto">
+  El servicio de <strong>Branding e Identidad Corporativa</strong> se cotiza por separado. Consulta por descuentos en servicios adicionales al contratar planes superiores.
+</p>
+
+NEW TEXT (Sugerencia):
+<p className="text-foreground/70 max-w-3xl mx-auto">
+  Ofrecemos planes flexibles y transparentes diseñados para impulsar tu crecimiento. El servicio de <strong>Branding e Identidad Corporativa Completa</strong> tiene un costo base y se puede integrar a cualquier plan (ver detalles abajo o <a href="#branding-package" className="text-primary hover:underline">consulta nuestro Paquete Fundacional de Marca</a>). Los precios mostrados son en USD.
+</p>
+
+Nota para el dev: El enlace `#branding-package` es un marcador, necesitarás crear un `id="branding-package"` en la nueva sección de branding.
+
+## 4. Tarea 1.4: Añadir Sección/Paquete de Branding [pending]
+### Dependencies: None
+### Description: Debajo del <div> que muestra los planes principales, o donde sea más lógico visualmente, añade una nueva sección o tarjeta que detalle un paquete de branding.
+### Details:
+Contenido Sugerido para el Paquete de Branding (llámalo "Paquete Fundacional de Marca" o similar):
+Nombre: Paquete Fundacional de Marca
+Objetivo: Construir una identidad de marca sólida y profesional que siente las bases para tu éxito.
+Ideal para: Nuevos negocios o marcas que buscan un refresh profesional antes de invertir en web o marketing.
+Precio: Desde $1,200 USD (o el precio que definas)
+Detalles/Servicios:
+Consultoría de marca y definición de valores.
+Diseño de Logotipo (3 propuestas iniciales, hasta 3 rondas de revisión sobre la seleccionada).
+Paleta de colores y selección tipográfica.
+Manual de Marca Básico (PDF con guías de uso del logo, colores, tipografías).
+Diseño de 2 aplicaciones clave (ej: Tarjeta de presentación digital, Plantilla para post de Redes Sociales).
+PriceNote: Proyecto único. Tiempo estimado de entrega: 3-4 semanas.
+
+Nota para el dev: Puedes reutilizar la estructura de las tarjetas de planes existentes para mantener la consistencia visual. Asegúrate de añadir id="branding-package" a esta sección para el enlace de la Tarea 1.3.
+
+## 5. Tarea 1.5: Modificar Texto de Botones de CTA [pending]
+### Dependencies: None
+### Description: Modificar el texto de los botones de CTA en las tarjetas de planes.
+### Details:
+OLD TEXT (en el botón): Elegir plan
+NEW TEXT (en el botón): Discutir este Plan o Solicitar Propuesta
+
+## 6. Tarea 1.6: Reforzar Texto Introductorio de Tabla de Precios [pending]
+### Dependencies: None
+### Description: Reforzar el texto introductorio de la tabla de precios de referencia.
+### Details:
+OLD TEXT:
+<p className="text-center font-semibold text-gray-600 mb-8 max-w-3xl mx-auto">
+  Esta tabla muestra rangos orientativos basados en nuestro análisis. Los precios finales dependerán de la complejidad y alcance específico de cada proyecto.
+</p>
+
+NEW TEXT (Sugerencia):
+<p className="text-center font-semibold text-foreground/80 mb-8 max-w-3xl mx-auto">
+  Para poner nuestros planes en perspectiva, esta tabla muestra rangos orientativos para servicios de calidad equiparable en el mercado Norteamericano. En Avanxia Labs, te ofrecemos <strong>estándares internacionales con la ventaja competitiva del talento mexicano.</strong> Los precios finales siempre dependerán de la complejidad y alcance específico de tu proyecto.
+</p>
+

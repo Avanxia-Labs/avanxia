@@ -1,0 +1,39 @@
+# Task ID: 19
+# Title: Modificaciones en Contact.tsx
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implementar los cambios especificados en el archivo Contact.tsx.
+# Details:
+
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Tarea 6.1: Actualizar handleSubmit para Claridad [pending]
+### Dependencies: None
+### Description: Actualizar la función handleSubmit para mayor claridad sobre el estado actual de la integración.
+### Details:
+OLD CODE (dentro de handleSubmit):
+console.log('Form data submitted:', formData);
+alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+
+NEW CODE (dentro de handleSubmit):
+// TODO: Implementar la integración con un servicio de email (EmailJS, SendGrid) o un endpoint de backend.
+// La siguiente línea es temporal para simular el envío:
+console.log('Form data submitted:', formData); 
+alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto. (Simulación frontend)');
+
+## 2. Tarea 6.2: Verificar y Corregir Enlace de LinkedIn [pending]
+### Dependencies: None
+### Description: Verificar y corregir el enlace de LinkedIn en la sección de contacto.
+### Details:
+Acción: Busca la sección de LinkedIn:
+<a href="#" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">
+  Avanxia Labs
+</a>
+
+Corrección: Reemplaza "#" con la URL real del perfil de LinkedIn de Avanxia Labs. Si aún no existe, deja un comentario para que se cree y se actualice luego.
+Ejemplo: href="https://www.linkedin.com/company/avanxialabs" (si esa es la URL)
+

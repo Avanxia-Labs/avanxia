@@ -1,0 +1,45 @@
+# Task ID: 1
+# Title: Project Setup and Configuration
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Initialize the project with React 18, TypeScript, Vite, and configure essential tools and dependencies.
+# Details:
+1. Create a new Vite project with React and TypeScript template
+```bash
+pnpm create vite avanxia-portfolio-web --template react-ts
+cd avanxia-portfolio-web
+pnpm install
+```
+2. Install core dependencies:
+```bash
+pnpm add react-router-dom@7 @radix-ui/react-* tailwind-merge class-variance-authority clsx next-themes framer-motion react-hook-form zod @hookform/resolvers sonner lucide-react react-icons
+```
+3. Install dev dependencies:
+```bash
+pnpm add -D tailwindcss postcss autoprefixer eslint typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser
+```
+4. Initialize Tailwind CSS:
+```bash
+pnpm dlx tailwindcss init -p
+```
+5. Configure tsconfig.json, eslint, and other configuration files
+6. Set up project folder structure:
+   - src/
+     - components/
+     - layouts/
+     - pages/
+     - hooks/
+     - utils/
+     - types/
+     - styles/
+     - assets/
+     - data/
+     - context/
+
+# Test Strategy:
+1. Verify all dependencies install correctly
+2. Ensure the development server starts without errors
+3. Confirm TypeScript compilation works
+4. Test that Tailwind CSS is properly configured
+5. Validate ESLint rules are working

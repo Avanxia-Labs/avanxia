@@ -1,0 +1,355 @@
+# Task ID: 21
+# Title: Implementar Configurador de Soluciones con React Context API
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Desarrollar un sistema integral de configuración de soluciones que permita a los usuarios seleccionar servicios y planes, visualizar su selección y obtener un estimado de precio, utilizando React Context API para la gestión del estado. Este sistema forma parte de una revitalización web completa para hacer el sitio más atractivo y eficaz para vender.
+# Details:
+Esta implementación se realizará en varias fases:
+
+### Fase 0: Preparación y Planificación
+
+1. **Definir la Estructura de servicesData.ts**:
+   - Crear un archivo src/data/servicesData.ts
+   - Definir la interfaz ServiceOrPlanItem con propiedades como id, type, name, descriptions, category, price, priceRange, priceType, features, etc.
+   - Poblar servicesData.ts con todos los servicios y planes actuales
+   - Asignar precios o rangos a cada servicio individual
+
+### Fase 1: Refactorización de Componentes Existentes
+
+1. **Refactorizar Services.tsx**:
+   - Importar datos desde servicesData.ts
+   - Filtrar para mostrar solo servicios (item.type === 'service')
+   - Agrupar por categoría y mostrar información relevante
+   - Añadir botón "Añadir a Solución" (funcionalidad posterior)
+
+2. **Refactorizar Pricing.tsx**:
+   - Importar datos desde servicesData.ts
+   - Filtrar para mostrar planes y elementos destacados
+   - Modificar la lógica de isFeatured
+   - Cambiar "Elegir plan" por "Añadir a Solución"
+
+### Fase 2: Implementación del Configurador de Soluciones
+
+1. **Crear SolutionContext.tsx**:
+   - Implementar un contexto de React con los siguientes estados:
+     - `selectedItems`: Array de servicios/planes seleccionados
+     - `estimatedTotal`: Número que representa el costo total estimado
+   - Implementar las siguientes funciones:
+     - `addItem(item)`: Añade un ítem y previene duplicados
+     - `removeItem(itemId)`: Elimina un ítem por su ID
+     - `clearSolution()`: Vacía la selección completa
+     - `calculateTotal(items)`: Calcula el total basado en los precios de los ítems
+
+2. **Crear SolutionSidebar.tsx**:
+   - Desarrollar un componente de barra lateral o modal que muestre:
+     - Lista de ítems seleccionados con opción de eliminar
+     - Total estimado formateado
+     - Botón "Continuar para Cotizar" que redirija a la sección de contacto
+     - Botón "Vaciar Solución"
+   - Implementar un ícono fijo en la página que muestre/oculte la barra lateral
+
+3. **Integrar con Componentes Existentes**:
+   - Modificar Services.tsx y Pricing.tsx para:
+     - Añadir botones "Añadir a Solución" en cada tarjeta de servicio/plan
+     - Cambiar visualmente el botón cuando un ítem ya está añadido
+     - Conectar estos botones con la función `addItem` del contexto
+
+### Fase 3: Mejorar el Formulario de Contacto y Flujo
+
+1. **Modificar Contact.tsx**:
+   - Implementar almacenamiento temporal de la selección en localStorage
+   - Mostrar los ítems seleccionados y el total estimado en el formulario
+   - Reemplazar los select de "Plan" y "Servicio Individual" con un área que muestre la solución seleccionada
+   - Incluir esta información en los datos que se envían al backend
+   - Limpiar localStorage después de enviar el formulario
+
+### Fase 4: Mejoras de Copywriting y Contenido General
+
+1. **Revisar y mejorar textos** en:
+   - Hero.tsx
+   - ValueProposition.tsx
+   - Services.tsx
+   - Pricing.tsx
+   - Portfolio.tsx
+   - SpecialOffer.tsx
+   - Footer.tsx
+
+### Fase 5: Pruebas y Refinamiento
+
+1. **Pruebas Exhaustivas**:
+   - Funcionalidad del configurador
+   - Flujo de contacto
+   - Responsividad
+   - Errores de consola
+   - Velocidad de carga
+
+2. **Revisión de UX/UI**:
+   - Intuitividad del proceso
+   - Claridad de precios y contenido
+   - Atractivo de llamadas a la acción
+
+3. **Consideraciones Adicionales**:
+   - Manejo de errores
+   - Performance
+   - Accesibilidad
+   - Persistencia de datos
+
+Esta implementación debe integrarse con el sistema de datos de servicios (servicesData.ts) y formar parte de una estrategia integral para hacer la web más atractiva y eficaz para vender.
+
+# Test Strategy:
+Para verificar la correcta implementación del Configurador de Soluciones, se deben realizar las siguientes pruebas:
+
+1. **Pruebas de Funcionalidad del Contexto**:
+   - Verificar que `addItem` añade correctamente un ítem al estado y previene duplicados
+   - Comprobar que `removeItem` elimina el ítem correcto por ID
+   - Confirmar que `clearSolution` vacía completamente la selección
+   - Validar que `calculateTotal` calcula correctamente el total para diferentes tipos de precios
+
+2. **Pruebas de Interfaz de Usuario**:
+   - Comprobar que los botones "Añadir a Solución" aparecen en todas las tarjetas de servicios y planes
+   - Verificar que el botón cambia visualmente cuando un ítem ya está añadido
+   - Confirmar que el ícono para mostrar/ocultar la barra lateral funciona correctamente
+   - Validar que la barra lateral muestra correctamente todos los ítems seleccionados y el total
+
+3. **Pruebas de Integración**:
+   - Verificar que al hacer clic en "Continuar para Cotizar" se redirige correctamente a la sección de contacto
+   - Comprobar que los datos seleccionados se almacenan en localStorage
+   - Confirmar que el formulario de contacto muestra correctamente los ítems seleccionados
+   - Validar que los datos de la selección se incluyen en el envío del formulario
+
+4. **Pruebas de Responsividad**:
+   - Verificar la visualización correcta en dispositivos móviles, tablets y desktops
+   - Comprobar que la barra lateral/modal se adapta correctamente a diferentes tamaños de pantalla
+
+5. **Pruebas de Casos Límite**:
+   - Probar con una gran cantidad de ítems seleccionados
+   - Verificar el comportamiento cuando no hay ítems seleccionados
+   - Comprobar el manejo de errores cuando los datos de servicios no están disponibles
+
+6. **Pruebas de Rendimiento**:
+   - Medir el tiempo de respuesta al añadir/eliminar ítems
+   - Verificar que no hay problemas de rendimiento con múltiples ítems
+
+7. **Pruebas de Contenido y Copywriting**:
+   - Verificar que los textos actualizados se muestran correctamente
+   - Comprobar que los mensajes son claros y efectivos
+   - Validar que las llamadas a la acción son atractivas y funcionan como se espera
+
+8. **Pruebas de Flujo Completo**:
+   - Realizar pruebas end-to-end del proceso completo desde la selección hasta el envío del formulario
+   - Verificar que la experiencia del usuario es fluida y sin interrupciones
+
+Documentar todos los resultados de las pruebas y corregir cualquier problema identificado antes de considerar la tarea como completada.
+
+# Subtasks:
+## 1. [DEV] Crear estructura de archivo servicesData.ts [done]
+### Dependencies: None
+### Description: Crear el archivo base para almacenar los datos de servicios y planes
+### Details:
+Crear el archivo en src/data/servicesData.ts y establecer la estructura básica del archivo
+
+## 2. [DEV] Definir interfaz ServiceOrPlanItem [done]
+### Dependencies: 21.1
+### Description: Crear la interfaz TypeScript que define la estructura de datos para servicios y planes
+### Details:
+Definir la interfaz con propiedades como id, type, name, descriptions, category, price, priceRange, priceType, features, etc.
+
+## 3. [CONTENIDO/ESTRATEGIA] Recopilar información de servicios actuales [done]
+### Dependencies: 21.2
+### Description: Recopilar todos los servicios actuales con sus descripciones y características
+### Details:
+Crear una lista completa de todos los servicios ofrecidos actualmente, incluyendo descripciones, características y categorías
+
+## 4. [CONTENIDO/ESTRATEGIA] Recopilar información de planes actuales [done]
+### Dependencies: 21.2
+### Description: Recopilar todos los planes actuales con sus características y precios
+### Details:
+Crear una lista completa de todos los planes ofrecidos actualmente, incluyendo características, precios y beneficios
+
+## 5. [DEV] Poblar servicesData.ts con servicios y planes [done]
+### Dependencies: 21.2, 21.3, 21.4
+### Description: Implementar los datos recopilados en el archivo servicesData.ts
+### Details:
+Convertir la información recopilada a objetos TypeScript que cumplan con la interfaz ServiceOrPlanItem
+
+## 6. [CONTENIDO/ESTRATEGIA] Asignar precios o rangos a cada servicio [done]
+### Dependencies: 21.5
+### Description: Definir precios o rangos de precios para cada servicio individual
+### Details:
+Revisar y asignar precios o rangos de precios realistas para cada servicio basado en el esfuerzo y valor proporcionado
+
+## 7. [DEV] Refactorizar Services.tsx para usar servicesData [done]
+### Dependencies: 21.5, 21.6
+### Description: Modificar el componente Services para utilizar los datos centralizados
+### Details:
+Importar datos desde servicesData.ts, filtrar para mostrar solo servicios (item.type === 'service'), agrupar por categoría y mostrar información relevante
+
+## 8. [DEV] Añadir botón 'Añadir a Solución' en Services.tsx [done]
+### Dependencies: 21.7
+### Description: Implementar botón en cada tarjeta de servicio para añadirlo a la solución
+### Details:
+Añadir un botón visualmente atractivo en cada tarjeta de servicio que posteriormente se conectará con la funcionalidad del contexto
+
+## 9. [DEV] Refactorizar Pricing.tsx para usar servicesData [pending]
+### Dependencies: 21.5, 21.6
+### Description: Modificar el componente Pricing para utilizar los datos centralizados
+### Details:
+Importar datos desde servicesData.ts, filtrar para mostrar planes y elementos destacados, y modificar la lógica de isFeatured
+
+## 10. [DEV] Cambiar 'Elegir plan' por 'Añadir a Solución' en Pricing.tsx [pending]
+### Dependencies: 21.9
+### Description: Actualizar el texto y funcionalidad de los botones en la sección de precios
+### Details:
+Modificar los botones existentes para que digan 'Añadir a Solución' en lugar de 'Elegir plan'
+
+## 11. [DEV] Crear archivo SolutionContext.tsx [pending]
+### Dependencies: 21.5
+### Description: Implementar el contexto de React para gestionar el estado de la solución
+### Details:
+Crear un nuevo archivo para el contexto que gestionará el estado global de la solución seleccionada
+
+## 12. [DEV] Implementar estados en SolutionContext [pending]
+### Dependencies: 21.11
+### Description: Definir los estados necesarios para el contexto de la solución
+### Details:
+Implementar estados para selectedItems (array de servicios/planes seleccionados) y estimatedTotal (costo total estimado)
+
+## 13. [DEV] Implementar función addItem en SolutionContext [pending]
+### Dependencies: 21.12
+### Description: Crear función para añadir ítems a la solución evitando duplicados
+### Details:
+Implementar la función addItem que añade un ítem al array selectedItems y previene duplicados
+
+## 14. [DEV] Implementar función removeItem en SolutionContext [pending]
+### Dependencies: 21.12
+### Description: Crear función para eliminar ítems de la solución por ID
+### Details:
+Implementar la función removeItem que elimina un ítem del array selectedItems por su ID
+
+## 15. [DEV] Implementar función clearSolution en SolutionContext [pending]
+### Dependencies: 21.12
+### Description: Crear función para vaciar completamente la selección
+### Details:
+Implementar la función clearSolution que vacía el array selectedItems
+
+## 16. [DEV] Implementar función calculateTotal en SolutionContext [pending]
+### Dependencies: 21.12
+### Description: Crear función para calcular el total basado en los precios de los ítems
+### Details:
+Implementar la función calculateTotal que calcula el total basado en los precios de los ítems seleccionados
+
+## 17. [DEV] Crear componente SolutionSidebar.tsx [pending]
+### Dependencies: 21.16
+### Description: Desarrollar el componente de barra lateral para mostrar la solución seleccionada
+### Details:
+Crear un nuevo componente que mostrará la lista de ítems seleccionados, el total estimado y opciones para gestionar la solución
+
+## 18. [DEV] Implementar lista de ítems seleccionados en SolutionSidebar [pending]
+### Dependencies: 21.17
+### Description: Mostrar los ítems seleccionados con opción de eliminar
+### Details:
+Desarrollar la sección que muestra la lista de ítems seleccionados con un botón para eliminar cada ítem
+
+## 19. [DEV] Implementar total estimado en SolutionSidebar [pending]
+### Dependencies: 21.17, 21.16
+### Description: Mostrar el total estimado formateado
+### Details:
+Desarrollar la sección que muestra el total estimado formateado como precio
+
+## 20. [DEV] Implementar botones de acción en SolutionSidebar [pending]
+### Dependencies: 21.17, 21.15
+### Description: Añadir botones 'Continuar para Cotizar' y 'Vaciar Solución'
+### Details:
+Añadir botones para continuar a la sección de contacto y para vaciar la solución
+
+## 21. [DEV] Implementar ícono fijo para mostrar/ocultar SolutionSidebar [pending]
+### Dependencies: 21.17
+### Description: Crear un ícono fijo en la página que muestre/oculte la barra lateral
+### Details:
+Desarrollar un ícono flotante que permita mostrar y ocultar la barra lateral de solución
+
+## 22. [DEV] Integrar SolutionContext con Services.tsx [pending]
+### Dependencies: 21.8, 21.13
+### Description: Conectar los botones 'Añadir a Solución' con la función addItem del contexto
+### Details:
+Modificar Services.tsx para utilizar el contexto y conectar los botones con la función addItem
+
+## 23. [DEV] Integrar SolutionContext con Pricing.tsx [pending]
+### Dependencies: 21.10, 21.13
+### Description: Conectar los botones 'Añadir a Solución' con la función addItem del contexto
+### Details:
+Modificar Pricing.tsx para utilizar el contexto y conectar los botones con la función addItem
+
+## 24. [DEV] Implementar cambio visual en botones para ítems ya añadidos [pending]
+### Dependencies: 21.22, 21.23
+### Description: Cambiar visualmente el botón cuando un ítem ya está añadido a la solución
+### Details:
+Modificar los botones para que cambien su apariencia cuando el ítem correspondiente ya está en la solución
+
+## 25. [DEV] Implementar almacenamiento en localStorage para la solución [pending]
+### Dependencies: 21.16
+### Description: Guardar temporalmente la selección en localStorage
+### Details:
+Modificar SolutionContext para guardar y recuperar la selección de localStorage
+
+## 26. [DEV] Modificar Contact.tsx para mostrar ítems seleccionados [pending]
+### Dependencies: 21.25
+### Description: Mostrar los ítems seleccionados y el total estimado en el formulario de contacto
+### Details:
+Modificar el formulario de contacto para mostrar la lista de ítems seleccionados y el total estimado
+
+## 27. [DEV] Reemplazar selects en Contact.tsx con área de solución [pending]
+### Dependencies: 21.26
+### Description: Sustituir los select de 'Plan' y 'Servicio Individual' con un área que muestre la solución seleccionada
+### Details:
+Eliminar los selects existentes y reemplazarlos con un área que muestre la solución configurada
+
+## 28. [DEV] Incluir información de la solución en datos enviados al backend [pending]
+### Dependencies: 21.27
+### Description: Añadir los ítems seleccionados y el total estimado a los datos enviados al backend
+### Details:
+Modificar la lógica de envío del formulario para incluir la información de la solución
+
+## 29. [DEV] Implementar limpieza de localStorage después de enviar formulario [pending]
+### Dependencies: 21.28
+### Description: Limpiar localStorage después de enviar el formulario de contacto
+### Details:
+Añadir lógica para limpiar los datos de la solución en localStorage después de enviar el formulario exitosamente
+
+## 30. [CONTENIDO/MARKETING] Revisar y mejorar textos en componentes principales [pending]
+### Dependencies: 21.7, 21.9
+### Description: Actualizar el copywriting en todos los componentes principales
+### Details:
+Revisar y mejorar los textos en Hero.tsx, ValueProposition.tsx, Services.tsx, Pricing.tsx, Portfolio.tsx, SpecialOffer.tsx y Footer.tsx
+
+## 31. [DEV/QA] Realizar pruebas de funcionalidad del configurador [pending]
+### Dependencies: 21.24, 21.29
+### Description: Probar exhaustivamente todas las funcionalidades del configurador de soluciones
+### Details:
+Probar la adición y eliminación de ítems, el cálculo del total, la persistencia en localStorage y el flujo completo hasta el envío del formulario
+
+## 32. [DEV/QA] Realizar pruebas de responsividad [pending]
+### Dependencies: 21.31
+### Description: Verificar que todos los componentes sean responsivos en diferentes dispositivos
+### Details:
+Probar la visualización y funcionalidad en dispositivos móviles, tablets y desktops de diferentes tamaños
+
+## 33. [DEV/QA] Implementar manejo de errores [pending]
+### Dependencies: 21.31
+### Description: Añadir manejo de errores en todas las funcionalidades críticas
+### Details:
+Implementar try/catch en operaciones críticas, mostrar mensajes de error amigables y registrar errores para depuración
+
+## 34. [DEV/QA] Optimizar performance [pending]
+### Dependencies: 21.31
+### Description: Mejorar el rendimiento de la aplicación, especialmente en el configurador
+### Details:
+Optimizar renderizados, implementar memoización donde sea necesario y minimizar operaciones costosas
+
+## 35. [TODOS] Realizar revisión final de UX/UI [pending]
+### Dependencies: 21.30, 21.32, 21.33, 21.34
+### Description: Evaluar la intuitividad del proceso, claridad de precios y contenido, y atractivo de llamadas a la acción
+### Details:
+Realizar una revisión completa de la experiencia de usuario, incluyendo pruebas con usuarios reales si es posible
+

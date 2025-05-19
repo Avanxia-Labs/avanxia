@@ -1,0 +1,75 @@
+# Task ID: 2
+# Title: Theme System Implementation
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Implement a dark/light theme system using next-themes with Tailwind CSS.
+# Details:
+1. Configure Tailwind CSS for theme support in tailwind.config.js:
+```javascript
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        // Define brand colors here
+        primary: { /* color values */ },
+        secondary: { /* color values */ },
+        // Add dark mode specific colors
+        dark: { /* dark theme colors */ }
+      }
+    }
+  },
+  plugins: []
+}
+```
+
+2. Create a ThemeProvider component using next-themes:
+```tsx
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { type ReactNode } from 'react'
+
+interface ThemeProviderProps {
+  children: ReactNode
+}
+
+export function ThemeProvider({ children }: ThemeProviderProps) {
+  return (
+    <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+      {children}
+    </NextThemesProvider>
+  )
+}
+```
+
+3. Create a ThemeToggle component:
+```tsx
+import { useTheme } from 'next-themes'
+import { Sun, Moon } from 'lucide-react'
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+  
+  return (
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+      aria-label="Toggle theme"
+    >
+      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    </button>
+  )
+}
+```
+
+4. Wrap the application with ThemeProvider in main.tsx
+5. Add CSS variables for theme colors in global.css
+
+# Test Strategy:
+1. Test theme toggle functionality in both light and dark modes
+2. Verify system preference detection works correctly
+3. Ensure theme persists across page refreshes
+4. Test theme transition animations
+5. Validate all UI components render correctly in both themes

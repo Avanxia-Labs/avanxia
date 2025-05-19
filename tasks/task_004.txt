@@ -1,0 +1,108 @@
+# Task ID: 4
+# Title: Core UI Components Development
+# Status: done
+# Dependencies: 1, 2
+# Priority: high
+# Description: Develop reusable UI components using Radix UI primitives and Tailwind CSS for consistent design across the site.
+# Details:
+1. Create a Button component with variants:
+```tsx
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/utils/cn'
+
+const buttonVariants = cva(
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none',
+  {
+    variants: {
+      variant: {
+        default: 'bg-primary text-white hover:bg-primary/90',
+        outline: 'border border-input hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+      },
+      size: {
+        default: 'h-10 py-2 px-4',
+        sm: 'h-9 px-3',
+        lg: 'h-11 px-8',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  }
+)
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
+
+export function Button({ className, variant, size, ...props }: ButtonProps) {
+  return <button className={cn(buttonVariants({ variant, size, className }))} {...props} />
+}
+```
+
+2. Create a Card component for project displays:
+```tsx
+import { cn } from '@/utils/cn'
+
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function Card({ className, ...props }: CardProps) {
+  return <div className={cn('rounded-lg border bg-card shadow-sm', className)} {...props} />
+}
+
+interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function CardHeader({ className, ...props }: CardHeaderProps) {
+  return <div className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
+}
+
+// Add CardTitle, CardDescription, CardContent, CardFooter components
+```
+
+3. Create a Header component with navigation:
+```tsx
+import { NavLink } from 'react-router-dom'
+import { ThemeToggle } from './ThemeToggle'
+import { Button } from './Button'
+
+export function Header() {
+  return (
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-6">
+          <NavLink to="/" className="flex items-center space-x-2">
+            <img src="/logo.svg" alt="Avanxia" className="h-8 w-auto" />
+            <span className="font-bold">Avanxia</span>
+          </NavLink>
+          <nav className="hidden md:flex gap-6">
+            <NavLink to="/services" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Services</NavLink>
+            <NavLink to="/portfolio" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Portfolio</NavLink>
+            <NavLink to="/about" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>About</NavLink>
+            <NavLink to="/contact" className={({ isActive }) => cn('transition-colors hover:text-foreground/80', isActive ? 'text-foreground' : 'text-foreground/60')}>Contact</NavLink>
+          </nav>
+        </div>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <Button asChild className="hidden md:inline-flex">
+            <NavLink to="/contact">Get Started</NavLink>
+          </Button>
+          {/* Mobile menu button */}
+        </div>
+      </div>
+    </header>
+  )
+}
+```
+
+4. Create a Footer component
+5. Implement mobile navigation menu using Radix UI Dialog
+6. Create form components (input, textarea, select, checkbox)
+7. Implement toast notification system with Sonner
+
+# Test Strategy:
+1. Test all UI components in isolation
+2. Verify components render correctly in both light and dark themes
+3. Test responsive behavior on different screen sizes
+4. Ensure accessibility standards are met (keyboard navigation, ARIA attributes)
+5. Test form components with various input states
+6. Verify toast notifications display correctly
+7. Test mobile navigation menu functionality
