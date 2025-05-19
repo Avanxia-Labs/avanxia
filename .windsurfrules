@@ -471,4 +471,5 @@ alwaysApply: true
   - Maintain links between related rules
   - Document breaking changes
 
+
 Follow WINDSURF_RULES for proper rule formatting and structure of windsurf rule sections.
