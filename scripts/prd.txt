@@ -1,0 +1,244 @@
+<context>
+# Overview  
+Avanxia Portfolio Web es un sitio web de presentación profesional para la agencia de desarrollo digital Avanxia. El sitio está diseñado para mostrar los servicios, proyectos, equipo y proceso de trabajo de la compañía, con el objetivo de atraer nuevos clientes y establecer la presencia digital de la marca. El sitio combina una experiencia de usuario moderna con un diseño atractivo y una navegación intuitiva para destacar el portafolio de la empresa y sus capacidades técnicas.
+
+# Core Features  
+## Presentación de Servicios
+- Muestra detallada de los servicios ofrecidos por Avanxia
+- Categorización clara de áreas de especialización
+- Descripción de beneficios y ventajas competitivas para los clientes
+
+## Portafolio de Proyectos
+- Exhibición de proyectos destacados con imágenes de alta calidad
+- Páginas individuales detalladas para cada proyecto
+- Casos de estudio que demuestran soluciones técnicas e impacto
+- Sistema de navegación fácil entre proyectos y retorno al portafolio principal
+
+## Perfil de Empresa
+- Sección de equipo que destaca a los profesionales clave
+- Presentación de la propuesta de valor
+- Metodología y proceso de trabajo
+- Estructura de precios transparente
+
+## Captación de Leads
+- Formulario de contacto integrado
+- Oferta especial para captar leads
+- Seguimiento de interacciones de usuarios
+
+## Experiencia Personalizada
+- Sistema de saludo personalizado
+- Adaptabilidad a diferentes dispositivos (responsive design)
+- Modo oscuro/claro para preferencias visuales
+
+# User Experience  
+## Perfiles de Usuario
+1. **Clientes Potenciales Corporativos**
+   - Ejecutivos y tomadores de decisiones buscando servicios de desarrollo
+   - Buscan referencias, experiencia previa y calidad
+   - Valoran la transparencia en el proceso y precios
+
+2. **Socios Potenciales**
+   - Profesionales y empresas buscando alianzas estratégicas
+   - Interesados en la capacidad técnica y cartera de clientes
+   - Evalúan la profesionalidad y estándares de calidad
+
+3. **Candidatos para Empleo**
+   - Desarrolladores y diseñadores explorando oportunidades laborales
+   - Buscan conocer la cultura, proyectos y tecnologías utilizadas
+   - Interesados en el equipo actual y visión de la empresa
+
+## Flujos Principales de Usuario
+1. **Descubrimiento de Servicios → Exploración de Portafolio → Contacto**
+   - Usuario llega al sitio, identifica servicios relevantes
+   - Explora proyectos relacionados para validar experiencia
+   - Utiliza el formulario de contacto para solicitar información
+
+2. **Exploración de Portafolio → Estudio de Caso Individual → Evaluación de Equipo → Contacto**
+   - Usuario revisa proyectos inicialmente
+   - Profundiza en un proyecto específico para entender capacidades
+   - Conoce al equipo responsable
+   - Contacta para discutir su propio proyecto
+
+3. **Landing → Propuesta de Valor → Metodología → Precios → Oferta Especial**
+   - Usuario evalúa la propuesta general de la empresa
+   - Comprende el proceso de trabajo y entregables
+   - Revisa estructura de precios
+   - Responde a ofertas especiales para nuevos clientes
+
+## Consideraciones UI/UX
+- Diseño minimalista y elegante usando Tailwind CSS
+- Paleta de colores corporativa con soporte para modo oscuro/claro
+- Animaciones sutiles para mejorar la experiencia sin distraer
+- Navegación intuitiva con llamados a la acción estratégicos
+- Tiempos de carga optimizados con imágenes y videos procesados
+- Interfaz adaptable para dispositivos móviles, tablets y desktops
+- Componentes interactivos que mejoran la exploración del contenido
+</context>
+<PRD>
+# Technical Architecture  
+## Componentes del Sistema
+- **Frontend Framework**: React 18 con TypeScript para desarrollo de componentes
+- **Build Tool**: Vite para compilación y desarrollo optimizado
+- **Routing**: React Router DOM v7 para navegación entre páginas
+- **UI Framework**: Componentes personalizados con Radix UI y Tailwind CSS
+- **Temas**: Sistema de temas claro/oscuro usando next-themes
+- **Animaciones**: Framer Motion para animaciones fluidas
+- **Formularios**: React Hook Form con validación Zod
+- **Carruseles/Sliders**: Swiper, Embla Carousel y Keen Slider para presentación de proyectos
+- **Notificaciones**: Sistema de toasts con Sonner
+- **Optimización**: Scripts para procesamiento de imágenes y videos
+
+## Modelos de Datos
+- **Proyectos**: Estructura para casos de portafolio con imágenes, descripciones, tecnologías
+- **Servicios**: Categorización de ofertas de servicios con detalles y beneficios
+- **Equipo**: Perfiles de miembros con roles, especialidades y contacto
+- **Testimonios**: Feedback de clientes con nombre, empresa y contenido
+- **Precios**: Paquetes de servicios con características y valores
+- **Formularios**: Estructura para captura de leads y solicitudes
+
+## Integraciones
+- **Optimización de Medios**: Sharp para procesamiento de imágenes
+- **Efectos Visuales**: TSParticles para fondos interactivos
+- **Cronogramas**: React Chrono para visualización de procesos
+- **Iconografía**: Lucide React y React Icons para elementos visuales
+- **Animaciones 3D**: React Parallax Tilt para efectos de tarjetas
+
+## Requerimientos de Infraestructura
+- **Hosting**: Plataforma para sitios estáticos (Netlify/Vercel)
+- **CI/CD**: Integración continua para despliegues automáticos
+- **CDN**: Distribución de contenido para imágenes y videos optimizados
+- **Analytics**: Seguimiento de interacciones de usuarios
+- **Almacenamiento**: Sistema para medios estáticos (imágenes, videos)
+
+# Development Roadmap  
+## Fase 1: MVP (Producto Mínimo Viable)
+- Implementación de componentes base (Header, Hero, Footer)
+- Estructura de navegación principal
+- Sistema de temas claro/oscuro
+- Página de inicio con secciones principales:
+  * Hero con mensaje central
+  * Portafolio simplificado (6-8 proyectos destacados)
+  * Propuesta de valor resumida
+  * Formulario de contacto básico
+- Responsive design para dispositivos principales
+- Optimización básica de imágenes
+
+## Fase 2: Expansión de Contenido
+- Desarrollo de páginas individuales para proyectos
+- Implementación completa de la sección de servicios
+- Expansión del portafolio con todos los proyectos
+- Sección de equipo con perfiles completos
+- Mejoras en el SEO y metadatos
+- Sistema de navegación mejorado con breadcrumbs
+- Animaciones avanzadas en la interfaz
+
+## Fase 3: Mejoras de UX y Conversión
+- Sistema de saludo personalizado
+- Implementación de sección de precios
+- Integración de ofertas especiales
+- Mejoras en el formulario de contacto con validación avanzada
+- Optimización para conversión de leads
+- Sistema de testimonios interactivo
+- Visualización del proceso de trabajo
+
+## Fase 4: Optimización y Refinamiento
+- Automatización completa de optimización de medios
+- Implementación de lazy loading para todos los recursos
+- Mejoras en accesibilidad (WCAG 2.1)
+- Pruebas de usabilidad y ajustes basados en feedback
+- Refinamiento visual de todas las secciones
+- Implementación de microinteracciones
+- Integración con CMS para gestión de contenido
+
+# Logical Dependency Chain
+1. **Fundamentos de la Aplicación**
+   - Configuración de proyecto React/TypeScript/Vite
+   - Implementación de sistema de estilos (Tailwind)
+   - Estructura de routing y navegación
+   - Sistema de temas claro/oscuro
+
+2. **Estructura Base y Navegación**
+   - Desarrollo de Header con navegación
+   - Hero con mensaje principal de la marca
+   - Componentes de UI reusables (botones, tarjetas, etc.)
+   - Layout base para todas las páginas
+
+3. **Contenido Esencial (Primera Impresión)**
+   - Sección Hero completa con llamado a acción
+   - Portafolio inicial con proyectos destacados
+   - Propuesta de valor resumida
+   - Formulario de contacto básico
+
+4. **Expansión de Funcionalidades**
+   - Páginas individuales de proyectos
+   - Sección de servicios detallada
+   - Implementación del sistema de portafolio completo
+   - Navegación entre proyectos y portafolio
+
+5. **Contenido Complementario**
+   - Sección de equipo
+   - Proceso de trabajo
+   - Precios
+   - Ofertas especiales
+   - Testimonios
+
+6. **Refinamiento y Optimización**
+   - Animaciones y microinteracciones
+   - Optimización de recursos (imágenes, videos)
+   - Mejoras de accesibilidad
+   - Ajustes de rendimiento
+   - Pruebas en diferentes dispositivos
+
+# Risks and Mitigations  
+## Desafíos Técnicos
+- **Rendimiento con Recursos Visuales Pesados**
+  * Riesgo: Los proyectos de portafolio pueden incluir muchas imágenes de alta calidad y videos
+  * Mitigación: Implementar sistema de optimización automática de recursos, lazy loading, y formatos modernos (WebP, AVIF)
+
+- **Compatibilidad con Navegadores**
+  * Riesgo: Funcionalidades avanzadas pueden no ser compatibles con todos los navegadores
+  * Mitigación: Utilizar polyfills cuando sea necesario y asegurar graceful degradation
+
+- **Rendimiento en Dispositivos de Gama Baja**
+  * Riesgo: Animaciones y efectos pueden afectar la experiencia en dispositivos menos potentes
+  * Mitigación: Implementar detección de capacidades y reducir efectos en dispositivos limitados
+
+## Definición del MVP
+- **Alcance Adecuado**
+  * Riesgo: Intentar incluir demasiadas características en la versión inicial
+  * Mitigación: Priorizar claramente las funcionalidades críticas para la primera impresión
+
+- **Balance entre Estética y Funcionalidad**
+  * Riesgo: Enfocarse demasiado en el diseño visual a costa de la usabilidad
+  * Mitigación: Pruebas de usuario tempranas y enfoque en métricas de conversión
+
+## Restricciones de Recursos
+- **Optimización de Tiempos de Desarrollo**
+  * Riesgo: Subestimación del esfuerzo para componentes complejos
+  * Mitigación: Utilizar bibliotecas probadas (Radix UI) y componentes reutilizables
+
+- **Mantenimiento a Largo Plazo**
+  * Riesgo: Dificultad para actualizar contenido sin intervención de desarrolladores
+  * Mitigación: Implementación de un sistema de gestión de contenido en fases posteriores
+
+# Appendix  
+## Hallazgos de Investigación
+- Análisis de sitios web de competidores en el sector de agencias digitales
+- Mejores prácticas de UX para sitios de portafolio
+- Tendencias actuales en diseño web para 2025
+
+## Especificaciones Técnicas
+- Requisitos de Sistema: Node.js >= 18.x, PNPM como gestor de paquetes
+- Navegadores Objetivo: Chrome, Firefox, Safari, Edge últimas 2 versiones
+- Dispositivos: Móviles (>320px), Tablets (>768px), Desktop (>1024px)
+- Performance Targets: 
+  * Lighthouse score > 90
+  * First Contentful Paint < 1.5s
+  * Time to Interactive < 3s
+  * Cumulative Layout Shift < 0.1
+
+## Recursos
+- Bibliotecas y Frameworks: React, TypeScript, Tailwind CSS, Radix UI
+- Herramientas de Construcción: Vite, TypeScript, ESLint
+- Sistemas de Optimización: Sharp para imágenes, scripts personalizados para videos
+</PRD>
