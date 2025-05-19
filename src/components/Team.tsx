@@ -44,7 +44,7 @@ const teamMembers: TeamMember[] = [
     role: 'Socio Inversionista (Luis Alberto)',
     skills: 'Dirección Financiera, Visión Estratégica, Networking',
     description: 'Supervisa la dirección financiera y aporta visión estratégica.',
-    // Sin foto disponible, mostrará ícono de User
+    imageSrc: '/images/portfolio/tauro.png',
   },
 ]
 
