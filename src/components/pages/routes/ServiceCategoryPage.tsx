@@ -9,6 +9,7 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
 import { Button } from "@/components/ui/button";
+import PackageCartModal from '@/components/PackageCartModal';
 
 // ── Animaciones con Framer Motion ─────────────────────────────────────────
 const containerAnimation = {
@@ -41,8 +42,19 @@ const sectionAnimation = {
 
 // ── Componente ───────────────────────────────────────────────────────────
 const ServiceCategoryPage: React.FC = () => {
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<ServicePlan[]>([]);
   const navigate = useNavigate();
   const { categorySlug } = useParams<{ categorySlug: string }>();
+
+  const togglePlan = (plan: ServicePlan) => {
+  setCartItems((prev) =>
+    prev.find((p) => p.id === plan.id)
+      ? prev.filter((p) => p.id !== plan.id)
+      : [...prev, plan],
+  );
+  setCartOpen(true); // abre al añadir
+};
 
   // Estado para manejar la inicialización de partículas
   const [init, setInit] = useState(false);
@@ -319,6 +331,7 @@ const ServiceCategoryPage: React.FC = () => {
                       >
                         Añadir a Solución
                       </button>
+                      <button onClick={() => togglePlan(plan)} >...Añadir a Solución</button>
                     </div>
                   </div>
                 </motion.div>
@@ -668,7 +681,22 @@ const ServiceCategoryPage: React.FC = () => {
           </Button>
         </motion.section>
       </div>
+       {/* ——— Modal de carrito de paquetes ——— */}
+      <PackageCartModal
+        open={cartOpen}
+        items={cartItems}
+        onClose={() => setCartOpen(false)}
+        onRemove={(id) =>
+          setCartItems((items) => items.filter((p) => p.id !== id))
+        }
+        onContinue={() => {
+          // aquí iría tu lógica de checkout o navegación
+          navigate('/checkout');
+        }}
+      />
     </div>
+
+    
   );
 };
 
