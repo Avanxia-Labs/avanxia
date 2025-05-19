@@ -145,8 +145,8 @@ const Header = () => {
                     </button>
                     {isServicesMenuOpen && (
                       <div className="fixed w-72 z-[100]" style={{
-                        top: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().bottom + window.scrollY + 8 : 0}px`,
-                        left: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().left + window.scrollX : 0}px`
+                        top: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().bottom + 8 : 0}px`,
+                        left: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().left : 0}px`
                       }}>
                         <div className="w-full border border-border rounded-md shadow-lg py-1 overflow-hidden bg-card/80 backdrop-blur-md">
                           {categoriesData.map((category: ServiceCategory, index: number) => {
