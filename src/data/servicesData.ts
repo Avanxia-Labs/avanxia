@@ -111,7 +111,7 @@ export const servicesData: ServicePlan[] = [
     price: 680,
     priceType: "único",
     duration: "1 – 1.5 semanas",
-    featured: true,
+    featured: false,
     idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
     includes: [
       "Diseño personalizado y responsive (adaptable a móviles)",

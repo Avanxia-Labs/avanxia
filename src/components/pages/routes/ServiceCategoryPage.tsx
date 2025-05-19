@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Check, LightbulbIcon, Target, List, Calendar, Award } from 'lucide-react';
 import { categoriesData, ServiceCategory } from '../../../data/categoriesData';
 import { servicesData, ServicePlan } from '../../../data/servicesData';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
+import { Button } from "@/components/ui/button";
 
 // ── Animaciones con Framer Motion ─────────────────────────────────────────
 const containerAnimation = {
@@ -38,6 +40,7 @@ const sectionAnimation = {
 
 // ── Componente ───────────────────────────────────────────────────────────
 const ServiceCategoryPage: React.FC = () => {
+  const navigate = useNavigate();
   const { categorySlug } = useParams<{ categorySlug: string }>();
 
   // Estado para manejar la inicialización de partículas
@@ -92,7 +95,7 @@ const ServiceCategoryPage: React.FC = () => {
     (plan) => plan.categoryId === category?.id && plan.type === 'plan',
   );
 
-  // ── Manejar categoría no encontrada ────────────────────────────────────
+  // ── Manejar categoría no encontrada ───────────────────────────
   if (!category) {
     return (
       <div className="w-full bg-background text-foreground min-h-screen">
@@ -101,9 +104,13 @@ const ServiceCategoryPage: React.FC = () => {
             <h1 className="text-3xl font-bold text-destructive mb-4">
               Categoría no encontrada
             </h1>
-            <RouterLink to="/soluciones" className="text-primary hover:underline">
+            <Button 
+              onClick={() => navigate('/soluciones')}
+              variant="link"
+              className="text-primary hover:underline p-0"
+            >
               Volver a Soluciones
-            </RouterLink>
+            </Button>
           </div>
         </div>
       </div>
@@ -114,20 +121,7 @@ const ServiceCategoryPage: React.FC = () => {
   return (
     <div className="w-full bg-background text-foreground min-h-screen">
       <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
-        {/* ── Back Link ───────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="mb-6 md:mb-8"
-        >
-          <RouterLink
-            to="/soluciones"
-            className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors duration-300 group"
-          >
-            <span className="mr-1.5">←</span> Volver a todas las Soluciones
-          </RouterLink>
-        </motion.div>
+
 
         {/* ── Banner Tecnológico con Partículas 3D ────── */}
         <div className="w-screen relative overflow-hidden" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw', maxWidth: '100vw' }}>
@@ -261,11 +255,21 @@ const ServiceCategoryPage: React.FC = () => {
 
                   {/* ── Contenido de la tarjeta ─────── */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <img
-                      src={plan.imagePlaceholder || 'https://via.placeholder.com/400x200'}
-                      alt={plan.name}
-                      className="w-full h-40 object-cover rounded-md mb-4 shadow"
-                    />
+                    <div 
+                      className="w-full h-40 flex items-center justify-center rounded-md mb-4 shadow bg-gradient-to-br from-primary/5 to-primary/10"
+                      aria-label={plan.name}
+                    >
+                      <div className="text-7xl select-none">
+                        {plan.categoryId === 'desarrollo-web' ? '🌐' : 
+                         plan.categoryId === 'identidad-de-marca' ? '🎨' :
+                         plan.categoryId === 'redes-sociales' ? '📱' :
+                         plan.categoryId === 'seo-marketing' ? '📈' :
+                         plan.categoryId === 'contenidos' ? '📝' :
+                         plan.categoryId === 'ecommerce' ? '🛒' :
+                         plan.categoryId === 'videoproduccion' ? '🎬' :
+                         plan.categoryId === 'apps' ? '📲' : '✨'}
+                      </div>
+                    </div>
                     <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2 min-h-[56px] lg:min-h-[64px]">
                       {plan.name}
                     </h3>
@@ -292,6 +296,21 @@ const ServiceCategoryPage: React.FC = () => {
                       {plan.shortDescription}
                     </p>
 
+                    {/* Características incluidas con iconos de check */}
+                    {plan.includes && plan.includes.length > 0 && (
+                      <div className="mb-4">
+                        <p className="text-sm font-semibold mb-2 text-foreground/90">Incluye:</p>
+                        <ul className="space-y-2">
+                          {plan.includes.map((item, index) => (
+                            <li key={index} className="flex items-start text-sm text-foreground/80">
+                              <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
                     {/* Botón */}
                     <div className="mt-auto">
                       <button
@@ -307,7 +326,7 @@ const ServiceCategoryPage: React.FC = () => {
           </motion.section>
         )}
 
-        {/* ── Nuestra Propuesta de Valor ─────────────── */}
+        {/* ── Nuestra Propuesta de Valor ───────────── */}
         <motion.section
           className="mb-12 sm:mb-16 md:mb-20"
           variants={sectionAnimation}
@@ -317,61 +336,102 @@ const ServiceCategoryPage: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
             Nuestra Propuesta de Valor para {category.name}
           </h2>
-          <div className="prose prose-lg dark:prose-invert max-w-none mx-auto text-foreground/90">
+          
+          <motion.div 
+            className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15
+                }
+              }
+            }}
+          >
             {categoryPlans.map((plan) => (
-              <div
+              <motion.div
                 key={`selling-${plan.id}`}
-                className="mb-12 p-6 rounded-lg bg-card/30 dark:bg-card/50 shadow-md"
+                className="glass-panel p-8 rounded-xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: {
+                      type: 'spring',
+                      stiffness: 80,
+                      damping: 15
+                    } 
+                  }
+                }}
               >
-                <h4 className="text-2xl font-semibold text-primary mb-3">
+                <h4 className="text-2xl font-semibold text-primary mb-4 flex items-center">
+                  <Award className="h-6 w-6 mr-2 text-primary/80" />
                   {plan.name}
                 </h4>
 
                 {plan.idealFor && (
-                  <p className="mb-2 text-base text-foreground/80">
-                    <strong>Ideal para:</strong> {plan.idealFor}
-                  </p>
+                  <div className="mb-4 flex items-start">
+                    <Target className="h-5 w-5 text-primary/80 mr-2 mt-1 flex-shrink-0" />
+                    <p className="text-base text-foreground/80">
+                      <strong className="text-foreground/90">Ideal para:</strong> {plan.idealFor}
+                    </p>
+                  </div>
                 )}
 
                 {plan.longDescription && (
-                  <p className="mb-4 text-base text-foreground/80">
+                  <p className="mb-5 text-base text-foreground/80 pl-7">
                     {plan.longDescription}
                   </p>
                 )}
 
                 {plan.sellingPoints?.length > 0 && (
-                  <>
-                    <p className="font-medium mb-1">Argumentos de Venta Clave:</p>
-                    <ul className="list-disc list-inside space-y-1 mb-4">
+                  <div className="mb-6">
+                    <p className="font-medium mb-2 flex items-center">
+                      <LightbulbIcon className="h-5 w-5 text-primary/80 mr-2" />
+                      <span className="text-foreground/90">Argumentos de Venta Clave:</span>
+                    </p>
+                    <ul className="space-y-2 pl-7">
                       {plan.sellingPoints.map((pt, idx) => (
-                        <li key={idx}>{pt}</li>
+                        <li key={idx} className="flex items-start">
+                          <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
+                          <span className="text-foreground/80">{pt}</span>
+                        </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 )}
 
                 {plan.includes?.length > 0 && (
-                  <>
-                    <p className="font-medium mb-1">¿Qué incluye exactamente?</p>
-                    <ul className="list-disc list-inside space-y-1 mb-4">
+                  <div className="mb-6">
+                    <p className="font-medium mb-2 flex items-center">
+                      <List className="h-5 w-5 text-primary/80 mr-2" />
+                      <span className="text-foreground/90">¿Qué incluye exactamente?</span>
+                    </p>
+                    <ul className="space-y-2 pl-7">
                       {plan.includes.map((inc, idx) => (
-                        <li key={idx}>{inc}</li>
+                        <li key={idx} className="flex items-start">
+                          <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
+                          <span className="text-foreground/80">{inc}</span>
+                        </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 )}
 
                 {plan.duration && (
-                  <p className="text-sm text-foreground/70">
-                    <strong>Duración estimada:</strong> {plan.duration}
-                  </p>
+                  <div className="mt-4 flex items-center text-sm text-foreground/70">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    <span><strong>Duración estimada:</strong> {plan.duration}</span>
+                  </div>
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.section>
 
-        {/* ── Portafolio Placeholder ─────────────────── */}
+        {/* ── Portafolio Showcase ───────────── */}
         <motion.section
           className="mb-12 sm:mb-16 md:mb-20"
           variants={sectionAnimation}
@@ -381,12 +441,168 @@ const ServiceCategoryPage: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
             Casos de Éxito en {category.name}
           </h2>
-          <div className="text-center text-foreground/70">
-            <p>(Contenido de portafolio próximamente)</p>
-          </div>
+          
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.1
+                }
+              }
+            }}
+          >
+            {/* Proyecto GYB */}
+            <motion.div
+              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: 'spring',
+                    stiffness: 80,
+                    damping: 15
+                  } 
+                }
+              }}
+            >
+              <div className="relative overflow-hidden h-56">
+                <img 
+                  src="/images/portfolio/proyectos/gyb.png"
+                  alt="GYB Project"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-4 w-full">
+                    <h3 className="text-white font-semibold">GYB</h3>
+                    <p className="text-white/80 text-sm">UI/UX, Marketing Visual</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-primary mb-1">GYB Connect</h3>
+                  <p className="text-sm text-foreground/80">Identidad y sitio web para fintech moderna con enfoque en claridad y confianza.</p>
+                </div>
+                <div className="mt-auto pt-4">
+                  <Button
+                    onClick={() => navigate('/proyectos/gyb')}
+                    variant="secondary"
+                    size="tight"
+                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+                  >
+                    <span>Ver proyecto</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Proyecto Pool Quality Solutions */}
+            <motion.div
+              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: 'spring',
+                    stiffness: 80,
+                    damping: 15,
+                    delay: 0.1
+                  } 
+                }
+              }}
+            >
+              <div className="relative overflow-hidden h-56">
+                <img 
+                  src="/images/portfolio/proyectos/pool.png"
+                  alt="Pool Quality Solutions Project"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-4 w-full">
+                    <h3 className="text-white font-semibold">Pool Quality Solutions</h3>
+                    <p className="text-white/80 text-sm">Diseño Web</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-primary mb-1">Pool Quality Solutions</h3>
+                  <p className="text-sm text-foreground/80">Presencia digital renovada con un sitio moderno que transmite confianza y profesionalismo.</p>
+                </div>
+                <div className="mt-auto pt-4">
+                  <Button
+                    onClick={() => navigate('/proyectos/pool')}
+                    variant="secondary"
+                    size="tight"
+                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+                  >
+                    <span>Ver proyecto</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Proyecto Heromatic */}
+            <motion.div
+              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    type: 'spring',
+                    stiffness: 80,
+                    damping: 15,
+                    delay: 0.2
+                  } 
+                }
+              }}
+            >
+              <div className="relative overflow-hidden h-56">
+                <img 
+                  src="/images/portfolio/proyectos/heromatic2.png"
+                  alt="Heromatic Project"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-4 w-full">
+                    <h3 className="text-white font-semibold">Heromatic</h3>
+                    <p className="text-white/80 text-sm">Branding, Automatización, UI/UX</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <h3 className="font-semibold text-primary mb-1">Heromatic</h3>
+                  <p className="text-sm text-foreground/80">Creamos toda la identidad de marca, enfocada en posicionarlos como expertos en automatización de procesos empresariales.</p>
+                </div>
+                <div className="mt-auto pt-4">
+                  <Button
+                    onClick={() => navigate('/proyectos/heromatic')}
+                    variant="secondary"
+                    size="tight"
+                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+                  >
+                    <span>Ver proyecto</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </motion.section>
 
-        {/* ── CTA Final ─────────────────────────────── */}
+        {/* ── CTA Final ────────────────────── */}
         <motion.section
           variants={sectionAnimation}
           initial="hidden"
@@ -400,12 +616,13 @@ const ServiceCategoryPage: React.FC = () => {
             Nuestro equipo está preparado para llevar tu proyecto al siguiente nivel.
             ¡Hablemos sobre cómo podemos ayudarte a alcanzar tus objetivos!
           </p>
-          <RouterLink
-            to="/contact"
-            className="inline-block bg-accent text-accent-foreground font-semibold py-3 px-8 rounded-lg hover:bg-accent/90 transition-colors duration-300"
+          <Button
+            onClick={() => navigate('/contact')}
+            variant="primary"
+            size="cta"
           >
             Contáctanos
-          </RouterLink>
+          </Button>
         </motion.section>
       </div>
     </div>
