@@ -9,11 +9,15 @@ import type { ServicePlan } from '../../../data/servicesData';
 
 const ServiceCategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
+  console.log('ServiceCategoryPage renderizado con slug:', categorySlug);
 
   const category = categoriesData.find(cat => cat.slug === categorySlug);
+  console.log('Categoría encontrada:', category);
+  
   const categoryPlans = servicesData.filter(
     plan => plan.categoryId === category?.id && plan.type === 'plan'
   );
+  console.log('Planes de categoría encontrados:', categoryPlans.length);
 
   const containerAnimation = {
     hidden: { opacity: 0 },
