@@ -7,8 +7,7 @@ import {
   Briefcase,
   Users,
   Mail,
-  ChevronDown,
-  DollarSign
+  ChevronDown
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
@@ -59,7 +58,6 @@ const Header = () => {
     { name: 'Inicio', to: '/', icon: Home, id: 'home' },
     { name: 'Servicios', to: '#', icon: Briefcase, id: 'services-menu' }, // 'to' es '#' ya que el botón maneja la acción
     { name: 'Nosotros', to: '/about', icon: Users, id: 'about' },
-    { name: 'Precios', to: '/precios', icon: DollarSign, id: 'pricing' },
     { name: 'Contacto', to: '/contact', icon: Mail, id: 'contact' },
   ];
 

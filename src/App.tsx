@@ -15,10 +15,9 @@ import PersonalizedGreeting from "./components/PersonalizedGreeting";
 // import GreetingDemo from "./components/GreetingDemo";
 
 import HomePage from "@/components/pages/routes/HomePage";
-// ServicesPage eliminado - ya no se usa
+import ServicesPage from "@/components/pages/routes/ServicesPage";
 import AboutPage from "@/components/pages/routes/AboutPage";
 import ContactPage from "@/components/pages/routes/ContactPage";
-import PreciosPage from "@/components/pages/routes/Precios";
 // import SolutionsLandingPage from "@/components/pages/routes/SolutionsLandingPage"; // Comentado para prueba
 // import ServiceCategoryPage from "@/components/pages/routes/ServiceCategoryPage"; // Comentado para prueba
 import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage"; // NUEVA IMPORTACIÓN RELATIVA
@@ -166,10 +165,9 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          {/* Ruta /services eliminada - ahora se usa /soluciones */}
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/precios" element={<PreciosPage />} />
           <Route path="/soluciones" element={<SolutionsLandingPage />} /> {/* RUTA PARA PÁGINA DE SOLUCIONES */}
           <Route path="/soluciones/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA DINÁMICA PARA CATEGORÍAS */}
           <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA ALTERNATIVA PARA COMPATIBILIDAD */}
