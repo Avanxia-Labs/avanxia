@@ -107,7 +107,7 @@ export default function ValueSteps({ steps }: Props) {
               <div className="mb-8">
                 <p className="mb-3 flex items-center text-sm font-semibold text-foreground">
                   <LightbulbIcon className="mr-2 h-5 w-5 text-primary" />
-                  Argumentos clave
+                  Beneficios
                 </p>
                 <ul className="space-y-2 pl-8 marker:text-primary">
                   {step.sellingPoints.map((pt, i) => (
