@@ -157,7 +157,7 @@ const Header = () => {
                                 <button
                                   type="button"
                                   onMouseDown={() => {
-                                    navigate(`/soluciones/${category.slug}`);
+                                    navigate(`${category.path}`);
                                     setIsServicesMenuOpen(false);
                                   }}
                                   className="flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 text-foreground hover:bg-muted hover:text-primary"
@@ -252,7 +252,7 @@ const Header = () => {
                       {categoriesData.map((category: ServiceCategory) => (
                         <NavLink
                           key={category.id}
-                          to={`/servicios/${category.path}`}
+                          to={category.path} // Usar directamente el path definido en categoriesData
                           onClick={toggleMobileMenu} // Cierra todo el menú móvil al seleccionar una categoría
                           className={({ isActive }) =>
                             `block py-2 pr-2 text-sm whitespace-normal ${isActive ? 'text-primary font-semibold' : 'text-sidebar-foreground hover:text-primary'}`
