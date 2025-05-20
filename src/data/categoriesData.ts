@@ -1,4 +1,5 @@
 // src/data/categoriesData.ts
+// Todas las descripciones están en español para mantener consistencia en el idioma
 import { Palette, Globe, MessageSquare, ShoppingCart, Search, MousePointerClick, Clapperboard, Smartphone } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -17,7 +18,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "web-development",
     slug: "web-development",
     name: "Desarrollo Web",
-    description: "In the digital age, your website is the heart of your online presence and often the first point of contact with your future clients. At Avanxia Labs, we don't just build web pages; we create high-performance digital experiences that are fast, secure, visually appealing, and most importantly, designed to convert.",
+    description: "En la era digital, tu sitio web es el corazón de tu presencia en línea y a menudo el primer punto de contacto con tus futuros clientes. En Avanxia Labs, no solo construimos páginas web; creamos experiencias digitales de alto rendimiento que son rápidas, seguras, visualmente atractivas y, lo más importante, diseñadas para convertir.",
     path: "/services/web-development",
     imagePlaceholder: "/images/placeholders/category-desarrollo-web.jpg",
     icon: Globe
@@ -26,7 +27,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "brand-identity",
     slug: "brand-identity",
     name: "Identidad de Marca y Branding",
-    description: "In a saturated digital world, your brand is your signature, your promise, and your main differentiator. At Avanxia Labs, we understand that a powerful brand identity goes far beyond a simple logo; it's about telling your story, emotionally connecting with your ideal audience, and building a perception of value that drives your business.",
+    description: "En un mundo digital saturado, tu marca es tu firma, tu promesa y tu principal diferenciador. En Avanxia Labs, entendemos que una identidad de marca poderosa va mucho más allá de un simple logotipo; se trata de contar tu historia, conectar emocionalmente con tu audiencia ideal y construir una percepción de valor que impulse tu negocio.",
     path: "/services/brand-identity",
     imagePlaceholder: "/images/placeholders/category-identidad-marca.jpg",
     icon: Palette
@@ -35,7 +36,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "app-development",
     slug: "app-development",
     name: "Desarrollo de Aplicaciones",
-    description: "Whether it's an innovative mobile app or a complete web system, at Avanxia Labs we transform your concept into functional and scalable software. Our development approach focuses on the user while implementing the best engineering practices.",
+    description: "Ya sea una aplicación móvil innovadora o un sistema web completo, en Avanxia Labs transformamos tu concepto en software funcional y escalable. Nuestro enfoque de desarrollo se centra en el usuario mientras implementamos las mejores prácticas de ingeniería.",
     path: "/services/app-development",
     imagePlaceholder: "/images/placeholders/category-software.jpg",
     icon: Smartphone
@@ -44,7 +45,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "social-media",
     slug: "social-media",
     name: "Gestión de Redes Sociales",
-    description: "Your online presence is much more than a website. At Avanxia Labs, we help you connect with your audience where they really spend their time: on social media and through effective digital marketing strategies.",
+    description: "Tu presencia en línea es mucho más que un sitio web. En Avanxia Labs, te ayudamos a conectar con tu audiencia donde realmente pasan su tiempo: en las redes sociales y a través de estrategias efectivas de marketing digital.",
     path: "/services/social-media",
     imagePlaceholder: "/images/placeholders/category-marketing-digital.jpg",
     icon: MessageSquare
@@ -53,7 +54,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "audiovisual-production",
     slug: "audiovisual-production",
     name: "Producción Audiovisual",
-    description: "High-quality visual and audio content is essential to capture attention and convey your message impactfully. At Avanxia Labs, we offer multimedia production services that elevate your brand, from professional video editing to motion graphics.",
+    description: "El contenido visual y auditivo de alta calidad es esencial para captar la atención y transmitir tu mensaje de manera impactante. En Avanxia Labs, ofrecemos servicios de producción multimedia que elevan tu marca, desde edición profesional de video hasta gráficos en movimiento.",
     path: "/services/audiovisual-production",
     imagePlaceholder: "/images/placeholders/category-multimedia.jpg",
     icon: Clapperboard
@@ -62,7 +63,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "ecommerce",
     slug: "ecommerce",
     name: "Soluciones E-commerce",
-    description: "Selling online has never been more crucial. At Avanxia Labs, we transform your business vision into a powerful, attractive, and conversion-optimized online store. We specialize in creating custom e-commerce solutions using robust and scalable technologies.",
+    description: "Vender en línea nunca ha sido más crucial. En Avanxia Labs, transformamos tu visión de negocio en una tienda en línea poderosa, atractiva y optimizada para conversiones. Nos especializamos en crear soluciones de comercio electrónico personalizadas utilizando tecnologías robustas y escalables.",
     path: "/services/ecommerce",
     imagePlaceholder: "/images/placeholders/category-ecommerce.jpg",
     icon: ShoppingCart
@@ -71,7 +72,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "seo-content-marketing",
     slug: "seo-content-marketing",
     name: "SEO y Marketing de Contenidos",
-    description: "In the competitive online world, being visible means being relevant. SEO is the key to ensuring that your potential customers find you when they're actively searching for your products or services. At Avanxia Labs, we develop comprehensive and customized SEO strategies.",
+    description: "En el competitivo mundo en línea, ser visible significa ser relevante. El SEO es la clave para asegurar que tus clientes potenciales te encuentren cuando busquen activamente tus productos o servicios. En Avanxia Labs, desarrollamos estrategias de SEO integrales y personalizadas.",
     path: "/services/seo-content-marketing",
     imagePlaceholder: "/images/placeholders/category-seo.jpg",
     icon: Search
@@ -80,7 +81,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "ppc-advertising",
     slug: "ppc-advertising",
     name: "Publicidad Pagada (PPC)",
-    description: "When you need quick results and targeted reach, pay-per-click (PPC) advertising is your best ally. At Avanxia Labs, we design and manage PPC campaigns on platforms like Google Ads and Meta Ads that are optimized to maximize your return on investment.",
+    description: "Cuando necesitas resultados rápidos y alcance dirigido, la publicidad de pago por clic (PPC) es tu mejor aliada. En Avanxia Labs, diseñamos y gestionamos campañas PPC en plataformas como Google Ads y Meta Ads que están optimizadas para maximizar tu retorno de inversión.",
     path: "/services/ppc-advertising",
     imagePlaceholder: "/images/placeholders/category-ppc.jpg",
     icon: MousePointerClick
