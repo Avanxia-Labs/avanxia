@@ -322,7 +322,7 @@ const total = cartItems
               Nuestros Paquetes de {category.name}
             </h2>
             <motion.div
-              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"
+              className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4"
               variants={containerAnimation}
               initial="hidden"
               whileInView="show"
@@ -333,7 +333,7 @@ const total = cartItems
                   key={plan.id}
                   custom={index}
                   variants={cardAnimation}
-                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full ${
+                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-[380px] ${
                     plan.featured
                       ? 'border-2 border-primary/60 scale-[1.01]'
                       : 'border border-transparent'
