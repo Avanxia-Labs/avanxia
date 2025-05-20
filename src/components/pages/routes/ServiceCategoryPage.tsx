@@ -76,7 +76,7 @@ const ServiceCategoryPage: React.FC = () => {
   /* 3️⃣  Estados                                                        */
   /* ------------------------------------------------------------------ */
   // abre la modal si existe el bonus gratis
- const [cartOpen, setCartOpen] = useState<boolean>(true);
+ const [cartOpen, setCartOpen] = useState<boolean>(false);
   // carrito arranca con el bonus (si existe)
   const [cartItems, setCartItems] = useState<(ServicePlan | ServiceAddon)[]>(
     () => (defaultBonus ? [defaultBonus] : []),
@@ -88,7 +88,7 @@ const ServiceCategoryPage: React.FC = () => {
 
 
   useEffect(() => {
-  setCartOpen(true);      // ← vuelve a mostrar la ventana
+  setCartOpen(false);      // ← no vuelve a mostrar la ventana
 }, [categorySlug]);   
 
 
@@ -303,13 +303,25 @@ const total = cartItems
 
         {/* ── Descripción ────────────────────────────── */}
         <motion.p
-          className="text-base sm:text-lg text-foreground/80 text-center mb-12 sm:mb-16 md:mb-20 max-w-3xl mx-auto"
+          className="text-base sm:text-lg text-foreground/80 text-center mb-6 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           {category.description}
         </motion.p>
+        
+        {/* Aviso de precios aproximados */}
+        <motion.div
+          className="bg-primary/5 border border-primary/20 rounded-lg p-4 md:p-5 max-w-3xl mx-auto mb-12 sm:mb-16 md:mb-20"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <p className="text-sm sm:text-base text-foreground/90 text-center">
+            <strong className="text-primary">Precios aproximados.</strong> Ofrecemos una <strong>cotización personalizada gratuita</strong> para evaluar tus necesidades específicas y brindarte soluciones a medida que optimicen tu inversión.
+          </p>
+        </motion.div>
                 {/* ── Paquetes ───────────────────────────────── */}
                 {categoryPlans.length > 0 && (
           <motion.section
@@ -425,7 +437,7 @@ const total = cartItems
         )}
 
 {/* ── Addons & Bonuses 1-solo-carrusel ─────────────────────────────── */}
-{category.id === "desarrollo-web" && allAddonItems.length > 0 && (
+{allAddonItems.length > 0 && (
   <motion.section
     className="mb-12 sm:mb-16 md:mb-20"
     variants={sectionAnimation}
@@ -503,7 +515,7 @@ const total = cartItems
             >
               <div className="relative overflow-hidden h-56">
                 <img 
-                  src="/images/portfolio/proyectos/gyb.png"
+                  src="/images/portfolio/proyectos/gyb5.png"
                   alt="GYB Project"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
                 />
@@ -533,7 +545,7 @@ const total = cartItems
               </div>
             </motion.div>
             
-            {/* Proyecto Pool Quality Solutions */}
+            {/* Proyecto DEW Marketing */}
             <motion.div
               className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
               variants={{
@@ -552,25 +564,25 @@ const total = cartItems
             >
               <div className="relative overflow-hidden h-56">
                 <img 
-                  src="/images/portfolio/proyectos/pool.png"
-                  alt="Pool Quality Solutions Project"
+                  src="/images/portfolio/proyectos/dew1.png"
+                  alt="DEW Marketing Project"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">Pool Quality Solutions</h3>
-                    <p className="text-white/80 text-sm">Diseño Web</p>
+                    <h3 className="text-white font-semibold">DEW Marketing</h3>
+                    <p className="text-white/80 text-sm">Branding, Diseño Visual</p>
                   </div>
                 </div>
               </div>
               <div className="p-4 flex flex-col flex-grow">
                 <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">Pool Quality Solutions</h3>
-                  <p className="text-sm text-foreground/80">Presencia digital renovada con un sitio moderno que transmite confianza y profesionalismo.</p>
+                  <h3 className="font-semibold text-primary mb-1">DEW Marketing</h3>
+                  <p className="text-sm text-foreground/80">Identidad de marca completa y estrategia visual para agencia especializada en marketing digital.</p>
                 </div>
                 <div className="mt-auto pt-4">
                   <Button
-                    onClick={() => navigate('/proyectos/pool')}
+                    onClick={() => navigate('/proyectos/dew')}
                     variant="secondary"
                     size="tight"
                     className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
@@ -601,7 +613,7 @@ const total = cartItems
             >
               <div className="relative overflow-hidden h-56">
                 <img 
-                  src="/images/portfolio/proyectos/heromatic2.png"
+                  src="/images/portfolio/proyectos/heromatic1.png"
                   alt="Heromatic Project"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
                 />
@@ -662,8 +674,16 @@ const total = cartItems
         items={cartItems}
       message={
         <>
-          ¡Ya tienes un <strong className="text-primary">BONUS&nbsp;GRATIS</strong>!&nbsp;
-          Ahora elige tu plan y personaliza tu paquete.
+          {defaultBonus ? (
+            <>
+              ¡Ya tienes un <strong className="text-primary">BONUS&nbsp;GRATIS</strong>!&nbsp;
+              Ahora elige tu plan y personaliza tu paquete.
+            </>
+          ) : (
+            <>
+              <strong className="text-primary">Precios aproximados</strong>. Ofrecemos una cotización personalizada gratuita para asegurarnos de cumplir con tus expectativas y necesidades específicas.
+            </>
+          )}
         </>
       }  onClose={() => setCartOpen(false)}
         onRemove={(id) =>

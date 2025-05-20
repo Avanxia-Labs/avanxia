@@ -177,7 +177,7 @@ export const servicesData: ServicePlan[] = [
       "Inversión accesible con alto retorno de valor."
     ],
     shortDescription: "¿Listo para lanzar tu proyecto con una identidad profesional? Obtén un logotipo a medida y una mini guía de estilo por solo $280 USD.",
-    longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible te entregamos no solo un logotipo profesional, sino también una mini guía de estilo que asegura coherencia visual. Esto supera ofertas como IMTEX ($83) al brindar un valor tangible inmediato y cobertura de todo el proceso creativo.",
+    longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible te entregamos no solo un logotipo profesional, sino también una mini guía de estilo que asegura coherencia visual. Brindamos un valor tangible inmediato y cobertura de todo el proceso creativo.",
     slug: "branding-esencial",
     imagePlaceholder: "/images/placeholders/branding-esencial.jpg",
   },
@@ -192,11 +192,12 @@ export const servicesData: ServicePlan[] = [
     featured: true,
     idealFor: "Empresas en crecimiento y negocios establecidos que necesitan una identidad visual cohesiva aplicada en múltiples plataformas.",
     includes: [
-      "Todo lo incluido en Branding Esencial",
+      "Diseño de Logotipo Premium (3 propuestas iniciales y hasta 10 rondas de revisión)",
       "Paleta de Colores Corporativa Completa (primarios, secundarios, acento, neutros)",
       "Sistema Tipográfico Detallado (jerarquías para web e impreso)",
       "Mini Manual de Marca (PDF 5-8 páginas) con directrices de uso y ejemplos",
-      "Diseño de 2 Aplicaciones de Marca Clave (p.ej. tarjeta digital, firma email, plantilla de post)"
+      "Diseño de 2 Aplicaciones de Marca Clave (p.ej. tarjeta digital, firma email, plantilla de post)",
+      "Todos los archivos del logotipo en vectorial y mapa de bits para uso digital e impreso"
     ],
     sellingPoints: [
       "Identidad visual robusta y coherente en todas las plataformas.",
@@ -204,7 +205,7 @@ export const servicesData: ServicePlan[] = [
       "Aplicaciones de diseño listas para impresionar a tus clientes."
     ],
     shortDescription: "Eleva tu marca con un manual de estilo robusto y aplicaciones de diseño profesionales listas para usar.",
-    longDescription: "Nos posicionamos estratégicamente entregando un valor excepcional. Frente a ofertas como Brandana ($528), nuestro Branding Profesional no solo compite en precio, sino que incluye un manual de marca más completo y aplicaciones claves para una coherencia inmediata en todos tus puntos de contacto.",
+    longDescription: "Nos posicionamos estratégicamente entregando un valor excepcional. Nuestro Branding Profesional incluye un manual de marca completo y aplicaciones claves para una coherencia inmediata en todos tus puntos de contacto.",
     slug: "branding-profesional",
     imagePlaceholder: "/images/placeholders/branding-profesional.jpg",
   },
@@ -216,14 +217,14 @@ export const servicesData: ServicePlan[] = [
     price: 950,
     priceType: "único",
     duration: "4 – 5 semanas",
-    featured: true,
+    featured: false,
     idealFor: "Empresas ambiciosas que buscan una transformación completa de marca, desde la estrategia hasta el lanzamiento digital.",
     includes: [
       "Sesión Profunda de Consultoría Estratégica de Marca (90-120 min)",
       "Diseño de Logotipo Premium con revisiones ilimitadas (en marco razonable)",
       "Manual de Marca Exhaustivo (10-15+ páginas) con análisis de competencia y tono de voz",
       "Diseño de 4 Aplicaciones de Marca Premium (tarjeta, firma email, plantillas RRSS, presentación, etc.)",
-      "Bonus de Lanzamiento Digital en Redes Sociales (3-5 posts de lanzamiento diseñados y redactados)"
+      "✨ BONUS GRATIS: Lanzamiento Digital en Redes Sociales (3-5 posts de lanzamiento diseñados y redactados)"
     ],
     sellingPoints: [
       "Consultoría estratégica que alinea negocio y marca.",
@@ -231,7 +232,7 @@ export const servicesData: ServicePlan[] = [
       "Lanzamiento digital con impacto inmediato en redes sociales."
     ],
     shortDescription: "Transforma tu negocio con una identidad visual excepcional, una estrategia de marca sólida y un lanzamiento digital de alto impacto.",
-    longDescription: "Nuestro paquete más completo: incluye consultoría estratégica, diseño premium, manual exhaustivo y un bonus de lanzamiento digital. Supera ofertas de la competencia (Millares $833) al integrar estrategia, identidad y activación en un único servicio integral.",
+    longDescription: "Nuestro paquete más completo: incluye consultoría estratégica, diseño premium, manual exhaustivo y un bonus de lanzamiento digital. Integramos estrategia, identidad y activación en un único servicio integral.",
     slug: "branding-integral",
     imagePlaceholder: "/images/placeholders/branding-integral.jpg",
   },
