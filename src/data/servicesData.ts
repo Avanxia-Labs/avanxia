@@ -354,105 +354,144 @@ export const servicesData: ServicePlan[] = [
 
   // === Marketing Digital y Gestión de Redes Sociales ===
   {
-    id: "plan-social-media-starter",
-    categoryId: "marketing-digital-redes-sociales",
-    name: "Plan Social Media Starter",
+    id: "plan-rrss-esencial",
+    categoryId: "redes-sociales-marketing",
+    name: "RRSS ESENCIAL – Presencia Digital Activa y Profesional en Redes",
     type: "plan",
-    price: 450,
+    price: 350,
     priceType: "mensual",
-    idealFor: "Pequeñas empresas o emprendedores que quieren iniciar su presencia profesional en redes.",
+    idealFor: "Pequeños negocios, emprendedores y profesionales que necesitan establecer y mantener una presencia activa, coherente y profesional en sus redes sociales clave.",
     includes: [
-      "Gestión de 1-2 perfiles de redes sociales (Facebook, Instagram)",
-      "Creación y publicación de 8 posts mensuales (contenido original)",
-      "Diseño gráfico básico para posts",
-      "Respuesta a comentarios y mensajes (horario limitado)",
-      "Informe mensual de rendimiento básico"
+      "Gestión Estratégica de hasta 4 plataformas sociales principales (ej. Facebook, Instagram, LinkedIn, Google Business)",
+      "Creación de 10-12 Posts de alta calidad al mes con diseño gráfico profesional",
+      "Redacción de copies persuasivos, optimizados para cada plataforma",
+      "Desarrollo de un Calendario de Contenido Mensual",
+      "Respuesta básica a comentarios y mensajes directos (en horario hábil)",
+      "Reporte Básico de Rendimiento Mensual con métricas clave",
+      "BONUS EXCLUSIVO: Diseño, Creación y Mantenimiento de una Mini-Landing Page Profesional GRATIS"
     ],
     sellingPoints: [
-      "Construye una presencia activa y profesional en redes sociales sin dedicarle todo tu tiempo.",
-      "Contenido de calidad que refleja tu marca y atrae a tu audiencia.",
-      "Ideal para empezar a generar engagement y visibilidad."
+      "Presencia digital activa y profesional sin dedicarle horas de tu propio tiempo.",
+      "Contenido de alta calidad, coherente y alineado con tu marca.",
+      "Mini-Landing Page GRATIS para centralizar tus links y capturar leads."
     ],
-    shortDescription: "Inicia tu presencia en redes sociales con contenido profesional y gestión básica.",
-    slug: "plan-social-media-starter"
+    shortDescription: "Presencia profesional en redes sociales con contenido de calidad y una mini-landing page GRATIS para convertir seguidores en contactos directos.",
+    slug: "rrss-esencial"
   },
   {
-    id: "plan-marketing-contenidos-pro",
-    categoryId: "marketing-digital-redes-sociales",
-    name: "Plan Marketing de Contenidos Pro",
+    id: "plan-rrss-estrategico",
+    categoryId: "redes-sociales-marketing",
+    name: "RRSS ESTRATÉGICO – Construcción de Comunidad, Autoridad y Contenido de Valor",
     type: "plan",
-    price: 900,
+    price: 650,
     priceType: "mensual",
-    idealFor: "Empresas que buscan una estrategia de contenidos sólida para crecer su audiencia y autoridad.",
+    featured: true,
+    idealFor: "Empresas y profesionales que buscan construir una comunidad online leal, posicionarse como autoridad reconocida en su sector y generar interacción de mayor calidad.",
     includes: [
-      "Gestión de 2-3 perfiles de redes sociales",
-      "Creación y publicación de 12-15 posts mensuales (incluye reels/stories básicos)",
-      "Redacción de 2 artículos de blog optimizados para SEO (hasta 800 palabras c/u)",
-      "Estrategia de contenidos mensual y calendario editorial",
-      "Diseño gráfico avanzado y branding consistente",
-      "Gestión de comunidad y respuesta a interacciones",
-      "Informe mensual detallado con análisis y recomendaciones"
+      "Gestión Estratégica Avanzada de hasta 5-6 plataformas sociales relevantes",
+      "15-18 Posts de calidad superior al mes, con una mezcla de formatos",
+      "1-2 Videos Cortos/Reels mensuales (hasta 30-45 segundos) con edición profesional",
+      "Desarrollo de Estrategia de Contenido Personalizada con calendario detallado",
+      "Community Management Proactivo y Dinámico",
+      "BONUS: Creación de 1 Artículo de Blog Mensual (aprox. 800 palabras) optimizado para SEO",
+      "Análisis y Reporte Detallado con insights y recomendaciones",
+      "Optimización Continua y revisión trimestral de la estrategia"
     ],
     sellingPoints: [
-      "Atrae, engagea y convierte con una estrategia de contenidos integral.",
-      "Posiciona tu marca como experta en tu sector.",
-      "Resultados medibles y optimización continua."
+      "Contenido diverso y estratégico, incluyendo videos profesionales y artículos de blog.",
+      "Posicionamiento como autoridad y construcción de una comunidad leal.",
+      "Estrategia personalizada con análisis y optimización continua para maximizar resultados."
     ],
-    shortDescription: "Potencia tu marca con una estrategia de contenidos y gestión de redes completa.",
-    slug: "plan-marketing-contenidos-pro",
-    featured: true,
+    shortDescription: "Gestión avanzada con contenido de alto valor que incluye video y artículos de blog mensuales para construir autoridad y una comunidad sólida en tu industria.",
+    slug: "rrss-estrategico"
+  },
+  {
+    id: "plan-rrss-dominante",
+    categoryId: "redes-sociales-marketing",
+    name: "RRSS DOMINANTE – Liderazgo de Marca y Crecimiento Acelerado en Redes Sociales",
+    type: "plan",
+    price: 980,
+    priceType: "mensual",
+    idealFor: "Empresas con una visión clara de liderazgo en su mercado y objetivos de crecimiento ambiciosos a través de las redes sociales.",
+    includes: [
+      "Estrategia Digital Integral y Adaptativa con enfoque en resultados medibles",
+      "Gestión Completa de Múltiples Plataformas Sociales (hasta 6-7 canales)",
+      "Producción de Contenido Premium (22-25 posts mensuales de alta calidad)",
+      "Contenido Audiovisual Avanzado: 3-4 Videos/Reels mensuales (30-60 seg)",
+      "1 Video/Reel Producción Premium mensual (hasta 2 min)",
+      "Gestión de Comunidad VIP con monitoreo extendido y respuesta personalizada",
+      "2 Artículos de Blog/Contenidos Longform optimizados para SEO",
+      "BONUS EXCLUSIVO: Gestión Mensual de Campaña Publicitaria en Meta Ads (incluye $50 USD para inversión)",
+      "Análisis y Reportes Premium con métricas avanzadas y proyecciones"
+    ],
+    sellingPoints: [
+      "Domina la conversación en redes sociales con una estrategia integral y contenido premium.",
+      "Crecimiento acelerado con la potencia combinada de contenido orgánico y publicidad pagada incluida.",
+      "Producción audiovisual de alto impacto y contenidos longform para maximizar engagement y conversiones."
+    ],
+    shortDescription: "Estrategia integral con producción audiovisual premium, gestión proactiva de comunidades y publicidad en Meta Ads incluida para liderazgo y crecimiento acelerado en redes sociales.",
+    slug: "rrss-dominante"
   },
 
   // === Soluciones E-commerce ===
   {
-    id: "plan-ecommerce-startup",
+    id: "plan-ecommerce-esencial",
     categoryId: "e-commerce",
-    name: "Plan E-commerce Startup",
+    name: "E-COMMERCE ESENCIAL – Tu Primera Tienda Online Profesional",
     type: "plan",
-    price: 1800,
+    price: 1200,
     priceType: "único",
-    idealFor: "Emprendedores o pequeñas empresas que quieren empezar a vender online rápidamente.",
+    idealFor: "Emprendedores, creadores de contenido y pequeños negocios que buscan lanzar su primera tienda online profesional con un catálogo inicial limitado. Es tu punto de entrada al comercio electrónico, con todas las funcionalidades esenciales para vender en línea de forma efectiva.",
     includes: [
-      "Tienda online con Shopify o WooCommerce (hasta 20 productos iniciales)",
-      "Diseño basado en plantilla premium personalizable",
-      "Configuración de pasarelas de pago (Stripe, PayPal)",
-      "Configuración de envíos básicos",
-      "Optimización para móviles",
-      "Capacitación para gestión de tienda y productos"
+      "Consultoría Inicial y Selección de Plataforma (Shopify o WooCommerce)",
+      "Configuración Completa de la Tienda (cuenta, configuraciones, moneda, impuestos básicos)",
+      "Selección y Personalización de un Tema Premium de Alta Calidad (no desarrollo custom)",
+      "Diseño y Configuración de Páginas Clave (inicio, colección/categoría, producto, carrito, cuenta)",
+      "Carga Inicial de Productos (hasta 25-30 productos con sus variantes)",
+      "Configuración e Integración de Pasarelas de Pago (ej. Stripe, PayPal, Mercado Pago)",
+      "Configuración Básica de Opciones de Envío y/o Configuración de Costos de Envío",
+      "Optimización SEO Básica (meta títulos, descripciones y estructura básica de URLs)",
+      "Integración con Google Analytics y Pixel de Facebook para rastreo de conversiones",
+      "Capacitación para Gestión de la Tienda (1-2 horas vía videollamada)"
     ],
     sellingPoints: [
-      "Lanza tu tienda online de forma rápida y profesional.",
-      "Plataformas robustas y fáciles de gestionar.",
-      "Empieza a vender y a hacer crecer tu negocio en línea."
+      "Tu vitrina al mundo: una tienda online profesional en Shopify o WooCommerce, totalmente configurada y lista para vender.",
+      "Solución completa con diseño atractivo, carga inicial de productos, pagos integrados y capacitación para empezar con confianza.",
+      "Base sólida y optimizada desde el inicio para convertir tus productos en ventas."
     ],
-    shortDescription: "Tu tienda online lista para vender, con un diseño profesional y funcionalidades esenciales.",
-    slug: "plan-ecommerce-startup"
+    shortDescription: "Lanza tu primera tienda online profesional completa en Shopify o WooCommerce con diseño atractivo, configuración integral y capacitación para empezar a vender con éxito.",
+    slug: "ecommerce-esencial",
+    duration: "2-3 semanas"
   },
   {
-    id: "plan-ecommerce-avanzado",
+    id: "plan-ecommerce-profesional",
     categoryId: "e-commerce",
-    name: "Plan E-commerce Avanzado",
+    name: "E-COMMERCE PROFESIONAL – Tienda Online Optimizada para el Crecimiento y la Conversión",
     type: "plan",
-    price: "Desde 4000",
+    price: 2500,
     priceType: "único",
-    idealFor: "Negocios en crecimiento que necesitan una solución e-commerce a medida y escalable.",
+    idealFor: "Negocios con un catálogo de productos más amplio, aquellos que buscan funcionalidades más avanzadas en su tienda online, o empresas que ya venden online pero necesitan una plataforma más robusta, personalizada y altamente optimizada para la conversión y el crecimiento en ventas.",
     includes: [
-      "Tienda online con Shopify Plus, Magento o desarrollo a medida (Next.js Commerce)",
-      "Diseño UI/UX 100% personalizado y optimizado para conversión",
-      "Carga ilimitada de productos",
-      "Integraciones avanzadas (ERP, CRM, Marketplaces)",
-      "Funcionalidades personalizadas (suscripciones, productos configurables, etc.)",
-      "Estrategia SEO para e-commerce",
-      "Soporte técnico y consultoría de crecimiento"
+      "Todo lo incluido en el paquete 'E-Commerce Esencial', y además:",
+      "Carga Inicial de Catálogo Extendido (hasta 50-75 productos con sus variantes)",
+      "Personalización de Diseño Avanzada y Estratégica (adaptaciones de CSS para experiencia de marca única)",
+      "Diseño enfocado en la optimización de la tasa de conversión (CRO) en páginas clave",
+      "Configuración e Integración de Apps/Plugins Clave (hasta 3-5 herramientas premium)",
+      "Optimización SEO On-Page Avanzada y estructura adecuada para indexación",
+      "Implementación de datos estructurados (Schema.org) para productos y negocio",
+      "Estrategia y Configuración de Email Marketing Transaccional y de Bienvenida/Abandono",
+      "Integración con Canales de Venta Sociales (Facebook/Instagram Shopping)",
+      "Capacitación Avanzada y Estratégica (2-3 horas vía videollamada)"
     ],
     sellingPoints: [
-      "Una plataforma e-commerce que se adapta a la complejidad de tu negocio.",
-      "Experiencia de compra superior para maximizar ventas y fidelización.",
-      "Escalabilidad y rendimiento para soportar tu crecimiento."
+      "Tienda online de alto rendimiento, altamente personalizada y optimizada para maximizar tus ventas y la experiencia de tus clientes.",
+      "Más allá del setup básico: integramos herramientas de marketing clave y aplicamos estrategias de conversión comprobadas.",
+      "Plataforma de venta online robusta y escalable, diseñada para crecer contigo y convertirte en un líder en tu mercado."
     ],
-    shortDescription: "Una solución e-commerce potente y a medida para llevar tus ventas al siguiente nivel.",
-    slug: "plan-ecommerce-avanzado",
-    featured: true,
+    shortDescription: "Tienda online de alto rendimiento con diseño personalizado, optimizada para conversiones, con herramientas de marketing integradas y estrategias avanzadas para escalar tu negocio digital.",
+    slug: "ecommerce-profesional",
+    duration: "3-5 semanas",
+    featured: true
   },
 
   // === Optimización para Motores de Búsqueda (SEO) ===
@@ -559,53 +598,151 @@ export const servicesData: ServicePlan[] = [
     longDescription: "Este plan no incluye el presupuesto de inversión en las plataformas publicitarias.",
   },
 
-  // === Producción Multimedia ===
+  // === Producción Audiovisual ===
   {
-    id: "plan-video-corporativo-express",
-    categoryId: "produccion-multimedia",
-    name: "Plan Video Corporativo Express",
+    id: "plan-video-basico",
+    categoryId: "produccion-audiovisual",
+    name: "VIDEO BÁSICO – Tu Mensaje Claro y Directo en Video",
     type: "plan",
-    price: 800,
+    price: 650,
     priceType: "único",
-    idealFor: "Presentaciones de empresa, videos para web o redes sociales que necesitan un toque profesional.",
+    idealFor: "Empresas y profesionales que necesitan un video corto, conciso y de alta calidad para presentar un producto, explicar un servicio, compartir un testimonio de cliente o comunicar un mensaje clave de forma efectiva en su sitio web o redes sociales.",
     includes: [
-      "Edición de video profesional (hasta 2 minutos de duración final)",
-      "Uso de material provisto por el cliente (video y fotos)",
-      "Musicalización con biblioteca libre de derechos",
-      "Gráficos y textos animados básicos",
-      "Corrección de color y etalonaje básico",
-      "Entrega en formato FullHD (1080p)"
+      "Tipo de Video: Ideal para testimonios de clientes, videos explicativos cortos de producto/servicio, mensajes corporativos breves",
+      "Duración Final del Video: Hasta 60-90 segundos",
+      "Reunión de conceptualización y desarrollo de guión básico",
+      "Media jornada de grabación (aprox. 4 horas) en 1 locación",
+      "Equipo de grabación profesional básico",
+      "Edición profesional del material grabado",
+      "Corrección de color básica",
+      "Inclusión de música de librería libre de derechos",
+      "Integración de gráficos de texto simples (ej. títulos, nombres)",
+      "Hasta 2 rondas de revisión sobre el primer corte editado"
     ],
     sellingPoints: [
-      "Comunica tu mensaje de forma dinámica y atractiva.",
-      "Calidad profesional para tus videos corporativos o promocionales.",
-      "Entrega rápida para tus necesidades de contenido."
+      "Video profesional que comunica tu mensaje de forma clara, concisa e impactante.",
+      "Solución completa desde la idea inicial hasta la edición final.",
+      "La forma más efectiva y rentable de empezar a utilizar el poder del video."
     ],
-    shortDescription: "Vídeo corporativo o promocional editado profesionalmente y listo para impactar.",
-    slug: "plan-video-corporativo-express"
+    shortDescription: "Video profesional para comunicar de forma clara, concisa e impactante tu mensaje, producto o servicio, listo para usar en tu web o redes sociales.",
+    slug: "video-basico",
+    duration: "1-2 semanas"
   },
   {
-    id: "plan-podcast-produccion-starter",
-    categoryId: "produccion-multimedia",
-    name: "Plan Podcast Producción Starter",
+    id: "plan-video-pro",
+    categoryId: "produccion-audiovisual",
+    name: "VIDEO PRO – Impacto Cinematográfico para tu Marca: Corporativo o Spot Publicitario",
     type: "plan",
-    price: 300,
+    price: "Desde 1,200",
     priceType: "único",
-    idealFor: "Creadores de contenido o empresas que quieren lanzar un podcast de calidad profesional.",
+    featured: true,
+    idealFor: "Empresas que buscan una producción audiovisual de mayor envergadura y calidad cinematográfica, como un video institucional que refleje la grandeza de su marca, un spot publicitario creativo o videos de producto con estética superior.",
     includes: [
-      "Edición y limpieza de audio (hasta 60 min de audio crudo)",
-      "Mezcla y masterización para plataformas de podcast",
-      "Reducción de ruido y mejora de claridad vocal",
-      "Inserción de intro/outro y música de fondo (provista por cliente o de biblioteca)",
-      "Generación de archivo final en MP3 de alta calidad"
+      "Tipo de Video: Ideal para videos institucionales/corporativos, spots publicitarios, videos de marca de alto impacto",
+      "Duración Final: Hasta 2-3 minutos (institucional) o spot publicitario de 30-60 segundos",
+      "Preproducción detallada con guion completo y storyboard visual",
+      "Jornada completa de grabación (aprox. 8 horas)",
+      "Posibilidad de incluir hasta 2 locaciones cercanas (si la logística lo permite)",
+      "Equipo de grabación avanzado: Múltiples cámaras, estabilizadores, mejor iluminación",
+      "Dirección profesional en set",
+      "Edición profesional multicapa, con atención al ritmo y la narrativa visual",
+      "Corrección de color cinematográfica",
+      "Diseño e integración de motion graphics básicos",
+      "Selección y mezcla de música premium de librería",
+      "Hasta 3 rondas de revisión sobre los cortes editados"
     ],
     sellingPoints: [
-      "Sonido profesional que engancha a tu audiencia.",
-      "Libérate de la postproducción y enfócate en tu contenido.",
-      "Calidad consistente para cada episodio de tu podcast."
+      "Piezas audiovisuales con calidad cinematográfica que elevan tu imagen y comunican con impacto arrollador.",
+      "Proceso profesional completo desde el guion hasta la postproducción avanzada.",
+      "Video estratégicamente diseñado para alcanzar tus objetivos y diferenciarte de la competencia."
     ],
-    shortDescription: "Producción profesional de audio para tus episodios de podcast.",
-    slug: "plan-podcast-produccion-starter"
+    shortDescription: "Producción audiovisual de alto impacto con calidad cinematográfica para videos corporativos o spots publicitarios que eleven tu marca al siguiente nivel.",
+    slug: "video-pro",
+    duration: "3-6 semanas"
+  },
+  {
+    id: "plan-starter-video-pack",
+    categoryId: "produccion-audiovisual",
+    name: "STARTER VIDEO PACK MENSUAL – Videos Optimizados para tus Redes Sociales",
+    type: "plan",
+    price: 350,
+    priceType: "mensual",
+    idealFor: "Emprendedores, profesionales independientes y pequeñas empresas que necesitan contenido de video regular para sus redes sociales, pero sin tener que invertir en equipo o contratar diferentes creativos.",
+    includes: [
+      "3 Videos Cortos para Redes Sociales al mes",
+      "Duración: 15-45 segundos cada uno, optimizados para diferentes plataformas",
+      "Adaptación de contenido existente (fotos, clips básicos) y recursos de stock",
+      "1 Lluvia de ideas mensual para definir los temas de los videos",
+      "Edición básica profesional y efectos visuales simples",
+      "Textos en pantalla, música y efectos sonoros",
+      "Formato vertical para Stories/Reels y cuadrado para feeds",
+      "1 ronda de ajustes por video"
+    ],
+    sellingPoints: [
+      "Contenido de video constante y profesional para tus redes sin tener que crearlo tú mismo.",
+      "Aumento del engagement y alcance con formatos optimizados para cada plataforma.",
+      "Solución mensual rentable y sin complicaciones para tu estrategia de contenidos."
+    ],
+    shortDescription: "Servicio mensual de creación de 3 videos cortos optimizados para redes sociales, ideal para mantener tu presencia digital activa y profesional.",
+    slug: "starter-video-pack"
+  },
+  {
+    id: "plan-pro-video-pack",
+    categoryId: "produccion-audiovisual",
+    name: "PRO VIDEO PACK MENSUAL – Contenido Audiovisual Premium para Dominar en Redes",
+    type: "plan",
+    price: 600,
+    priceType: "mensual",
+    idealFor: "Empresas y marcas que buscan una estrategia de contenido audiovisual más completa, diversa y sofisticada para destacar en redes sociales, con una mezcla de formatos y estilos.",
+    includes: [
+      "5 Piezas Audiovisuales al mes (combinación personalizable según necesidades)",
+      "Posibilidad de incluir: Videos cortos para feed, Reels/Stories, Teaser de productos, Mini-entrevistas, Animation Motion Graphics",
+      "1 Video con grabación simple en locación (hasta 2 horas, en la misma ciudad)",
+      "Planificación estratégica mensual del contenido",
+      "Edición avanzada con motion graphics personalizados",
+      "Música premium y efectos visuales",
+      "Optimización para múltiples plataformas (Instagram, TikTok, LinkedIn, etc.)",
+      "2 rondas de ajustes por video"
+    ],
+    sellingPoints: [
+      "Estrategia completa de video para redes sociales que combina diferentes formatos para máximo impacto.",
+      "Contenido original filmado con producción profesional que destaca sobre la competencia.",
+      "La solución más completa para marcas que quieren dominar con video en el mundo digital."
+    ],
+    shortDescription: "Servicio premium mensual de creación de 5 piezas audiovisuales diversas, incluyendo grabación original, para dominar en redes sociales con contenido profesional.",
+    slug: "pro-video-pack",
+    featured: true
+  },
+  {
+    id: "plan-video-personalizado-profesional",
+    categoryId: "produccion-audiovisual",
+    name: "VIDEO PERSONALIZADO PROFESIONAL – Producción Audiovisual Completa",
+    type: "plan",
+    price: "Desde 1,500",
+    priceType: "único",
+    featured: true,
+    idealFor: "Empresas y profesionales que necesitan un video de alta calidad con producción completa para presentar su marca, explicar productos/servicios complejos o crear contenido premium para campañas importantes.",
+    includes: [
+      "Consultoría y planificación estratégica del contenido",
+      "Desarrollo de guión y storyboard personalizado",
+      "Una jornada completa de grabación (hasta 6 horas) con equipo profesional",
+      "Dirección profesional durante la grabación",
+      "Iluminación y captura de audio profesional",
+      "Posibilidad de incluir entrevistas, demostraciones de producto o servicios",
+      "Edición profesional completa (video de 2-3 minutos de duración final)",
+      "Diseño gráfico avanzado, animaciones y efectos visuales",
+      "Música y efectos sonoros premium",
+      "Corrección avanzada de color y masterización de audio",
+      "Entrega en múltiples formatos y resoluciones (4K opcional)"
+    ],
+    sellingPoints: [
+      "Consigue un video completamente profesional y personalizado que refleja la verdadera calidad de tu marca.",
+      "Diferénciate de la competencia con un contenido audiovisual de impacto que genera confianza y conversiones.",
+      "Obtén un activo digital versátil que puedes utilizar en múltiples canales: web, redes, presentaciones o eventos."
+    ],
+    shortDescription: "Producción audiovisual completa y personalizada con grabación profesional, para empresas que buscan comunicar con máxima calidad e impacto.",
+    slug: "video-personalizado-profesional",
+    duration: "2-3 semanas"
   },
 
   // === Consultoría Digital y Estrategias con IA ===
