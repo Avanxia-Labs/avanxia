@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ServicePlan, ServiceAddon } from "@/data/servicesData";
+import { ServicePlan } from "@/data/servicesData";
 
 export interface PackageCartModalProps {
   open      : boolean;

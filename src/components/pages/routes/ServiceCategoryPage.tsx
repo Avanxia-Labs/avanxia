@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, LightbulbIcon, Target, List, Calendar, Award } from 'lucide-react';
+import { Check, ShoppingCart, PackageCheck } from 'lucide-react';
 import { categoriesData, ServiceCategory } from '../../../data/categoriesData';
-import { servicesData, serviceAddons, ServicePlan } from '../../../data/servicesData';
+import { servicesData, serviceAddons, ServicePlan, ServiceAddon } from '../../../data/servicesData';
 import AddonsSelector from '@/components/AddonsSelector';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
@@ -11,7 +11,7 @@ import type { Engine } from "@tsparticles/engine";
 import { Button } from "@/components/ui/button";
 import PackageCartModal from '@/components/PackageCartModal';
 import Footer from '@/components/Footer';
-import { ShoppingCart, PackageCheck } from "lucide-react";
+
 import ValueSteps from '@/components/ValueSteps';
 
 
