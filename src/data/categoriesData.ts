@@ -1,5 +1,5 @@
 // src/data/categoriesData.ts
-import { Palette, Globe, MessageSquare, ShoppingCart, Search, MousePointerClick, Clapperboard, AppWindow } from 'lucide-react';
+import { Palette, Globe, MessageSquare, ShoppingCart, Search, MousePointerClick, Clapperboard, Smartphone } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 export interface ServiceCategory {
@@ -38,7 +38,7 @@ export const categoriesData: ServiceCategory[] = [
     description: "Ya sea una aplicación móvil innovadora o un sistema web completo, en Avanxia Labs transformamos tu concepto en software funcional y escalable. Nuestro enfoque de desarrollo se centra en el usuario mientras implementamos las mejores prácticas de ingeniería.",
     path: "/desarrollo-software-aplicaciones",
     imagePlaceholder: "/images/placeholders/category-software.jpg",
-    icon: AppWindow
+    icon: Smartphone
   },
   {
     id: "redes-sociales-marketing",

@@ -153,6 +153,65 @@ export const serviceAddons: ServiceAddon[] = [
 ];
 
 export const servicesData: ServicePlan[] = [
+  // === Desarrollo de Aplicaciones ===
+  {
+    id: "app-desarrollo-completo-plan",
+    categoryId: "desarrollo-software-aplicaciones",
+    name: "DESARROLLO COMPLETO – De la Idea a la Aplicación en el Mercado",
+    type: "plan",
+    price: "Desde 4,500",
+    priceType: "único",
+    duration: "5 – 15 semanas",
+    featured: true,
+    idealFor: "Startups e innovadores que buscan transformar su idea en una aplicación real y funcional, desde la planificación estratégica hasta el lanzamiento al mercado.",
+    includes: [
+      "Consultoría Estratégica: definición de objetivos, análisis de requerimientos y planificación",
+      "Investigación de Mercado y Definición de Arquetipo de Usuario",
+      "Documento de Alcance y Roadmap inicial para el desarrollo",
+      "Diseño UI/UX Completo: prototipos interactivos y diseño visual final",
+      "Desarrollo Frontend con Next.js/React (o React Native para móviles)",
+      "Desarrollo Backend (si es necesario) con NestJS u otra tecnología acordada",
+      "Pruebas de Calidad (QA) y Despliegue en entorno de producción",
+      "Entrega de Código Fuente y Capacitación para uso del sistema"
+    ],
+    sellingPoints: [
+      "Proceso completo desde la idea hasta la aplicación funcional en el mercado.",
+      "Minimiza riesgos con una planificación estratégica antes del desarrollo.",
+      "Tecnologías modernas que garantizan un producto de alta calidad, rendimiento y escalabilidad."
+    ],
+    shortDescription: "Convierte tu idea en una aplicación real con nuestro servicio completo: desde la consultoría estratégica inicial hasta el desarrollo y lanzamiento de tu producto digital.",
+    longDescription: "Nuestro servicio de Desarrollo Completo te acompaña en todo el proceso de creación de tu aplicación. Comenzamos con una fase de consultoría estratégica para entender tu visión y definir claramente los objetivos, lo que nos permite crear un plan detallado que minimiza riesgos. Luego, pasamos al diseño y desarrollo, utilizando tecnologías modernas como Next.js/React para construir una aplicación atractiva, funcional y escalable. Todo el proceso está enfocado en lanzar rápidamente un producto de alta calidad que te permita validar tu idea y comenzar a ganar tracción en el mercado. Es la solución integral que combina estrategia, diseño y tecnología para transformar tu visión en realidad.",
+    slug: "desarrollo-completo-app",
+    imagePlaceholder: "/images/placeholders/app-desarrollo.jpg",
+  },
+  {
+    id: "app-mantenimiento-plan",
+    categoryId: "desarrollo-software-aplicaciones",
+    name: "MANTENIMIENTO Y EVOLUCIÓN – Aseguramos el Éxito Continuo de tu Aplicación",
+    type: "plan",
+    price: "Desde 500",
+    priceType: "mensual",
+    featured: false,
+    idealFor: "Clientes que ya han lanzado su aplicación y necesitan asegurar su funcionamiento óptimo, mantenerla actualizada y segura, y/o continuar añadiendo nuevas funcionalidades de forma iterativa.",
+    includes: [
+      "Monitoreo del rendimiento y disponibilidad de la aplicación",
+      "Actualizaciones de seguridad del stack tecnológico",
+      "Copias de seguridad periódicas (si aplica)",
+      "Corrección de errores (bug fixing) menores",
+      "Soporte técnico básico (resolución de dudas, asistencia)",
+      "Horas para pequeñas mejoras o ajustes mensuales",
+      "Reportes periódicos del estado de la aplicación y trabajo realizado"
+    ],
+    sellingPoints: [
+      "Mantén tu aplicación segura, actualizada y funcionando óptimamente.",
+      "Evoluciona tu producto con nuevas funcionalidades según el feedback de usuarios.",
+      "Soporte continuo y tranquilidad para tu negocio digital."
+    ],
+    shortDescription: "Protege tu inversión y mantén tu aplicación siempre actualizada, segura y en evolución constante con nuestro servicio de mantenimiento y soporte continuo.",
+    longDescription: "Tu aplicación ya está en el mercado, ¿y ahora qué? Nuestro servicio de Mantenimiento y Evolución asegura que tu inversión digital siga rindiendo frutos, se mantenga segura y pueda crecer contigo. Ofrecemos desde planes de retainer mensual para un soporte proactivo y tranquilidad continua, hasta bolsas de horas flexibles para desarrollar nuevas funcionalidades y adaptar tu app a las necesidades cambiantes de tus usuarios. No dejes que tu aplicación se vuelva obsoleta; ¡invierte en su futuro!",
+    slug: "mantenimiento-evolucion-app",
+    imagePlaceholder: "/images/placeholders/app-mantenimiento.jpg",
+  },
   // === Identidad de Marca y Branding ===
   {
     id: "branding-esencial-plan",

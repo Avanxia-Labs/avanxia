@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, ShoppingCart, PackageCheck } from 'lucide-react';
+import { Check, ShoppingCart, PackageCheck, AppWindow } from 'lucide-react';
 import { categoriesData, ServiceCategory } from '../../../data/categoriesData';
 import { servicesData, serviceAddons, ServicePlan, ServiceAddon } from '../../../data/servicesData';
 import AddonsSelector from '@/components/AddonsSelector';
@@ -369,14 +369,7 @@ const total = cartItems
                       aria-label={plan.name}
                     >
                       <div className="text-7xl select-none">
-                        {plan.categoryId === 'desarrollo-web' ? '🌐' : 
-                         plan.categoryId === 'identidad-de-marca' ? '🎨' :
-                         plan.categoryId === 'redes-sociales' ? '📱' :
-                         plan.categoryId === 'seo-marketing' ? '📈' :
-                         plan.categoryId === 'contenidos' ? '📝' :
-                         plan.categoryId === 'ecommerce' ? '🛒' :
-                         plan.categoryId === 'videoproduccion' ? '🎬' :
-                         plan.categoryId === 'apps' ? '📲' : '✨'}
+                        {React.createElement(category?.icon || AppWindow, { size: 64 })}
                       </div>
                     </div>
                     <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2 min-h-[56px] lg:min-h-[64px]">
