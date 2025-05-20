@@ -49,7 +49,7 @@ const PackageCartModal: React.FC<PackageCartModalProps> = ({
       {open && (
         <motion.div
           key="overlay"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-white/70 dark:bg-black/50 backdrop-blur-sm"
           variants={backdrop}
           initial="hidden"
           animate="visible"
