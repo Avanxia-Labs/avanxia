@@ -1,262 +1,129 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { Check, Plus, ShoppingCart, PackageCheck } from 'lucide-react';
-import { ServiceAddon, ServicePlan } from '../data/servicesData';
-import PackageCartModal from '@/components/PackageCartModal';
+import React, { useState } from "react";
+import { Check, ShoppingCart, PackageCheck } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ServiceAddon } from "@/data/servicesData";
 
-// ── Animaciones con Framer Motion ─────────────────────────────────────────
-const containerAnimation = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const cardAnimation = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 90,
-    },
-  },
-};
-
-interface AddonsProps {
-  plan: ServicePlan;
-  addons: ServiceAddon[];
-  bonuses: ServiceAddon[];
+export interface ItemWithMeta extends ServiceAddon {
+  planName: string;
+  group: "addon" | "bonus";
 }
 
-const AddonsSelector: React.FC<AddonsProps> = ({ addons, bonuses }) => {
-  // ── Estado principal ───────────────────────────────────────────────
-  const [selectedAddons, setSelectedAddons] = useState<string[]>([]);
-  const [totalAdditionalCost, setTotalAdditionalCost] = useState<number>(0);
-  const [modalOpen, setModalOpen] = useState(false);
+interface Props {
+  items: ItemWithMeta[];
+  selectedIds: string[];
+  onAdd: (a: ServiceAddon) => void;
+  onRemove: (id: string) => void;
+}
 
-  // Calcular array de objetos seleccionados (memoizado)
-  const selectedAddonObjects = useMemo(() => {
-    return addons.filter((a) => selectedAddons.includes(a.id));
-  }, [addons, selectedAddons]);
+const AddonsSelector: React.FC<Props> = ({
+  items,
+  selectedIds,
+  onAdd,
+  onRemove,
+}) => {
+  /* ──────────────────────────────────────────────── */
+  const [idx, setIdx] = useState(0);
+  const current = items[idx];
+  const isSelected = selectedIds.includes(current.id);
 
-  // Actualizar costo al cambiar la selección
-  useEffect(() => {
-    const additionalCost = selectedAddonObjects.reduce((sum, addon) => sum + addon.price, 0);
-    setTotalAdditionalCost(additionalCost);
-  }, [selectedAddonObjects]);
+  /* Resumen (cuenta + total) */
+  const selectedItems = items.filter((i) => selectedIds.includes(i.id));
+  const count = selectedItems.length;
+  const total = selectedItems.reduce(
+    (sum, i) => (typeof i.price === "number" ? sum + i.price : sum),
+    0
+  );
+  /* ──────────────────────────────────────────────── */
 
-  // Toggle selección
-  const toggleAddonSelection = (addonId: string) => {
-    setSelectedAddons((prev) =>
-      prev.includes(addonId) ? prev.filter((id) => id !== addonId) : [...prev, addonId],
-    );
-  };
+  const heading =
+    current.group === "addon"
+      ? `Para el plan: ${current.planName}\nMejora tu Solución con Addons Personalizados`
+      : "Bonuses Incluidos en Tu Plan";
 
-  // Eliminar desde modal
-  const removeAddon = (id: string) => {
-    setSelectedAddons((prev) => prev.filter((a) => a !== id));
-  };
+  const toggle = () => (isSelected ? onRemove(current.id) : onAdd(current));
 
-  // ── Render ─────────────────────────────────────────────────────────
   return (
-    <>
-      <div className="w-full">
-        {/* Sección de Addons */}
-        {addons.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6 text-center text-primary/90">
-              Mejora tu Solución con Addons Personalizados
-            </h3>
+    <div className="w-full flex flex-col items-center">
+      {/* ——— título ——— */}
+      <p className="text-center whitespace-pre-line mb-6 font-semibold">
+        {heading}
+      </p>
 
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerAnimation}
-              initial="hidden"
-              animate="visible"
-            >
-              {addons.map((addon) => {
-                const selected = selectedAddons.includes(addon.id);
-                return (
-                  <motion.div
-                    key={addon.id}
-                    variants={cardAnimation}
-                    className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out relative 
-                      ${selected ? 'border-2 border-primary/60 scale-[1.01] shadow-lg' : 'border border-transparent hover:shadow-md hover:translate-y-[-3px]'}`}
-                    style={{
-                      background: 'var(--glass-bg)',
-                      backdropFilter: 'blur(var(--glass-blur))',
-                      WebkitBackdropFilter: 'blur(var(--glass-blur))',
-                    }}
-                  >
-                    {addon.highlighted && (
-                      <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
-                        RECOMENDADO
-                      </div>
-                    )}
+      {/* ——— tarjeta ——— */}
+      <div className="glass-panel rounded-2xl p-8 shadow-lg w-full lg:max-w-4xl mx-auto min-h-[260px] flex flex-col">
+        <h4 className="text-lg font-semibold mb-2">{current.name}</h4>
 
-                    <div className="absolute top-2 left-2">
-                      <button
-                        className={`w-6 h-6 rounded-full flex items-center justify-center ${selected ? 'bg-primary text-primary-foreground' : 'bg-foreground/10 text-foreground/60'}`}
-                        onClick={() => toggleAddonSelection(addon.id)}
-                      >
-                        {selected ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                      </button>
-                    </div>
+        <p className="text-sm mb-4 whitespace-pre-line">{current.description}</p>
 
-                    {/* Contenido de la tarjeta */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="flex items-start mb-3">
-                        <div className="text-3xl mr-3">{addon.iconEmoji}</div>
-                        <div>
-                          <h4 className="text-lg font-semibold text-primary">{addon.name}</h4>
-                          <div className="text-lg font-bold text-foreground mt-1">+${addon.price}</div>
-                        </div>
-                      </div>
-
-                      <p className="text-foreground/80 text-sm mb-4">{addon.description}</p>
-
-                      {/* Beneficios */}
-                      {addon.benefits.length > 0 && (
-                        <div className="mb-4">
-                          <p className="text-sm font-semibold mb-2 text-foreground/90">Incluye:</p>
-                          <ul className="space-y-2">
-                            {addon.benefits.map((benefit, idx) => (
-                              <li key={idx} className="flex items-start text-sm text-foreground/80">
-                                <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
-                                <span>{benefit}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-
-                      {/* Botón */}
-                      <div className="mt-auto">
-                        <button
-                          className={`w-full font-semibold py-2 px-4 rounded-lg transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 flex items-center justify-center
-                            ${selected ? 'bg-primary/20 text-primary border border-primary/30' : 'bg-foreground/5 text-foreground/70 hover:bg-foreground/10 border border-transparent'}`}
-                          onClick={() => toggleAddonSelection(addon.id)}
-                        >
-                          {selected ? (
-                            <>
-                              <Check className="h-4 w-4 mr-2" /> Seleccionado
-                            </>
-                          ) : (
-                            <>
-                              <Plus className="h-4 w-4 mr-2" /> Añadir
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
+        {current.benefits?.length > 0 && (
+          <ul className="list-disc pl-4 space-y-1 text-sm mb-6 text-left">
+            {current.benefits.map((b, k) => (
+              <li key={k} className="flex gap-1">
+                <Check className="h-4 w-4 text-primary mt-0.5" />
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
         )}
 
-        {/* Sección de Bonuses */}
-        {bonuses.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6 text-center text-primary/90">Bonuses Incluidos en Tu Plan</h3>
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerAnimation}
-              initial="hidden"
-              animate="visible"
-            >
-              {bonuses.map((bonus) => (
-                <motion.div
-                  key={bonus.id}
-                  variants={cardAnimation}
-                  className="glass-panel rounded-xl shadow-md flex flex-col overflow-hidden transition-all duration-300 ease-in-out relative border border-primary/20"
-                  style={{ background: 'var(--glass-bg)', backdropFilter: 'blur(var(--glass-blur))', WebkitBackdropFilter: 'blur(var(--glass-blur))' }}
-                >
-                  {bonus.highlighted && (
-                    <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">DESTACADO</div>
-                  )}
-
-                  <div className="absolute top-2 right-2">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-primary/20 text-primary">
-                      <Check className="h-4 w-4" />
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-start mb-3">
-                      <div className="text-3xl mr-3">{bonus.iconEmoji}</div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-primary">{bonus.name}</h4>
-                        <div className="inline-block bg-primary/10 text-primary px-2 py-1 rounded-md text-xs font-semibold mt-1">INCLUIDO GRATIS</div>
-                      </div>
-                    </div>
-                    <p className="text-foreground/80 text-sm mb-4">{bonus.description}</p>
-                    {bonus.benefits.length > 0 && (
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2 text-foreground/90">Incluye:</p>
-                        <ul className="space-y-2">
-                          {bonus.benefits.map((benefit, idx) => (
-                            <li key={idx} className="flex items-start text-sm text-foreground/80">
-                              <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" /> <span>{benefit}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        )}
-
-        {/* Resumen fijo inferior */}
-        {selectedAddons.length > 0 && (
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-md border-t border-foreground/10 shadow-lg z-40 p-4"
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          >
-            <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
-              <div className="flex items-center mb-4 sm:mb-0">
-                <ShoppingCart className="h-5 w-5 text-primary mr-2" />
-                <span className="text-foreground/90 font-medium">
-                  {selectedAddons.length} {selectedAddons.length === 1 ? 'addon' : 'addons'} seleccionado{selectedAddons.length !== 1 ? 's' : ''}
-                </span>
-                <span className="mx-3 text-foreground/40">|</span>
-                <span className="text-foreground font-bold">+${totalAdditionalCost}</span>
-              </div>
-              <button
-                className="w-full sm:w-auto bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 flex items-center justify-center"
-                onClick={() => setModalOpen(true)}
-              >
-                <PackageCheck className="h-4 w-4 mr-2" /> Continuar con los addons seleccionados
-              </button>
-            </div>
-          </motion.div>
-        )}
+        {/* ——— botón ———  */}
+        <Button
+          onClick={toggle}
+          size="tight"
+          variant={isSelected ? "secondary" : "primary"}
+          className="mt-auto mx-auto px-6"
+        >
+          {isSelected ? "Quitar" : "Añadir"}
+        </Button>
       </div>
 
-      {/* Modal resumen */}
-      <PackageCartModal
-        open={modalOpen}
-        items={selectedAddonObjects as unknown as ServicePlan[]} // reuse modal structure
-        onClose={() => setModalOpen(false)}
-        onRemove={removeAddon}
-        onContinue={() => {
-          // Aquí iría navegación al checkout de addons
-          setModalOpen(false);
-        }}
-      />
-    </>
+      {/* ——— paginación ——— */}
+      <div className="mt-6 flex gap-3">
+        <Button disabled={idx === 0} onClick={() => setIdx(idx - 1)} variant="secondary">
+          Anterior
+        </Button>
+
+        <Button disabled={idx === items.length - 1} onClick={() => setIdx(idx + 1)} variant="secondary">
+          Siguiente
+        </Button>
+      </div>
+
+      {/* ——— resumen fijo (sticky bottom bar) ——— */}
+      {count > 0 && (
+        <div className="fixed bottom-0 inset-x-0 z-50 bg-background/80 backdrop-blur-md border-t border-border/20">
+          <div className="max-w-4xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center">
+              <ShoppingCart className="h-5 w-5 text-primary mr-2" />
+              <span className="text-foreground/90 font-medium">
+                {count === 1 ? "1 elemento en tu paquete" : `${count} elementos en tu paquete`}
+              </span>
+
+              {/* Si solo hay el bonus gratis -> FREE, si hay addons de pago -> total */}
+              {total === 0 ? (
+                <span className="mx-3 text-primary font-bold uppercase">FREE</span>
+              ) : (
+                <>
+                  <span className="mx-3 text-foreground/40">|</span>
+                  <span className="text-foreground font-bold">+${total.toLocaleString("en-US")}</span>
+                </>
+              )}
+            </div>
+
+            <Button
+              onClick={() => {
+                /* abre PackageCartModal o navega al checkout */
+              }}
+              className="w-full sm:w-auto flex items-center justify-center"
+            >
+              <PackageCheck className="h-4 w-4 mr-2" />
+              Ver paquete
+            </Button>
+
+            
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

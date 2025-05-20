@@ -248,12 +248,11 @@ export const servicesData: ServicePlan[] = [
     featured: false,
     idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
     includes: [
-      "Diseño personalizado y responsive (adaptable a móviles)",
+      "Diseño web UI/UX personalizado y responsive de una sola página (landing page)",
       "Desarrollo con Next.js/React para máxima velocidad y SEO",
       "Optimización de velocidad de carga (Core Web Vitals)",
       "Formulario de contacto/captura de leads integrado",
-      "Conexión con Google Analytics y Search Console",
-      "Hosting básico por 1 año (incluido)"
+      "Conexión con Google Analytics y Search Console"
     ],
     sellingPoints: [
       "Maximiza conversiones con una página enfocada y persuasiva.",
@@ -280,10 +279,7 @@ export const servicesData: ServicePlan[] = [
       "Desarrollo con Next.js/React y CMS Headless (Strapi/Sanity) para autogestión",
       "Blog integrado con primer artículo inaugural",
       "Optimización SEO técnica avanzada",
-      "Integración con herramientas de marketing (CRM, Email Marketing)",
-      "Seguridad y rendimiento optimizados",
-      "Capacitación para gestión de contenidos",
-      "Hosting premium y dominio por 1 año incluidos"
+      "Integración con herramientas de marketing (CRM, Email Marketing)"
     ],
     availableAddons: ["addon-formulario-avanzado", "addon-backend-nestjs", "addon-blog-extra"],
     includedBonuses: ["bonus-contenido-visibilidad", "bonus-hosting-dominio-profesional"],

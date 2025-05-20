@@ -10,54 +10,87 @@ import { loadSlim } from "@tsparticles/slim";
 import type { Engine } from "@tsparticles/engine";
 import { Button } from "@/components/ui/button";
 import PackageCartModal from '@/components/PackageCartModal';
+import Footer from '@/components/Footer';
+import { ShoppingCart, PackageCheck } from "lucide-react";
+import ValueSteps from '@/components/ValueSteps';
+
+
 
 // ── Animaciones con Framer Motion ─────────────────────────────────────────
 const containerAnimation = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
+  hidden: {},
+  show: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: 0.2,   // mismo delay entre cartas
+      delayChildren: 0.4,
     },
   },
 };
 
 const cardAnimation = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
+  hidden: { opacity: 0, scale: 0.9, y: 30 },
+  show: (i: number) => ({
     opacity: 1,
+    scale: 1,
+    y: 0,
     transition: {
-      type: 'spring',
-      stiffness: 90,
+      delay: i * 0.2,
+      duration: 0.6,
+      ease: [0.25, 0.8, 0.25, 1],
     },
-  },
+  }),
 };
-
 const sectionAnimation = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 } },
 };
 
+
+
+
+
+
 // ── Componente ───────────────────────────────────────────────────────────
 const ServiceCategoryPage: React.FC = () => {
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<ServicePlan[]>([]);
   const navigate = useNavigate();
   const { categorySlug } = useParams<{ categorySlug: string }>();
 
-  const togglePlan = (plan: ServicePlan) => {
-  setCartItems((prev) =>
-    prev.find((p) => p.id === plan.id)
-      ? prev.filter((p) => p.id !== plan.id)
-      : [...prev, plan],
+  /* ------------------------------------------------------------------ */
+  /* 2️⃣  BONUS POR DEFECTO (antes de los useState)                      */
+  /* ------------------------------------------------------------------ */
+  const category: ServiceCategory | undefined = categoriesData.find(
+    (cat) => cat.slug === categorySlug,
   );
-  setCartOpen(true); // abre al añadir
-};
 
-  // Estado para manejar la inicialización de partículas
+  const defaultBonus = React.useMemo(
+    () =>
+      category?.id === "desarrollo-web"
+        ? serviceAddons.find(
+            (a) => a.id === "bonus-hosting-dominio-esencial",
+          )
+        : undefined,
+    [category],
+  );
+
+  /* ------------------------------------------------------------------ */
+  /* 3️⃣  Estados                                                        */
+  /* ------------------------------------------------------------------ */
+  // abre la modal si existe el bonus gratis
+ const [cartOpen, setCartOpen] = useState<boolean>(true);
+  // carrito arranca con el bonus (si existe)
+  const [cartItems, setCartItems] = useState<(ServicePlan | ServiceAddon)[]>(
+    () => (defaultBonus ? [defaultBonus] : []),
+  );
+
+  // resto de hooks (particles, isMobile, etc.) …
   const [init, setInit] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+
+  useEffect(() => {
+  setCartOpen(true);      // ← vuelve a mostrar la ventana
+}, [categorySlug]);   
+
 
   // Inicializar el motor de partículas
   useEffect(() => {
@@ -69,7 +102,6 @@ const ServiceCategoryPage: React.FC = () => {
   }, []);
 
   // Hook simple para detectar mobile
-  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 768);
     check();
@@ -99,14 +131,58 @@ const ServiceCategoryPage: React.FC = () => {
         },
       };
 
-  // Obtener categoría y planes correspondientes
-  const category: ServiceCategory | undefined = categoriesData.find(
-    (cat) => cat.slug === categorySlug,
-  );
 
   const categoryPlans: ServicePlan[] = servicesData.filter(
     (plan) => plan.categoryId === category?.id && plan.type === 'plan',
   );
+
+type ItemWithMeta = ServiceAddon & {
+  planName : string;           // nombre del plan al que pertenece
+  group    : "addon" | "bonus";
+};
+
+const allAddonItems: ItemWithMeta[] = [];
+
+categoryPlans.forEach(plan => {
+  const planAddons = serviceAddons.filter(
+    a => a.type === "addon" &&
+         category && a.categoryId === category.id &&
+         a.compatiblePlans.includes(plan.id)
+  );
+
+  const planBonuses = serviceAddons.filter(
+    b => b.type === "bonus" &&
+         category && b.categoryId === category.id &&
+         (plan.includedBonuses?.includes(b.id) ?? false)
+  );
+
+  planAddons .forEach(a => allAddonItems.push({ ...a, planName: plan.name, group: "addon"  }));
+  planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
+});
+
+  // Addons y bonuses para la categoría actual (ejemplo: desarrollo-web)
+  
+
+/** Añade al carrito pero NO abre la modal */
+const addItemSilent = (item: ServicePlan | ServiceAddon) =>
+  setCartItems(prev =>
+    prev.find(i => i.id === item.id) ? prev : [...prev, item]
+  );
+
+/** Añade al carrito y abre la modal (para los planes o CTA) */
+const addItemAndOpen = (item: ServicePlan | ServiceAddon) => {
+  addItemSilent(item);
+  setCartOpen(true);
+};
+
+const count = cartItems.length;
+
+const total = cartItems
+  .filter((i): i is ServiceAddon => "type" in i && i.type === "addon")
+  .reduce((sum, a) => sum + (typeof a.price === "number" ? a.price : 0), 0);
+
+
+
 
   // ── Manejar categoría no encontrada ───────────────────────────
   if (!category) {
@@ -133,8 +209,12 @@ const ServiceCategoryPage: React.FC = () => {
   // ── Render ─────────────────────────────────────────────────────────────
   return (
     <div className="w-full bg-background text-foreground min-h-screen">
-      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
-
+      <div
+        className={`
+          container mx-auto px-4 py-12 sm:py-16 md:py-20
+          ${count > 0 ? "pb-24" : ""}   /* ← 8 rem ≈ 128 px, ajusta si lo quieres más chico */
+        `}
+      >
 
         {/* ── Banner Tecnológico con Partículas 3D ────── */}
         <div className="w-screen relative overflow-hidden" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw', maxWidth: '100vw' }}>
@@ -242,14 +322,18 @@ const ServiceCategoryPage: React.FC = () => {
               Nuestros Paquetes de {category.name}
             </h2>
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+              className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4"
               variants={containerAnimation}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.3 }}
             >
-              {categoryPlans.map((plan) => (
-                <motion.div
+                {categoryPlans.map((plan, index) => (
+                  <motion.div
                   key={plan.id}
+                  custom={index}
                   variants={cardAnimation}
-                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full ${
+                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-[380px] ${
                     plan.featured
                       ? 'border-2 border-primary/60 scale-[1.01]'
                       : 'border border-transparent'
@@ -327,11 +411,11 @@ const ServiceCategoryPage: React.FC = () => {
                     {/* Botón */}
                     <div className="mt-auto">
                       <button
+                     onClick={() => addItemAndOpen(plan)}    
                         className="w-full bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
                       >
                         Añadir a Solución
                       </button>
-                      <button onClick={() => togglePlan(plan)} >...Añadir a Solución</button>
                     </div>
                   </div>
                 </motion.div>
@@ -340,151 +424,42 @@ const ServiceCategoryPage: React.FC = () => {
           </motion.section>
         )}
 
-        {/* ── Sección de Addons y Bonuses (Solo para desarrollo web por ahora) ───────────── */}
-        {category.id === 'desarrollo-web' && categoryPlans.length > 0 && (
-          <motion.section
-            className="mb-12 sm:mb-16 md:mb-20"
-            variants={sectionAnimation}
-            initial="hidden"
-            animate="visible"
-          >
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Personaliza Tu Solución de {category.name}
-            </h2>
-            
-            {categoryPlans.map((plan) => {
-              // Filtrar addons y bonuses para este plan específico
-              const planAddons = serviceAddons.filter(
-                addon => addon.type === 'addon' && 
-                      addon.categoryId === category.id && 
-                      addon.compatiblePlans.includes(plan.id)
-              );
-              
-              const planBonuses = serviceAddons.filter(
-                bonus => bonus.type === 'bonus' && 
-                      bonus.categoryId === category.id && 
-                      (plan.includedBonuses?.includes(bonus.id) || false)
-              );
-              
-              return planAddons.length > 0 || planBonuses.length > 0 ? (
-                <div key={`addons-${plan.id}`} className="mb-16">
-                  <h3 className="text-2xl font-semibold text-center mb-8 text-foreground/90">
-                    Para el plan: <span className="text-primary">{plan.name}</span>
-                  </h3>
-                  <AddonsSelector 
-                    plan={plan} 
-                    addons={planAddons} 
-                    bonuses={planBonuses} 
-                  />
-                </div>
-              ) : null;
-            })}
-          </motion.section>
-        )}
+{/* ── Addons & Bonuses 1-solo-carrusel ─────────────────────────────── */}
+{category.id === "desarrollo-web" && allAddonItems.length > 0 && (
+  <motion.section
+    className="mb-12 sm:mb-16 md:mb-20"
+    variants={sectionAnimation}
+    initial="hidden"
+    animate="visible"
+  >
+    <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+      Personaliza Tu Solución de {category.name}
+    </h2>
 
-        {/* ── Nuestra Propuesta de Valor ───────────── */}
-        <motion.section
-          className="mb-12 sm:mb-16 md:mb-20"
-          variants={sectionAnimation}
-          initial="hidden"
-          animate="visible"
-        >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-            Nuestra Propuesta de Valor para {category.name}
-          </h2>
-          
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.15
-                }
-              }
-            }}
-          >
-            {categoryPlans.map((plan) => (
-              <motion.div
-                key={`selling-${plan.id}`}
-                className="glass-panel p-8 rounded-xl relative overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { 
-                    opacity: 1, 
-                    y: 0,
-                    transition: {
-                      type: 'spring',
-                      stiffness: 80,
-                      damping: 15
-                    } 
-                  }
-                }}
-              >
-                <h4 className="text-2xl font-semibold text-primary mb-4 flex items-center">
-                  <Award className="h-6 w-6 mr-2 text-primary/80" />
-                  {plan.name}
-                </h4>
+    {/*  ▶  un único paginador  */}
+<AddonsSelector
+  items={allAddonItems.map(a => ({ ...a, planName: category.name }))}
+  selectedIds={cartItems.map(i => i.id)}       //  ← aquí
+  onAdd={addItemSilent}
+  onRemove={(id) => setCartItems(prev => prev.filter(i => i.id !== id))}
+/>
+  </motion.section>
+)}
 
-                {plan.idealFor && (
-                  <div className="mb-4 flex items-start">
-                    <Target className="h-5 w-5 text-primary/80 mr-2 mt-1 flex-shrink-0" />
-                    <p className="text-base text-foreground/80">
-                      <strong className="text-foreground/90">Ideal para:</strong> {plan.idealFor}
-                    </p>
-                  </div>
-                )}
 
-                {plan.longDescription && (
-                  <p className="mb-5 text-base text-foreground/80 pl-7">
-                    {plan.longDescription}
-                  </p>
-                )}
 
-                {plan.sellingPoints?.length > 0 && (
-                  <div className="mb-6">
-                    <p className="font-medium mb-2 flex items-center">
-                      <LightbulbIcon className="h-5 w-5 text-primary/80 mr-2" />
-                      <span className="text-foreground/90">Argumentos de Venta Clave:</span>
-                    </p>
-                    <ul className="space-y-2 pl-7">
-                      {plan.sellingPoints.map((pt, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
-                          <span className="text-foreground/80">{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+      {/* ── Nuestra Propuesta de Valor ───────────── */}
+      <motion.section
+        className="mb-12 sm:mb-16 md:mb-20"
+        variants={sectionAnimation}
+        initial="hidden"
+        animate="visible"
+      >
+        <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+          Nuestra Propuesta de Valor para {category.name}
+        </h2>
 
-                {plan.includes?.length > 0 && (
-                  <div className="mb-6">
-                    <p className="font-medium mb-2 flex items-center">
-                      <List className="h-5 w-5 text-primary/80 mr-2" />
-                      <span className="text-foreground/90">¿Qué incluye exactamente?</span>
-                    </p>
-                    <ul className="space-y-2 pl-7">
-                      {plan.includes.map((inc, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
-                          <span className="text-foreground/80">{inc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {plan.duration && (
-                  <div className="mt-4 flex items-center text-sm text-foreground/70">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    <span><strong>Duración estimada:</strong> {plan.duration}</span>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </motion.div>
+          <ValueSteps steps={categoryPlans} />  
         </motion.section>
 
         {/* ── Portafolio Showcase ───────────── */}
@@ -681,19 +656,76 @@ const ServiceCategoryPage: React.FC = () => {
           </Button>
         </motion.section>
       </div>
-       {/* ——— Modal de carrito de paquetes ——— */}
+
       <PackageCartModal
         open={cartOpen}
         items={cartItems}
-        onClose={() => setCartOpen(false)}
+      message={
+        <>
+          ¡Ya tienes un <strong className="text-primary">BONUS&nbsp;GRATIS</strong>!&nbsp;
+          Ahora elige tu plan y personaliza tu paquete.
+        </>
+      }  onClose={() => setCartOpen(false)}
         onRemove={(id) =>
-          setCartItems((items) => items.filter((p) => p.id !== id))
+          setCartItems((prev) => prev.filter((i) => i.id !== id))
         }
         onContinue={() => {
-          // aquí iría tu lógica de checkout o navegación
-          navigate('/checkout');
+          setCartOpen(false);
+          // aquí iría la navegación a checkout
         }}
       />
+
+{/* ——— resumen fijo (sticky bottom bar) ——— */}
+{count > 0 && (
+  <div
+    className="
+      fixed bottom-0 inset-x-0 z-50
+      bg-background/80 backdrop-blur-md
+      border-t border-border/20
+    "
+  >
+    <div
+      className="
+        max-w-4xl mx-auto px-4 py-3
+        flex flex-col sm:flex-row justify-between items-center gap-4
+      "
+    >
+      {/* texto + monto */}
+      <div className="flex items-center">
+        <ShoppingCart className="h-5 w-5 text-primary mr-2" />
+
+        <span className="text-foreground/90 font-medium">
+          {count === 1
+            ? "1 elemento en tu paquete"
+            : `${count} elementos en tu paquete`}
+        </span>
+
+        {total > 0 && (
+          <>
+            <span className="mx-3 text-foreground/40">|</span>
+            <span className="text-foreground font-bold">
+              +${total.toLocaleString("en-US")}
+            </span>
+          </>
+        )}
+      </div>
+
+      {/* botón */}
+      <Button
+        onClick={() => setCartOpen(true)}      // ← abre tu modal
+        className="w-full sm:w-auto flex items-center justify-center"
+      >
+        <PackageCheck className="h-4 w-4 mr-2" />
+        Ver paquete
+      </Button>
+    </div>
+  </div>
+)}
+
+
+<div className={count > 0 ? "mb-16" : ""}>
+  <Footer />
+</div>
     </div>
 
     
