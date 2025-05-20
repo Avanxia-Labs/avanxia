@@ -88,7 +88,7 @@ export default function ValueSteps({ steps }: Props) {
           >
             {/* ENCABEZADO */}
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
-              Paso {active + 1} de {steps.length}
+              Propuesta {active + 1} de {steps.length}
             </p>
 
             <h3 className="mb-6 text-3xl font-extrabold leading-tight text-foreground">

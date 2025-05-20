@@ -13,7 +13,7 @@ import PackageCartModal from '@/components/PackageCartModal';
 import Footer from '@/components/Footer';
 
 import ValueSteps from '@/components/ValueSteps';
-
+import { portfolioData, PortfolioItem } from '../../../data/portfolioData';
 
 
 // ── Animaciones con Framer Motion ─────────────────────────────────────────
@@ -143,22 +143,7 @@ type ItemWithMeta = ServiceAddon & {
 
 const allAddonItems: ItemWithMeta[] = [];
 
-categoryPlans.forEach(plan => {
-  const planAddons = serviceAddons.filter(
-    a => a.type === "addon" &&
-         category && a.categoryId === category.id &&
-         a.compatiblePlans.includes(plan.id)
-  );
 
-  const planBonuses = serviceAddons.filter(
-    b => b.type === "bonus" &&
-         category && b.categoryId === category.id &&
-         (plan.includedBonuses?.includes(b.id) ?? false)
-  );
-
-  planAddons .forEach(a => allAddonItems.push({ ...a, planName: plan.name, group: "addon"  }));
-  planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
-});
 
   // Addons y bonuses para la categoría actual (ejemplo: desarrollo-web)
   
@@ -180,6 +165,45 @@ const count = cartItems.length;
 const total = cartItems
   .filter((i): i is ServiceAddon => "type" in i && i.type === "addon")
   .reduce((sum, a) => sum + (typeof a.price === "number" ? a.price : 0), 0);
+
+
+    function inCategory(addon: ServiceAddon, categoryId: string): boolean {
+  return Array.isArray(addon.categoryId)
+    ? addon.categoryId.includes(categoryId)
+    : addon.categoryId === categoryId;
+}
+categoryPlans.forEach(plan => {
+  const planAddons = serviceAddons.filter(a =>
+    a.type === 'addon' &&
+    inCategory(a, category!.id) &&               // <-- el “!” le quita el undefined
+    plan.availableAddons?.includes(a.id)
+  );
+
+  const planBonuses = serviceAddons.filter(b =>
+    b.type === 'bonus' &&
+    inCategory(b, category!.id) &&
+    plan.includedBonuses?.includes(b.id)
+  );
+
+  planAddons .forEach(a => allAddonItems.push({ ...a, planName: plan.name, group: "addon"  }));
+  planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
+});
+
+    const imgSrc = category?.imagePlaceholder ?? '/images/placeholders/default.png';
+
+
+const showcaseContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+  const cases: PortfolioItem[] = portfolioData.filter(item =>
+    item.categories.includes(category!.id)
+  );
+
+console.log("allAddonItems:", allAddonItems);
 
 
 
@@ -272,20 +296,30 @@ const total = cartItems
           {/* Contenido centrado sobre el fondo de partículas */}
           <div className="absolute inset-0 flex justify-center items-center z-20">
             <motion.img
-              src="/images/Services/iu1oox_1 1.png"
-              alt={category.name}
+              src={imgSrc}
+              alt={category?.name ?? 'Imagen de categoría'}
               className="rounded-lg relative"
-              style={{ height: 'auto', width: 'auto', maxWidth: '800px', maxHeight: '280px', objectFit: 'contain' }}
+              style={{
+                height: 'auto',
+                width: 'auto',
+                maxWidth: '800px',
+                maxHeight: '280px',
+                objectFit: 'contain'
+              }}
               initial={{ opacity: 0 }}
-              animate={{ 
+              animate={{
                 opacity: 1,
                 y: [0, -12, 0],
                 scale: [1, 1.015, 1]
               }}
-              transition={{ 
+              transition={{
                 opacity: { duration: 0.6, delay: 0.25 },
                 y: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" },
                 scale: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" }
+              }}
+              onError={(e) => {
+                // Si fallara la carga, usa una genérica
+                (e.currentTarget as HTMLImageElement).src = '/images/placeholders/default.png';
               }}
             />
           </div>
@@ -443,7 +477,7 @@ const total = cartItems
 
     {/*  ▶  un único paginador  */}
 <AddonsSelector
-  items={allAddonItems.map(a => ({ ...a, planName: category.name }))}
+  items={allAddonItems}
   selectedIds={cartItems.map(i => i.id)}       //  ← aquí
   onAdd={addItemSilent}
   onRemove={(id) => setCartItems(prev => prev.filter(i => i.id !== id))}
@@ -467,176 +501,85 @@ const total = cartItems
           <ValueSteps steps={categoryPlans} />  
         </motion.section>
 
-        {/* ── Portafolio Showcase ───────────── */}
-        <motion.section
-          className="mb-12 sm:mb-16 md:mb-20"
-          variants={sectionAnimation}
-          initial="hidden"
-          animate="visible"
-        >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-            Casos de Éxito en {category.name}
-          </h2>
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1
-                }
+{/* ── Portafolio Showcase ───────────── */}
+<motion.section
+  className="mb-12 sm:mb-16 md:mb-20"
+  variants={sectionAnimation}
+  initial="hidden"
+  animate="visible"
+>
+  <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+    Casos de Éxito en {category.name}
+  </h2>
+
+  <motion.div
+    className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
+    variants={showcaseContainer}
+    initial="hidden"
+    animate="visible"
+  >
+    {cases.map((proj, idx) => {
+      // Calculamos la imagen según la categoría si existe una específica
+      const imgSrc = proj.images?.[category!.id] ?? proj.image;
+
+      return (
+        <motion.div
+          key={proj.id}
+          className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                type: 'spring',
+                stiffness: 80,
+                damping: 15,
+                delay: idx * 0.1
               }
-            }}
-          >
-            {/* Proyecto GYB */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/gyb5.png"
-                  alt="GYB Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">GYB</h3>
-                    <p className="text-white/80 text-sm">UI/UX, Marketing Visual</p>
-                  </div>
-                </div>
+            }
+          }}
+        >
+          <div className="relative overflow-hidden h-56">
+            <img
+              src={imgSrc}
+              alt={proj.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div className="p-4 w-full">
+                <h3 className="text-white font-semibold">{proj.title}</h3>
+                <p className="text-white/80 text-sm">{proj.subtitle}</p>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">GYB Connect</h3>
-                  <p className="text-sm text-foreground/80">Identidad y sitio web para fintech moderna con enfoque en claridad y confianza.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/gyb')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                  >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Proyecto DEW Marketing */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15,
-                    delay: 0.1
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/dew1.png"
-                  alt="DEW Marketing Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">DEW Marketing</h3>
-                    <p className="text-white/80 text-sm">Branding, Diseño Visual</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">DEW Marketing</h3>
-                  <p className="text-sm text-foreground/80">Identidad de marca completa y estrategia visual para agencia especializada en marketing digital.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/dew')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                  >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Proyecto Heromatic */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15,
-                    delay: 0.2
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/heromatic1.png"
-                  alt="Heromatic Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">Heromatic</h3>
-                    <p className="text-white/80 text-sm">Branding, Automatización, UI/UX</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">Heromatic</h3>
-                  <p className="text-sm text-foreground/80">Creamos toda la identidad de marca, enfocada en posicionarlos como expertos en automatización de procesos empresariales.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/heromatic')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                  >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </motion.section>
+            </div>
+          </div>
+          <div className="p-4 flex flex-col flex-grow">
+            <div className="flex-grow">
+              <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
+              {proj.description && (
+                <p className="text-sm text-foreground/80">{proj.description}</p>
+              )}
+            </div>
+            <div className="mt-auto pt-4">
+              <Button
+                onClick={() => navigate(`/proyectos/${proj.slug}`)}
+                variant="secondary"
+                size="tight"
+                className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+              >
+                <span>Ver proyecto</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      );
+    })}
+  </motion.div>
+</motion.section>
 
         {/* ── CTA Final ────────────────────── */}
         <motion.section
@@ -661,10 +604,9 @@ const total = cartItems
           </Button>
         </motion.section>
       </div>
-
-      <PackageCartModal
-        open={cartOpen}
-        items={cartItems}
+    <PackageCartModal
+      open={cartOpen}
+      items={cartItems}
       message={
         <>
           {defaultBonus ? (
@@ -674,19 +616,25 @@ const total = cartItems
             </>
           ) : (
             <>
-              <strong className="text-primary">Precios aproximados</strong>. Ofrecemos una cotización personalizada gratuita para asegurarnos de cumplir con tus expectativas y necesidades específicas.
+              <strong className="text-primary">Precios aproximados</strong>. Ofrecemos una
+              cotización personalizada gratuita para asegurarnos de cumplir con tus
+              expectativas y necesidades específicas.
             </>
           )}
         </>
-      }  onClose={() => setCartOpen(false)}
-        onRemove={(id) =>
-          setCartItems((prev) => prev.filter((i) => i.id !== id))
-        }
-        onContinue={() => {
-          setCartOpen(false);
-          // aquí iría la navegación a checkout
-        }}
-      />
+      }
+      onClose={() => setCartOpen(false)}
+      onRemove={(id) =>
+        setCartItems((prev) => prev.filter((i) => i.id !== id))
+      }
+      onContinue={() => {
+        console.log("Ítems seleccionados por el cliente:", cartItems);
+        // Cerramos el modal…
+        setCartOpen(false);
+        // …y navegamos a ContactPage, enviando los ítems seleccionados
+        navigate('/contact', { state: { selectedItems: cartItems } });
+      }}
+    />
 
 {/* ——— resumen fijo (sticky bottom bar) ——— */}
 {count > 0 && (
