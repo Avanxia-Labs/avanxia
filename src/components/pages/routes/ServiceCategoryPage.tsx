@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, LightbulbIcon, Target, List, Calendar, Award } from 'lucide-react';
 import { categoriesData, ServiceCategory } from '../../../data/categoriesData';
-import { servicesData, serviceAddons, ServicePlan, ServiceAddon } from '../../../data/servicesData';
+import { servicesData, serviceAddons, ServicePlan } from '../../../data/servicesData';
 import AddonsSelector from '@/components/AddonsSelector';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";

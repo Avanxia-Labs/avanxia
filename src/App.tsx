@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
+import SEOHelmet from "./components/SEOHelmet";
 import { ArrowLeft } from "lucide-react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
@@ -131,23 +132,28 @@ function PersistRoute() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Guardar la ruta actual en localStorage
+  // Guardar la ruta actual en sessionStorage
   useEffect(() => {
-    localStorage.setItem('lastPath', location.pathname);
+    sessionStorage.setItem('lastPath', location.pathname);
+  }, [location.pathname]);
+  
+  // Registrar el scroll en cada ruta
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   // Restaurar la ruta tras recargar
   useEffect(() => {
-    const lastPath = localStorage.getItem('lastPath');
+    const lastPath = sessionStorage.getItem('lastPath');
     const currentPath = location.pathname;
     
     // Si estamos en la raíz pero había otra ruta guardada, restaurarla
-    if (lastPath && lastPath !== '/' && currentPath === '/') {
+    if (currentPath === '/' && lastPath && lastPath !== '/') {
       navigate(lastPath);
     }
-  }, [navigate]); // Solo se ejecuta una vez al montar el componente
+  }, [location, navigate]);
 
-  return null; // Este componente no renderiza nada
+  return null;
 }
 
 // ── App (sin BrowserRouter porque está en main.tsx) ─────
@@ -155,8 +161,8 @@ export default function App() {
   return (
     <>
       <PersistRoute />
+      <SEOHelmet /> {/* Componente para manejar títulos SEO */}
       <PersonalizedGreeting />
-
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />

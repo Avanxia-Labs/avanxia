@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Plus, ShoppingCart, PackageCheck, Trash2 } from 'lucide-react';
+import { Check, Plus, ShoppingCart, PackageCheck } from 'lucide-react';
 import { ServiceAddon, ServicePlan } from '../data/servicesData';
 import PackageCartModal from '@/components/PackageCartModal';
 
