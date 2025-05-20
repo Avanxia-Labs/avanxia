@@ -496,106 +496,173 @@ export const servicesData: ServicePlan[] = [
 
   // === Optimización para Motores de Búsqueda (SEO) ===
   {
-    id: "plan-seo-local-starter",
-    categoryId: "seo",
-    name: "Plan SEO Local Starter",
+    id: "plan-seo-startup-boost",
+    categoryId: "seo-marketing-contenidos",
+    name: "SEO STARTUP BOOST – Cimientos Sólidos para tu Posicionamiento Online",
     type: "plan",
-    price: 500,
-    priceType: "mensual",
-    idealFor: "Negocios locales que quieren mejorar su visibilidad en búsquedas geolocalizadas.",
+    price: 450,
+    priceType: "único",
+    idealFor: "Negocios que recién lanzan su sitio web, empresas con una web existente que nunca han trabajado activamente el SEO, o para aquellos que necesitan una puesta a punto técnica y un primer impulso de contenido estratégico para empezar a mejorar su visibilidad en Google.",
     includes: [
-      "Optimización de Google My Business",
-      "Investigación de palabras clave locales",
-      "Optimización On-Page para 5 páginas clave",
-      "Gestión de citaciones locales (hasta 10 directorios)",
-      "Informe mensual de ranking y tráfico local"
+      "Auditoría SEO Técnica Básica (revision de 5-10 páginas principales)",
+      "Investigación de Palabras Clave Iniciales (10-15 palabras clave foco)",
+      "Optimización On-Page Esencial (títulos, descripciones, encabezados) para 5 páginas",
+      "Configuración de Google Analytics (GA4) y Google Search Console",
+      "Creación y Envío de Sitemap.xml a Google Search Console",
+      "Configuración básica de archivo robots.txt si es necesario",
+      "Creación de 1 Artículo de Blog Pilar (1000-1200 palabras) optimizado para SEO",
+      "Reporte detallado de la configuración inicial y hallazgos de la auditoría",
+      "Plan de contenido sugerido para 2-3 meses siguientes"
     ],
     sellingPoints: [
-      "Atrae más clientes de tu área geográfica.",
-      "Mejora tu ranking en Google Maps y búsquedas locales.",
-      "Fundamental para negocios con ubicación física."
+      "Cimientos sólidos para un posicionamiento online exitoso.",
+      "Puesta a punto técnica de tu web e investigación de palabras clave estratégicas.",
+      "Contenido pilar inicial que te ayudará a atraer tráfico orgánico."
     ],
-    shortDescription: "Mejora tu visibilidad en búsquedas locales y atrae clientes cercanos.",
-    slug: "plan-seo-local-starter"
+    shortDescription: "Auditoría SEO, optimización técnica y primer artículo pilar para sentar las bases de tu posicionamiento en Google y empezar a atraer tráfico cualificado.",
+    slug: "seo-startup-boost",
+    duration: "1-2 semanas"
   },
   {
-    id: "plan-seo-integral-crecimiento",
-    categoryId: "seo",
-    name: "Plan SEO Integral para Crecimiento",
+    id: "plan-seo-growth-engine",
+    categoryId: "seo-marketing-contenidos",
+    name: "SEO GROWTH ENGINE – Estrategia Mensual para Crecimiento Orgánico Sostenido",
+    type: "plan",
+    price: 750,
+    priceType: "mensual",
+    featured: true,
+    idealFor: "Empresas que ya tienen una presencia web establecida y buscan mejorar consistentemente su ranking en Google, aumentar el tráfico orgánico cualificado, generar leads a través de contenido de valor y construir autoridad en su nicho de forma mensual y sostenible.",
+    includes: [
+      "Monitoreo y Análisis SEO Continuo (ranking, errores técnicos, competencia)",
+      "Estrategia de Contenidos Mensual y Dinámica",
+      "Creación de 2 Artículos de Blog Optimizados para SEO (800-1000 palabras cada uno)",
+      "Opción de sustituir artículos estándar por 1 Artículo Pilar más extenso bimestralmente",
+      "Optimización On-Page Continua del nuevo contenido y páginas existentes",
+      "Link Building Interno (estructura optimizada de enlaces)",
+      "Mejoras de Experiencia de Usuario (formato de contenido, legibilidad)",
+      "Reuniones de Estrategia y Reporte Mensual de Rendimiento"
+    ],
+    sellingPoints: [
+      "Estrategia SEO integral y de alto valor para crecimiento orgánico consistente.",
+      "Creación regular de contenido atractivo y estrategicamente optimizado que posiciona.",
+      "Monitoreo técnico continuo para mantener la salud SEO y mejorar posiciones."
+    ],
+    shortDescription: "Estrategia mensual integral de SEO y contenidos para mejorar tu visibilidad en Google, generar tráfico cualificado y construir autoridad en tu sector de forma sostenible.",
+    slug: "seo-growth-engine"
+  },
+  {
+    id: "plan-content-strategy-pro",
+    categoryId: "seo-marketing-contenidos",
+    name: "CONTENT STRATEGY PRO – Liderazgo de Opinión y Estrategia de Contenidos Premium",
     type: "plan",
     price: 1200,
     priceType: "mensual",
-    idealFor: "Empresas que buscan un crecimiento orgánico sostenido y liderazgo en su nicho.",
+    idealFor: "Empresas consolidadas y marcas ambiciosas que buscan no solo rankear en Google, sino establecerse como verdaderos líderes de opinión y referentes en su nicho a través de una estrategia de contenidos robusta, diversificada y de calidad premium.",
     includes: [
-      "Auditoría SEO completa y estrategia personalizada",
-      "Investigación exhaustiva de palabras clave y competidores",
-      "Optimización On-Page continua (web y blog)",
-      "Estrategia y ejecución de Link Building ético",
-      "Creación de 2-3 contenidos SEO-optimizados al mes",
-      "Monitoreo técnico y de rendimiento (Core Web Vitals)",
-      "Informes detallados con análisis de ROI y próximos pasos"
+      "Todo lo incluido en el plan 'SEO Growth Engine', y además:",
+      "Creación de Contenido Avanzado y Diversificado (Mayor Volumen y Formatos Premium):",
+      "- 3-4 Artículos de Blog Optimizados y Profundos al mes",
+      "- O 1 Contenido Pilar Extenso y de Alto Valor (Lead Magnet) como Ebook o Whitepaper",
+      "- O Guion Detallado para 1 Webinar o Video Educativo de formato largo",
+      "Estrategia de Distribución de Contenidos Optimizada",
+      "Optimización de Contenido para Fragmentos Destacados (Featured Snippets) de Google",
+      "Consideraciones básicas para la optimización para Búsqueda por Voz",
+      "Análisis de Contenido de la Competencia Más Profundo",
+      "Consultoría Estratégica de Contenidos y SEO de Alto Nivel"
     ],
     sellingPoints: [
-      "Una estrategia SEO completa para dominar los rankings de búsqueda.",
-      "Aumento sostenible del tráfico orgánico de calidad.",
-      "Posicionamiento como autoridad en tu industria."
+      "Estrategia de contenidos premium y piezas de alto impacto que te posicionarán como líder de opinión indiscutible.",
+      "No solo mejoramos tu SEO, sino que construimos un legado de contenido valioso que atrae, educa y convierte.",
+      "Inversión definitiva para quienes buscan dominar su nicho a través del conocimiento y la autoridad."
     ],
-    shortDescription: "Estrategia SEO completa para un crecimiento orgánico sostenible y liderazgo.",
-    slug: "plan-seo-integral-crecimiento",
-    featured: true,
+    shortDescription: "Estrategia avanzada de contenidos premium que te posiciona como líder de opinión, con formatos como Ebooks o guiones para webinars, diseñada para construir autoridad y generar leads cualificados.",
+    slug: "content-strategy-pro"
   },
 
   // === Publicidad Pagada (PPC) ===
   {
-    id: "plan-ppc-ads-inicial",
+    id: "plan-ppc-setup",
     categoryId: "publicidad-pagada-ppc",
-    name: "Plan PPC Ads Inicial",
+    name: "PPC SETUP – Tu Campaña Optimizada Desde el Día Cero",
     type: "plan",
-    price: "Desde 350",
-    priceType: "mensual",
-    idealFor: "Empresas que quieren probar la publicidad online o tienen presupuestos ajustados.",
+    price: 380,
+    priceType: "único",
+    idealFor: "Empresas o emprendedores que desean lanzar su primera campaña de publicidad pagada con una base sólida y profesional, o para aquellos que han intentado gestionar campañas por su cuenta sin los resultados esperados y necesitan una configuración experta para empezar con el pie derecho.",
     includes: [
-      "Gestión de campañas en 1 plataforma (Google Ads o Meta Ads)",
-      "Configuración de hasta 2 campañas",
-      "Investigación de palabras clave / segmentación de audiencia básica",
-      "Creación de anuncios (texto y/o gráficos básicos)",
-      "Monitoreo y optimización semanal básica",
-      "Informe mensual de rendimiento"
+      "Configuración Profesional de 1 Campaña Inicial en Google Ads o Meta Ads",
+      "Estructura de Campaña Optimizada con hasta 3 Grupos/Conjuntos de Anuncios",
+      "Investigación de palabras clave o definición de audiencias objetivo",
+      "Creación de hasta 6 anuncios persuasivos y optimizados",
+      "Sugerencias para creatividades visuales",
+      "Implementación del seguimiento de conversiones básico",
+      "Asesoría Estratégica Personalizada (sesión de 90 minutos)",
+      "Resumen de configuración y recomendaciones"
     ],
     sellingPoints: [
-      "Resultados rápidos y medibles para tus objetivos de marketing.",
-      "Llega a tu audiencia ideal de forma precisa.",
-      "Ideal para validar ofertas o impulsar promociones específicas."
+      "Lanza tu primera campaña con una estructura profesional y optimizada por expertos.",
+      "Confianza para invertir en publicidad online sin cometer errores costosos.",
+      "Asesoría estratégica personalizada para definir la mejor estructura para tus objetivos."
     ],
-    shortDescription: "Inicia tus campañas de publicidad online y obtén resultados rápidos.",
-    slug: "plan-ppc-ads-inicial",
-    longDescription: "Este plan no incluye el presupuesto de inversión en la plataforma publicitaria (Google/Meta).",
+    shortDescription: "Configuración profesional de tu primera campaña de publicidad online con estructura optimizada, asesoría estratégica y anuncios persuasivos para generar resultados desde el inicio.",
+    slug: "ppc-setup",
+    duration: "1 semana",
+    longDescription: "Este plan no incluye el presupuesto de inversión en la plataforma publicitaria (Google/Meta)."
   },
   {
-    id: "plan-ppc-performance-max",
+    id: "plan-ppc-gestion-mensual",
     categoryId: "publicidad-pagada-ppc",
-    name: "Plan PPC Performance MAX",
+    name: "PPC GESTIÓN MENSUAL – Resultados Medibles y Landing Page de Conversión Incluida",
     type: "plan",
-    price: "Desde 750",
+    price: 580,
     priceType: "mensual",
-    idealFor: "Empresas que buscan maximizar su ROI con campañas de PPC avanzadas y multicanal.",
+    idealFor: "Negocios que buscan resultados consistentes y medibles de sus campañas de publicidad pagada en una plataforma principal (Google Ads o Meta Ads) y que entienden la importancia de una landing page optimizada para maximizar las conversiones.",
     includes: [
-      "Gestión de campañas en Google Ads y Meta Ads (u otras plataformas relevantes)",
-      "Configuración y optimización de múltiples campañas y tipos de anuncios (Búsqueda, Display, Video, Shopping)",
-      "Investigación avanzada de palabras clave, audiencias y competidores",
-      "Pruebas A/B continuas de anuncios y landing pages",
-      "Optimización de conversiones y seguimiento avanzado",
-      "Informes detallados con análisis de performance y estrategia"
+      "Gestión Profesional de Campañas en 1 Plataforma Principal (Google Ads o Meta Ads)",
+      "Optimización Continua y Estratégica (monitoreo, ajustes de pujas, pruebas A/B)",
+      "Desarrollo y Gestión de Audiencias (personalizadas, similares y remarketing)",
+      "Reporte de Rendimiento Mensual detallado",
+      "BONUS EXCLUSIVO: Diseño, Desarrollo e Implementación de 1 Landing Page Profesional",
+      "- Construida con Next.js/React para máxima velocidad y rendimiento",
+      "- Diseño enfocado 100% en la conversión del objetivo de la campaña",
+      "- Formulario de contacto/captura de leads integrado",
+      "Comunicación y soporte continuo"
     ],
     sellingPoints: [
-      "Maximiza tu retorno de inversión publicitaria con gestión experta.",
-      "Estrategias avanzadas para superar a tu competencia.",
-      "Optimización continua basada en datos para mejorar resultados mes a mes."
+      "Expertos optimizando tus campañas día a día en Google o Meta Ads para maximizar resultados.",
+      "Landing Page de alta conversión para tus anuncios totalmente incluida, sin costo adicional.",
+      "Solución integral para atraer, persuadir y convertir con un ROI medible."
     ],
-    shortDescription: "Maximiza tu ROI con gestión experta de campañas PPC multicanal.",
-    slug: "plan-ppc-performance-max",
+    shortDescription: "Gestión profesional de tus campañas de publicidad con Landing Page incluida, optimización continua y reportes detallados para maximizar tu inversión publicitaria.",
+    slug: "ppc-gestion-mensual",
     featured: true,
-    longDescription: "Este plan no incluye el presupuesto de inversión en las plataformas publicitarias.",
+    longDescription: "Este plan no incluye el presupuesto de inversión en la plataforma publicitaria (Google/Meta)."
+  },
+  {
+    id: "plan-ppc-gestion-avanzada",
+    categoryId: "publicidad-pagada-ppc",
+    name: "PPC GESTIÓN AVANZADA – Estrategia de Conversión Multiplataforma con Video y Landing Incluida",
+    type: "plan",
+    price: 1150,
+    priceType: "mensual",
+    idealFor: "Empresas con una estrategia de marketing digital más madura que buscan escalar sus resultados publicitarios gestionando campañas en múltiples plataformas, implementando embudos de conversión más sofisticados y utilizando el poder del video en sus anuncios.",
+    includes: [
+      "Gestión Profesional de Campañas en hasta 2 Plataformas Publicitarias",
+      "Estrategia de Embudo de Conversión para diferentes etapas del viaje del cliente",
+      "Estrategias de remarketing/retargeting avanzadas",
+      "Optimización Continua y Estratégica Multiplataforma",
+      "Reporte de Rendimiento Consolidado y Avanzado",
+      "BONUS DE CREATIVIDAD: Creación de 1-2 Video Ads Cortos (hasta 30 segundos) al mes",
+      "BONUS DE CONVERSIÓN: Diseño e Implementación de 1 Landing Page Profesional",
+      "Reuniones estratégicas periódicas para revisión y planificación"
+    ],
+    sellingPoints: [
+      "Estrategia de conversión multiplataforma que domina múltiples canales publicitarios a la vez.",
+      "Video ads impactantes creados mensualmente y landing page optimizada, todo incluido.",
+      "Gestión experta de embudos de conversión para un crecimiento acelerado y ROI superior."
+    ],
+    shortDescription: "Gestión avanzada de publicidad en múltiples plataformas con creación mensual de video ads, landing page optimizada y estrategia de embudo completo para maximizar conversiones y escalar resultados.",
+    slug: "ppc-gestion-avanzada",
+    longDescription: "Este plan no incluye el presupuesto de inversión en las plataformas publicitarias."
   },
 
   // === Producción Audiovisual ===

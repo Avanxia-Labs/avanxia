@@ -15,7 +15,7 @@ import PersonalizedGreeting from "./components/PersonalizedGreeting";
 // import GreetingDemo from "./components/GreetingDemo";
 
 import HomePage from "@/components/pages/routes/HomePage";
-import ServicesPage from "@/components/pages/routes/ServicesPage";
+// ServicesPage eliminado - ya no se usa
 import AboutPage from "@/components/pages/routes/AboutPage";
 import ContactPage from "@/components/pages/routes/ContactPage";
 import PreciosPage from "@/components/pages/routes/Precios";
@@ -166,7 +166,7 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicesPage />} />
+          {/* Ruta /services eliminada - ahora se usa /soluciones */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/precios" element={<PreciosPage />} />

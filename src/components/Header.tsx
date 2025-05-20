@@ -159,7 +159,7 @@ const Header = () => {
                                 <button
                                   type="button"
                                   onMouseDown={() => {
-                                    navigate(`/servicios/${category.slug}`);
+                                    navigate(`/soluciones/${category.slug}`);
                                     setIsServicesMenuOpen(false);
                                   }}
                                   className="flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 text-foreground hover:bg-muted hover:text-primary"
