@@ -1,216 +1,302 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate, NavLink } from 'react-router-dom';
 import {
   Menu,
   X,
-  Home, // Icon for Inicio
-  Briefcase, // Icon for Servicios
-  // Tag, // Icon for Precios
-  // LayoutGrid, // Icon for Portafolio
-  Users, // Icon for Equipo
-  // Workflow, // Icon for Proceso
-  Mail, // Icon for Contacto
+  Home,
+  Briefcase,
+  Users,
+  Mail,
+  ChevronDown
 } from 'lucide-react';
-import ThemeSwitcher from './ThemeSwitcher'; // Import the new component
+import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
+import { categoriesData, type ServiceCategory } from '../data/categoriesData';
 
 const Header = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
+  // Referencia para el botón Servicios - necesario para posicionar el submenú
+  const servicesButtonRef = useRef<HTMLButtonElement>(null);
+  const [isMobileServicesSubMenuOpen, setIsMobileServicesSubMenuOpen] = useState(false);
 
-const navLinks = [
-  { name: 'Inicio', to: '/', icon: Home },
-  { name: 'Servicios', to: '/services', icon: Briefcase },
-  { name: 'Sobre Nosotros', to: '/about', icon: Users },
-  { name: 'precios', to: '/precios', icon: Users },
-];
-
-
-  const linkGroup1 = navLinks.slice(0, 3);
-  const linkGroup2 = navLinks.slice(3);
+  const servicesMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  let servicesMenuTimer: NodeJS.Timeout | null = null; // Para el retardo del hover
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    if (isMobileServicesSubMenuOpen) {
+      setIsMobileServicesSubMenuOpen(false); // Cerrar submenú de servicios si el menú principal se cierra
+    }
   };
+
+  // Lógica para cerrar el menú de servicios de escritorio si se hace clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) {
+        setIsServicesMenuOpen(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node) && isMobileMenuOpen) {
+        // Si se hace clic fuera del menú móvil y está abierto, cerrarlo.
+        // No necesitamos esta lógica aquí si el backdrop ya lo cierra. 
+        // Considerar si el backdrop es suficiente o si se necesita también esta lógica.
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (servicesMenuTimer) {
+        clearTimeout(servicesMenuTimer);
+      }
+    };
+  }, [isMobileMenuOpen, servicesMenuTimer]);
+
+  const navLinks = [
+    { name: 'Inicio', to: '/', icon: Home, id: 'home' },
+    { name: 'Servicios', to: '#', icon: Briefcase, id: 'services-menu' }, // 'to' es '#' ya que el botón maneja la acción
+    { name: 'Nosotros', to: '/about', icon: Users, id: 'about' },
+    { name: 'Contacto', to: '/contact', icon: Mail, id: 'contact' },
+  ];
+
+  const handleServicesMenuEnter = () => {
+    if (timeoutIdRef.current) {
+      clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
+    setIsServicesMenuOpen(true);
+  };
+
+  const handleServicesMenuLeave = () => {
+    // Añadimos un pequeño retraso antes de cerrar para mejorar la UX
+    timeoutIdRef.current = setTimeout(() => {
+      setIsServicesMenuOpen(false);
+    }, 150);
+  };
+
+  // Manejador para el evento click en el documento para cerrar el menú
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        servicesButtonRef.current && 
+        !servicesButtonRef.current.contains(event.target as Node) &&
+        isServicesMenuOpen
+      ) {
+        setIsServicesMenuOpen(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isServicesMenuOpen]);
 
   return (
     <>
-<header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
-  <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
-      <div className="w-[250px] h-auto cursor-pointer">
-        <a 
-          href="/"
-          onClick={(e) => { 
-            e.preventDefault(); 
-            // Si ya estamos en la página principal, solo desplazamos al hero
-            if (window.location.pathname === '/') {
-              const heroSection = document.querySelector('#hero');
-              if (heroSection) {
-                heroSection.scrollIntoView({ behavior: 'smooth' });
-              }
-            } else {
-              // Si estamos en otra página, primero navegamos al home
-              navigate('/');
-              // Añadimos un pequeño retraso para asegurar que la navegación se completa
-              setTimeout(() => {
-                const heroSection = document.querySelector('#hero');
-                if (heroSection) {
-                  heroSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }, 100);
-            }
-          }}
-        >
-          <img
-            src="/images/portfolio/proyectos/logo.png"
-            alt="Avanxia Labs Logo"
-            className="w-full h-auto object-contain"
-          />
-        </a>
-      </div>
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.to}
-                className={({ isActive }) =>
-                  `group relative flex items-center transition duration-300 pb-1
-                  after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
-                  after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out
-                  hover:after:scale-x-100 ${
-                    isActive ? 'after:scale-x-100 text-primary' : 'text-sidebar-foreground'
-                  }`
-                }
-              >
-                <link.icon className="mr-2 h-4 w-4" />
-                {link.name}
-              </NavLink>
-            ))}
-
-            <ThemeSwitcher />
+      {/* Reintroducir overflow-x-hidden para diagnóstico */}
+      <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
+        {/* Reintroducir overflow-x-hidden para diagnóstico */}
+        <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
+          <div className="w-[250px] h-auto cursor-pointer">
+            <a 
+              href="/"
+              aria-label="Volver a la página de inicio de Avanxia Labs"
+              className="block w-full h-full"
+            >
+              <img 
+                src="/images/portfolio/proyectos/logo.png" 
+                alt="Avanxia Labs Logo"
+                className="w-full h-auto object-contain" 
+              />
+            </a>
           </div>
 
-          <Button
-            size="tight"
-            className="hidden md:inline-block font-semibold py-2 px-4 ml-4
-                      bg-primary text-primary-foreground"
-            asChild
-          >
-            <NavLink to="/contact">
-              Contacto
-            </NavLink>
-          </Button>
-
-
-
-          <div className="md:hidden flex items-center space-x-4">
+          {/* Menú de escritorio */}
+          <div className="hidden md:flex items-center space-x-6">
+            {navLinks.map((link) => {
+              if (link.id === 'services-menu') {
+                return (
+                  <div
+                    key={link.name}
+                    className="relative block h-fit"
+                    onMouseEnter={handleServicesMenuEnter}
+                    onMouseLeave={handleServicesMenuLeave}
+                  >
+                    <button
+                      ref={servicesButtonRef}
+                      className="group relative flex items-center transition duration-300 pb-1 text-sidebar-foreground hover:text-primary cursor-default"
+                    >
+                      <Briefcase className="mr-2 h-4 w-4" />
+                      Servicios
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                          isServicesMenuOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                      <span
+                        className={`content-[''] absolute bottom-0 left-0 w-full h-[2px] bg-primary origin-center transition-transform duration-300 ease-out ${
+                          isServicesMenuOpen ? 'scale-x-100' : 'scale-x-0'
+                        } group-hover:scale-x-100`}
+                      />
+                    </button>
+                    {isServicesMenuOpen && (
+                      <div className="fixed w-72 z-[100]" style={{
+                        top: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().bottom + 8 : 0}px`,
+                        left: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().left : 0}px`
+                      }}>
+                        <div className="w-full border border-border rounded-md shadow-lg py-1 overflow-hidden bg-card/80 backdrop-blur-md">
+                          {categoriesData.map((category: ServiceCategory, index: number) => {
+                            // Usar los iconos definidos en categoriesData.ts
+                            const CategoryIcon = category.icon || Briefcase;
+                            
+                            return (
+                              <div key={category.id} className={`${index !== 0 ? 'border-t border-border/30' : ''}`}>
+                                <button
+                                  type="button"
+                                  onMouseDown={() => {
+                                    navigate(`/soluciones/${category.slug}`);
+                                    setIsServicesMenuOpen(false);
+                                  }}
+                                  className="flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 text-foreground hover:bg-muted hover:text-primary"
+                                >
+                                  <CategoryIcon className="w-5 h-5 mr-3 text-primary flex-shrink-0" />
+                                  <span>{category.name}</span>
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              return (
+                <NavLink
+                  key={link.name}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `group relative flex items-center transition duration-300 pb-1
+                    after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px]
+                    after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out
+                    hover:after:scale-x-100 ${isActive ? 'text-primary after:scale-x-100' : 'text-sidebar-foreground'}`
+                  }
+                >
+                  <link.icon className="mr-2 h-4 w-4" />
+                  {link.name}
+                </NavLink>
+              );
+            })}
             <ThemeSwitcher />
-            <button
-              className="text-sidebar-foreground hover:text-primary"
-              onClick={toggleMobileMenu}
-              aria-label="Open menu"
+            <Button 
+              variant="primary"
+              size="cta"
+              onClick={() => navigate('/contact')}
+              aria-label="Ir a la página de contacto"
+              className="hidden lg:inline-flex whitespace-nowrap"
             >
-              <Menu size={24} />
+              Empezar Proyecto
+            </Button>
+          </div>
+
+          {/* Botón de menú móvil */}
+          <div className="md:hidden flex items-center">
+            <ThemeSwitcher />
+            <button 
+              onClick={toggleMobileMenu} 
+              className="text-foreground p-2 ml-2" 
+              aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </nav>
       </header>
 
+      {/* Backdrop para menú móvil */}
       <div
-        className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ease-in-out md:hidden ${
-          isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={toggleMobileMenu}
         aria-hidden="true"
       />
 
-     <div
-  className={`fixed top-0 left-0 bottom-0 z-50 max-w-[90vw] w-full sm:w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden bg-sidebar text-sidebar-foreground ${
-    isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-  }`}
->
-        <div className="flex justify-between items-center p-4 border-b border-border">
-          <div className="text-lg font-bold text-foreground">
-            Avanxia Labs
-          </div>
-          <button
-            className="text-sidebar-foreground hover:text-primary"
-            onClick={toggleMobileMenu}
-            aria-label="Close menu"
-          >
-            <X size={24} />
-          </button>
+      {/* Contenido del menú móvil lateral */}
+      <div
+        ref={mobileMenuRef}
+        className={`fixed top-0 left-0 bottom-0 z-50 max-w-[90vw] w-full sm:w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden bg-sidebar text-sidebar-foreground ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        <div className="p-5 border-b border-border">
+          <h2 className="text-xl font-semibold">Menú</h2>
         </div>
-        <nav className="flex flex-col p-3 mt-4 flex-grow">
-          <div className="space-y-1 mb-4">
-            {linkGroup1.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.to}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
-                    isActive
-                      ? 'bg-[--gradient-btn] text-primary-foreground'
-                      : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
-                  }`
-                }
-              >
-                <link.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
-
-          <hr className="border-border my-2" />
-
-          <div className="space-y-1 mb-4">
-            {linkGroup2.map((link) => (
-              <NavLink
-                key={link.name}
-                to={link.to}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
-                    isActive
-                      ? 'bg-[--gradient-btn] text-primary-foreground'
-                      : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
-                  }`
-                }
-              >
-                <link.icon className="mr-3 h-5 w-5 flex-shrink-0" />
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
-
-          <hr className="border-border my-2" />
-
-          <NavLink
-            to="/contact"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className={({ isActive }) =>
-              `flex items-center rounded-md px-3 py-2.5 text-base font-medium transition-colors duration-200 ${
-                isActive
-                  ? 'bg-[--gradient-btn] text-primary-foreground'
-                  : 'text-sidebar-foreground hover:bg-sidebar-hover hover:text-primary'
-              }`
+        <nav className="flex-grow p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
+          {navLinks.map((link) => {
+            if (link.id === 'services-menu') {
+              return (
+                <div key={link.name}>
+                  <button
+                    onClick={() => setIsMobileServicesSubMenuOpen(!isMobileServicesSubMenuOpen)}
+                    className="w-full flex items-center justify-between py-2 text-left text-sidebar-foreground hover:text-primary transition-colors duration-200"
+                  >
+                    <div className="flex items-center">
+                      <link.icon className="mr-3 h-5 w-5" />
+                      {link.name}
+                    </div>
+                    <ChevronDown className={`ml-2 h-5 w-5 transition-transform duration-200 ${isMobileServicesSubMenuOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isMobileServicesSubMenuOpen && (
+                    <div className="pl-4 mt-1 space-y-1 border-l border-border ml-3">
+                      {categoriesData.map((category: ServiceCategory) => (
+                        <NavLink
+                          key={category.id}
+                          to={`/servicios/${category.path}`}
+                          onClick={toggleMobileMenu} // Cierra todo el menú móvil al seleccionar una categoría
+                          className={({ isActive }) =>
+                            `block py-2 pr-2 text-sm whitespace-normal ${isActive ? 'text-primary font-semibold' : 'text-sidebar-foreground hover:text-primary'}`
+                          }
+                        >
+                          {category.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
             }
-          >
-            <Mail className="mr-3 h-5 w-5 flex-shrink-0" />
-            Contacto
-          </NavLink>
-
-          <div className="mt-auto pt-4 border-t border-border">
-            <div className="flex justify-center">
-              <ThemeSwitcher />
-            </div>
-          </div>
+            return (
+              <NavLink
+                key={link.name}
+                to={link.to}
+                onClick={toggleMobileMenu}
+                className={({ isActive }) =>
+                  `flex items-center py-2 text-sidebar-foreground hover:text-primary transition-colors duration-200 ${isActive ? 'text-primary font-semibold' : ''}`
+                }
+              >
+                <link.icon className="mr-3 h-5 w-5" />
+                {link.name}
+              </NavLink>
+            );
+          })}
         </nav>
+        <div className="p-5 border-t border-border">
+          <Button 
+            variant="primary"
+            size="cta"
+            className="w-full"
+            onClick={() => { navigate('/contact'); toggleMobileMenu(); }}
+            aria-label="Ir a la página de contacto"
+          >
+            Empezar Proyecto
+          </Button>
+        </div>
       </div>
     </>
   );
 };
+
+
 
 export default Header;

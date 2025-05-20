@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
    ─────────────────────────── */
 const buttonVariants = cva(
   // BASE: igual que el <a> original
-  "inline-block whitespace-nowrap rounded text-lg font-bold " +
+  "inline-block whitespace-nowrap rounded text-base font-bold " +
     "transition duration-300 focus-visible:outline-none " +
     "focus-visible:ring-1 focus-visible:ring-zinc-950 " +
     "disabled:pointer-events-none disabled:opacity-50",

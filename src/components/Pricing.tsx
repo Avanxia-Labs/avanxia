@@ -52,36 +52,46 @@ const cardVariant = {
       name: 'Presence Landing',
       objective: 'Establecer una presencia online básica y profesional.',
       idealFor: 'Nuevos negocios, profesionales independientes, proyectos con necesidad de una tarjeta de presentación digital.',
-      services: [
-        'Diseño y Desarrollo de Landing Page (hasta 3 secciones)',
+      priceDetails: [
+        'Diseño y Desarrollo de Landing Page (hasta 3 secciones clave)',
         'Diseño Responsive (Móvil y Escritorio)',
-        'Formulario de Contacto Básico',
-        'Optimización SEO On-page Básica',
-        'Configuración de Google Analytics',
+        'Formulario de Contacto Básico (integrado a tu email)',
+        'Optimización SEO On-page Esencial (títulos, metadescripciones)',
+        'Configuración de Google Analytics Básico',
       ],
-      price: '~ $800 - $1,200',
-      priceNote: 'Proyecto único'
+      optionalAddOns: [
+        { name: 'Sección adicional personalizada', price: '+$200 USD' },
+        { name: 'Blog básico integrado (hasta 3 artículos iniciales)', price: '+$300 USD' },
+        { name: 'Integración con CRM (básica, ej. Hubspot free)', price: '+$150 USD' },
+      ],
+      price: 'Desde $800 USD',
+      priceNote: 'Pago único. Tiempo estimado de entrega: 2-3 semanas.'
     },
     {
       name: 'Starter Web',
       objective: 'Crear un sitio web completo y funcional para mostrar servicios y captar interés.',
       idealFor: 'Pequeñas empresas, startups que necesitan más que una landing page.',
-      services: [
-        'Diseño y Desarrollo Web (hasta 5 páginas)',
-        'Diseño Responsive',
-        'Blog o Sección de Portafolio básica',
-        'Optimización SEO On-page Completa',
-        'Integración con Redes Sociales',
-        'Formulario de Contacto Avanzado',
+      priceDetails: [
+        'Diseño y Desarrollo Web (hasta 5 páginas informativas)',
+        'Diseño Responsive (Móvil, Tablet, Escritorio)',
+        'Blog o Sección de Portafolio (diseño estándar, hasta 3 entradas/proyectos iniciales)',
+        'Optimización SEO On-page Completa (investigación de palabras clave incluida)',
+        'Integración con Redes Sociales (botones de compartir/seguir)',
+        'Formulario de Contacto Avanzado (con validaciones y protección anti-spam)',
       ],
-      price: '~ $2,500 - $4,000',
-      priceNote: 'Proyecto único'
+      optionalAddOns: [
+        { name: 'Página adicional (informativa)', price: '+$250 USD' },
+        { name: 'Funcionalidad eCommerce básica (hasta 10 productos)', price: '+$700 USD' },
+        { name: 'Optimización de velocidad avanzada', price: '+$200 USD' },
+      ],
+      price: 'Desde $2,500 USD',
+      priceNote: 'Pago único. Tiempo estimado de entrega: 4-6 semanas.'
     },
     {
       name: 'Growth Leads',
       objective: 'Generar prospectos calificados y aumentar la visibilidad online.',
       idealFor: 'Empresas enfocadas en crecimiento y adquisición de clientes.',
-      services: [
+      priceDetails: [
         'Gestión de Campañas PPC (Google/Meta Ads - presupuesto no incluido)',
         'Optimización SEO Continua',
         'Marketing de Contenidos (Ej: 2 blogs/mes)',
@@ -95,7 +105,7 @@ const cardVariant = {
       name: 'Full 360°',
       objective: 'Solución integral de marketing digital para maximizar presencia y conversiones.',
       idealFor: 'Empresas establecidas que buscan una estrategia completa.',
-      services: [
+      priceDetails: [
         'Todo lo incluido en Growth Leads (con mayor intensidad)',
         'Estrategia de Marketing Digital Personalizada',
         'Email Marketing / Automatización',
@@ -172,7 +182,7 @@ const cardVariant = {
                 <div className="p-6 relative z-10 border-t border-border">
                   <p className="font-medium mb-4">Para {plan.idealFor.split(',')[0]}</p>
                   <ul className="space-y-3">
-                    {plan.services.map((service, i) => (
+                    {plan.priceDetails.map((service, i) => (
                       <li key={i} className="flex items-start gap-3">
                         <Check size={18} className="text-primary mt-0.5 shrink-0" />
                         <span className="text-sm">{service}</span>

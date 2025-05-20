@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useEffect } from "react";
+import SEOHelmet from "./components/SEOHelmet";
 import { ArrowLeft } from "lucide-react";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
@@ -17,7 +18,10 @@ import HomePage from "@/components/pages/routes/HomePage";
 import ServicesPage from "@/components/pages/routes/ServicesPage";
 import AboutPage from "@/components/pages/routes/AboutPage";
 import ContactPage from "@/components/pages/routes/ContactPage";
-import PreciosPage from "@/components/pages/routes/Precios";
+// import SolutionsLandingPage from "@/components/pages/routes/SolutionsLandingPage"; // Comentado para prueba
+// import ServiceCategoryPage from "@/components/pages/routes/ServiceCategoryPage"; // Comentado para prueba
+import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage"; // NUEVA IMPORTACIÓN RELATIVA
+import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage"; // NUEVA IMPORTACIÓN RELATIVA
 
 
 // ── Componentes generales ───────────────────────────────
@@ -127,23 +131,28 @@ function PersistRoute() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Guardar la ruta actual en localStorage
+  // Guardar la ruta actual en sessionStorage
   useEffect(() => {
-    localStorage.setItem('lastPath', location.pathname);
+    sessionStorage.setItem('lastPath', location.pathname);
+  }, [location.pathname]);
+  
+  // Registrar el scroll en cada ruta
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   // Restaurar la ruta tras recargar
   useEffect(() => {
-    const lastPath = localStorage.getItem('lastPath');
+    const lastPath = sessionStorage.getItem('lastPath');
     const currentPath = location.pathname;
     
     // Si estamos en la raíz pero había otra ruta guardada, restaurarla
-    if (lastPath && lastPath !== '/' && currentPath === '/') {
+    if (currentPath === '/' && lastPath && lastPath !== '/') {
       navigate(lastPath);
     }
-  }, [navigate]); // Solo se ejecuta una vez al montar el componente
+  }, [location, navigate]);
 
-  return null; // Este componente no renderiza nada
+  return null;
 }
 
 // ── App (sin BrowserRouter porque está en main.tsx) ─────
@@ -151,15 +160,17 @@ export default function App() {
   return (
     <>
       <PersistRoute />
+      <SEOHelmet /> {/* Componente para manejar títulos SEO */}
       <PersonalizedGreeting />
-
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/precios" element={<PreciosPage />} />
+          <Route path="/soluciones" element={<SolutionsLandingPage />} /> {/* RUTA PARA PÁGINA DE SOLUCIONES */}
+          <Route path="/soluciones/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA DINÁMICA PARA CATEGORÍAS */}
+          <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA ALTERNATIVA PARA COMPATIBILIDAD */}
         </Route>
 
         {/* Rutas SIN navbar */}

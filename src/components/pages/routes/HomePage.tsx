@@ -3,6 +3,7 @@ import Portfolio from "@/components/Portfolio";
 import ValueProposition from "@/components/ValueProposition";
 import SpecialOffer from "@/components/SpecialOffer";
 import ProyectoMuestra from "@/components/ProyectoMuestra";
+// import { useNavigate } from "react-router-dom";
 
 // import Services from "@/components/Services";
 // import Pricing from "@/components/Pricing";
@@ -12,11 +13,12 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
+
   return (
     <>
         <Hero />
         <Portfolio />
-        < ProyectoMuestra/>
+        <ProyectoMuestra/>
         <ValueProposition />
         <SpecialOffer />
         {/* <Services />
@@ -25,6 +27,7 @@ export default function HomePage() {
         <Team /> */}
         <Contact />
         <Footer />
+      {/* Enlaces removidos */}
     </>
   );
 }
