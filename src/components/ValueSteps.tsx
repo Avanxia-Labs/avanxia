@@ -50,7 +50,7 @@ export default function ValueSteps({ steps }: Props) {
                 <button
                   onClick={() => setActive(idx)}
                   className={[
-                    "flex w-full items-start gap-4 rounded-lg px-2 py-1.5 text-left transition-all",
+                    "flex w-full items-start gap-4 rounded-lg px-6 py-2 text-left transition-all",
                     isActive
                       ? "bg-primary/5 text-primary"
                       : "hover:bg-muted/50 text-foreground/70",
@@ -59,11 +59,12 @@ export default function ValueSteps({ steps }: Props) {
                   {/* Punto numerado */}
                   <span
                     className={[
-                      "flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold shadow-sm ring-2 ring-offset-2",
+                      "flex items-center justify-center rounded-full text-base font-bold shadow-md ring-2 ring-offset-2 px-3",
                       isActive
                         ? "bg-primary text-primary-foreground ring-primary/40"
                         : "bg-muted ring-transparent",
-                    ].join(" ")}
+                    ].join(" ")}                    
+                    style={{ padding: '0.5rem 0.75rem', minWidth: 'auto' }}
                   >
                     {idx + 1}
                   </span>
