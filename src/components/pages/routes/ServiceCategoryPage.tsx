@@ -16,30 +16,6 @@ import ValueSteps from '@/components/ValueSteps';
 import { portfolioData, PortfolioItem } from '../../../data/portfolioData';
 
 
-// ── Animaciones con Framer Motion ─────────────────────────────────────────
-const containerAnimation = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.2,   // mismo delay entre cartas
-      delayChildren: 0.4,
-    },
-  },
-};
-
-const cardAnimation = {
-  hidden: { opacity: 0, scale: 0.9, y: 30 },
-  show: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: [0.25, 0.8, 0.25, 1],
-    },
-  }),
-};
 const sectionAnimation = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 } },
@@ -356,115 +332,118 @@ console.log("allAddonItems:", allAddonItems);
             <strong className="text-primary">Precios aproximados.</strong> Ofrecemos una <strong>cotización personalizada gratuita</strong> para evaluar tus necesidades específicas y brindarte soluciones a medida que optimicen tu inversión.
           </p>
         </motion.div>
-                {/* ── Paquetes ───────────────────────────────── */}
-                {categoryPlans.length > 0 && (
-          <motion.section
-            className="mb-12 sm:mb-16 md:mb-20"
-            variants={sectionAnimation}
-            initial="hidden"
-            animate="visible"
+{/* ── Paquetes ───────────────────────────────── */}
+{categoryPlans.length > 0 && (
+  <section className="mb-12 sm:mb-16 md:mb-20">
+    <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+      Nuestros Paquetes de {category.name}
+    </h2>
+    <div className="overflow-x-auto px-2 sm:px-4">
+      <div
+        className={`
+          grid gap-6
+          w-full
+          grid-flow-col sm:grid-flow-row
+          auto-cols-[280px] sm:auto-cols-auto
+          sm:grid-cols-2 lg:grid-cols-3
+        `}
+      >
+        {categoryPlans.map((plan) => (
+          <div
+            key={plan.id}
+            className={`
+              glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden
+              transition-shadow duration-300 ease-in-out hover:shadow-2xl
+              min-w-0 w-full
+              ${plan.featured ? 'border-2 border-primary/60' : 'border border-transparent'}
+            `}
+            style={{
+              background: 'var(--glass-bg)',
+              backdropFilter: 'blur(var(--glass-blur))',
+              WebkitBackdropFilter: 'blur(var(--glass-blur))',
+            }}
           >
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Nuestros Paquetes de {category.name}
-            </h2>
-              <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-screen-xl mx-auto px-2 sm:px-4"
-                variants={containerAnimation}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: false, amount: 0.3 }}
+            {plan.featured && (
+              <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
+                RECOMENDADO
+              </div>
+            )}
+
+            {/* Contenido de la tarjeta */}
+            <div className="p-6 flex flex-col flex-grow">
+              <div
+                className="w-full h-40 flex items-center justify-center rounded-md mb-4 shadow bg-gradient-to-br from-primary/5 to-primary/10"
+                aria-label={plan.name}
               >
-                {categoryPlans.map((plan, index) => (
-                <motion.div
-                  key={plan.id}
-                  custom={index}
-                  variants={cardAnimation}
-                  className={`
-                    glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden
-                    transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-full
-                    ${plan.featured ? 'border-2 border-primary/60 scale-[1.01]' : 'border border-transparent'}
-                  `}
-                    style={{
-                      minWidth: 0,
-                      maxWidth: "100%",
-                      width: "100%",
-                      background: 'var(--glass-bg)',
-                      backdropFilter: 'blur(var(--glass-blur))',
-                      WebkitBackdropFilter: 'blur(var(--glass-blur))',
-                    }}
+                {React.createElement(category?.icon || AppWindow, { size: 64 })}
+              </div>
+
+              <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2">
+                {plan.name}
+              </h3>
+
+              {/* Precio */}
+              <div className="mb-3">
+                <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
+                  {typeof plan.price === 'number'
+                    ? `$${plan.price.toLocaleString('en-US')}`
+                    : plan.price}
+                </span>
+                {plan.priceType && (
+                  <span className="text-xs text-foreground/70 ml-1">
+                    / {plan.priceType}
+                  </span>
+                )}
+              </div>
+
+              {/* Descripción breve */}
+              <p
+                className="text-foreground/80 text-sm mb-4"
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {plan.shortDescription}
+              </p>
+
+              {/* Características */}
+              {plan.includes?.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-sm font-semibold mb-2 text-foreground/90">
+                    Incluye:
+                  </p>
+                  <ul className="space-y-2">
+                    {plan.includes.map((item, i) => (
+                      <li key={i} className="flex items-start text-sm text-foreground/80">
+                        <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Botón */}
+              <div className="mt-auto">
+                <button
+                  onClick={() => addItemAndOpen(plan)}
+                  className="w-full bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
                 >
-                  {plan.featured && (
-                    <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
-                      RECOMENDADO
-                    </div>
-                  )}
+                  Añadir a Solución
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
-                  {/* ── Contenido de la tarjeta ─────── */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div 
-                      className="w-full h-40 flex items-center justify-center rounded-md mb-4 shadow bg-gradient-to-br from-primary/5 to-primary/10"
-                      aria-label={plan.name}
-                    >
-                      <div className="text-7xl select-none">
-                        {React.createElement(category?.icon || AppWindow, { size: 64 })}
-                      </div>
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2">
-                      {plan.name}
-                    </h3>
 
-                    {/* Precio */}
-                    <div className="mb-3">
-                      <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
-                        {typeof plan.price === 'number'
-                          ? `$${plan.price.toLocaleString('en-US')}`
-                          : plan.price}
-                      </span>
-                      {plan.priceType && (
-                        <span className="text-xs text-foreground/70 ml-1">
-                          / {plan.priceType}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Descripción breve */}
-                    <p
-                      className="text-foreground/80 text-sm mb-4"
-                      style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                    >
-                      {plan.shortDescription}
-                    </p>
-
-                    {/* Características incluidas con iconos de check */}
-                    {plan.includes && plan.includes.length > 0 && (
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2 text-foreground/90">Incluye:</p>
-                        <ul className="space-y-2">
-                          {plan.includes.map((item, index) => (
-                            <li key={index} className="flex items-start text-sm text-foreground/80">
-                              <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Botón */}
-                    <div className="mt-auto">
-                      <button
-                     onClick={() => addItemAndOpen(plan)}    
-                        className="w-full bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
-                      >
-                        Añadir a Solución
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.section>
-        )}
 
 {/* ── Addons & Bonuses 1-solo-carrusel ─────────────────────────────── */}
 {allAddonItems.length > 0 && (
@@ -544,11 +523,22 @@ className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-scr
           }}
         >
           <div className="relative overflow-hidden h-48 sm:h-56 w-full">
-            <img
-              src={imgSrc}
-              alt={proj.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
+            {proj.videos?.[category!.id] ? (
+              <video
+                src={proj.videos[category!.id]!}
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            ) : (
+              <img
+                src={proj.images?.[category!.id] ?? proj.image}
+                alt={proj.title}
+                className="w-full h-full object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
               <div className="p-4 w-full">
                 <h3 className="text-white font-semibold">{proj.title}</h3>
@@ -559,11 +549,12 @@ className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-scr
             <div className="p-3 sm:p-4 md:p-6 flex flex-col flex-grow text-sm sm:text-base">
               <div className="flex-grow">
               <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
-              {proj.description && (
-                <p className="text-sm text-foreground/80 break-words">
-                  {proj.description}
-                </p>
-              )}
+                {proj.description && (
+                  <div
+                    className="text-sm text-foreground/80 break-words"
+                    dangerouslySetInnerHTML={{ __html: proj.description }}
+                  />
+                )}
             </div>
             <div className="mt-auto pt-4">
               <Button

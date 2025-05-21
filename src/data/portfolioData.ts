@@ -9,6 +9,10 @@ export interface PortfolioItem {
   slug: string; // used in the URL
   categories: string[];
   images?: Record<string, string>;
+    /** opcional: vídeo a mostrar por categoría */
+  videos?: Record<string, string>;
+  /** opcional: descripción distinta por categoría */
+  descriptionsOverride?: Record<string, string>;
 }
 
 // === Proyectos individuales ===
@@ -34,10 +38,17 @@ export const autismProject: PortfolioItem = {
   subtitle: "",
   description: "Diseñamos la app y comunicación visual de Autism 911, equilibrando empatía y confianza para conectar familias con especialistas en autismo.",
   slug: "autism",
-  categories: [ 
-      "desarrollo-software-aplicaciones", "produccion-audiovisual",
-    ], 
-
+  categories: [
+    "desarrollo-software-aplicaciones",
+    "produccion-audiovisual",
+  ],
+  // sobreescritura de descripción y vídeo para prod-audiovisual:
+  descriptionsOverride: {
+    "produccion-audiovisual": "Dirigimos la producción audiovisual de Autism 911: demo interactiva, motion graphics y storytelling emocional.",
+  },
+  videos: {
+    "produccion-audiovisual": "/videos/autism-911-showcase.mp4",
+  },
 };
 
 export const cuatroCaminosProject: PortfolioItem = {
