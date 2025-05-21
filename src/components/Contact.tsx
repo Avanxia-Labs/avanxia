@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Linkedin, Trash2 } from 'lucide-react';
-import { serviceAddons, servicesData } from '@/data/servicesData';
+import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { servicesData } from '@/data/servicesData';
 
 const fadeSlide = {
   initial: { opacity: 0, y: 40 },
