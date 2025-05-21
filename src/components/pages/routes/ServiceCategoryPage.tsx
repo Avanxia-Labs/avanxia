@@ -367,28 +367,31 @@ console.log("allAddonItems:", allAddonItems);
             <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
               Nuestros Paquetes de {category.name}
             </h2>
-            <motion.div
-              className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4"
-              variants={containerAnimation}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false, amount: 0.3 }}
-            >
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-screen-xl mx-auto px-2 sm:px-4"
+                variants={containerAnimation}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: false, amount: 0.3 }}
+              >
                 {categoryPlans.map((plan, index) => (
-                  <motion.div
+                <motion.div
                   key={plan.id}
                   custom={index}
                   variants={cardAnimation}
-                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-[380px] ${
-                    plan.featured
-                      ? 'border-2 border-primary/60 scale-[1.01]'
-                      : 'border border-transparent'
-                  }`}
-                  style={{ 
-                    background: 'var(--glass-bg)',
-                    backdropFilter: 'blur(var(--glass-blur))',
-                    WebkitBackdropFilter: 'blur(var(--glass-blur))'
-                  }}
+                  className={`
+                    glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden
+                    transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-full
+                    ${plan.featured ? 'border-2 border-primary/60 scale-[1.01]' : 'border border-transparent'}
+                  `}
+                    style={{
+                      minWidth: 0,
+                      maxWidth: "100%",
+                      width: "100%",
+                      background: 'var(--glass-bg)',
+                      backdropFilter: 'blur(var(--glass-blur))',
+                      WebkitBackdropFilter: 'blur(var(--glass-blur))',
+                    }}
                 >
                   {plan.featured && (
                     <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
@@ -406,7 +409,7 @@ console.log("allAddonItems:", allAddonItems);
                         {React.createElement(category?.icon || AppWindow, { size: 64 })}
                       </div>
                     </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2 min-h-[56px] lg:min-h-[64px]">
+                    <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2">
                       {plan.name}
                     </h3>
 
@@ -513,7 +516,7 @@ console.log("allAddonItems:", allAddonItems);
   </h2>
 
   <motion.div
-    className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
+className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-screen-xl px-2 sm:px-4 mx-auto"
     variants={showcaseContainer}
     initial="hidden"
     animate="visible"
@@ -525,7 +528,7 @@ console.log("allAddonItems:", allAddonItems);
       return (
         <motion.div
           key={proj.id}
-          className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
+          className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col min-w-0 w-full"
           variants={{
             hidden: { opacity: 0, y: 20 },
             visible: {
@@ -540,11 +543,11 @@ console.log("allAddonItems:", allAddonItems);
             }
           }}
         >
-          <div className="relative overflow-hidden h-56">
+          <div className="relative overflow-hidden h-48 sm:h-56 w-full">
             <img
               src={imgSrc}
               alt={proj.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
               <div className="p-4 w-full">
@@ -553,11 +556,13 @@ console.log("allAddonItems:", allAddonItems);
               </div>
             </div>
           </div>
-          <div className="p-4 flex flex-col flex-grow">
-            <div className="flex-grow">
+            <div className="p-3 sm:p-4 md:p-6 flex flex-col flex-grow text-sm sm:text-base">
+              <div className="flex-grow">
               <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
               {proj.description && (
-                <p className="text-sm text-foreground/80">{proj.description}</p>
+                <p className="text-sm text-foreground/80 break-words">
+                  {proj.description}
+                </p>
               )}
             </div>
             <div className="mt-auto pt-4">
