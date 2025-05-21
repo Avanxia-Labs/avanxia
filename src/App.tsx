@@ -6,6 +6,7 @@ import {
   Outlet,
   useNavigate,
   useLocation,
+  useParams
 } from "react-router-dom";
 import { useEffect } from "react";
 import SEOHelmet from "./components/SEOHelmet";
@@ -15,13 +16,11 @@ import PersonalizedGreeting from "./components/PersonalizedGreeting";
 // import GreetingDemo from "./components/GreetingDemo";
 
 import HomePage from "@/components/pages/routes/HomePage";
-import ServicesPage from "@/components/pages/routes/ServicesPage";
 import AboutPage from "@/components/pages/routes/AboutPage";
 import ContactPage from "@/components/pages/routes/ContactPage";
-// import SolutionsLandingPage from "@/components/pages/routes/SolutionsLandingPage"; // Comentado para prueba
-// import ServiceCategoryPage from "@/components/pages/routes/ServiceCategoryPage"; // Comentado para prueba
-import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage"; // NUEVA IMPORTACIÓN RELATIVA
-import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage"; // NUEVA IMPORTACIÓN RELATIVA
+import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage";
+import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage";
+
 
 
 // ── Componentes generales ───────────────────────────────
@@ -156,6 +155,22 @@ function PersistRoute() {
 }
 
 // ── App (sin BrowserRouter porque está en main.tsx) ─────
+// Componente para redirigir rutas antiguas a las nuevas
+const OldRouteRedirect = () => {
+  const { categorySlug } = useParams<{ categorySlug: string }>();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (categorySlug) {
+      navigate(`/services/${categorySlug}`, { replace: true });
+    } else {
+      navigate('/services', { replace: true });
+    }
+  }, [categorySlug, navigate]);
+  
+  return null;
+};
+
 export default function App() {
   return (
     <>
@@ -165,12 +180,15 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services" element={<SolutionsLandingPage />} /> {/* Página de inicio de servicios */}
+          <Route path="/services/:categorySlug" element={<ServiceCategoryPage />} /> {/* Ruta dinámica para categorías de servicios */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/soluciones" element={<SolutionsLandingPage />} /> {/* RUTA PARA PÁGINA DE SOLUCIONES */}
-          <Route path="/soluciones/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA DINÁMICA PARA CATEGORÍAS */}
-          <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA ALTERNATIVA PARA COMPATIBILIDAD */}
+          
+          {/* Redirecciones para mantener compatibilidad con enlaces antiguos */}
+          <Route path="/soluciones" element={<SolutionsLandingPage />} />
+          <Route path="/soluciones/:categorySlug" element={<OldRouteRedirect />} />
+          <Route path="/servicios/:categorySlug" element={<OldRouteRedirect />} />
         </Route>
 
         {/* Rutas SIN navbar */}
@@ -196,4 +214,4 @@ export default function App() {
       </Routes>
     </>
   );
-}      
+}
