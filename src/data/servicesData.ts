@@ -424,7 +424,7 @@ export const servicesData: ServicePlan[] = [
   // === Desarrollo de Aplicaciones ===
   {
     id: "app-desarrollo-completo-plan",
-    categoryId: "app-development",
+    categoryId: "desarrollo-software-aplicaciones",
     name: "DESARROLLO COMPLETO – De la Idea a la Aplicación en el Mercado",
     type: "plan",
     price: "Desde 4,500",
@@ -454,7 +454,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "app-mantenimiento-plan",
-    categoryId: "app-development",
+    categoryId: "desarrollo-software-aplicaciones",
     name: "MANTENIMIENTO Y EVOLUCIÓN – Aseguramos el Éxito Continuo de tu Aplicación",
     type: "plan",
     price: "Desde 500",
@@ -483,7 +483,7 @@ export const servicesData: ServicePlan[] = [
   // === Identidad de Marca y Branding ===
   {
     id: "branding-esencial-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING ESENCIAL – Tu Logo Profesional y Kit de Inicio de Marca",
     type: "plan",
     price: 280,
@@ -511,7 +511,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "branding-profesional-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING PROFESIONAL – Identidad Visual Completa y Estratégica",
     type: "plan",
     price: 550,
@@ -539,7 +539,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "branding-integral-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING INTEGRAL – Transformación de Marca: Estrategia, Identidad y Lanzamiento Digital",
     type: "plan",
     price: 950,
@@ -572,7 +572,7 @@ export const servicesData: ServicePlan[] = [
   // === Desarrollo Web ===
   {
     id: "web-esencial-plan",
-    categoryId: "web-development",
+    categoryId: "desarrollo-web",
     name: "WEB ESENCIAL – Landing Page Moderna y Eficiente con Next.js/React",
     type: "plan",
     price: 680,
@@ -628,7 +628,7 @@ export const servicesData: ServicePlan[] = [
   // === Marketing Digital y Gestión de Redes Sociales ===
   {
     id: "plan-rrss-esencial",
-    categoryId: "social-media",
+    categoryId: "redes-sociales-marketing",
     name: "RRSS ESENCIAL – Presencia Digital Activa y Profesional en Redes",
     type: "plan",
     price: 350,
@@ -710,7 +710,7 @@ export const servicesData: ServicePlan[] = [
   // === Soluciones E-commerce ===
   {
     id: "plan-ecommerce-esencial",
-    categoryId: "ecommerce",
+    categoryId: "e-commerce",
     name: "E-COMMERCE ESENCIAL – Tu Primera Tienda Online Profesional",
     type: "plan",
     price: 1200,
@@ -772,7 +772,7 @@ export const servicesData: ServicePlan[] = [
   // === Optimización para Motores de Búsqueda (SEO) ===
   {
     id: "plan-seo-startup-boost",
-    categoryId: "seo-content-marketing",
+    categoryId: "seo-marketing-contenidos",
     name: "SEO STARTUP BOOST – Cimientos Sólidos para tu Posicionamiento Online",
     type: "plan",
     price: 450,
@@ -828,7 +828,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-content-strategy-pro",
-    categoryId: "seo-content-marketing",
+    categoryId: "seo-marketing-contenidos",
     name: "CONTENT STRATEGY PRO – Liderazgo de Opinión y Estrategia de Contenidos Premium",
     type: "plan",
     price: 1200,
@@ -888,7 +888,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-ppc-gestion-mensual",
-    categoryId: "ppc-advertising",
+    categoryId: "publicidad-pagada-ppc",
     name: "PPC GESTIÓN MENSUAL – Resultados Medibles y Landing Page de Conversión Incluida",
     type: "plan",
     price: 580,
@@ -946,7 +946,7 @@ export const servicesData: ServicePlan[] = [
   // === Producción Audiovisual ===
   {
     id: "plan-video-basico",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "VIDEO BÁSICO – Tu Mensaje Claro y Directo en Video",
     type: "plan",
     price: 650,
@@ -1008,7 +1008,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-starter-video-pack",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "STARTER VIDEO PACK MENSUAL – Videos Optimizados para tus Redes Sociales",
     type: "plan",
     price: 350,
@@ -1061,7 +1061,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-video-personalizado-profesional",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "VIDEO PERSONALIZADO PROFESIONAL – Producción Audiovisual Completa",
     type: "plan",
     price: "Desde 1,500",
