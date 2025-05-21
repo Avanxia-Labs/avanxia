@@ -20,7 +20,6 @@ const ROUTES = [
   '/servicios/e-commerce',
   '/servicios/produccion-audiovisual',
   '/servicios/seo-marketing-contenidos'
-  // Considera añadir '/precios' y '/soluciones' (si la tienes) si quieres prerenderizarlas
 ];
 
 async function findLocalChromeExecutable() {
