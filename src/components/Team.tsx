@@ -37,7 +37,7 @@ const teamMembers: TeamMember[] = [
     role: 'Socio Operativo (Ismael)',
     skills: 'Gestión de Proyectos, Estrategia, UX, Relaciones con Clientes',
     description: 'Lidera la ejecución y la visión estratégica de los proyectos.',
-    imageSrc: '/images/portfolio/socioop.jpg',
+    imageSrc: '/images/portfolio/socioop.png',
     objectPosition: 'center 0%',
   },
   {

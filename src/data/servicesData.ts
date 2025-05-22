@@ -6,7 +6,7 @@ export interface ServiceAddon {
   name: string;
   description: string;
   price: number;
-  categoryId: string; // A qué categoría pertenece este addon
+  categoryId: string | string[];
   compatiblePlans: string[]; // IDs de los planes con los que es compatible
   highlighted?: boolean; // Si está destacado visualmente
   iconEmoji?: string; // Emoji para representar el addon visualmente
@@ -42,8 +42,14 @@ export const serviceAddons: ServiceAddon[] = [
     name: "Arranque en Redes Sociales",
     description: "Creación y configuración básica de 1 perfil de red social (Facebook o Instagram) alineado con la landing page.",
     price: 70,
-    categoryId: "desarrollo-web",
-    compatiblePlans: ["web-esencial-plan"],
+  categoryId: [
+    "desarrollo-web",
+    "identidad-de-marca"
+  ],
+  compatiblePlans: [
+    "web-esencial-plan",
+    "branding-integral-plan"    // si también quieres que aparezca aquí sin tocar component
+  ],
     iconEmoji: "📱",
     benefits: [
       "Creación y configuración básica de 1 perfil de red social",
@@ -57,8 +63,35 @@ export const serviceAddons: ServiceAddon[] = [
     name: "Formulario Avanzado con Subida de Archivos",
     description: "Mejora tu formulario de contacto con la capacidad de subir archivos y más campos personalizados.",
     price: 120,
-    categoryId: "desarrollo-web",
-    compatiblePlans: ["web-esencial-plan", "web-profesional-plan"],
+    categoryId: [
+      "desarrollo-web",
+      "identidad-de-marca",
+      "consultoria-digital-ia",
+      'branding-integral-plan'
+    ],
+    compatiblePlans: [
+      "web-esencial-plan",
+      "web-profesional-plan",
+      "app-desarrollo-completo-plan",
+      "plan-rrss-esencial",
+      "plan-rrss-estrategico",
+      "plan-rrss-dominante",
+      "plan-video-basico",
+      "plan-video-pro",
+      "plan-starter-video-pack",
+      "plan-pro-video-pack",
+      "plan-video-personalizado-profesional",
+      "plan-ecommerce-esencial",
+      "plan-ecommerce-profesional",
+      "plan-seo-startup-boost",
+      "plan-seo-growth-engine",
+      "plan-content-strategy-pro",
+      "plan-ppc-setup",
+      "plan-ppc-gestion-mensual",
+      "plan-ppc-gestion-avanzada",
+      "sesion-consultoria-estrategica",
+      "plan-auditoria-digital-ia"
+    ],
     iconEmoji: "📄",
     benefits: [
       "Subida de archivos segura",
@@ -149,14 +182,243 @@ export const serviceAddons: ServiceAddon[] = [
       "Configuración de dominios personalizados"
     ],
     type: "bonus"
+  },
+ {
+    id: "restyling-rrss-2-perfiles",
+    name: "Restyling de 2 perfiles de Redes Sociales",
+    description:
+      "Actualizamos y optimizamos la imagen visual de dos de tus perfiles de redes sociales (ej. foto de perfil, portada) para una apariencia profesional y coherente con tu marca.",
+    price: 0,
+    categoryId: "identidad-de-marca",
+    compatiblePlans: ["branding-integral-plan"],
+    iconEmoji: "✨",
+    benefits: [
+      "Diseño o actualización de foto de perfil/logo adaptado.",
+      "Diseño o actualización de imagen de portada/banner.",
+      "Optimización de la biografía/descripción del perfil.",
+      "Asegura una primera impresión profesional y cohesiva.",
+    ],
+    type: "bonus",
+  },
+  {
+    id: "creacion-optimizacion-rrss-2-perfiles",
+    name: "Creación/Optimización hasta 2 perfiles RRSS",
+    description: "Creamos o mejoramos hasta dos de tus perfiles en redes sociales clave, asegurando una configuración completa y optimizada para conectar con tu audiencia.",
+    price: 0,
+    categoryId: "desarrollo-web", // Viene con el plan Web Profesional
+    compatiblePlans: ["web-profesional-plan"],
+    iconEmoji: "📲",
+    benefits: [
+      "Configuración completa de información del perfil.",
+      "Diseño de imagen de perfil y portada básica.",
+      "Optimización de biografía y enlaces.",
+      "Listo para empezar a publicar contenido."
+    ],
+    type: "bonus"
+  },
+ {
+    id: "lanzamiento-rrss-5-posts",
+    name: "5 Posts de Lanzamiento para RRSS",
+    description:
+      "Impulsa tu nueva marca o sitio web con 5 posts diseñados profesionalmente, listos para ser publicados en tus redes sociales y anunciar tu lanzamiento.",
+    price: 0,
+    categoryId: "identidad-de-marca",
+    compatiblePlans: ["branding-integral-plan", "web-profesional-plan"],
+    iconEmoji: "🚀",
+    benefits: [
+      "Diseños atractivos y alineados con tu marca.",
+      "Textos (copies) persuasivos para cada post.",
+      "Formatos adaptados para las principales redes.",
+      "Genera expectación y primeras interacciones.",
+    ],
+    type: "bonus",
+  },
+  {
+    id: "articulo-blog-inaugural-800",
+    name: "1 Artículo de Blog Inaugural (800 palabras)",
+    description: "Arranca tu blog con contenido de valor. Creamos un artículo de 800 palabras, optimizado para SEO y relevante para tu audiencia, perfecto para tu lanzamiento.",
+    price: 0,
+    categoryId: "desarrollo-web", // Viene con el plan Web Profesional
+    compatiblePlans: ["web-profesional-plan"],
+    iconEmoji: "✍️",
+    benefits: [
+      "Contenido original y de calidad.",
+      "Investigación de tema y palabras clave básicas.",
+      "Estructura optimizada para la lectura y SEO.",
+      "Establece autoridad desde el inicio."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "mini-landing-page-gratis-rrss",
+    name: "Mini-Landing Page Profesional GRATIS (activa con el plan)",
+    description: "Mientras tu plan RRSS Esencial esté activo, disfruta de una mini-landing page profesional para centralizar tus enlaces importantes y dirigir tráfico desde tus redes.",
+    price: 0,
+    categoryId: "gestion-redes-sociales",
+    compatiblePlans: ["rrss-esencial-plan"],
+    iconEmoji: "🔗",
+    benefits: [
+      "Diseño profesional y adaptado a tu marca.",
+      "Ideal para 'link en bio' de Instagram y otras redes.",
+      "Fácil de actualizar con tus enlaces clave.",
+      "Mejora la experiencia de usuario y conversiones."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "landing-page-optimizada-ppc",
+    name: "Diseño e Implementación de 1 Landing Page optimizada para campaña",
+    description: "Maximizamos el rendimiento de tus campañas PPC con una landing page diseñada específicamente para convertir visitantes en leads o clientes.",
+    price: 0,
+    categoryId: "publicidad-pagada", // Aplicable a PPC Gestión Mensual y Avanzada
+    compatiblePlans: ["ppc-gestion-mensual-plan", "ppc-gestion-avanzada-plan"], // PPC Avanzada también tiene "Landing Page Optimizada"
+    iconEmoji: "🎯",
+    benefits: [
+      "Diseño enfocado 100% en la conversión.",
+      "Mensaje claro y alineado con el anuncio.",
+      "Formulario de contacto o CTA destacado.",
+      "Optimización para carga rápida y móviles."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "video-ads-cortos-ppc",
+    name: "Creación de 1-2 Video Ads Cortos (hasta 30s) al mes",
+    description: "Potencia tus campañas de publicidad pagada con video ads cortos y dinámicos, diseñados para captar la atención y mejorar el engagement.",
+    price: 0,
+    categoryId: "publicidad-pagada",
+    compatiblePlans: ["ppc-gestion-avanzada-plan"],
+    iconEmoji: "📹",
+    benefits: [
+      "Videos optimizados para plataformas de anuncios (Meta, YouTube, etc.).",
+      "Mensajes directos y enfocados en la conversión.",
+      "Formato atractivo y de alto impacto.",
+      "Incluye edición y musicalización de librería."
+    ],
+    type: "bonus"
+  },
+
+  // --- NUEVOS BONOS (ANTES FEATURES) ---
+  {
+    id: "hosting-dominio-1ano-web",
+    name: "Hosting y Dominio GRATIS por 1 Año",
+    description: "Asegura la presencia online de tu landing page desde el día uno con hosting confiable y un dominio profesional, cubiertos durante el primer año.",
+    price: 0,
+    categoryId: "desarrollo-web",
+    compatiblePlans: ["web-esencial-plan"],
+    iconEmoji: "☁️",
+    benefits: [
+      "Alojamiento web rápido y seguro por 12 meses.",
+      "Registro o transferencia de un dominio (.com, .net, .org, etc.) por 1 año.",
+      "Certificado SSL para seguridad (HTTPS).",
+      "Configuración inicial sin complicaciones."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "articulo-blog-mensual-rrss",
+    name: "1 Artículo de Blog Mensual (800 palabras)",
+    description: "Potencia tu estrategia de contenidos y SEO con un artículo de blog original de 800 palabras cada mes, listo para publicar o integrar como parte de tu plan de redes.",
+    price: 0,
+    categoryId: "gestion-redes-sociales",
+    compatiblePlans: ["rrss-estrategico-plan"],
+    iconEmoji: "📰",
+    benefits: [
+      "Contenido fresco y relevante para tu audiencia mensualmente.",
+      "Optimizado para SEO básico (palabras clave).",
+      "Demuestra autoridad y conocimiento en tu nicho.",
+      "Entregado en formato Word o con opción de integración (costo extra por integración directa)."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "pauta-meta-ads-75usd-rrss",
+    name: "Pauta en Meta Ads Incluida (hasta $75 USD/mes)",
+    description: "Impulsa el alcance e interacción de tus contenidos en Meta (Facebook/Instagram) con una inversión publicitaria mensual de hasta $75 USD cubierta por nosotros.",
+    price: 0,
+    categoryId: "gestion-redes-sociales",
+    compatiblePlans: ["rrss-dominante-plan"],
+    iconEmoji: "💰",
+    benefits: [
+      "Cobertura de hasta $75 USD mensuales para tus anuncios en Meta.",
+      "Aumenta la visibilidad de tus mejores posts y reels.",
+      "Atrae nuevos seguidores y potenciales clientes.",
+      "La gestión de la campaña ya está incluida en el plan."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "hosting-dominio-1ano-ecommerce",
+    name: "Hosting y Dominio GRATIS por 1 Año (para WooCommerce)",
+    description: "Lanza tu tienda online WooCommerce sin preocuparte por los costos iniciales de hosting y dominio durante el primer año.",
+    price: 0,
+    categoryId: "e-commerce",
+    compatiblePlans: ["ecommerce-esencial-plan", "ecommerce-profesional-plan"], // Shopify tiene su propio hosting, así que esto aplica a Woo
+    iconEmoji: "🛒", // Un poco diferente al de web para distinguir
+    benefits: [
+      "Alojamiento web optimizado para WooCommerce por 12 meses.",
+      "Registro o transferencia de un dominio (.com, .store, etc.) por 1 año.",
+      "Certificado SSL para transacciones seguras.",
+      "Ideal para iniciar tu e-commerce auto-alojado."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "capacitacion-ecommerce-basica",
+    name: "Capacitación Inicial en E-commerce (1-2 horas)",
+    description: "Aprende a gestionar tu nueva tienda online (Shopify o WooCommerce) con una sesión de capacitación personalizada para administrar productos, pedidos y más.",
+    price: 0,
+    categoryId: "e-commerce",
+    compatiblePlans: ["ecommerce-esencial-plan"],
+    iconEmoji: "🧑‍🏫",
+    benefits: [
+      "Entrenamiento práctico en la plataforma de tu tienda.",
+      "Aprende a añadir/editar productos y categorías.",
+      "Gestión básica de pedidos y clientes.",
+      "Resuelve tus dudas iniciales para operar tu tienda con confianza."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "email-marketing-setup-ecommerce",
+    name: "Estrategia y Configuración de Email Marketing Transaccional y Básico",
+    description: "Optimiza la comunicación con tus clientes mediante la configuración de emails transaccionales esenciales y una estrategia básica de email marketing para tu e-commerce.",
+    price: 0,
+    categoryId: "e-commerce",
+    compatiblePlans: ["ecommerce-profesional-plan"],
+    iconEmoji: "📧",
+    benefits: [
+      "Configuración de correos automáticos clave (confirmación de pedido, envío, etc.).",
+      "Diseño de plantilla básica para newsletters o promociones.",
+      "Asesoría en estrategia inicial para captación de suscriptores.",
+      "Mejora la retención de clientes y la comunicación post-venta."
+    ],
+    type: "bonus"
+  },
+  {
+    id: "capacitacion-ecommerce-avanzada",
+    name: "Capacitación Avanzada en E-commerce (2-3 horas)",
+    description: "Profundiza en la gestión y optimización de tu tienda online con una capacitación extendida, cubriendo aspectos más avanzados y estrategias para impulsar el crecimiento.",
+    price: 0,
+    categoryId: "e-commerce",
+    compatiblePlans: ["ecommerce-profesional-plan"],
+    iconEmoji: "🚀", // Usando el de lanzamiento para el "impulso"
+    benefits: [
+      "Entrenamiento en funcionalidades avanzadas de la plataforma (Shopify/WooCommerce).",
+      "Optimización de la conversión y la experiencia de usuario.",
+      "Uso de herramientas de marketing y análisis integradas.",
+      "Estrategias para promociones efectivas y fidelización de clientes."
+    ],
+    type: "bonus"
   }
+
 ];
 
 export const servicesData: ServicePlan[] = [
   // === Desarrollo de Aplicaciones ===
   {
     id: "app-desarrollo-completo-plan",
-    categoryId: "app-development",
+    categoryId: "desarrollo-software-aplicaciones",
     name: "DESARROLLO COMPLETO – De la Idea a la Aplicación en el Mercado",
     type: "plan",
     price: "Desde 4,500",
@@ -186,7 +448,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "app-mantenimiento-plan",
-    categoryId: "app-development",
+    categoryId: "desarrollo-software-aplicaciones",
     name: "MANTENIMIENTO Y EVOLUCIÓN – Aseguramos el Éxito Continuo de tu Aplicación",
     type: "plan",
     price: "Desde 500",
@@ -215,7 +477,7 @@ export const servicesData: ServicePlan[] = [
   // === Identidad de Marca y Branding ===
   {
     id: "branding-esencial-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING ESENCIAL – Tu Logo Profesional y Kit de Inicio de Marca",
     type: "plan",
     price: 280,
@@ -239,10 +501,11 @@ export const servicesData: ServicePlan[] = [
     longDescription: "Sabemos que muchas ofertas básicas se limitan a un logo. Nosotros vamos un paso más allá: por un precio muy accesible te entregamos no solo un logotipo profesional, sino también una mini guía de estilo que asegura coherencia visual. Brindamos un valor tangible inmediato y cobertura de todo el proceso creativo.",
     slug: "branding-esencial",
     imagePlaceholder: "/images/placeholders/branding-esencial.jpg",
+    
   },
   {
     id: "branding-profesional-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING PROFESIONAL – Identidad Visual Completa y Estratégica",
     type: "plan",
     price: 550,
@@ -270,7 +533,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "branding-integral-plan",
-    categoryId: "brand-identity",
+    categoryId: "identidad-de-marca",
     name: "BRANDING INTEGRAL – Transformación de Marca: Estrategia, Identidad y Lanzamiento Digital",
     type: "plan",
     price: 950,
@@ -285,6 +548,10 @@ export const servicesData: ServicePlan[] = [
       "Diseño de 4 Aplicaciones de Marca Premium (tarjeta, firma email, plantillas RRSS, presentación, etc.)",
       "✨ BONUS GRATIS: Lanzamiento Digital en Redes Sociales (3-5 posts de lanzamiento diseñados y redactados)"
     ],
+    includedBonuses: [
+     "restyling-rrss-2-perfiles",
+     "lanzamiento-rrss-5-posts"
+    ],   
     sellingPoints: [
       "Consultoría estratégica que alinea negocio y marca.",
       "Manual exhaustivo y diseño premium ilimitado.",
@@ -299,7 +566,7 @@ export const servicesData: ServicePlan[] = [
   // === Desarrollo Web ===
   {
     id: "web-esencial-plan",
-    categoryId: "web-development",
+    categoryId: "desarrollo-web",
     name: "WEB ESENCIAL – Landing Page Moderna y Eficiente con Next.js/React",
     type: "plan",
     price: 680,
@@ -341,7 +608,7 @@ export const servicesData: ServicePlan[] = [
       "Optimización SEO técnica avanzada",
       "Integración con herramientas de marketing (CRM, Email Marketing)"
     ],
-    availableAddons: ["addon-formulario-avanzado", "addon-backend-nestjs", "addon-blog-extra"],
+    availableAddons: [ "addon-backend-nestjs", "addon-blog-extra"],
     includedBonuses: ["bonus-contenido-visibilidad", "bonus-hosting-dominio-profesional"],
     sellingPoints: [
       "Un sitio web que crece contigo y se adapta a tus necesidades.",
@@ -355,7 +622,7 @@ export const servicesData: ServicePlan[] = [
   // === Marketing Digital y Gestión de Redes Sociales ===
   {
     id: "plan-rrss-esencial",
-    categoryId: "social-media",
+    categoryId: "redes-sociales-marketing",
     name: "RRSS ESENCIAL – Presencia Digital Activa y Profesional en Redes",
     type: "plan",
     price: 350,
@@ -370,6 +637,7 @@ export const servicesData: ServicePlan[] = [
       "Reporte Básico de Rendimiento Mensual con métricas clave",
       "BONUS EXCLUSIVO: Diseño, Creación y Mantenimiento de una Mini-Landing Page Profesional GRATIS"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
     sellingPoints: [
       "Presencia digital activa y profesional sin dedicarle horas de tu propio tiempo.",
       "Contenido de alta calidad, coherente y alineado con tu marca.",
@@ -436,7 +704,7 @@ export const servicesData: ServicePlan[] = [
   // === Soluciones E-commerce ===
   {
     id: "plan-ecommerce-esencial",
-    categoryId: "ecommerce",
+    categoryId: "e-commerce",
     name: "E-COMMERCE ESENCIAL – Tu Primera Tienda Online Profesional",
     type: "plan",
     price: 1200,
@@ -454,6 +722,7 @@ export const servicesData: ServicePlan[] = [
       "Integración con Google Analytics y Pixel de Facebook para rastreo de conversiones",
       "Capacitación para Gestión de la Tienda (1-2 horas vía videollamada)"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
     sellingPoints: [
       "Tu vitrina al mundo: una tienda online profesional en Shopify o WooCommerce, totalmente configurada y lista para vender.",
       "Solución completa con diseño atractivo, carga inicial de productos, pagos integrados y capacitación para empezar con confianza.",
@@ -497,7 +766,7 @@ export const servicesData: ServicePlan[] = [
   // === Optimización para Motores de Búsqueda (SEO) ===
   {
     id: "plan-seo-startup-boost",
-    categoryId: "seo-content-marketing",
+    categoryId: "seo-marketing-contenidos",
     name: "SEO STARTUP BOOST – Cimientos Sólidos para tu Posicionamiento Online",
     type: "plan",
     price: 450,
@@ -514,6 +783,7 @@ export const servicesData: ServicePlan[] = [
       "Reporte detallado de la configuración inicial y hallazgos de la auditoría",
       "Plan de contenido sugerido para 2-3 meses siguientes"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
     sellingPoints: [
       "Cimientos sólidos para un posicionamiento online exitoso.",
       "Puesta a punto técnica de tu web e investigación de palabras clave estratégicas.",
@@ -552,7 +822,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-content-strategy-pro",
-    categoryId: "seo-content-marketing",
+    categoryId: "seo-marketing-contenidos",
     name: "CONTENT STRATEGY PRO – Liderazgo de Opinión y Estrategia de Contenidos Premium",
     type: "plan",
     price: 1200,
@@ -598,6 +868,8 @@ export const servicesData: ServicePlan[] = [
       "Asesoría Estratégica Personalizada (sesión de 90 minutos)",
       "Resumen de configuración y recomendaciones"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
+
     sellingPoints: [
       "Lanza tu primera campaña con una estructura profesional y optimizada por expertos.",
       "Confianza para invertir en publicidad online sin cometer errores costosos.",
@@ -610,7 +882,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-ppc-gestion-mensual",
-    categoryId: "ppc-advertising",
+    categoryId: "publicidad-pagada-ppc",
     name: "PPC GESTIÓN MENSUAL – Resultados Medibles y Landing Page de Conversión Incluida",
     type: "plan",
     price: 580,
@@ -668,7 +940,7 @@ export const servicesData: ServicePlan[] = [
   // === Producción Audiovisual ===
   {
     id: "plan-video-basico",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "VIDEO BÁSICO – Tu Mensaje Claro y Directo en Video",
     type: "plan",
     price: 650,
@@ -686,6 +958,7 @@ export const servicesData: ServicePlan[] = [
       "Integración de gráficos de texto simples (ej. títulos, nombres)",
       "Hasta 2 rondas de revisión sobre el primer corte editado"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
     sellingPoints: [
       "Video profesional que comunica tu mensaje de forma clara, concisa e impactante.",
       "Solución completa desde la idea inicial hasta la edición final.",
@@ -729,7 +1002,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-starter-video-pack",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "STARTER VIDEO PACK MENSUAL – Videos Optimizados para tus Redes Sociales",
     type: "plan",
     price: 350,
@@ -782,7 +1055,7 @@ export const servicesData: ServicePlan[] = [
   },
   {
     id: "plan-video-personalizado-profesional",
-    categoryId: "audiovisual-production",
+    categoryId: "produccion-audiovisual",
     name: "VIDEO PERSONALIZADO PROFESIONAL – Producción Audiovisual Completa",
     type: "plan",
     price: "Desde 1,500",
@@ -852,6 +1125,8 @@ export const servicesData: ServicePlan[] = [
       "Plan de acción priorizado para implementación",
       "Sesión de presentación de resultados y Q&A"
     ],
+    includedBonuses: ["bonus-hosting-dominio-esencial"],
+
     sellingPoints: [
       "Descubre puntos ciegos y oportunidades de mejora en tu ecosistema digital.",
       "Entiende cómo la IA puede transformar y optimizar tu negocio.",

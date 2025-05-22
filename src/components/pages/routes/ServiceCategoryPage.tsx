@@ -13,33 +13,9 @@ import PackageCartModal from '@/components/PackageCartModal';
 import Footer from '@/components/Footer';
 
 import ValueSteps from '@/components/ValueSteps';
+import { portfolioData, PortfolioItem } from '../../../data/portfolioData';
 
 
-
-// ── Animaciones con Framer Motion ─────────────────────────────────────────
-const containerAnimation = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.2,   // mismo delay entre cartas
-      delayChildren: 0.4,
-    },
-  },
-};
-
-const cardAnimation = {
-  hidden: { opacity: 0, scale: 0.9, y: 30 },
-  show: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: [0.25, 0.8, 0.25, 1],
-    },
-  }),
-};
 const sectionAnimation = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1 } },
@@ -143,22 +119,7 @@ type ItemWithMeta = ServiceAddon & {
 
 const allAddonItems: ItemWithMeta[] = [];
 
-categoryPlans.forEach(plan => {
-  const planAddons = serviceAddons.filter(
-    a => a.type === "addon" &&
-         category && a.categoryId === category.id &&
-         a.compatiblePlans.includes(plan.id)
-  );
 
-  const planBonuses = serviceAddons.filter(
-    b => b.type === "bonus" &&
-         category && b.categoryId === category.id &&
-         (plan.includedBonuses?.includes(b.id) ?? false)
-  );
-
-  planAddons .forEach(a => allAddonItems.push({ ...a, planName: plan.name, group: "addon"  }));
-  planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
-});
 
   // Addons y bonuses para la categoría actual (ejemplo: desarrollo-web)
   
@@ -180,6 +141,43 @@ const count = cartItems.length;
 const total = cartItems
   .filter((i): i is ServiceAddon => "type" in i && i.type === "addon")
   .reduce((sum, a) => sum + (typeof a.price === "number" ? a.price : 0), 0);
+
+
+    function inCategory(addon: ServiceAddon, categoryId: string): boolean {
+  return Array.isArray(addon.categoryId)
+    ? addon.categoryId.includes(categoryId)
+    : addon.categoryId === categoryId;
+}
+categoryPlans.forEach(plan => {
+  const planAddons = serviceAddons.filter(a =>
+    a.type === 'addon' &&
+    inCategory(a, category!.id) &&               // <-- el “!” le quita el undefined
+    plan.availableAddons?.includes(a.id)
+  );
+
+  const planBonuses = serviceAddons.filter(b =>
+    b.type === 'bonus' &&
+    inCategory(b, category!.id) &&
+    plan.includedBonuses?.includes(b.id)
+  );
+
+  planAddons .forEach(a => allAddonItems.push({ ...a, planName: plan.name, group: "addon"  }));
+  planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
+});
+
+
+const showcaseContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+  const cases: PortfolioItem[] = portfolioData.filter(item =>
+    item.categories.includes(category!.id)
+  );
+
+console.log("allAddonItems:", allAddonItems);
 
 
 
@@ -272,20 +270,30 @@ const total = cartItems
           {/* Contenido centrado sobre el fondo de partículas */}
           <div className="absolute inset-0 flex justify-center items-center z-20">
             <motion.img
-              src="/images/Services/iu1oox_1 1.png"
-              alt={category.name}
+              src={category?.imagePlaceholder ?? '/images/placeholders/default.png'}
+              alt={category?.name ?? 'Imagen de categoría'}
               className="rounded-lg relative"
-              style={{ height: 'auto', width: 'auto', maxWidth: '800px', maxHeight: '280px', objectFit: 'contain' }}
+              style={{
+                height: 'auto',
+                width: 'auto',
+                maxWidth: '800px',
+                maxHeight: '280px',
+                objectFit: 'contain'
+              }}
               initial={{ opacity: 0 }}
-              animate={{ 
+              animate={{
                 opacity: 1,
                 y: [0, -12, 0],
                 scale: [1, 1.015, 1]
               }}
-              transition={{ 
+              transition={{
                 opacity: { duration: 0.6, delay: 0.25 },
                 y: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" },
                 scale: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" }
+              }}
+              onError={(e) => {
+                // Si fallara la carga, usa una genérica
+                (e.currentTarget as HTMLImageElement).src = '/images/placeholders/default.png';
               }}
             />
           </div>
@@ -322,112 +330,106 @@ const total = cartItems
             <strong className="text-primary">Precios aproximados.</strong> Ofrecemos una <strong>cotización personalizada gratuita</strong> para evaluar tus necesidades específicas y brindarte soluciones a medida que optimicen tu inversión.
           </p>
         </motion.div>
-                {/* ── Paquetes ───────────────────────────────── */}
-                {categoryPlans.length > 0 && (
-          <motion.section
-            className="mb-12 sm:mb-16 md:mb-20"
-            variants={sectionAnimation}
-            initial="hidden"
-            animate="visible"
+{/* ── Paquetes ───────────────────────────────── */}
+{categoryPlans.length > 0 && (
+  <section className="mb-12 sm:mb-16 md:mb-20">
+    <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+      Nuestros Paquetes de {category.name}
+    </h2>
+    <div className="overflow-x-auto px-2 sm:px-4">
+      {/* Siempre fila centrada y con wrap */}
+      <div className="flex flex-wrap justify-center gap-6">
+        {categoryPlans.map((plan) => (
+          <div
+            key={plan.id}
+            className={`
+              glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden
+              transition-shadow duration-300 ease-in-out hover:shadow-2xl
+              min-w-[280px] w-full sm:w-80
+              ${plan.featured ? 'border-2 border-primary/60' : 'border border-transparent'}
+            `}
+            style={{
+              background: 'var(--glass-bg)',
+              backdropFilter: 'blur(var(--glass-blur))',
+              WebkitBackdropFilter: 'blur(var(--glass-blur))',
+            }}
           >
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Nuestros Paquetes de {category.name}
-            </h2>
-            <motion.div
-              className="flex flex-wrap justify-center gap-6 max-w-7xl mx-auto px-4"
-              variants={containerAnimation}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false, amount: 0.3 }}
-            >
-                {categoryPlans.map((plan, index) => (
-                  <motion.div
-                  key={plan.id}
-                  custom={index}
-                  variants={cardAnimation}
-                  className={`glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl group h-full w-[380px] ${
-                    plan.featured
-                      ? 'border-2 border-primary/60 scale-[1.01]'
-                      : 'border border-transparent'
-                  }`}
-                  style={{ 
-                    background: 'var(--glass-bg)',
-                    backdropFilter: 'blur(var(--glass-blur))',
-                    WebkitBackdropFilter: 'blur(var(--glass-blur))'
-                  }}
-                >
-                  {plan.featured && (
-                    <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
-                      RECOMENDADO
-                    </div>
-                  )}
-
-                  {/* ── Contenido de la tarjeta ─────── */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div 
-                      className="w-full h-40 flex items-center justify-center rounded-md mb-4 shadow bg-gradient-to-br from-primary/5 to-primary/10"
-                      aria-label={plan.name}
-                    >
-                      <div className="text-7xl select-none">
-                        {React.createElement(category?.icon || AppWindow, { size: 64 })}
-                      </div>
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2 min-h-[56px] lg:min-h-[64px]">
-                      {plan.name}
-                    </h3>
-
-                    {/* Precio */}
-                    <div className="mb-3">
-                      <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
-                        {typeof plan.price === 'number'
-                          ? `$${plan.price.toLocaleString('en-US')}`
-                          : plan.price}
-                      </span>
-                      {plan.priceType && (
-                        <span className="text-xs text-foreground/70 ml-1">
-                          / {plan.priceType}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Descripción breve */}
-                    <p
-                      className="text-foreground/80 text-sm mb-4"
-                      style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                    >
-                      {plan.shortDescription}
-                    </p>
-
-                    {/* Características incluidas con iconos de check */}
-                    {plan.includes && plan.includes.length > 0 && (
-                      <div className="mb-4">
-                        <p className="text-sm font-semibold mb-2 text-foreground/90">Incluye:</p>
-                        <ul className="space-y-2">
-                          {plan.includes.map((item, index) => (
-                            <li key={index} className="flex items-start text-sm text-foreground/80">
-                              <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Botón */}
-                    <div className="mt-auto">
-                      <button
-                     onClick={() => addItemAndOpen(plan)}    
-                        className="w-full bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
+            {plan.featured && (
+              <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold absolute top-0 right-0 rounded-bl-lg z-10 tracking-wide">
+                RECOMENDADO
+              </div>
+            )}
+            {/* Contenido de la tarjeta */}
+            <div className="p-6 flex flex-col flex-grow">
+              <div
+                className="w-full h-40 flex items-center justify-center rounded-md mb-4 shadow bg-gradient-to-br from-primary/5 to-primary/10"
+                aria-label={plan.name}
+              >
+                {React.createElement(category?.icon || AppWindow, { size: 64 })}
+              </div>
+              <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2">
+                {plan.name}
+              </h3>
+              <div className="mb-3">
+                <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
+                  {typeof plan.price === 'number'
+                    ? `$${plan.price.toLocaleString('en-US')}`
+                    : plan.price}
+                </span>
+                {plan.priceType && (
+                  <span className="text-xs text-foreground/70 ml-1">
+                    / {plan.priceType}
+                  </span>
+                )}
+              </div>
+              <p
+                className="text-foreground/80 text-sm mb-4"
+                style={{
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                {plan.shortDescription}
+              </p>
+              {plan.includes?.length > 0 && (
+                <div className="mb-4">
+                  <p className="text-sm font-semibold mb-2 text-foreground/90">
+                    Incluye:
+                  </p>
+                  <ul className="space-y-2">
+                    {plan.includes.map((item, i) => (
+                      <li
+                        key={i}
+                        className="flex items-start text-sm text-foreground/80"
                       >
-                        Añadir a Solución
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.section>
-        )}
+                        <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              <div className="mt-auto">
+                <button
+                  onClick={() => addItemAndOpen(plan)}
+                  className="w-full bg-primary text-primary-foreground font-semibold py-2.5 px-5 rounded-lg hover:bg-primary/90 transition-colors duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background"
+                >
+                  Añadir a Solución
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+
+
+
 
 {/* ── Addons & Bonuses 1-solo-carrusel ─────────────────────────────── */}
 {allAddonItems.length > 0 && (
@@ -443,7 +445,7 @@ const total = cartItems
 
     {/*  ▶  un único paginador  */}
 <AddonsSelector
-  items={allAddonItems.map(a => ({ ...a, planName: category.name }))}
+  items={allAddonItems}
   selectedIds={cartItems.map(i => i.id)}       //  ← aquí
   onAdd={addItemSilent}
   onRemove={(id) => setCartItems(prev => prev.filter(i => i.id !== id))}
@@ -467,176 +469,112 @@ const total = cartItems
           <ValueSteps steps={categoryPlans} />  
         </motion.section>
 
-        {/* ── Portafolio Showcase ───────────── */}
-        <motion.section
-          className="mb-12 sm:mb-16 md:mb-20"
-          variants={sectionAnimation}
-          initial="hidden"
-          animate="visible"
-        >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-            Casos de Éxito en {category.name}
-          </h2>
-          
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: {
-                  staggerChildren: 0.1
-                }
+{/* ── Portafolio Showcase ───────────── */}
+<motion.section
+  className="mb-12 sm:mb-16 md:mb-20"
+  variants={sectionAnimation}
+  initial="hidden"
+  animate="visible"
+>
+{category.id !== 'e-commerce' && (
+  <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
+    Casos de Éxito en {category.name}
+  </h2>
+)}
+
+  <motion.div
+className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-screen-xl px-2 sm:px-4 mx-auto"
+    variants={showcaseContainer}
+    initial="hidden"
+    animate="visible"
+  >
+    {cases.map((proj, idx) => {
+      // Calculamos la imagen según la categoría si existe una específica
+
+      return (
+        <motion.div
+          key={proj.id}
+          className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col min-w-0 w-full"
+          variants={{
+            hidden: { opacity: 0, y: 20 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                type: 'spring',
+                stiffness: 80,
+                damping: 15,
+                delay: idx * 0.1
               }
-            }}
-          >
-            {/* Proyecto GYB */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/gyb5.png"
-                  alt="GYB Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">GYB</h3>
-                    <p className="text-white/80 text-sm">UI/UX, Marketing Visual</p>
-                  </div>
-                </div>
+            }
+          }}
+        >
+          <div className="relative overflow-hidden h-48 sm:h-56 w-full">
+            {proj.videos?.[category!.id] ? (
+              <video
+                src={proj.videos[category!.id]!}
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+              />
+            ) : (
+              <img
+                src={proj.images?.[category!.id] ?? proj.image}
+                alt={proj.title}
+                className="w-full h-full object-cover"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div className="p-4 w-full">
+                <h3 className="text-white font-semibold">{proj.title}</h3>
+                <p className="text-white/80 text-sm">{proj.subtitle}</p>
               </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">GYB Connect</h3>
-                  <p className="text-sm text-foreground/80">Identidad y sitio web para fintech moderna con enfoque en claridad y confianza.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/gyb')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+            </div>
+          </div>
+            <div className="p-3 sm:p-4 md:p-6 flex flex-col flex-grow text-sm sm:text-base">
+              <div className="flex-grow">
+              <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
+                {proj.description && (
+                  <div
+                    className="text-sm text-foreground/80 break-words"
+                    dangerouslySetInnerHTML={{ __html: proj.description }}
+                  />
+                )}
+            </div>
+            <div className="mt-auto pt-4">
+              {!['acme-seo-audit', 'startup-ppc-launch'].includes(proj.slug) && (
+                <Button
+                  onClick={() => navigate(`/proyectos/${proj.slug}`)}
+                  variant="secondary"
+                  size="tight"
+                  className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+                >
+                  <span>Ver proyecto</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Proyecto DEW Marketing */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15,
-                    delay: 0.1
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/dew1.png"
-                  alt="DEW Marketing Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">DEW Marketing</h3>
-                    <p className="text-white/80 text-sm">Branding, Diseño Visual</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">DEW Marketing</h3>
-                  <p className="text-sm text-foreground/80">Identidad de marca completa y estrategia visual para agencia especializada en marketing digital.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/dew')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                  >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-            
-            {/* Proyecto Heromatic */}
-            <motion.div
-              className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    type: 'spring',
-                    stiffness: 80,
-                    damping: 15,
-                    delay: 0.2
-                  } 
-                }
-              }}
-            >
-              <div className="relative overflow-hidden h-56">
-                <img 
-                  src="/images/portfolio/proyectos/heromatic1.png"
-                  alt="Heromatic Project"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                  <div className="p-4 w-full">
-                    <h3 className="text-white font-semibold">Heromatic</h3>
-                    <p className="text-white/80 text-sm">Branding, Automatización, UI/UX</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex-grow">
-                  <h3 className="font-semibold text-primary mb-1">Heromatic</h3>
-                  <p className="text-sm text-foreground/80">Creamos toda la identidad de marca, enfocada en posicionarlos como expertos en automatización de procesos empresariales.</p>
-                </div>
-                <div className="mt-auto pt-4">
-                  <Button
-                    onClick={() => navigate('/proyectos/heromatic')}
-                    variant="secondary"
-                    size="tight"
-                    className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                  >
-                    <span>Ver proyecto</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </motion.section>
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </Button>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      );
+    })}
+  </motion.div>
+</motion.section>
 
         {/* ── CTA Final ────────────────────── */}
         <motion.section
@@ -661,10 +599,9 @@ const total = cartItems
           </Button>
         </motion.section>
       </div>
-
-      <PackageCartModal
-        open={cartOpen}
-        items={cartItems}
+    <PackageCartModal
+      open={cartOpen}
+      items={cartItems}
       message={
         <>
           {defaultBonus ? (
@@ -674,19 +611,25 @@ const total = cartItems
             </>
           ) : (
             <>
-              <strong className="text-primary">Precios aproximados</strong>. Ofrecemos una cotización personalizada gratuita para asegurarnos de cumplir con tus expectativas y necesidades específicas.
+              <strong className="text-primary">Precios aproximados</strong>. Ofrecemos una
+              cotización personalizada gratuita para asegurarnos de cumplir con tus
+              expectativas y necesidades específicas.
             </>
           )}
         </>
-      }  onClose={() => setCartOpen(false)}
-        onRemove={(id) =>
-          setCartItems((prev) => prev.filter((i) => i.id !== id))
-        }
-        onContinue={() => {
-          setCartOpen(false);
-          // aquí iría la navegación a checkout
-        }}
-      />
+      }
+      onClose={() => setCartOpen(false)}
+      onRemove={(id) =>
+        setCartItems((prev) => prev.filter((i) => i.id !== id))
+      }
+      onContinue={() => {
+        console.log("Ítems seleccionados por el cliente:", cartItems);
+        // Cerramos el modal…
+        setCartOpen(false);
+        // …y navegamos a ContactPage, enviando los ítems seleccionados
+        navigate('/contact', { state: { selectedItems: cartItems } });
+      }}
+    />
 
 {/* ——— resumen fijo (sticky bottom bar) ——— */}
 {count > 0 && (

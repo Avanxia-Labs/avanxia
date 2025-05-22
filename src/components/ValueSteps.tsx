@@ -17,19 +17,20 @@ const fade = {
   hidden: { opacity: 0, y: 24 },
   show:   { opacity: 1, y: 0, transition: { duration: .35 } }
 };
-
 export default function ValueSteps({ steps }: Props) {
- // ← si no hay pasos, no renderices nada
   if (!steps || steps.length === 0) return null;
 
   const [active, setActive] = useState(0);
 
-  // cada vez que cambie la lista, reajusta el índice
   useEffect(() => {
     if (active >= steps.length) setActive(0);
   }, [steps, active]);
 
-  const step = steps[active];
+  // ① protege el step
+  const step = steps[active] ?? steps[0];
+
+  // ② si después de todo no tenemos name, no renderices
+  if (!step?.name) return null;
 
   return (
     <section className="mx-auto max-w-6xl">
@@ -88,7 +89,7 @@ export default function ValueSteps({ steps }: Props) {
           >
             {/* ENCABEZADO */}
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-primary">
-              Paso {active + 1} de {steps.length}
+              Propuesta {active + 1} de {steps.length}
             </p>
 
             <h3 className="mb-6 text-3xl font-extrabold leading-tight text-foreground">

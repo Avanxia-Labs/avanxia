@@ -8,7 +8,7 @@ import ProyectoMuestra from "@/components/ProyectoMuestra";
 // import Services from "@/components/Services";
 // import Pricing from "@/components/Pricing";
 // import Team from "@/components/Team";
-import Contact from "@/components/Contact";
+import { ContactForm } from "@/components/Contact";
 // import Process from "@/components/Process";
 import Footer from "@/components/Footer";
 
@@ -25,7 +25,7 @@ export default function HomePage() {
         <Process />
         <Pricing />
         <Team /> */}
-        <Contact />
+        <ContactForm />
         <Footer />
       {/* Enlaces removidos */}
     </>
