@@ -8,7 +8,8 @@ import {
   Briefcase,
   Users,
   Mail,
-  ChevronDown
+  ChevronDown,
+  Settings 
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
@@ -120,7 +121,7 @@ export default function Header() {
                       ref={servicesButtonRef}
                       className={`group flex items-center pb-1 hover:text-primary ${txtClass}`}
                     >
-                      <Briefcase className={`mr-2 h-4 w-4 ${txtClass}`} />
+                      <Settings className={`mr-2 h-4 w-4 ${txtClass}`} />
                       Servicios
                       <ChevronDown
                         className={`ml-1 h-4 w-4 transform transition-transform ${
@@ -198,31 +199,29 @@ export default function Header() {
                       />
                     </button>
                     {isPortfolioOpen && (
-                      <div
-                        className="fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md shadow-lg max-h-64 overflow-y-auto"
-                        style={{
-                          top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
-                          left: portfolioButtonRef.current!.getBoundingClientRect().left,
-                        }}
-                      >
-                        {portfolioData
-                          .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
-                          .map(item => {
-                            const label = item.name ?? item.title;
-                            return (
-                              <button
-                                key={item.id}
-                                onMouseDown={() => {
-                                  navigate(`/proyectos/${item.slug}`);
-                                  setIsPortfolioOpen(false);
-                                }}
-                                className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${txtClass}`}                              >
-                                {item.icon && <item.icon className="w-5 h-5 mr-3 text-primary" />}
-                                {label}
-                              </button>
-                            );
-                          })}
-                      </div>
+                    <div
+                      className="portfolio-dropdown fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md max-h-[70vh] overflow-y-auto"
+                      style={{
+                        top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
+                        left: portfolioButtonRef.current!.getBoundingClientRect().left,
+                      }}
+                    >
+                      {portfolioData.map((item, i) => (
+                        <button
+                          key={item.id}
+                          onMouseDown={() => {
+                            navigate(`/proyectos/${item.slug}`);
+                            setIsPortfolioOpen(false);
+                          }}
+                          className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${
+                            i > 0 ? 'border-t border-border/30' : ''
+                          } ${txtClass}`}
+                        >
+                          {item.icon && <item.icon className="w-5 h-5 mr-3 text-primary" />}
+                          {item.name ?? item.title}
+                        </button>
+                      ))}
+                    </div>
                     )}
                   </div>
                 );
@@ -328,7 +327,7 @@ export default function Header() {
                     className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
                   >
                     <div className="flex items-center">
-                      <Briefcase className="mr-3 h-5 w-5" />
+                      <Settings className="mr-3 h-5 w-5" />
                       Portafolio
                     </div>
                     <ChevronDown

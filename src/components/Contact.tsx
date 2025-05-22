@@ -380,10 +380,38 @@ const handleSubmit = async (e: React.FormEvent) => {
                   viewport={{ once: false, amount: 0.2 }}
                 >
                   {[
-                    { icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Correo', content: <a href="mailto:hola@avanxialabs.com" className="hover:underline">hola@avanxialabs.com</a>, note: '(por definir)' },
-                    { icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Teléfono', content: <span>+52 220 283 4673</span>, note: 'Puede cambiarse por tu contacto directo' },
-                    { icon: <MapPin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Ubicación', content: <span>Toluca, México (remoto NA)</span> },
-                    { icon: <Linkedin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'LinkedIn', content: <a href="#">Avanxia Labs</a>, note: '(por definir)' },
+                    {
+                      icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />,
+                      label: 'Móvil',
+                      content: (
+                        <>
+                          <span>Mobil: +52 1 220 283 4673</span><br />
+                          <span>Oficina: +52 722 957 0084/85</span>
+                        </>
+                      ),
+                      note: 'Horario de atencion 8:30am - 5:00pm',
+                    },
+                    {
+                      icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />,
+                      label: 'Correo Electrónico',
+                      content: (
+                        <a href="mailto:info@avanxia.com" className="hover:underline">
+                          info@avanxia.com
+                        </a>
+                      ),
+                      note: '',
+                    },
+                    {
+                      icon: <MapPin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />,
+                      label: 'Ubicación',
+                      content: (
+                        <span>
+                          TSC PRIVATE SECURITY CONSULTING S.A DE C.V BLVD. Miguel Alemán 307 Local 10, colonia San Mateo Otzacatipan, CP. 50220 Toluca Edo. Mex. (remoto NA)
+                        </span>
+                      ),
+                      note: '',
+                    },
+                    // { icon: <Linkedin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'LinkedIn', content: <a href="#">Avanxia Labs</a>, note: '(por definir)' },
                   ].map((item, idx) => (
                     <div key={idx} className="glass-panel p-5 rounded-lg shadow-sm border border-[rgb(var(--color-border))] flex items-start gap-4">
                       {item.icon}

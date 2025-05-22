@@ -63,10 +63,13 @@ const ServiceCategoryPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
 
-  useEffect(() => {
-  setCartOpen(false);      // ← no vuelve a mostrar la ventana
-}, [categorySlug]);   
-
+useEffect(() => {
+  // Al cambiar de categoría:
+  // 1) cerramos la modal...
+  setCartOpen(false);
+  // 2) reiniciamos el carrito al bonus por defecto (o vacío si no hay bonus)
+  setCartItems(defaultBonus ? [defaultBonus] : []);
+}, [categorySlug, defaultBonus]);
 
   // Inicializar el motor de partículas
   useEffect(() => {
@@ -268,35 +271,37 @@ console.log("allAddonItems:", allAddonItems);
           </div>
 
           {/* Contenido centrado sobre el fondo de partículas */}
-          <div className="absolute inset-0 flex justify-center items-center z-20">
-            <motion.img
-              src={category?.imagePlaceholder ?? '/images/placeholders/default.png'}
-              alt={category?.name ?? 'Imagen de categoría'}
-              className="rounded-lg relative"
-              style={{
-                height: 'auto',
-                width: 'auto',
-                maxWidth: '800px',
-                maxHeight: '280px',
-                objectFit: 'contain'
-              }}
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: 1,
-                y: [0, -12, 0],
-                scale: [1, 1.015, 1]
-              }}
-              transition={{
-                opacity: { duration: 0.6, delay: 0.25 },
-                y: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" },
-                scale: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" }
-              }}
-              onError={(e) => {
-                // Si fallara la carga, usa una genérica
-                (e.currentTarget as HTMLImageElement).src = '/images/placeholders/default.png';
-              }}
-            />
-          </div>
+{/* Contenido centrado sobre el fondo de partículas */}
+<div className="absolute inset-0 flex justify-center items-center z-20 px-4">
+  <motion.img
+    src={category?.imagePlaceholder ?? '/images/placeholders/default.png'}
+    alt={category?.name ?? 'Imagen de categoría'}
+    className="
+      relative rounded-lg
+      w-auto h-auto
+      max-w-full        /* ocupa todo el ancho disponible en móvil */
+      sm:max-w-[800px]  /* en sm+ no supera 800px */
+      max-h-48          /* en móvil no supera 12rem (≈192px) */
+      sm:max-h-[280px]  /* en sm+ no supera 280px */
+      object-contain
+    "
+    initial={{ opacity: 0 }}
+    animate={{
+      opacity: 1,
+      y: [0, -12, 0],
+      scale: [1, 1.015, 1]
+    }}
+    transition={{
+      opacity: { duration: 0.6, delay: 0.25 },
+      y: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" },
+      scale: { duration: 4, ease: [0.45, 0, 0.55, 1], repeat: Infinity, repeatType: "mirror" }
+    }}
+    onError={(e) => {
+      (e.currentTarget as HTMLImageElement).src = '/images/placeholders/default.png';
+    }}
+  />
+</div>
+
         </div>
         
         {/* ── Título de la Categoría ────── */}
