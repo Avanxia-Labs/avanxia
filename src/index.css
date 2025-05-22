@@ -380,3 +380,11 @@ small, .text-sm {
 }
 
 
+/* esto a veces funciona en Chrome móvil, pero NO en la hoja nativa de Android */
+select,
+select option {
+  background-color: rgb(var(--color-card)) !important;
+  color:            rgb(var(--color-foreground)) !important;
+}
+
+

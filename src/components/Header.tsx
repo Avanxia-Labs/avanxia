@@ -290,7 +290,7 @@ export default function Header() {
                     className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
                   >
                     <div className="flex items-center">
-                      <Briefcase className="mr-3 h-5 w-5" />
+                      <Settings className="mr-3 h-5 w-5" />
                       Servicios
                     </div>
                     <ChevronDown
@@ -327,7 +327,7 @@ export default function Header() {
                     className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
                   >
                     <div className="flex items-center">
-                      <Settings className="mr-3 h-5 w-5" />
+                      <Briefcase className="mr-3 h-5 w-5" />
                       Portafolio
                     </div>
                     <ChevronDown

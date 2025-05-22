@@ -228,11 +228,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     label: 'Móvil',
                     content: (
                       <>
-                        <span>Móvil: +52 1 220 283 4673</span><br />
-                        <span>Oficina: +52 722 957 0084/85</span>
+                        <span>Celular: +52 1 220 283 4673</span><br />
+                        <span>Oficina: +52 722 957 0084 / 85</span>
                       </>
                     ),
-                    note: 'Horario de atención 8:30am – 5:00pm',
+                    note: 'Horario de atención 9:30am – 6:00pm',
                   },
                   {
                     icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />,
@@ -249,7 +249,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     label: 'Ubicación',
                     content: (
                       <span>
-                        TSC PRIVATE SECURITY CONSULTING S.A DE C.V BLVD. Miguel Alemán 307 Local 10, colonia San Mateo Otzacatipan, CP. 50220 Toluca Edo. Mex. (remoto NA)
+                        307 Local 10-B, Miguel Alemán , colonia San Mateo Otzacatipan, CP. 50220 Toluca Edo. Mex.
                       </span>
                     ),
                     note: '',
