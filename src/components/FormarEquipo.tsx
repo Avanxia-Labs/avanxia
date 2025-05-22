@@ -36,7 +36,8 @@ export default function FormarEquipo() {
         message: form.message,
       }
 
-      const res = await fetch(import.meta.env.VITE_API_URL + '/api/join-us', {
+      const apiBase = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(apiBase + '/api/join-us', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
