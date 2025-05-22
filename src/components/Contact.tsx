@@ -1,9 +1,9 @@
-  import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
   import { motion } from 'framer-motion';
   import { useLocation } from 'react-router-dom';
   import { serviceAddons, servicesData, ServicePlan, ServiceAddon } from '@/data/servicesData';
   import { categoriesData } from '@/data/categoriesData';
-  import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+  import { Mail, Phone, MapPin } from 'lucide-react';
 
   type FormFields = {
     selectedAddonIds: string[];
