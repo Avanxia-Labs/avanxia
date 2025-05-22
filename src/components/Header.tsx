@@ -1,3 +1,4 @@
+// src/components/Header.tsx
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import {
@@ -11,57 +12,57 @@ import {
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
-import { categoriesData, } from '../data/categoriesData';
-import { portfolioData, } from '../data/portfolioData';
+import { categoriesData } from '../data/categoriesData';
+import { portfolioData } from '../data/portfolioData';
 
-const Header = () => {
+export default function Header() {
   const navigate = useNavigate();
 
-  // Servicios dropdown
+  // ─── Dropdown Servicios ─────────────────────
   const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
   const servicesButtonRef = useRef<HTMLButtonElement>(null);
   const servicesTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Portafolio dropdown
+  // ─── Dropdown Portafolio ────────────────────
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
   const portfolioButtonRef = useRef<HTMLButtonElement>(null);
   const portfolioTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Mobile menu
+  // ─── Menú móvil ─────────────────────────────
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileServicesSubMenuOpen, setIsMobileServicesSubMenuOpen] = useState(false);
+  const [isMobilePortfolioSubMenuOpen, setIsMobilePortfolioSubMenuOpen] = useState(false);
 
-  // Close servicios on outside click
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(o => !o);
+    // al cerrar, cerrar submenús
+    if (isMobileMenuOpen) {
+      setIsMobileServicesSubMenuOpen(false);
+      setIsMobilePortfolioSubMenuOpen(false);
+    }
+  };
+
+  // ─── Click fuera cierra desktop dropdowns ───
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (
         servicesButtonRef.current &&
-        !servicesButtonRef.current.contains(e.target as Node) &&
-        isServicesMenuOpen
-      ) setIsServicesMenuOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [isServicesMenuOpen]);
-
-  // Close portafolio on outside click
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
+        !servicesButtonRef.current.contains(e.target as Node)
+      ) {
+        setIsServicesMenuOpen(false);
+      }
       if (
         portfolioButtonRef.current &&
-        !portfolioButtonRef.current.contains(e.target as Node) &&
-        isPortfolioOpen
-      ) setIsPortfolioOpen(false);
+        !portfolioButtonRef.current.contains(e.target as Node)
+      ) {
+        setIsPortfolioOpen(false);
+      }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, [isPortfolioOpen]);
+  }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (isMobileServicesSubMenuOpen) setIsMobileServicesSubMenuOpen(false);
-  };
-
+  // ─── Nav links ──────────────────────────────
   const navLinks = [
     { name: 'Inicio', to: '/', icon: Home, id: 'home' },
     { name: 'Servicios', to: '#', icon: Briefcase, id: 'services-menu' },
@@ -70,17 +71,22 @@ const Header = () => {
     { name: 'Cotiza Gratis', to: '/contact', icon: Mail, id: 'contact' },
   ];
 
+  // Utilidad para la clase de texto base en claro/oscuro
+  const txtClass = "text-[rgb(var(--color-sidebar-foreground))] dark:text-white";
+
   return (
     <>
-      <header className="top-0 left-0 w-full z-[60] bg-card border-b border-border">
-        <nav className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
-          <a href="/" aria-label="Inicio" className="w-[250px]">
-            <img src="/images/portfolio/proyectos/logo.png" alt="Logo" className="w-full" />
+      <header className="fixed top-0 left-0 w-full z-50 bg-card border-b border-border">
+        <nav className="max-w-screen-xl mx-auto px-4 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <a href="/" className="w-40">
+            <img src="/images/portfolio/proyectos/logo.png" alt="Avanxia Labs" />
           </a>
 
+          {/* ─── Desktop ───────────────────────── */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map(link => {
-              // Botón "Cotiza Gratis"
+              // 1) Botón Cotiza Gratis
               if (link.id === 'contact') {
                 return (
                   <Button
@@ -89,217 +95,174 @@ const Header = () => {
                     className="flex items-center gap-1 text-sm font-medium"
                     onClick={() => navigate(link.to)}
                   >
-                    <Mail className="h-4 w-4" />
-                    <span>Cotiza Gratis</span>
+                    <Mail className="h-4 w-4" /> Cotiza Gratis
                   </Button>
                 );
               }
 
-// Dropdown Servicios
-if (link.id === 'services-menu') {
-  return (
-    <div
-      key="services"
-      className="relative"
-      onMouseEnter={() => {
-        if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
-        setIsServicesMenuOpen(true);
-      }}
-      onMouseLeave={() => {
-        servicesTimeoutRef.current = setTimeout(() => {
-          setIsServicesMenuOpen(false);
-        }, 150);
-      }}
-    >
-      <button
-        ref={servicesButtonRef}
-        className="
-          group flex items-center pb-1
-          text-[rgb(var(--color-sidebar-foreground))]
-          hover:text-[rgb(var(--color-primary))]
-        "
-      >
-        <Briefcase className="mr-2 h-4 w-4 text-[rgb(var(--color-sidebar-foreground))] group-hover:text-[rgb(var(--color-primary))]" />
-        Servicios
-        <ChevronDown
-          className={`
-            ml-1 h-4 w-4 transition-transform
-            ${isServicesMenuOpen ? 'rotate-180' : ''}
-            text-[rgb(var(--color-sidebar-foreground))]
-            group-hover:text-[rgb(var(--color-primary))]
-          `}
-        />
-        <span
-          className={`
-            absolute bottom-0 left-0 w-full h-[2px]
-            bg-[rgb(var(--color-primary))]
-            origin-center transition-transform
-            ${isServicesMenuOpen ? 'scale-x-100' : 'scale-x-0'}
-          `}
-        />
-      </button>
+              // 2) Dropdown Servicios
+              if (link.id === 'services-menu') {
+                return (
+                  <div
+                    key={link.id}
+                    className="relative"
+                    onMouseEnter={() => {
+                      if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+                      setIsServicesMenuOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      servicesTimeoutRef.current = setTimeout(() => {
+                        setIsServicesMenuOpen(false);
+                      }, 150);
+                    }}
+                  >
+                    <button
+                      ref={servicesButtonRef}
+                      className={`group flex items-center pb-1 hover:text-primary ${txtClass}`}
+                    >
+                      <Briefcase className={`mr-2 h-4 w-4 ${txtClass}`} />
+                      Servicios
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transform transition-transform ${
+                          isServicesMenuOpen ? 'rotate-180' : ''
+                        } ${txtClass}`}
+                      />
+                      <span
+                        className={`absolute bottom-0 left-0 w-full h-[2px] bg-primary origin-center transition-transform ${
+                          isServicesMenuOpen ? 'scale-x-100' : 'scale-x-0'
+                        }`}
+                      />
+                    </button>
+                    {isServicesMenuOpen && (
+                      <div
+                          className="fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md shadow-lg overflow-hidden"                        style={{
+                          top: servicesButtonRef.current!.getBoundingClientRect().bottom + 8,
+                          left: servicesButtonRef.current!.getBoundingClientRect().left,
+                        }}
+                      >
+                        {categoriesData.map((cat, i) => {
+                          const Icon = cat.icon || Briefcase;
+                          return (
+                            <button
+                              key={cat.id}
+                              onMouseDown={() => {
+                                navigate(`/servicios/${cat.slug}`);
+                                setIsServicesMenuOpen(false);
+                              }}
+                              className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${
+                                i > 0 ? 'border-t border-border/30' : ''
+                              } ${txtClass}`}
+                            >
+                              <Icon className="w-5 h-5 mr-3 text-primary" />
+                              {cat.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
-      {isServicesMenuOpen && (
-        <div
-          className="
-            fixed w-72 z-[100]
-            bg-[rgba(var(--color-card),0.8)] backdrop-blur-md
-            border border-[rgb(var(--color-border))] rounded-md
-            shadow-lg
-          "
-          style={{
-            top: servicesButtonRef.current!.getBoundingClientRect().bottom + 8,
-            left: servicesButtonRef.current!.getBoundingClientRect().left,
-          }}
-        >
-          {categoriesData.map((cat) => {
-            const Icon = cat.icon || Briefcase;
-            return (
-              <button
-                key={cat.id}
-                onMouseDown={() => {
-                  navigate(`/servicios/${cat.slug}`);
-                  setIsServicesMenuOpen(false);
-                }}
-                className={`
-                  flex items-center w-full px-4 py-2 text-sm
-                  text-[rgb(var(--color-card-foreground))]
-                  hover:bg-[rgb(var(--color-sidebar-hover))]
-                  hover:text-[rgb(var(--color-primary))]
-                `}
-              >
-                <Icon className="w-5 h-5 mr-3 text-[rgb(var(--color-primary))]" />
-                <span>{cat.name}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
+              // 3) Dropdown Portafolio
+              if (link.id === 'portfolio-menu') {
+                return (
+                  <div
+                    key={link.id}
+                    className="relative"
+                    onMouseEnter={() => {
+                      if (portfolioTimeoutRef.current) clearTimeout(portfolioTimeoutRef.current);
+                      setIsPortfolioOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      portfolioTimeoutRef.current = setTimeout(() => {
+                        setIsPortfolioOpen(false);
+                      }, 150);
+                    }}
+                  >
+                    <button
+                      ref={portfolioButtonRef}
+                      className={`group flex items-center pb-1 hover:text-primary ${txtClass}`}
+                    >
+                      <Briefcase className={`mr-2 h-4 w-4 ${txtClass}`} />
+                      Portafolio
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transform transition-transform ${
+                          isPortfolioOpen ? 'rotate-180' : ''
+                        } ${txtClass}`}
+                      />
+                      <span
+                        className={`absolute bottom-0 left-0 w-full h-[2px] bg-primary origin-center transition-transform ${
+                          isPortfolioOpen ? 'scale-x-100' : 'scale-x-0'
+                        }`}
+                      />
+                    </button>
+                    {isPortfolioOpen && (
+                      <div
+                        className="fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md shadow-lg max-h-64 overflow-y-auto"
+                        style={{
+                          top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
+                          left: portfolioButtonRef.current!.getBoundingClientRect().left,
+                        }}
+                      >
+                        {portfolioData
+                          .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
+                          .map(item => {
+                            const label = item.name ?? item.title;
+                            return (
+                              <button
+                                key={item.id}
+                                onMouseDown={() => {
+                                  navigate(`/proyectos/${item.slug}`);
+                                  setIsPortfolioOpen(false);
+                                }}
+                                className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${txtClass}`}                              >
+                                {item.icon && <item.icon className="w-5 h-5 mr-3 text-primary" />}
+                                {label}
+                              </button>
+                            );
+                          })}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
-
-
-// Dropdown Portafolio (excluyendo dos proyectos)
-if (link.id === 'portfolio-menu') {
-  return (
-    <div
-      key="portfolio"
-      className="relative"
-      onMouseEnter={() => {
-        if (portfolioTimeoutRef.current) clearTimeout(portfolioTimeoutRef.current);
-        setIsPortfolioOpen(true);
-      }}
-      onMouseLeave={() => {
-        portfolioTimeoutRef.current = setTimeout(() => {
-          setIsPortfolioOpen(false);
-        }, 150);
-      }}
-    >
-      <button
-        ref={portfolioButtonRef}
-        className="
-          group flex items-center pb-1
-          text-[rgb(var(--color-sidebar-foreground))]
-          hover:text-[rgb(var(--color-primary))]
-        "
-      >
-        <Briefcase className="mr-2 h-4 w-4 text-[rgb(var(--color-sidebar-foreground))] group-hover:text-[rgb(var(--color-primary))]" />
-        Portafolio
-        <ChevronDown
-          className={`
-            ml-1 h-4 w-4 transition-transform
-            ${isPortfolioOpen ? 'rotate-180' : ''}
-            text-[rgb(var(--color-sidebar-foreground))]
-            group-hover:text-[rgb(var(--color-primary))]
-          `}
-        />
-        <span
-          className={`
-            absolute bottom-0 left-0 w-full h-[2px]
-            bg-[rgb(var(--color-primary))]
-            origin-center transition-transform
-            ${isPortfolioOpen ? 'scale-x-100' : 'scale-x-0'}
-          `}
-        />
-      </button>
-
-      {isPortfolioOpen && (
-        <div
-          className="
-            fixed w-72 z-[100]
-            bg-[rgba(var(--color-card),0.8)] backdrop-blur-md
-            border border-[rgb(var(--color-border))] rounded-md
-            shadow-lg max-h-64 overflow-y-auto
-          "
-          style={{
-            top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
-            left: portfolioButtonRef.current!.getBoundingClientRect().left,
-          }}
-        >
-          {portfolioData
-            .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
-            .map((item) => {
-              const label = item.name ?? item.title;
-              return (
-                <button
-                  key={item.id}
-                  onMouseDown={() => {
-                    navigate(`/proyectos/${item.slug}`);
-                    setIsPortfolioOpen(false);
-                  }}
-                  className={`
-                    flex items-center w-full px-4 py-2 text-sm
-                    text-[rgb(var(--color-card-foreground))]
-                    hover:bg-[rgb(var(--color-sidebar-hover))]
-                    hover:text-[rgb(var(--color-primary))]
-                  `}
-                >
-                  {item.icon && (
-                    <item.icon className="w-5 h-5 mr-3 text-[rgb(var(--color-primary))]" />
-                  )}
-                  <span>{label}</span>
-                </button>
-              );
-            })}
-        </div>
-      )}
-    </div>
-  );
-}
-
-              // Enlaces simples
+              // 4) Enlace simple
               return (
                 <NavLink
-                  key={link.name}
+                  key={link.id}
                   to={link.to}
                   className={({ isActive }) =>
-                    `group flex items-center pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
-                      isActive ? 'text-primary after:scale-x-100' : 'text-sidebar-foreground'
-                    }`
+                    `group relative flex items-center pb-1 hover:text-primary ${txtClass} ` +
+                    `after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary ` +
+                    `after:origin-center after:scale-x-0 after:transition-transform after:duration-300 ` +
+                    `${isActive ? 'after:scale-x-100 text-primary' : ''}`
                   }
                 >
-                  <link.icon className="mr-2 h-4 w-4" />
+                  <link.icon className={`mr-2 h-4 w-4 ${txtClass}`} />
                   {link.name}
                 </NavLink>
               );
             })}
-
             <ThemeSwitcher />
           </div>
 
+          {/* ─── Mobile toggle ─────────────────────── */}
           <div className="md:hidden flex items-center">
             <ThemeSwitcher />
-            <button onClick={toggleMobileMenu} className="p-2" aria-label="Menú móvil">
+            <button
+              onClick={toggleMobileMenu}
+              className={`ml-2 p-2 hover:text-primary ${txtClass}`}
+              aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-
         </nav>
       </header>
 
-      {/* Overlay para móvil */}
+      {/* ─── Mobile overlay ─────────────────────── */}
       <div
         className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -307,17 +270,110 @@ if (link.id === 'portfolio-menu') {
         onClick={toggleMobileMenu}
       />
 
-      {/* Menú lateral móvil */}
+      {/* ─── Mobile sidebar ────────────────────── */}
       <div
-        className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-[90vw] sm:w-64 bg-sidebar transform transition-transform md:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-[90vw] sm:w-64 bg-sidebar text-[rgb(var(--color-sidebar-foreground))] dark:text-white
+                    transform transition-transform md:hidden ${
+                      isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+                    }`}
       >
         <div className="p-5 border-b border-border">
           <h2 className="text-xl font-semibold">Menú</h2>
         </div>
         <nav className="p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
-          {/* Aquí puedes replicar la estructura de navLinks para móvil */}
+          {navLinks.map(link => {
+            // Servicios submenú móvil
+            if (link.id === 'services-menu') {
+              return (
+                <div key={link.id}>
+                  <button
+                    onClick={() => setIsMobileServicesSubMenuOpen(o => !o)}
+                    className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
+                  >
+                    <div className="flex items-center">
+                      <Briefcase className="mr-3 h-5 w-5" />
+                      Servicios
+                    </div>
+                    <ChevronDown
+                      className={`h-5 w-5 transform transition-transform ${
+                        isMobileServicesSubMenuOpen ? 'rotate-180' : ''
+                      } ${txtClass}`}
+                    />
+                  </button>
+                  {isMobileServicesSubMenuOpen && (
+                    <div className="pl-6 mt-1 space-y-1">
+                      {categoriesData.map(cat => (
+                        <button
+                          key={cat.id}
+                          onClick={() => {
+                            navigate(`/servicios/${cat.slug}`);
+                            toggleMobileMenu();
+                          }}
+                          className={`block w-full text-left py-1 hover:text-primary ${txtClass}`}
+                        >
+                          {cat.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            // Portafolio submenú móvil
+            if (link.id === 'portfolio-menu') {
+              return (
+                <div key={link.id}>
+                  <button
+                    onClick={() => setIsMobilePortfolioSubMenuOpen(o => !o)}
+                    className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
+                  >
+                    <div className="flex items-center">
+                      <Briefcase className="mr-3 h-5 w-5" />
+                      Portafolio
+                    </div>
+                    <ChevronDown
+                      className={`h-5 w-5 transform transition-transform ${
+                        isMobilePortfolioSubMenuOpen ? 'rotate-180' : ''
+                      } ${txtClass}`}
+                    />
+                  </button>
+                  {isMobilePortfolioSubMenuOpen && (
+                    <div className="pl-6 mt-1 space-y-1">
+                      {portfolioData
+                        .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
+                        .map(item => (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              navigate(`/proyectos/${item.slug}`);
+                              toggleMobileMenu();
+                            }}
+                            className={`block w-full text-left py-1 hover:text-primary ${txtClass}`}
+                          >
+                            {item.name ?? item.title}
+                          </button>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            // Resto de enlaces
+            return (
+              <NavLink
+                key={link.id}
+                to={link.to}
+                onClick={toggleMobileMenu}
+                className={({ isActive }) =>
+                  `flex items-center py-2 hover:text-primary ${
+                    isActive ? 'text-primary font-semibold' : txtClass
+                  }`
+                }
+              >
+                <link.icon className={`mr-3 h-5 w-5 ${txtClass}`} /> {link.name}
+              </NavLink>
+            );
+          })}
         </nav>
         <div className="p-5 border-t border-border">
           <Button
@@ -335,6 +391,4 @@ if (link.id === 'portfolio-menu') {
       </div>
     </>
   );
-};
-
-export default Header;
+}
