@@ -24,34 +24,34 @@ export default function FormarEquipo() {
     setForm(prev => ({ ...prev, file }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setStatus('sending');
 
-    try {
-      const payload = {
-        name:    form.name,
-        email:   form.email,
-        role:    form.role,
-        message: form.message,
-      }
+  try {
+    const payload = {
+      name:    form.name,
+      email:   form.email,
+      role:    form.role,
+      message: form.message,
+    };
 
-      const apiBase = import.meta.env.VITE_API_URL || '';
-      const res = await fetch(apiBase + '/api/join-us', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
+    // Usamos la ruta relativa para aprovechar el proxy de Vite
+    const res = await fetch('/api/join-us', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
 
-      if (!res.ok) throw new Error('Error en el servidor')
+    if (!res.ok) throw new Error('Error en el servidor');
 
-      setStatus('success')
-      setForm({ name: '', email: '', role: '', message: '', file: null })
-    } catch (err) {
-      console.error(err)
-      setStatus('error')
-    }
+    setStatus('success');
+    setForm({ name: '', email: '', role: '', message: '', file: null });
+  } catch (err) {
+    console.error(err);
+    setStatus('error');
   }
+};
 
   const fadeSlide = {
     initial: { opacity: 0, y: 40 },
