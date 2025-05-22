@@ -11,187 +11,324 @@ import {
 } from 'lucide-react';
 import ThemeSwitcher from './ThemeSwitcher';
 import { Button } from './ui/button';
-import { categoriesData, type ServiceCategory } from '../data/categoriesData';
+import { categoriesData, } from '../data/categoriesData';
+import { portfolioData, } from '../data/portfolioData';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Servicios dropdown
   const [isServicesMenuOpen, setIsServicesMenuOpen] = useState(false);
   const servicesButtonRef = useRef<HTMLButtonElement>(null);
+  const servicesTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Portafolio dropdown
+  const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
+  const portfolioButtonRef = useRef<HTMLButtonElement>(null);
+  const portfolioTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Mobile menu
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileServicesSubMenuOpen, setIsMobileServicesSubMenuOpen] = useState(false);
 
-  const servicesMenuRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const timeoutIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  let servicesMenuTimer: NodeJS.Timeout | null = null;
+  // Close servicios on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        servicesButtonRef.current &&
+        !servicesButtonRef.current.contains(e.target as Node) &&
+        isServicesMenuOpen
+      ) setIsServicesMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [isServicesMenuOpen]);
+
+  // Close portafolio on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        portfolioButtonRef.current &&
+        !portfolioButtonRef.current.contains(e.target as Node) &&
+        isPortfolioOpen
+      ) setIsPortfolioOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [isPortfolioOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (isMobileServicesSubMenuOpen) {
-      setIsMobileServicesSubMenuOpen(false);
-    }
+    if (isMobileServicesSubMenuOpen) setIsMobileServicesSubMenuOpen(false);
   };
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (servicesMenuRef.current && !servicesMenuRef.current.contains(event.target as Node)) {
-        setIsServicesMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      if (servicesMenuTimer) {
-        clearTimeout(servicesMenuTimer);
-      }
-    };
-  }, [isMobileMenuOpen, servicesMenuTimer]);
 
   const navLinks = [
     { name: 'Inicio', to: '/', icon: Home, id: 'home' },
     { name: 'Servicios', to: '#', icon: Briefcase, id: 'services-menu' },
+    { name: 'Portafolio', to: '#', icon: Briefcase, id: 'portfolio-menu' },
     { name: 'Nosotros', to: '/about', icon: Users, id: 'about' },
-    { name: 'Contacto', to: '/contact', icon: Mail, id: 'contact' },
+    { name: 'Cotiza Gratis', to: '/contact', icon: Mail, id: 'contact' },
   ];
-
-  const handleServicesMenuEnter = () => {
-    if (timeoutIdRef.current) {
-      clearTimeout(timeoutIdRef.current);
-      timeoutIdRef.current = null;
-    }
-    setIsServicesMenuOpen(true);
-  };
-
-  const handleServicesMenuLeave = () => {
-    timeoutIdRef.current = setTimeout(() => {
-      setIsServicesMenuOpen(false);
-    }, 150);
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        servicesButtonRef.current && 
-        !servicesButtonRef.current.contains(event.target as Node) &&
-        isServicesMenuOpen
-      ) {
-        setIsServicesMenuOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isServicesMenuOpen]);
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-[60] bg-card border-b border-border overflow-x-hidden">
-        <nav className="w-full max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center overflow-x-hidden">
-          <div className="w-[250px] h-auto cursor-pointer">
-            <a href="/" aria-label="Volver a la página de inicio de Avanxia Labs" className="block w-full h-full">
-              <img src="/images/portfolio/proyectos/logo.png" alt="Avanxia Labs Logo" className="w-full h-auto object-contain" />
-            </a>
-          </div>
+      <header className="top-0 left-0 w-full z-[60] bg-card border-b border-border">
+        <nav className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
+          <a href="/" aria-label="Inicio" className="w-[250px]">
+            <img src="/images/portfolio/proyectos/logo.png" alt="Logo" className="w-full" />
+          </a>
 
           <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link) => {
-              if (link.id === 'services-menu') {
+            {navLinks.map(link => {
+              // Botón "Cotiza Gratis"
+              if (link.id === 'contact') {
                 return (
-                  <div key={link.name} className="relative block h-fit" onMouseEnter={handleServicesMenuEnter} onMouseLeave={handleServicesMenuLeave}>
-                    <button ref={servicesButtonRef} className="group relative flex items-center transition duration-300 pb-1 text-sidebar-foreground hover:text-primary cursor-default">
-                      <Briefcase className="mr-2 h-4 w-4" />
-                      Servicios
-                      <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${isServicesMenuOpen ? 'rotate-180' : ''}`} />
-                      <span className={`content-[''] absolute bottom-0 left-0 w-full h-[2px] bg-primary origin-center transition-transform duration-300 ease-out ${isServicesMenuOpen ? 'scale-x-100' : 'scale-x-0'} group-hover:scale-x-100`} />
-                    </button>
-                    {isServicesMenuOpen && (
-                      <div className="fixed w-72 z-[100]" style={{ top: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().bottom + 8 : 0}px`, left: `${servicesButtonRef.current ? servicesButtonRef.current.getBoundingClientRect().left : 0}px` }}>
-                        <div className="w-full border border-border rounded-md shadow-lg py-1 overflow-hidden bg-card/80 backdrop-blur-md">
-                          {categoriesData.map((category: ServiceCategory, index: number) => {
-                            const CategoryIcon = category.icon || Briefcase;
-                            return (
-                              <div key={category.id} className={`${index !== 0 ? 'border-t border-border/30' : ''}`}>
-                                <button type="button" onMouseDown={() => { navigate(`/soluciones/${category.slug}`); setIsServicesMenuOpen(false); }} className="flex items-center w-full text-left px-4 py-3 text-sm whitespace-normal transition-all duration-300 text-foreground hover:bg-muted hover:text-primary">
-                                  <CategoryIcon className="w-5 h-5 mr-3 text-primary flex-shrink-0" />
-                                  <span>{category.name}</span>
-                                </button>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <Button
+                    key={link.id}
+                    variant="primary"
+                    className="flex items-center gap-1 text-sm font-medium"
+                    onClick={() => navigate(link.to)}
+                  >
+                    <Mail className="h-4 w-4" />
+                    <span>Cotiza Gratis</span>
+                  </Button>
                 );
               }
+
+// Dropdown Servicios
+if (link.id === 'services-menu') {
+  return (
+    <div
+      key="services"
+      className="relative"
+      onMouseEnter={() => {
+        if (servicesTimeoutRef.current) clearTimeout(servicesTimeoutRef.current);
+        setIsServicesMenuOpen(true);
+      }}
+      onMouseLeave={() => {
+        servicesTimeoutRef.current = setTimeout(() => {
+          setIsServicesMenuOpen(false);
+        }, 150);
+      }}
+    >
+      <button
+        ref={servicesButtonRef}
+        className="
+          group flex items-center pb-1
+          text-[rgb(var(--color-sidebar-foreground))]
+          hover:text-[rgb(var(--color-primary))]
+        "
+      >
+        <Briefcase className="mr-2 h-4 w-4 text-[rgb(var(--color-sidebar-foreground))] group-hover:text-[rgb(var(--color-primary))]" />
+        Servicios
+        <ChevronDown
+          className={`
+            ml-1 h-4 w-4 transition-transform
+            ${isServicesMenuOpen ? 'rotate-180' : ''}
+            text-[rgb(var(--color-sidebar-foreground))]
+            group-hover:text-[rgb(var(--color-primary))]
+          `}
+        />
+        <span
+          className={`
+            absolute bottom-0 left-0 w-full h-[2px]
+            bg-[rgb(var(--color-primary))]
+            origin-center transition-transform
+            ${isServicesMenuOpen ? 'scale-x-100' : 'scale-x-0'}
+          `}
+        />
+      </button>
+
+      {isServicesMenuOpen && (
+        <div
+          className="
+            fixed w-72 z-[100]
+            bg-[rgba(var(--color-card),0.8)] backdrop-blur-md
+            border border-[rgb(var(--color-border))] rounded-md
+            shadow-lg
+          "
+          style={{
+            top: servicesButtonRef.current!.getBoundingClientRect().bottom + 8,
+            left: servicesButtonRef.current!.getBoundingClientRect().left,
+          }}
+        >
+          {categoriesData.map((cat) => {
+            const Icon = cat.icon || Briefcase;
+            return (
+              <button
+                key={cat.id}
+                onMouseDown={() => {
+                  navigate(`/servicios/${cat.slug}`);
+                  setIsServicesMenuOpen(false);
+                }}
+                className={`
+                  flex items-center w-full px-4 py-2 text-sm
+                  text-[rgb(var(--color-card-foreground))]
+                  hover:bg-[rgb(var(--color-sidebar-hover))]
+                  hover:text-[rgb(var(--color-primary))]
+                `}
+              >
+                <Icon className="w-5 h-5 mr-3 text-[rgb(var(--color-primary))]" />
+                <span>{cat.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+
+// Dropdown Portafolio (excluyendo dos proyectos)
+if (link.id === 'portfolio-menu') {
+  return (
+    <div
+      key="portfolio"
+      className="relative"
+      onMouseEnter={() => {
+        if (portfolioTimeoutRef.current) clearTimeout(portfolioTimeoutRef.current);
+        setIsPortfolioOpen(true);
+      }}
+      onMouseLeave={() => {
+        portfolioTimeoutRef.current = setTimeout(() => {
+          setIsPortfolioOpen(false);
+        }, 150);
+      }}
+    >
+      <button
+        ref={portfolioButtonRef}
+        className="
+          group flex items-center pb-1
+          text-[rgb(var(--color-sidebar-foreground))]
+          hover:text-[rgb(var(--color-primary))]
+        "
+      >
+        <Briefcase className="mr-2 h-4 w-4 text-[rgb(var(--color-sidebar-foreground))] group-hover:text-[rgb(var(--color-primary))]" />
+        Portafolio
+        <ChevronDown
+          className={`
+            ml-1 h-4 w-4 transition-transform
+            ${isPortfolioOpen ? 'rotate-180' : ''}
+            text-[rgb(var(--color-sidebar-foreground))]
+            group-hover:text-[rgb(var(--color-primary))]
+          `}
+        />
+        <span
+          className={`
+            absolute bottom-0 left-0 w-full h-[2px]
+            bg-[rgb(var(--color-primary))]
+            origin-center transition-transform
+            ${isPortfolioOpen ? 'scale-x-100' : 'scale-x-0'}
+          `}
+        />
+      </button>
+
+      {isPortfolioOpen && (
+        <div
+          className="
+            fixed w-72 z-[100]
+            bg-[rgba(var(--color-card),0.8)] backdrop-blur-md
+            border border-[rgb(var(--color-border))] rounded-md
+            shadow-lg max-h-64 overflow-y-auto
+          "
+          style={{
+            top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
+            left: portfolioButtonRef.current!.getBoundingClientRect().left,
+          }}
+        >
+          {portfolioData
+            .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
+            .map((item) => {
+              const label = item.name ?? item.title;
               return (
-                <NavLink key={link.name} to={link.to} className={({ isActive }) => `group relative flex items-center transition duration-300 pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary after:scale-x-0 after:origin-center after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 ${isActive ? 'text-primary after:scale-x-100' : 'text-sidebar-foreground'}`}>
+                <button
+                  key={item.id}
+                  onMouseDown={() => {
+                    navigate(`/proyectos/${item.slug}`);
+                    setIsPortfolioOpen(false);
+                  }}
+                  className={`
+                    flex items-center w-full px-4 py-2 text-sm
+                    text-[rgb(var(--color-card-foreground))]
+                    hover:bg-[rgb(var(--color-sidebar-hover))]
+                    hover:text-[rgb(var(--color-primary))]
+                  `}
+                >
+                  {item.icon && (
+                    <item.icon className="w-5 h-5 mr-3 text-[rgb(var(--color-primary))]" />
+                  )}
+                  <span>{label}</span>
+                </button>
+              );
+            })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+              // Enlaces simples
+              return (
+                <NavLink
+                  key={link.name}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `group flex items-center pb-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-primary after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100 ${
+                      isActive ? 'text-primary after:scale-x-100' : 'text-sidebar-foreground'
+                    }`
+                  }
+                >
                   <link.icon className="mr-2 h-4 w-4" />
                   {link.name}
                 </NavLink>
               );
             })}
+
             <ThemeSwitcher />
-            <Button variant="primary" size="cta" onClick={() => navigate('/contact')} aria-label="Ir a la página de contacto" className="hidden lg:inline-flex whitespace-nowrap">
-              Empezar Proyecto
-            </Button>
           </div>
 
           <div className="md:hidden flex items-center">
             <ThemeSwitcher />
-            <button onClick={toggleMobileMenu} className="text-foreground p-2 ml-2" aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={isMobileMenuOpen}>
+            <button onClick={toggleMobileMenu} className="p-2" aria-label="Menú móvil">
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
+
         </nav>
       </header>
 
-      <div className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={toggleMobileMenu} aria-hidden="true" />
+      {/* Overlay para móvil */}
+      <div
+        className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${
+          isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={toggleMobileMenu}
+      />
 
-      <div ref={mobileMenuRef} className={`fixed top-0 left-0 bottom-0 z-50 max-w-[90vw] w-full sm:w-64 shadow-xl transform transition-transform duration-300 ease-in-out md:hidden bg-sidebar text-sidebar-foreground ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      {/* Menú lateral móvil */}
+      <div
+        className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-[90vw] sm:w-64 bg-sidebar transform transition-transform md:hidden ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
         <div className="p-5 border-b border-border">
           <h2 className="text-xl font-semibold">Menú</h2>
         </div>
-        <nav className="flex-grow p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
-          {navLinks.map((link) => {
-            if (link.id === 'services-menu') {
-              return (
-                <div key={link.name}>
-                  <button onClick={() => setIsMobileServicesSubMenuOpen(!isMobileServicesSubMenuOpen)} className="w-full flex items-center justify-between py-2 text-left text-sidebar-foreground hover:text-primary transition-colors duration-200">
-                    <div className="flex items-center">
-                      <link.icon className="mr-3 h-5 w-5" />
-                      {link.name}
-                    </div>
-                    <ChevronDown className={`ml-2 h-5 w-5 transition-transform duration-200 ${isMobileServicesSubMenuOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  {isMobileServicesSubMenuOpen && (
-                    <div className="pl-4 mt-1 space-y-1 border-l border-border ml-3">
-                      {categoriesData.map((category: ServiceCategory) => (
-                        <NavLink
-                          key={category.id}
-                          to={`/soluciones/${category.slug}`}
-                          onClick={toggleMobileMenu}
-                          className={({ isActive }) => `block py-2 pr-2 text-sm whitespace-normal ${isActive ? 'text-primary font-semibold' : 'text-sidebar-foreground hover:text-primary'}`}
-                        >
-                          {category.name}
-                        </NavLink>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
-            return (
-              <NavLink key={link.name} to={link.to} onClick={toggleMobileMenu} className={({ isActive }) => `flex items-center py-2 text-sidebar-foreground hover:text-primary transition-colors duration-200 ${isActive ? 'text-primary font-semibold' : ''}`}>
-                <link.icon className="mr-3 h-5 w-5" />
-                {link.name}
-              </NavLink>
-            );
-          })}
+        <nav className="p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
+          {/* Aquí puedes replicar la estructura de navLinks para móvil */}
         </nav>
         <div className="p-5 border-t border-border">
-          <Button variant="primary" size="cta" className="w-full" onClick={() => { navigate('/contact'); toggleMobileMenu(); }} aria-label="Ir a la página de contacto">
+          <Button
+            variant="primary"
+            size="cta"
+            className="w-full"
+            onClick={() => {
+              navigate('/contact');
+              toggleMobileMenu();
+            }}
+          >
             Empezar Proyecto
           </Button>
         </div>

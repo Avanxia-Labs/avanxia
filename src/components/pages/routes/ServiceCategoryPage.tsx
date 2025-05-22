@@ -165,8 +165,6 @@ categoryPlans.forEach(plan => {
   planBonuses.forEach(b => allAddonItems.push({ ...b, planName: plan.name, group: "bonus" }));
 });
 
-    const imgSrc = category?.imagePlaceholder ?? '/images/placeholders/default.png';
-
 
 const showcaseContainer = {
   hidden: { opacity: 0 },
@@ -272,7 +270,7 @@ console.log("allAddonItems:", allAddonItems);
           {/* Contenido centrado sobre el fondo de partículas */}
           <div className="absolute inset-0 flex justify-center items-center z-20">
             <motion.img
-              src={imgSrc}
+              src={category?.imagePlaceholder ?? '/images/placeholders/default.png'}
               alt={category?.name ?? 'Imagen de categoría'}
               className="rounded-lg relative"
               style={{
@@ -339,22 +337,15 @@ console.log("allAddonItems:", allAddonItems);
       Nuestros Paquetes de {category.name}
     </h2>
     <div className="overflow-x-auto px-2 sm:px-4">
-      <div
-        className={`
-          grid gap-6
-          w-full
-          grid-flow-col sm:grid-flow-row
-          auto-cols-[280px] sm:auto-cols-auto
-          sm:grid-cols-2 lg:grid-cols-3
-        `}
-      >
+      {/* Siempre fila centrada y con wrap */}
+      <div className="flex flex-wrap justify-center gap-6">
         {categoryPlans.map((plan) => (
           <div
             key={plan.id}
             className={`
               glass-panel rounded-xl shadow-lg flex flex-col overflow-hidden
               transition-shadow duration-300 ease-in-out hover:shadow-2xl
-              min-w-0 w-full
+              min-w-[280px] w-full sm:w-80
               ${plan.featured ? 'border-2 border-primary/60' : 'border border-transparent'}
             `}
             style={{
@@ -368,7 +359,6 @@ console.log("allAddonItems:", allAddonItems);
                 RECOMENDADO
               </div>
             )}
-
             {/* Contenido de la tarjeta */}
             <div className="p-6 flex flex-col flex-grow">
               <div
@@ -377,12 +367,9 @@ console.log("allAddonItems:", allAddonItems);
               >
                 {React.createElement(category?.icon || AppWindow, { size: 64 })}
               </div>
-
               <h3 className="text-xl lg:text-2xl font-bold text-primary mb-2">
                 {plan.name}
               </h3>
-
-              {/* Precio */}
               <div className="mb-3">
                 <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
                   {typeof plan.price === 'number'
@@ -395,8 +382,6 @@ console.log("allAddonItems:", allAddonItems);
                   </span>
                 )}
               </div>
-
-              {/* Descripción breve */}
               <p
                 className="text-foreground/80 text-sm mb-4"
                 style={{
@@ -408,8 +393,6 @@ console.log("allAddonItems:", allAddonItems);
               >
                 {plan.shortDescription}
               </p>
-
-              {/* Características */}
               {plan.includes?.length > 0 && (
                 <div className="mb-4">
                   <p className="text-sm font-semibold mb-2 text-foreground/90">
@@ -417,7 +400,10 @@ console.log("allAddonItems:", allAddonItems);
                   </p>
                   <ul className="space-y-2">
                     {plan.includes.map((item, i) => (
-                      <li key={i} className="flex items-start text-sm text-foreground/80">
+                      <li
+                        key={i}
+                        className="flex items-start text-sm text-foreground/80"
+                      >
                         <Check className="h-4 w-4 text-primary flex-shrink-0 mr-2 mt-0.5" />
                         {item}
                       </li>
@@ -425,8 +411,6 @@ console.log("allAddonItems:", allAddonItems);
                   </ul>
                 </div>
               )}
-
-              {/* Botón */}
               <div className="mt-auto">
                 <button
                   onClick={() => addItemAndOpen(plan)}
@@ -442,6 +426,8 @@ console.log("allAddonItems:", allAddonItems);
     </div>
   </section>
 )}
+
+
 
 
 
@@ -490,9 +476,11 @@ console.log("allAddonItems:", allAddonItems);
   initial="hidden"
   animate="visible"
 >
+{category.id !== 'e-commerce' && (
   <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
     Casos de Éxito en {category.name}
   </h2>
+)}
 
   <motion.div
 className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-screen-xl px-2 sm:px-4 mx-auto"
@@ -502,7 +490,6 @@ className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-scr
   >
     {cases.map((proj, idx) => {
       // Calculamos la imagen según la categoría si existe una específica
-      const imgSrc = proj.images?.[category!.id] ?? proj.image;
 
       return (
         <motion.div
@@ -557,18 +544,30 @@ className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-scr
                 )}
             </div>
             <div className="mt-auto pt-4">
-              <Button
-                onClick={() => navigate(`/proyectos/${proj.slug}`)}
-                variant="secondary"
-                size="tight"
-                className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-              >
-                <span>Ver proyecto</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7" />
-                  <polyline points="7 7 17 7 17 17" />
-                </svg>
-              </Button>
+              {!['acme-seo-audit', 'startup-ppc-launch'].includes(proj.slug) && (
+                <Button
+                  onClick={() => navigate(`/proyectos/${proj.slug}`)}
+                  variant="secondary"
+                  size="tight"
+                  className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
+                >
+                  <span>Ver proyecto</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </Button>
+              )}
             </div>
           </div>
         </motion.div>

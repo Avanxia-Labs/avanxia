@@ -66,12 +66,6 @@ export const serviceAddons: ServiceAddon[] = [
     categoryId: [
       "desarrollo-web",
       "identidad-de-marca",
-      "desarrollo-software-aplicaciones",
-      "redes-sociales-marketing",
-      "produccion-audiovisual",
-      "e-commerce",
-      "seo-marketing-contenidos",
-      "publicidad-pagada-ppc",
       "consultoria-digital-ia",
       'branding-integral-plan'
     ],

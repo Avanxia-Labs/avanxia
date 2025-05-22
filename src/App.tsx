@@ -168,9 +168,8 @@ export default function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/soluciones" element={<SolutionsLandingPage />} /> {/* RUTA PARA PÁGINA DE SOLUCIONES */}
-          <Route path="/soluciones/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA DINÁMICA PARA CATEGORÍAS */}
-          <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} /> {/* RUTA ALTERNATIVA PARA COMPATIBILIDAD */}
+          <Route path="/servicios" element={<SolutionsLandingPage />} />
+          <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} />
         </Route>
 
         {/* Rutas SIN navbar */}

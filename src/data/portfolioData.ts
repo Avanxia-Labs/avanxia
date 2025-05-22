@@ -1,6 +1,10 @@
 // src/data/portfolioData.ts
 
+import { ReactNode } from "react";
+
 export interface PortfolioItem {
+  name: ReactNode;
+  icon: any;
   id: string;
   image: string;
   title: string;
@@ -23,12 +27,17 @@ export const apoloProject: PortfolioItem = {
   subtitle: "",
   description: "Apolo Insurance necesitaba conectar con la comunidad inmigrante hispanohablante en Florida, transmitiendo confianza en un sector donde este valor es clave.",
   slug: "apolo",
-  categories: [ 
-     
-      "produccion-audiovisual",
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
+  categories: [
+    "produccion-audiovisual",
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+
+  videos: {
+    "produccion-audiovisual": "/videos/apolo1-opt.mp4",
+  },
+  name: undefined,
+  icon: undefined
 };
 
 export const autismProject: PortfolioItem = {
@@ -42,13 +51,18 @@ export const autismProject: PortfolioItem = {
     "desarrollo-software-aplicaciones",
     "produccion-audiovisual",
   ],
+  images: {
+    "desarrollo-software-aplicaciones": "/images/portfolio/services/Autism2.png",
+  },
   // sobreescritura de descripción y vídeo para prod-audiovisual:
   descriptionsOverride: {
-    "produccion-audiovisual": "Dirigimos la producción audiovisual de Autism 911: demo interactiva, motion graphics y storytelling emocional.",
+    "produccion-audiovisual": "Dirigimos la producción de vídeo de la app y comunicación visual de Autism 911, equilibrando empatía y confianza para conectar familias con especialistas en autismo.",
   },
   videos: {
-    "produccion-audiovisual": "/videos/autism-911-showcase.mp4",
+    "produccion-audiovisual": "/videos/autism1-opt.mp4",
   },
+  name: undefined,
+  icon: undefined
 };
 
 export const cuatroCaminosProject: PortfolioItem = {
@@ -58,10 +72,11 @@ export const cuatroCaminosProject: PortfolioItem = {
   subtitle: "",
   description: "Impulsamos la presencia digital de 4 CAMINOS, destacando su calidad audiovisual con una estrategia visual coherente, profesional y adaptada al contexto cubano.",
   slug: "cuatrocaminos",
-  categories: [ 
-      "redes-sociales-marketing"
-        ], 
-
+  categories: [
+    "redes-sociales-marketing"
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const dewProject: PortfolioItem = {
@@ -71,9 +86,11 @@ export const dewProject: PortfolioItem = {
   subtitle: "",
   description: "DEW Marketing necesitaba una identidad visual que comunicara renovación y crecimiento. Tradujimos su concepto abstracto en una marca minimalista, delicada y poderosa.",
   slug: "dew",
-  categories: [ 
-      "identidad-de-marca"], 
-
+  categories: [
+    "identidad-de-marca"
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const digitalProject: PortfolioItem = {
@@ -84,10 +101,11 @@ export const digitalProject: PortfolioItem = {
   description: "Digital Lifestyle Designs necesitaba una web que comunicara su liderazgo en domótica. Creamos una experiencia digital moderna que refleja sofisticación y tecnología de punta.",
   slug: "digital",
   categories: [
-       "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const driversProject: PortfolioItem = {
@@ -97,9 +115,11 @@ export const driversProject: PortfolioItem = {
   subtitle: "",
   description: "Para Drivers Collision Center creamos una comunicación visual fuerte y dinámica, enfocada en acción y confianza tras un accidente.",
   slug: "drivers",
-  categories: [ 
-      "redes-sociales-marketing"
-    ]
+  categories: [
+    "redes-sociales-marketing"
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const engadiProject: PortfolioItem = {
@@ -109,10 +129,11 @@ export const engadiProject: PortfolioItem = {
   subtitle: "",
   description: "Modernizamos una plataforma agrícola obsoleta con una suite digital intuitiva que mejora la productividad en invernaderos.",
   slug: "engadi",
-    categories: [ 
-      "desarrollo-software-aplicaciones",
-    ], 
-
+  categories: [
+    "desarrollo-software-aplicaciones",
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const evemundoProject: PortfolioItem = {
@@ -122,11 +143,12 @@ export const evemundoProject: PortfolioItem = {
   subtitle: "",
   description: "Desarrollamos branding, sitios web y contenido audiovisual para Evemundo, creando una presencia digital sólida en Suiza para dos services interconectados.",
   slug: "evemundo",
-    categories: [ 
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  categories: [
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const gybProject: PortfolioItem = {
@@ -136,10 +158,12 @@ export const gybProject: PortfolioItem = {
   subtitle: "",
   description: "Diseñamos la identidad y sitio web de GYB Connect, una plataforma fintech que necesitaba destacar frente a grandes competidores.",
   slug: "gyb",
-    categories: [ "desarrollo-web", "identidad-de-marca"], 
-    images: {
-    "identidad-de-marca":   "/images/portfolio/services/gyb.png",  }
-
+  categories: ["desarrollo-web", "identidad-de-marca"],
+  images: {
+    "identidad-de-marca": "/images/portfolio/services/gyb.png",
+  },
+  name: undefined,
+  icon: undefined
 };
 
 export const haiProject: PortfolioItem = {
@@ -149,11 +173,12 @@ export const haiProject: PortfolioItem = {
   subtitle: "",
   description: "EL HAI necesitaba una estrategia de redes sociales que no solo mostrara sus productos, sino que también comunicara su filosofía de marca artesanal.",
   slug: "hai",
-    categories: [
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  categories: [
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const heromaticProject: PortfolioItem = {
@@ -163,11 +188,12 @@ export const heromaticProject: PortfolioItem = {
   subtitle: "Branding, Automatización, UI/UX",
   description: "Creamos Heromatic desde el nombre hasta su presencia digital, posicionándola como una marca experta en automatización con identidad clara y poderosa.",
   slug: "heromatic",
-    categories: [
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  categories: [
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const incometaxProject: PortfolioItem = {
@@ -177,11 +203,12 @@ export const incometaxProject: PortfolioItem = {
   subtitle: "",
   description: "NA Incometax necesitaba una comunicación visual impecable en redes sociales para transmitir confianza y seriedad.",
   slug: "incometax",
-    categories: [ 
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  categories: [
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const milenioProject: PortfolioItem = {
@@ -191,13 +218,17 @@ export const milenioProject: PortfolioItem = {
   subtitle: "",
   description: "Milenio Smile quería destacar entre su audiencia cubana en Miami. Aprovechamos un jingle espontáneo para crear anuncios auténticos y memorables.",
   slug: "milenio",
-    categories: [
-      "produccion-audiovisual",
-      // "seo-marketing-contenidos",
-      // "consultoria-digital-ia",
-      // 'branding-integral-plan'
-    ], 
-
+  categories: [
+    "produccion-audiovisual",
+    // "seo-marketing-contenidos",
+    // "consultoria-digital-ia",
+    // 'branding-integral-plan'
+  ],
+  videos: {
+    "produccion-audiovisual": "/videos/milenio1-opt.mp4",
+  },
+  name: undefined,
+  icon: undefined
 };
 
 export const poolProject: PortfolioItem = {
@@ -205,10 +236,11 @@ export const poolProject: PortfolioItem = {
   image: "/images/portfolio/services/pool.png",
   title: "Pool",
   subtitle: "",
-  description:'Rediseñamos la presencia digital de <a href="https://poolqualitysolutions.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Pool Quality Solutions</a> con un sitio moderno y claro, transmitiendo confianza, profesionalismo y experiencia en cada detalle.',
+  description: 'Rediseñamos la presencia digital de <a href="https://poolqualitysolutions.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Pool Quality Solutions</a> con un sitio moderno y claro, transmitiendo confianza, profesionalismo y experiencia en cada detalle.',
   slug: "pool",
-    categories: [ "desarrollo-web"], 
-
+  categories: ["desarrollo-web"],
+  name: undefined,
+  icon: undefined
 };
 
 export const redentorProject: PortfolioItem = {
@@ -218,11 +250,12 @@ export const redentorProject: PortfolioItem = {
   subtitle: "",
   description: "Redentor confió en nosotros para modernizar su presencia digital y comunicar confianza en servicios de salud para la comunidad hispana.",
   slug: "redentor",
-    categories: [ 
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  categories: [
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const smartProject: PortfolioItem = {
@@ -232,27 +265,29 @@ export const smartProject: PortfolioItem = {
   subtitle: "",
   description: "Renovamos la imagen y sitio web de Smart Power Electric para destacar su experiencia y claridad en instalaciones eléctricas.",
   slug: "smart",
-    categories: [ "desarrollo-web", "identidad-de-marca"], 
-        images: {
-    "desarrollo-web":   "/images/portfolio/services/smart2.png",  }
-
-
+  categories: ["desarrollo-web", "identidad-de-marca"],
+  images: {
+    "desarrollo-web": "/images/portfolio/services/smart2.png",
+  },
+  name: undefined,
+  icon: undefined
 };
 
 export const starchProject: PortfolioItem = {
-  id: "starch",
+  id: "star",
   image: "/images/portfolio/services/StarCH.png",
-  title: "StarCH",
+  title: "Star",
   subtitle: "",
   description: "Creamos la imagen y comunicación visual de Star Chihuas, una marca de pizzas que combina tradición mexicana con sabores urbanos.",
-  slug: "starch",
-    categories: [ 
-      // "produccion-audiovisual",
-      // "e-commerce",
-      "consultoria-digital-ia",
-      'branding-integral-plan'
-    ], 
-
+  slug: "star",
+  categories: [
+    // "produccion-audiovisual",
+    // "e-commerce",
+    "consultoria-digital-ia",
+    'branding-integral-plan'
+  ],
+  name: undefined,
+  icon: undefined
 };
 
 export const acmeSeoAuditProject: PortfolioItem = {
@@ -263,6 +298,8 @@ export const acmeSeoAuditProject: PortfolioItem = {
   slug: "acme-seo-audit",
   description: "Implementamos una auditoría SEO completa y optimizamos contenido pilar para Acme Inc., logrando un aumento del 40% en tráfico orgánico.",
   categories: ["seo-marketing-contenidos"],
+  name: undefined,
+  icon: undefined
 };
 
 export const startupPpcLaunchProject: PortfolioItem = {
@@ -273,6 +310,8 @@ export const startupPpcLaunchProject: PortfolioItem = {
   slug: "startup-ppc-launch",
   description: "Diseñamos e implementamos una campaña PPC de lanzamiento para Startup X, maximizando conversiones con un ROI del 120%.",
   categories: ["publicidad-pagada-ppc"],
+  name: undefined,
+  icon: undefined
 };
 
 
