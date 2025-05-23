@@ -102,17 +102,16 @@ const Hero = () => {
         {/* Texto a la izquierda */}
         <div className="flex-1 text-center md:text-left z-30 relative">
           <h1 className="text-3xl sm:text-4xl md:text-7xl font-extrabold mb-6 leading-snug sm:leading-tight">
-            Transformamos tu Negocio con Estrategias Digitales de <span className="text-blue-400">Alto Impacto</span>
+          Avanza con Avanxia <span className="text-blue-400">Tu Negocio Listo para la Nueva Era Digital</span>
           </h1>
           <p className="text-lg md:text-2xl mb-8 max-w-3xl">
-            Agencia Integral de Marketing, Diseño y Desarrollo Web y Aplicaciones. Talento latino con estándares internacionales y <span className="relative inline-block align-middle px-1.5 border-b-2 border-blue-400" style={{padding:'0.1em 0.4em'}}>
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient">
-                precios competitivos para norteamérica
+          Marketing digital, diseño impactante, desarrollo web y apps con tecnología de punta para tu ventaja competitiva en la era de la IA. <span className="relative inline-block align-middle px-1.5 border-b-2 border-blue-400" style={{padding:'0.1em 0.4em'}}> <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-500 bg-[length:200%_200%] bg-clip-text text-transparent animate-liquid-gradient">
+              Somos tu socio confiable hacia el futuro
               </span>
-            </span>.
+            </span>
           </p>
           <Button size="tight" asChild>
-            <a href="#contact">Impulsa tus ventas</a>
+            <a href="#contact">Cotiza tu Proyecto Gratis</a>
           </Button>
         </div>
         {/* Video a la derecha en desktop, visible en todos los tamaños, con recorte visual y mayor tamaño */}

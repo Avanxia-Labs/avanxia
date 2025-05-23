@@ -380,10 +380,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                   viewport={{ once: false, amount: 0.2 }}
                 >
                   {[
-                    { icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Correo', content: <a href="mailto:hola@avanxialabs.com" className="hover:underline">hola@avanxialabs.com</a>, note: '(por definir)' },
-                    { icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Teléfono', content: <span>+52 220 283 4673</span>, note: 'Puede cambiarse por tu contacto directo' },
+                    { icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Correo', content: <a href="mailto:info@avanxialabs.com" className="hover:underline">info@avanxialabs.com</a>, note: '' },
+                    { icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Teléfono', content: <span>+52 220 283 4673</span>, note: '' },
                     { icon: <MapPin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Ubicación', content: <span>Toluca, México (remoto NA)</span> },
-                    { icon: <Linkedin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'LinkedIn', content: <a href="#">Avanxia Labs</a>, note: '(por definir)' },
+                    /*{ icon: <Linkedin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'LinkedIn', content: <a href="#">Avanxia Labs</a>, note: '' },*/
                   ].map((item, idx) => (
                     <div key={idx} className="glass-panel p-5 rounded-lg shadow-sm border border-[rgb(var(--color-border))] flex items-start gap-4">
                       {item.icon}
