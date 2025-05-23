@@ -198,7 +198,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     </ul>
 
                     <div className="mt-4">
-                      <label className="block text-sm font-medium">Total:</label>
+                      <label className="block text-sm font-medium">Total (aproximado):</label>
                       <input
                         type="text"
                         readOnly
@@ -295,7 +295,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   {selectedList.length === 0 && (
                     <div className="mb-4">
-                      <label className="block text-sm font-medium">Total:</label>
+                      <label className="block text-sm font-medium">Total (aproximado):</label>
                       <input
                         type="text"
                         readOnly
@@ -380,13 +380,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                   viewport={{ once: false, amount: 0.2 }}
                 >
                   {[
-                    { icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Correo', content: <a href="mailto:info@avanxialabs.com" className="hover:underline">info@avanxialabs.com</a>, note: '' },
-                    { icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Teléfono', content: <span>+52 220 283 4673</span>, note: '' },
-                    { icon: <MapPin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Ubicación', content: <span>Toluca, México (remoto NA)</span> },
+                    // { icon: <Mail className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Correo', content: <a href="mailto:info@avanxialabs.com" className="hover:underline">info@avanxialabs.com</a>, note: '' },
+                    // { icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Teléfono', content: <span>+52 220 283 4673</span>, note: '' },
+                    // { icon: <MapPin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'Ubicación', content: <span>Toluca, México</span> },
                     /*{ icon: <Linkedin className="w-6 h-6 text-[rgb(var(--color-secondary))]" />, label: 'LinkedIn', content: <a href="#">Avanxia Labs</a>, note: '' },*/
                   {
                     icon: <Phone className="w-6 h-6 text-[rgb(var(--color-secondary))]" />,
-                    label: 'Móvil',
+                    label: 'Telefono',
                     content: (
                       <>
                         <span>Celular: +52 1 220 283 4673</span><br />

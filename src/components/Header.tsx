@@ -199,34 +199,35 @@ export default function Header() {
                       />
                     </button>
                     {isPortfolioOpen && (
-                    <div
-                      className="portfolio-dropdown fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md max-h-[70vh] overflow-y-auto"
-                      style={{
-                        top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
-                        left: portfolioButtonRef.current!.getBoundingClientRect().left,
-                      }}
-                    >
-                      {portfolioData.map((item, i) => (
-                        <button
-                          key={item.id}
-                          onMouseDown={() => {
-                            navigate(`/proyectos/${item.slug}`);
-                            setIsPortfolioOpen(false);
-                          }}
-                          className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${
-                            i > 0 ? 'border-t border-border/30' : ''
-                          } ${txtClass}`}
-                        >
-                          {item.icon && <item.icon className="w-5 h-5 mr-3 text-primary" />}
-                          {item.name ?? item.title}
-                        </button>
-                      ))}
-                    </div>
+                      <div
+                        className="portfolio-dropdown fixed w-80 z-[100] bg-card/80 backdrop-blur-md border border-border rounded-md max-h-[70vh] overflow-y-auto"
+                        style={{
+                          top: portfolioButtonRef.current!.getBoundingClientRect().bottom + 8,
+                          left: portfolioButtonRef.current!.getBoundingClientRect().left,
+                        }}
+                      >
+                        {portfolioData
+                          .filter(item => !['acme-seo-audit', 'startup-ppc-launch'].includes(item.id))
+                          .map((item, i) => (
+                            <button
+                              key={item.id}
+                              onMouseDown={() => {
+                                navigate(`/proyectos/${item.slug}`);
+                                setIsPortfolioOpen(false);
+                              }}
+                              className={`flex items-center w-full px-4 py-2 text-sm hover:bg-muted hover:text-primary ${
+                                i > 0 ? 'border-t border-border/30' : ''
+                              } ${txtClass}`}
+                            >
+                              {item.icon && <item.icon className="w-5 h-5 mr-3 text-primary" />}
+                              {item.name ?? item.title}
+                            </button>
+                          ))}
+                      </div>
                     )}
                   </div>
                 );
               }
-
               // 4) Enlace simple
               return (
                 <NavLink
@@ -339,7 +340,8 @@ export default function Header() {
                   {isMobilePortfolioSubMenuOpen && (
                     <div className="pl-6 mt-1 space-y-1">
                       {portfolioData
-                        .filter(item => item.id !== 'acme-seo-audit' && item.id !== 'startup-ppc-launch')
+                        // Excluir estos dos IDs de la lista desplegable
+                        .filter(item => !['acme-seo-audit', 'startup-ppc-launch'].includes(item.id))
                         .map(item => (
                           <button
                             key={item.id}
