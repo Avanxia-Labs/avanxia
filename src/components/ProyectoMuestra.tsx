@@ -38,10 +38,10 @@ export default function ProyectoMuestra() {
         >
           <h3 className="text-2xl font-bold">Identidad Visual y Presencia Web para el Mundo Fintech</h3>
           <p>
-            GYB Connect necesitaba una imagen fuerte y profesional para competir en el sector de pagos digitales. Creamos una identidad visual completa (logo, branding y tarjetas) y un sitio web moderno, claro y animado, enfocado en destacar su propuesta de valor.
+            GYB Connect necesitaba una imagen fuerte y profesional para competir en el sector de pagos digitales. Creamos una identidad visual completa (logo, branding y tarjetas) y un sitio web moderno y animado, enfocado en destacar su propuesta de valor.
           </p>
           <p>
-            Priorizamos la comprensión del servicio y el rendimiento digital para futuras campañas. La marca hoy se presenta como una alternativa real y profesional ante los gigantes del sector.
+            Priorizamos la comprensión del servicio y el rendimiento digital para futuras campañas. <span className="text-blue-400 font-bold section-title-underline  ">No es solo diseño, es diseño orientado a ventas.</span>
           </p>
         </motion.div>
 

@@ -38,7 +38,7 @@ const points: Point[] = [
   {
     title: "Diseño Excepcional y Personalizado",
     desc: "Identidades visuales únicas y UX que te diferencian.",
-    paragraph: "Tu marca merece un universo propio, no un molde genérico. <strong>Rechazamos las plantillas de WordPress</strong> y soluciones prefabricadas que la mayoría usa para ahorrar costos. Nosotros creamos valor real: diseñamos identidades visuales y experiencias de usuario únicas que <strong>capturan tu esencia, resuenan con tu audiencia y te dan resultados tangibles.</strong> No es solo diseño bonito; <strong>es estrategia visual que convierte.</strong>",
+    paragraph: "Tu marca merece un universo propio, no un molde genérico. <strong>Rechazamos las plantillas de WordPress</strong> (son lentas) y soluciones prefabricadas que la mayoría usa para ahorrar costos. Nosotros creamos valor real: diseñamos identidades visuales y experiencias de usuario únicas que <strong>capturan tu esencia, resuenan con tu audiencia y te dan resultados tangibles.</strong> No es solo diseño bonito; <strong>es estrategia visual que convierte.</strong>",
     icon: FaPalette,
   },
   {
@@ -157,8 +157,7 @@ const ValueProposition = () => {
           </span>
         </h2>
         <p className="text-center text-foreground opacity-90 mb-16 max-w-4xl mx-auto text-lg md:text-2xl">
-          En Avanxia Labs combinamos la <strong>excelencia técnica</strong> con la{" "}
-          <strong>creatividad estratégica</strong> para impulsar tu negocio.
+        Entregamos webs de velocidad superior, diseñadas exclusivamente para ti. Convertimos la psicología de la venta en estrategias de marketing efectivas, y elevamos tu imagen con un diseño de impacto global. Confía en nuestro equipo in-house: no delegamos, <span className="text-blue-400 font-bold section-title-underline">creamos excelencia para ti.</span>
         </p>
 
         {/* Grid Layout */}

@@ -8,17 +8,18 @@ const SpecialOffer = () => {
           ¡Impulsa tu Crecimiento con Nuestra Oferta de Lanzamiento!
         </h2>
         <p className="mb-6 max-w-2xl mx-auto text-base sm:text-lg">
-          Para celebrar el lanzamiento de Avanxia Labs y ayudarte a comenzar con el pie derecho, tenemos una oferta especial por tiempo limitado.
+          Para ayudarte a comenzar con el pie derecho, tenemos una oferta especial por tiempo limitado.
         </p>
 
         <div className="bg-white text-blue-800 rounded-xl shadow-xl px-4 py-6 sm:px-8 sm:py-8 max-w-lg w-full mx-auto">
           <h3 className="text-xl sm:text-2xl font-bold mb-3">¡10% de Descuento!</h3>
           <p className="mb-3 font-semibold text-base sm:text-lg">En tu primer retainer trimestral</p>
           <p className="text-sm sm:text-base mb-4 leading-relaxed">
-            Contrata cualquiera de nuestros planes de servicios recurrentes (Growth Leads o Full 360°) por un periodo inicial de tres meses y disfruta de un 10% de descuento sobre el total de ese primer trimestre.
+          Queremos que compruebes el valor que Avanxia Labs puede aportar a tu negocio. Por eso, a nuestros nuevos clientes les ofrecemos un descuento especial en su primer compromiso trimestral de servicios mensuales.
           </p>
           <p className="text-xs text-gray-600 mb-6 leading-snug">
-            <strong>Condiciones:</strong> Válido para nuevos contratos firmados antes del <strong>31 de julio de 2025</strong>. Aplicable a planes Growth Leads y Full 360°.
+            <strong>Condiciones:</strong> Válido para nuevos contratos firmados antes del <strong>1 de enero de 2026</strong>. Aplicable a compromisos trimestrales
+            .
           </p>
 
           <Button
