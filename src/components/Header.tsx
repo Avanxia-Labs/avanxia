@@ -119,6 +119,7 @@ export default function Header() {
                   >
                     <button
                       ref={servicesButtonRef}
+                      onClick={() => navigate('/servicios')}
                       className={`group flex items-center pb-1 hover:text-primary ${txtClass}`}
                     >
                       <Settings className={`mr-2 h-4 w-4 ${txtClass}`} />
@@ -183,6 +184,7 @@ export default function Header() {
                   >
                     <button
                       ref={portfolioButtonRef}
+                      onClick={() => navigate('/portfolio')}
                       className={`group flex items-center pb-1 hover:text-primary ${txtClass}`}
                     >
                       <Briefcase className={`mr-2 h-4 w-4 ${txtClass}`} />
