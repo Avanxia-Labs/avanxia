@@ -5,6 +5,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, PortfolioItem } from '@/data/portfolioData';
 import { X } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 export default function ViewPortfolio() {
   const navigate = useNavigate();
@@ -188,6 +189,7 @@ export default function ViewPortfolio() {
           )}
         </AnimatePresence>
       </div>
+        <Footer />
     </div>
   );
 }

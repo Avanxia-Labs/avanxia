@@ -24,7 +24,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-desarrollo-web.png",
     icon: Globe,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/paginasweb.mp4'
   },
   {
     id: "identidad-de-marca",
@@ -56,8 +56,8 @@ export const categoriesData: ServiceCategory[] = [
     path: "/redes-sociales-marketing",
     imagePlaceholder: "/images/Services/category-marketing-digital.png",
     icon: MessageSquare,
-    videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoPlaceholder: "/videos/socialmedia.mp4",
+    videoUrl: '/videos/socialmedia.mp4'
   },
   {
     id: "produccion-audiovisual",
@@ -68,7 +68,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-multimedia.png",
     icon: Clapperboard,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/pvisual.mp4'
   },
   {
     id: "e-commerce",
@@ -90,7 +90,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-seo.png",
     icon: Search,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/seo.mp4'
   },
   {
     id: "publicidad-pagada-ppc",

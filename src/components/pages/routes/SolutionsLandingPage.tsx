@@ -67,7 +67,7 @@ const SolutionsLandingPage: React.FC = () => {
         {particlesReady && (
           <Particles
             id="tsparticles-carousel-bg"
-            className="absolute inset-0 w-full h-full z-0"
+            className="absolute inset-0 w-full h-full z-0 pointer-events-none"
             options={{ /* tus opciones */ }}
           />
         )}
@@ -84,25 +84,47 @@ const SolutionsLandingPage: React.FC = () => {
         >
           {categoriesData.map((cat) => (
             <SwiperSlide key={cat.id}>
-              <div className="relative w-full h-screen overflow-hidden rounded-xl">
-                {cat.videoUrl && (
-                  <video
-                    src={cat.videoUrl}
-                    autoPlay
-                    muted
-                    loop
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
+               <div
+                 className="
+                   relative w-full 
+                   lg:h-screen      /* altura full en desktop grande */
+                   md:h-[75vh]       /* 75% de viewport en pantallas medianas */
+                   sm:h-[60vh]       /* 60% en pantallas pequeñas */
+                   overflow-hidden 
+                   rounded-xl
+                 "
+               >                
+               {cat.videoUrl && (
+                  <>
+                    <video
+                      src={cat.videoUrl}
+                      autoPlay
+                      muted
+                      loop
+                      className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none"
+                    />
+                    {/* Overlay opcional para mayor contraste */}
+                    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+                  </>
                 )}
                 <motion.div
-                  className="relative z-10 flex flex-col items-center justify-center h-full p-8 text-center gap-6"
+                  className="
+                    relative z-10 flex flex-col items-center justify-center h-full 
+                    px-4 py-6      /* menos padding en móvil */
+                    md:px-8 md:py-8 /* padding original en md                */
+                    text-center gap-4
+                  "       
                   variants={carouselVariants}
                 >
-                  <h2 className="text-5xl md:text-6xl font-bold text-white">{cat.name}</h2>
-                  <p className="text-2xl text-white/90 max-w-3xl">{cat.description}</p>
-                  <button
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
+                  {cat.name}
+                </h2>                  
+                 <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl">
+                   {cat.description}
+                 </p>                  
+                 <button
                     onClick={() => navigate(cat.path.replace(/^\//, ''))}
-                    className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] py-4 px-10 rounded-full hover:opacity-90 transition-opacity text-lg"
+                    className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] py-3 px-6 rounded-full hover:opacity-90 transition-opacity text-base sm:text-lg"
                   >
                     Conocer más
                   </button>
@@ -122,7 +144,10 @@ const SolutionsLandingPage: React.FC = () => {
         </div>
       </div>
 
-      <Footer />
+      {/* Footer */}
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </motion.div>
   );
 };
