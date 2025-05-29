@@ -5,7 +5,6 @@ import { Dialog, Transition } from '@headlessui/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, PortfolioItem } from '@/data/portfolioData';
 import { X } from 'lucide-react';
-import Footer from '@/components/Footer';
 
 export default function ViewPortfolio() {
   const navigate = useNavigate();
@@ -149,7 +148,7 @@ export default function ViewPortfolio() {
                       </div>
                       <div className="p-6 space-y-4">
                         <h2 className="text-2xl font-bold">{activeItem.title}</h2>
-                        <p className="text-gray-700">
+                        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                           {activeItem.descriptionsOverride?.[selectedCategory] ??
                             activeItem.description}
                         </p>
@@ -189,7 +188,6 @@ export default function ViewPortfolio() {
           )}
         </AnimatePresence>
       </div>
-        <Footer />
     </div>
   );
 }
