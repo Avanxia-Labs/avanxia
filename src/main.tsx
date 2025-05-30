@@ -10,10 +10,6 @@ const isPrerendering = typeof navigator !== 'undefined' &&
 
 // Aplicar operaciones del lado del cliente solo si no estamos en prerrenderización
 if (typeof window !== 'undefined' && !isPrerendering) {
-  // 1. Eliminar preferencia previa de modo claro
-  localStorage.removeItem("theme");
-
-  // 2. Forzar modo oscuro antes de que React monte
   document.documentElement.classList.remove('light');
   document.documentElement.classList.add('dark');
 }
