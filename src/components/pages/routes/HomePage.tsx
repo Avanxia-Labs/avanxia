@@ -11,6 +11,7 @@ import ProyectoMuestra from "@/components/ProyectoMuestra";
 import { ContactForm } from "@/components/Contact";
 // import Process from "@/components/Process";
 import Footer from "@/components/Footer";
+import Posicionamiento from "@/components/Posicionamiento";
 
 export default function HomePage() {
 
@@ -20,6 +21,7 @@ export default function HomePage() {
         <Portfolio />
         <ProyectoMuestra/>
         <ValueProposition />
+        <Posicionamiento />
         <SpecialOffer />
         {/* <Services />
         <Process />

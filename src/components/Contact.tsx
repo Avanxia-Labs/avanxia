@@ -188,23 +188,29 @@ const handleSubmit = async (e: React.FormEvent) => {
                               ×
                             </button>
                           </div>
-                          <span className="font-semibold">
-                            {typeof it.price === 'number'
-                              ? `$${it.price.toLocaleString('en-US')}`
-                              : it.price}
-                          </span>
+                            <span className="font-semibold">
+                              {typeof it.price === 'number'
+                                ? `$ ${it.price.toLocaleString('en-US', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                  })} USD`
+                                : it.price}
+                            </span>
                         </li>
                       ))}
                     </ul>
 
                     <div className="mt-4">
                       <label className="block text-sm font-medium">Total (aproximado):</label>
-                      <input
-                        type="text"
-                        readOnly
-                        value={`$${total.toLocaleString('en-US')}`}
-                        className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"
-                      />
+                        <input
+                          type="text"
+                          readOnly
+                          value={`$ ${total.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })} USD`}
+                          className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"
+                        />
                     </div>
                   </div>
                 ) : (
@@ -278,11 +284,14 @@ const handleSubmit = async (e: React.FormEvent) => {
                                 />
                                 <span>{addon.name}</span>
                               </label>
-                              <span className="text-sm font-semibold">
-                                {typeof addon.price === 'number'
-                                  ? `$${addon.price.toLocaleString('en-US')}`
-                                  : addon.price}
-                              </span>
+                                <span className="text-sm font-semibold">
+                                  {typeof addon.price === 'number'
+                                    ? `$ ${addon.price.toLocaleString('en-US', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                      })} USD`
+                                    : addon.price}
+                                </span>
                             </li>
                           );
                         })}
@@ -296,12 +305,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                   {selectedList.length === 0 && (
                     <div className="mb-4">
                       <label className="block text-sm font-medium">Total (aproximado):</label>
-                      <input
-                        type="text"
-                        readOnly
-                        value={`$${total.toLocaleString('en-US')}`}
-                        className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"
-                      />
+                        <input
+                          type="text"
+                          readOnly
+                          value={`$ ${total.toLocaleString('en-US', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                          })} USD`}
+                          placeholder="Total aproximado"
+                          className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"
+                        />
                     </div>
                   )}
 
