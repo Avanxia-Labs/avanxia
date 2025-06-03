@@ -72,13 +72,14 @@ const SolutionsLandingPage: React.FC = () => {
               <div
                 className="
                   relative w-full 
-                  lg:h-screen      /* altura full en desktop grande */
-                  md:h-[75vh]       /* 75% de viewport en pantallas medianas */
-                  sm:h-[60vh]       /* 60% en pantallas pequeñas */
+                  lg:h-screen         /* altura completa en desktop grande */
+                  md:h-[75vh]          /* 75% de viewport en pantallas medianas */
+                  h-screen             /* en pantallas pequeñas, que ocupe todo el alto */
                   overflow-hidden 
                   rounded-xl
                 "
               >
+              
                 {cat.videoUrl && (
                   <>
                     <video
