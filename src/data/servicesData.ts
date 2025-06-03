@@ -135,21 +135,21 @@ export const serviceAddons: ServiceAddon[] = [
     type: "addon"
   },
   // Bonuses incluidos en los paquetes
-  {
-    id: "bonus-hosting-dominio-esencial",
-    name: "Hosting y Dominio por 1 Año",
-    description: "Despliegue y alojamiento en Vercel (o plataforma similar) durante el primer año.",
-    price: 0,
-    categoryId: "desarrollo-web",
-    compatiblePlans: ["web-esencial-plan"],
-    iconEmoji: "🌐",
-    benefits: [
-      "Hosting de Alto Rendimiento en Vercel",
-      "Registro o configuración de dominio por 1 año",
-      "Certificado SSL incluido"
-    ],
-    type: "bonus"
-  },
+  // {
+  //   id: "bonus-hosting-dominio-esencial",
+  //   name: "Hosting y Dominio por 1 Año",
+  //   description: "Despliegue y alojamiento en Vercel (o plataforma similar) durante el primer año.",
+  //   price: 0,
+  //   categoryId: "desarrollo-web",
+  //   compatiblePlans: ["web-esencial-plan"],
+  //   iconEmoji: "🌐",
+  //   benefits: [
+  //     "Hosting de Alto Rendimiento en Vercel",
+  //     "Registro o configuración de dominio por 1 año",
+  //     "Certificado SSL incluido"
+  //   ],
+  //   type: "bonus"
+  // },
   {
     id: "bonus-contenido-visibilidad",
     name: "Bonus de Contenido y Visibilidad",
@@ -299,22 +299,22 @@ export const serviceAddons: ServiceAddon[] = [
   },
 
   // --- NUEVOS BONOS (ANTES FEATURES) ---
-  {
-    id: "hosting-dominio-1ano-web",
-    name: "Hosting y Dominio GRATIS por 1 Año",
-    description: "Asegura la presencia online de tu landing page desde el día uno con hosting confiable y un dominio profesional, cubiertos durante el primer año.",
-    price: 0,
-    categoryId: "desarrollo-web",
-    compatiblePlans: ["web-esencial-plan"],
-    iconEmoji: "☁️",
-    benefits: [
-      "Alojamiento web rápido y seguro por 12 meses.",
-      "Registro o transferencia de un dominio (.com, .net, .org, etc.) por 1 año.",
-      "Certificado SSL para seguridad (HTTPS).",
-      "Configuración inicial sin complicaciones."
-    ],
-    type: "bonus"
-  },
+  // {
+  //   id: "hosting-dominio-1ano-web",
+  //   name: "Hosting y Dominio GRATIS por 1 Año",
+  //   description: "Asegura la presencia online de tu landing page desde el día uno con hosting confiable y un dominio profesional, cubiertos durante el primer año.",
+  //   price: 0,
+  //   categoryId: "desarrollo-web",
+  //   compatiblePlans: ["web-esencial-plan"],
+  //   iconEmoji: "☁️",
+  //   benefits: [
+  //     "Alojamiento web rápido y seguro por 12 meses.",
+  //     "Registro o transferencia de un dominio (.com, .net, .org, etc.) por 1 año.",
+  //     "Certificado SSL para seguridad (HTTPS).",
+  //     "Configuración inicial sin complicaciones."
+  //   ],
+  //   type: "bonus"
+  // },
   {
     id: "articulo-blog-mensual-rrss",
     name: "1 Artículo de Blog Mensual (800 palabras)",

@@ -377,9 +377,13 @@ console.log("allAddonItems:", allAddonItems);
               </h3>
               <div className="mb-3">
                 <span className="text-2xl lg:text-3xl font-extrabold text-foreground">
-                  {typeof plan.price === 'number'
-                    ? `$${plan.price.toLocaleString('en-US')}`
-                    : plan.price}
+{typeof plan.price === 'number'
+  ? `$ ${plan.price.toLocaleString('en-US', { 
+      minimumFractionDigits: 2, 
+      maximumFractionDigits: 2 
+    })} USD`
+  : plan.price}
+
                 </span>
                 {plan.priceType && (
                   <span className="text-xs text-foreground/70 ml-1">
