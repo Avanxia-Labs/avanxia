@@ -10,7 +10,7 @@ import {
 import { useEffect } from "react";
 import SEOHelmet from "./components/SEOHelmet";
 import { ArrowLeft } from "lucide-react";
-import ThemeSwitcher from "./components/ThemeSwitcher";
+// import ThemeSwitcher from "./components/ThemeSwitcher";
 import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
 // import GreetingDemo from "./components/GreetingDemo";
 
@@ -75,7 +75,7 @@ function PlainLayout() {
             <ArrowLeft size={16} />
             Volver
           </button>
-          <ThemeSwitcher />
+          {/* <ThemeSwitcher /> */}
         </div>
       </header>
 

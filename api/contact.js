@@ -11,11 +11,11 @@ export default async function handler(req, res) {
 
   const { name, email, phone, company, message, selectedList, total } = req.body
 
-  // Configura el transporter con tus env-vars (definidas en Vercel)
+  // Configura el transporter con las credenciales que haya en el entorno (.env.local o Vercel)
   const transporter = nodemailer.createTransport({
     host:    process.env.SMTP_HOST,
     port:    Number(process.env.SMTP_PORT),
-    secure:  true,
+    secure:  true,   // si usas puerto 465. En Mailtrap también funciona con TLS en 465
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
   try {
     await transporter.sendMail({
       from: `"Avanxia Web" <${process.env.SMTP_USER}>`,
-      to:   'info@avanxia.com',
+      to:   'info@avanxia.com', // o la dirección que prefieras simular/enviar
       subject: 'Nuevo mensaje desde formulario web',
       text,
     })

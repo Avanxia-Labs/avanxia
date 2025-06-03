@@ -275,231 +275,253 @@ const Portfolio = () => {
     },
     
   ];
-  const handleOpenDetail = (study: CaseStudy) => {
-    if (study.slug) navigate(`/proyectos/${study.slug}`);
-    else setSelectedProject(study);
-  };
+// Encontrar índices de "GYB" y "APOLO" y moverlos al inicio en ese orden
+let orderedCaseStudies = [...caseStudies];
 
-  const handleCloseDetail = () => setSelectedProject(null);
+const gybIndex = orderedCaseStudies.findIndex((s) => s.title.toLowerCase() === 'gyb');
+let gybItem: CaseStudy | undefined;
+if (gybIndex > -1) {
+  [gybItem] = orderedCaseStudies.splice(gybIndex, 1);
+}
+
+const apoloIndex = orderedCaseStudies.findIndex((s) => s.title.toLowerCase() === 'apolo');
+let apoloItem: CaseStudy | undefined;
+if (apoloIndex > -1) {
+  [apoloItem] = orderedCaseStudies.splice(apoloIndex, 1);
+}
+
+if (apoloItem) orderedCaseStudies.unshift(apoloItem);
+if (gybItem) orderedCaseStudies.unshift(gybItem);
+
+const handleOpenDetail = (study: CaseStudy) => {
+  if (study.slug) navigate(`/proyectos/${study.slug}`);
+  else setSelectedProject(study);
+};
+
+const handleCloseDetail = () => setSelectedProject(null);
 
 const [, setActiveDesktopIndex] = useState(0);
 const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
 
   return (
-    <section
-      id="portfolio"
-      className="w-full pt-[calc(64px+4rem)] pb-16 bg-background text-foreground dark:bg-background dark:text-foreground relative z-0"
-    >
-      <div className="container mx-auto px-4">
-        {!selectedProject ? (
-          <>
-            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
-              <span ref={underlineRef} className="section-title-underline">
-                Nuestro Trabajo Habla por Sí Mismo
-              </span>
-            </h2>
-            <p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
-              Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
-            </p>
+<section
+  id="portfolio"
+  className="w-full pt-[calc(64px+4rem)] pb-16 bg-background text-foreground dark:bg-background dark:text-foreground relative z-0"
+>
+  <div className="container mx-auto px-4">
+    {!selectedProject ? (
+      <>
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+          <span ref={underlineRef} className="section-title-underline">
+            Nuestro Trabajo Habla por Sí Mismo
+          </span>
+        </h2>
+        <p className="text-center text-foreground/70 dark:text-foreground/70 mb-12 max-w-3xl mx-auto">
+          Estamos orgullosos de las soluciones digitales que hemos creado para nuestros clientes. Aquí presentamos una selección de proyectos que demuestran nuestra capacidad para combinar estrategia, diseño y tecnología para obtener resultados excepcionales.
+        </p>
 
-{/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
-<div className="hidden md:block">
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95, y: 40 }}
-    whileInView={{ opacity: 1, scale: 1, y: 0 }}
-    transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
-    viewport={{ once: true, amount: 0.7 }}
-  >
-    <Swiper
-      effect="coverflow"
-      grabCursor
-      centeredSlides
-      initialSlide={1}
-      slidesPerView="auto"
-      freeMode
-      autoplay={{ delay: 3000, disableOnInteraction: false }}
-      coverflowEffect={{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
-      navigation
-      modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
-      className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
-      onSlideChange={(s) => setActiveDesktopIndex(s.realIndex)}
-    >
-      {caseStudies.map((study) => (
-        <SwiperSlide
-          key={`desktop-${study.id}`}
-          className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
-          onClick={() => handleOpenDetail(study)}
-        >
-          <Tilt
-            tiltMaxAngleX={10}
-            tiltMaxAngleY={10}
-            glareEnable
-            glareMaxOpacity={0.2}
-            scale={1.02}
-            transitionSpeed={1500}
-            className="w-full h-full overflow-hidden rounded-xl"
+        {/* DESKTOP VERSION → CARRUSEL COVERFLOW */}
+        <div className="hidden md:block">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, amount: 0.7 }}
           >
-            <div className="relative w-full h-full group">
-              <img
-                src={study.imageUrl}
-                alt={study.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-6 space-y-4 text-center transition-all duration-300">
-                <div className="text-xl md:text-2xl lg:text-3xl font-bold truncate">
-                  {study.title}
-                </div>
-                <p className="text-sm md:text-base lg:text-lg mt-2 max-w-[80%]">
-                  {study.description}
-                </p>
-                <span className="text-sm md:text-base bg-primary text-primary-foreground rounded-full px-3 py-1 md:px-4 md:py-2 w-fit transition">
-                  Explorar este proyecto
+            <Swiper
+              effect="coverflow"
+              grabCursor
+              centeredSlides
+              initialSlide={1}
+              slidesPerView="auto"
+              freeMode
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              coverflowEffect={{ rotate: 30, stretch: 0, depth: 200, modifier: 1, slideShadows: true }}
+              navigation
+              modules={[EffectCoverflow, Navigation, FreeMode, Autoplay]}
+              className="mySwiper w-full max-w-6xl h-[clamp(300px,40vw,420px)] cursor-grab active:cursor-grabbing"
+              onSlideChange={(s) => setActiveDesktopIndex(s.realIndex)}
+            >
+              {orderedCaseStudies.map((study) => (
+                <SwiperSlide
+                  key={`desktop-${study.id}`}
+                  className="!w-[clamp(380px,95vw,520px)] !h-full rounded-xl overflow-hidden shadow-xl cursor-pointer transition-transform duration-300"
+                  onClick={() => handleOpenDetail(study)}
+                >
+                  <Tilt
+                    tiltMaxAngleX={10}
+                    tiltMaxAngleY={10}
+                    glareEnable
+                    glareMaxOpacity={0.2}
+                    scale={1.02}
+                    transitionSpeed={1500}
+                    className="w-full h-full overflow-hidden rounded-xl"
+                  >
+                    <div className="relative w-full h-full group">
+                      <img
+                        src={study.imageUrl}
+                        alt={study.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/30 hover:bg-black/60 hover:backdrop-blur-sm z-10 flex flex-col items-center justify-center text-white p-6 space-y-4 text-center transition-all duration-300">
+                        <div className="text-xl md:text-2xl lg:text-3xl font-bold truncate">
+                          {study.title}
+                        </div>
+                        <p className="text-sm md:text-base lg:text-lg mt-2 max-w-[80%]">
+                          {study.description}
+                        </p>
+                        <span className="text-sm md:text-base bg-primary text-primary-foreground rounded-full px-3 py-1 md:px-4 md:py-2 w-fit transition">
+                          Explorar este proyecto
+                        </span>
+                      </div>
+                    </div>
+                  </Tilt>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </motion.div>
+        </div>
+
+        {/* MOBILE VERSION → CARRUSEL AUTOPLAY */}
+        <div className="block md:hidden mt-10 px-4">
+          <Swiper
+            slidesPerView={1.6}
+            centeredSlides
+            initialSlide={1}
+            spaceBetween={16}
+            grabCursor
+            navigation
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            speed={500}
+            loop
+            modules={[Navigation, Autoplay]}
+            onSlideChange={(s) => setActiveMobileIndex(s.realIndex)}
+            className="relative w-full pb-10"
+          >
+            {orderedCaseStudies.map((study, index) => {
+              const isPrev = index === activeMobileIndex - 1;
+              const isNext = index === activeMobileIndex + 1;
+              const mobileSrc = study.imageUrl.replace(
+                '/images/portfolio/proyectos/',
+                '/images/portfolio/proyectos/mobile/'
+              );
+              return (
+                <SwiperSlide
+                  key={`mobile-${study.id}`}
+                  className={`transition-transform duration-300 ${
+                    isPrev || isNext
+                      ? 'scale-90 opacity-40 z-10 bg-card/95 backdrop-blur-xl dark:bg-card/95'
+                      : 'scale-100 opacity-100 z-20 bg-card dark:bg-card'
+                  }`}
+                >
+                  <div className="mobile-slide rounded-xl shadow-lg overflow-hidden transition-all duration-300">
+                    <img
+                      src={mobileSrc}
+                      alt={study.title}
+                      className="w-full h-[250px] object-cover rounded-t-xl"
+                    />
+                    <div className="p-4 text-center">
+                      <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
+                      <p className="text-sm text-foreground/70 dark:text-foreground/70">
+                        {study.description}
+                      </p>
+                      <button
+                        onClick={() => handleOpenDetail(study)}
+                        className="mt-4 bg-primary text-primary-foreground rounded-full px-4 py-2"
+                      >
+                        Ver ahora
+                      </button>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+
+        <div className="text-center mt-12 px-4">
+          <a href="#contact">
+            <Button
+              asChild
+              className="w-full sm:w-auto text-sm sm:text-base px-4 py-3 whitespace-normal leading-snug text-center"
+            >
+              <span>¿Te gusta lo que ves? Discute tu proyecto</span>
+            </Button>
+          </a>
+        </div>
+      </>
+    ) : (
+      <div className="animate-fade-in">
+        <nav className="flex mb-8 text-foreground/70 dark:text-foreground/70" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+            <li className="inline-flex items-center">
+              <button
+                onClick={handleCloseDetail}
+                className="inline-flex items-center text-sm font-medium hover:text-primary"
+              >
+                <Home className="w-4 h-4 mr-2.5" /> Portafolio
+              </button>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <ChevronRight className="w-4 h-4" />
+                <span className="ml-1 text-sm font-medium md:ml-2 text-foreground">
+                  {selectedProject?.title}
                 </span>
               </div>
+            </li>
+          </ol>
+        </nav>
+
+        <div className="relative w-full mx-auto bg-card text-foreground dark:bg-card dark:text-foreground rounded-lg shadow-xl p-6 md:p-10">
+          <h2 className="text-3xl font-bold mb-6 text-primary text-center">
+            {selectedProject?.title}
+          </h2>
+          <div className="w-full flex flex-col lg:flex-row gap-8 items-start mb-6">
+            <div className="flex-1 lg:flex-[2] flex items-center justify-center">
+              <img
+                src={selectedProject?.imageUrl}
+                alt={selectedProject?.title}
+                className="w-full max-h-[70vh] object-contain rounded shadow-lg mb-4 lg:mb-0"
+              />
             </div>
-          </Tilt>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  </motion.div>
-</div>
-
-
-{/* MOBILE VERSION → CARRUSEL AUTOPLAY */}
-<div className="block md:hidden mt-10 px-4">
-  <Swiper
-    slidesPerView={1.6}
-    centeredSlides
-    initialSlide={1}
-    spaceBetween={16}
-    grabCursor
-    navigation
-    autoplay={{ delay: 3000, disableOnInteraction: false }}
-    speed={500}
-    loop
-    modules={[Navigation, Autoplay]}
-    onSlideChange={(s) => setActiveMobileIndex(s.realIndex)}
-    className="relative w-full pb-10"
-  >
-    {caseStudies.map((study, index) => {
-      const isPrev = index === activeMobileIndex - 1;
-      const isNext = index === activeMobileIndex + 1;
-      const mobileSrc = study.imageUrl.replace(
-        '/images/portfolio/proyectos/',
-        '/images/portfolio/proyectos/mobile/'
-      );
-      return (
-        <SwiperSlide
-          key={`mobile-${study.id}`}
-          className={`transition-transform duration-300 ${
-            isPrev || isNext
-              ? 'scale-90 opacity-40 z-10 bg-card/95 backdrop-blur-xl dark:bg-card/95'
-              : 'scale-100 opacity-100 z-20 bg-card dark:bg-card'
-          }`}
-        >
-          <div className="mobile-slide rounded-xl shadow-lg overflow-hidden transition-all duration-300">
-            <img
-              src={mobileSrc}
-              alt={study.title}
-              className="w-full h-[250px] object-cover rounded-t-xl"
-            />
-            <div className="p-4 text-center">
-              <h3 className="text-lg font-bold text-foreground">{study.title}</h3>
-              <p className="text-sm text-foreground/70 dark:text-foreground/70">{study.description}</p>
-              <button
-                onClick={() => handleOpenDetail(study)}
-                className="mt-4 bg-primary text-primary-foreground rounded-full px-4 py-2"
-              >
-                Ver ahora
-              </button>
-            </div>
-          </div>
-        </SwiperSlide>
-      );
-    })}
-  </Swiper>
-</div>
-   <div className="text-center mt-12 px-4">
-  <a href="#contact">
-    <Button asChild className="w-full sm:w-auto text-sm sm:text-base px-4 py-3 whitespace-normal leading-snug text-center">
-      <span>¿Te gusta lo que ves? Discute tu proyecto</span>
-    </Button>
-  </a>
-</div>
-          </>
-        ) : (
-          <div className="animate-fade-in">
-            <nav className="flex mb-8 text-foreground/70 dark:text-foreground/70" aria-label="Breadcrumb">
-              <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                <li className="inline-flex items-center">
-                  <button
-                    onClick={handleCloseDetail}
-                    className="inline-flex items-center text-sm font-medium hover:text-primary"
-                  >
-                    <Home className="w-4 h-4 mr-2.5" /> Portafolio
-                  </button>
-                </li>
-                <li>
-                  <div className="flex items-center">
-                    <ChevronRight className="w-4 h-4" />
-                    <span className="ml-1 text-sm font-medium md:ml-2 text-foreground">
-                      {selectedProject?.title}
-                    </span>
-                  </div>
-                </li>
-              </ol>
-            </nav>
-
-            <div className="relative w-full mx-auto bg-card text-foreground dark:bg-card dark:text-foreground rounded-lg shadow-xl p-6 md:p-10">
-              <h2 className="text-3xl font-bold mb-6 text-primary text-center">
-                {selectedProject?.title}
-              </h2>
-              <div className="w-full flex flex-col lg:flex-row gap-8 items-start mb-6">
-                <div className="flex-1 lg:flex-[2] flex items-center justify-center">
-                  <img
-                    src={selectedProject?.imageUrl}
-                    alt={selectedProject?.title}
-                    className="w-full max-h-[70vh] object-contain rounded shadow-lg mb-4 lg:mb-0"
-                  />
-                </div>
-                <div className="flex-1 lg:flex-[3] text-foreground whitespace-pre-line text-base md:text-lg">
-                  <h3 className="text-xl font-semibold mb-3 text-foreground">
-                    Descripción Detallada
-                  </h3>
-                  <p className="text-foreground/90 mb-6">{selectedProject?.description}</p>
-                  <div className="mt-6 border-t pt-4 text-foreground/70 text-sm">
-                    <p className="mb-2">
-                      <strong className="font-medium text-foreground">Desafío:</strong>{' '}
-                      {selectedProject?.challenge}
-                    </p>
-                    <p className="mb-2">
-                      <strong className="font-medium text-foreground">Solución:</strong>{' '}
-                      {selectedProject?.solution}
-                    </p>
-                    <p>
-                      <strong className="font-medium text-foreground">Resultado:</strong>{' '}
-                      {selectedProject?.result}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center text-foreground/70 text-base border-t pt-4 mt-6">
-                <strong>Cliente:</strong> {selectedProject?.client} &nbsp;|&nbsp;
-                <strong>Ubicación:</strong> {selectedProject?.location} &nbsp;|&nbsp;
-                <strong>Servicios:</strong> {selectedProject?.serviceType}
+            <div className="flex-1 lg:flex-[3] text-foreground whitespace-pre-line text-base md:text-lg">
+              <h3 className="text-xl font-semibold mb-3 text-foreground">Descripción Detallada</h3>
+              <p className="text-foreground/90 mb-6">{selectedProject?.description}</p>
+              <div className="mt-6 border-t pt-4 text-foreground/70 text-sm">
+                <p className="mb-2">
+                  <strong className="font-medium text-foreground">Desafío:</strong>{' '}
+                  {selectedProject?.challenge}
+                </p>
+                <p className="mb-2">
+                  <strong className="font-medium text-foreground">Solución:</strong>{' '}
+                  {selectedProject?.solution}
+                </p>
+                <p>
+                  <strong className="font-medium text-foreground">Resultado:</strong>{' '}
+                  {selectedProject?.result}
+                </p>
               </div>
             </div>
-
-            <div className="text-center mt-12">
-              <Button onClick={handleCloseDetail} variant="secondaryDark" size="cta">
-                ← Volver al Portafolio
-              </Button>
-            </div>
           </div>
-        )}
+          <div className="text-center text-foreground/70 text-base border-t pt-4 mt-6">
+            <strong>Cliente:</strong> {selectedProject?.client} &nbsp;|&nbsp;
+            <strong>Ubicación:</strong> {selectedProject?.location} &nbsp;|&nbsp;
+            <strong>Servicios:</strong> {selectedProject?.serviceType}
+          </div>
+        </div>
+
+        <div className="text-center mt-12">
+          <Button onClick={handleCloseDetail} variant="secondaryDark" size="cta">
+            ← Volver al Portafolio
+          </Button>
+        </div>
       </div>
-    </section>
+    )}
+  </div>
+</section>
+
   );
 };
 
