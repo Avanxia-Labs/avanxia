@@ -35,7 +35,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-identidad-marca.png",
     icon: Palette,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/brand.mp4'
   },
   {
     id: "desarrollo-software-aplicaciones",
@@ -79,7 +79,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-ecommerce.png",
     icon: ShoppingCart,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/ecomer.mp4'
   },
   {
     id: "seo-marketing-contenidos",
@@ -101,7 +101,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-ppc.png",
     icon: MousePointerClick,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: undefined
+    videoUrl: '/videos/pagada.mp4'
   }
 ];
 
