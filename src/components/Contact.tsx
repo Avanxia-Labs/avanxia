@@ -91,7 +91,7 @@ import { useState, useEffect } from 'react';
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
-  // 1) Validaciones
+  // 1) Validaciones básicas
   if (
     !formData.name ||
     !formData.email ||
@@ -103,20 +103,80 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
 
-  try {
-    // 2) Llamada a tu backend
-    const res = await fetch('/api/contact', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ ...formData, selectedList, total }),
-})
+  // 2) Determinar qué category/plan enviar y construir mergedList
+  let mergedListToSend: (ServicePlan | ServiceAddon)[] = [];
+  let categoryToSend = formData.category;
+  let planToSend = formData.plan; // Aquí guardaremos el ID del plan/servicio que enviaremos
 
+  if (selectedList.length > 0) {
+    // –– CASO A: Vengo de otro componente (initialItems) ––
+    // 'selectedList' ya contiene planes/servicios/addons.
+    mergedListToSend = selectedList;
+
+    // Si el usuario no completó category/plan porque viene de ruta, lo deducimos:
+    // Buscamos primero el “item base” dentro de selectedList, asumiendo que los objetos de tipo ServicePlan
+    // o ServiceAddon tienen una propiedad `type` que nos indica si es plan/servicio o addon/bonus.
+    const itemBase = selectedList.find(
+      item => (item as ServicePlan).type === 'plan' || (item as ServicePlan).type === 'servicio'
+    ) as (ServicePlan | undefined);
+
+    if (itemBase) {
+      // Asumimos que en ServicePlan existe `categoryId` y `id`
+      categoryToSend = (itemBase as ServicePlan).categoryId;
+      planToSend = itemBase.id;
+    }
+    // Si por alguna razón no encontramos un plan/servicio dentro de selectedList,
+    // categoryToSend y planToSend quedarán vacíos, pero al menos enviamos la lista completa.
+  } else {
+    // –– CASO B: El usuario selecciona aquí en el formulario ––
+    // Primero, metemos el plan o servicio base (de formData.plan / formData.service)
+    const baseItem =
+      servicesData.find(i => i.id === formData.plan) ||
+      servicesData.find(i => i.id === formData.service);
+
+    if (baseItem) {
+      mergedListToSend.push(baseItem);
+      // Guardamos los valores para enviar
+      categoryToSend = baseItem.categoryId;
+      planToSend = baseItem.id;
+    }
+
+    // Luego agregamos cada addon elegido (buscándolo en serviceAddons)
+    formData.selectedAddonIds.forEach(addonId => {
+      const foundAddon = serviceAddons.find(a => a.id === addonId);
+      if (foundAddon) {
+        mergedListToSend.push(foundAddon);
+      }
+    });
+  }
+
+  // 3) Calcular total (puede quedarse como lo tenías, 
+  //    pero lo recalculamos dinámicamente sobre mergedListToSend para evitar inconsistencias):
+  const totalToSend = mergedListToSend.reduce((sum, item) => {
+    return sum + (typeof item.price === 'number' ? item.price : 0);
+  }, 0);
+
+  try {
+    // 4) Envío al backend
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...formData,
+        // Sobreescribimos selectedList para enviar nuestro mergedListToSend
+        selectedList: mergedListToSend,
+        // Sobreescribimos total por el que acabamos de calcular
+        total: totalToSend,
+        // Forzamos category y plan con los valores decididos arriba
+        category: categoryToSend,
+        plan: planToSend,
+      }),
+    });
 
     if (!res.ok) throw new Error('Error en la petición');
 
-    // 3) Éxito
+    // 5) Éxito: limpiar estados
     alert('Mensaje enviado. ¡Gracias!');
-    // Reinicia formulario y selección
     setSelectedList([]);
     setFormData({
       selectedAddonIds: [],
@@ -129,12 +189,12 @@ const handleSubmit = async (e: React.FormEvent) => {
       service: '',
       message: '',
     });
-
   } catch (err) {
     console.error(err);
     alert('Hubo un error al enviar. Intenta de nuevo más tarde.');
   }
 };
+
     
 
     // Datos para selects
