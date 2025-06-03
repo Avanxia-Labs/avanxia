@@ -35,8 +35,8 @@ export default function Header() {
 
   // ─── Menú móvil ─────────────────────────────
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [, setIsMobileServicesSubMenuOpen] = useState(false);
-  const [, setIsMobilePortfolioSubMenuOpen] = useState(false);
+  const [isMobileServicesSubMenuOpen, setIsMobileServicesSubMenuOpen] = useState(false);
+  const [isMobilePortfolioSubMenuOpen, setIsMobilePortfolioSubMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(o => !o);
@@ -203,46 +203,167 @@ export default function Header() {
             })}
           </div>
 
-          {/* Mobile toggle */}
-          <div className="md:hidden flex items-center">
+{/* Mobile toggle */}
+<div className="md:hidden flex items-center">
+  <button
+    onClick={toggleMobileMenu}
+    className={`ml-2 p-2 hover:text-primary ${txtClass}`}
+    aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+  >
+    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+  </button>
+</div>
+
+{/* Mobile overlay */}
+<div
+  className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${
+    isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+  }`}
+  onClick={toggleMobileMenu}
+/>
+
+{/* Mobile sidebar */}
+<div
+  className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-[90vw] sm:w-64 bg-sidebar text-[rgb(var(--color-sidebar-foreground))] dark:text-white transform transition-transform md:hidden ${
+    isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+  }`}
+>
+  <div className="p-5 border-b border-border">
+    <h2 className="text-xl font-semibold">Menú</h2>
+  </div>
+
+  <nav className="p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
+    {navLinks.map(link => {
+      // ─── Enlace “Servicios” ──────────────────────────────
+      if (link.id === 'services-menu') {
+        return (
+          <div key={link.id}>
             <button
-              onClick={toggleMobileMenu}
-              className={`ml-2 p-2 hover:text-primary ${txtClass}`}
-              aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              onClick={() => setIsMobileServicesSubMenuOpen(o => !o)}
+              className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <div className="flex items-center">
+                <Settings className="mr-3 h-5 w-5" /> Servicios
+              </div>
+              <ChevronDown
+                className={`h-5 w-5 transform transition-transform ${
+                  isMobileServicesSubMenuOpen ? 'rotate-180' : ''
+                } ${txtClass}`}
+              />
             </button>
+
+            {isMobileServicesSubMenuOpen && (
+              <div className="pl-6 mt-1 space-y-1">
+                {categoriesData.map(cat => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      navigate(`/servicios/${cat.slug}`);
+                      toggleMobileMenu();
+                    }}
+                    className={`block w-full text-left py-1 hover:text-primary ${txtClass}`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
+        );
+      }
+
+      // ─── Enlace “Portafolio” ────────────────────────────
+      if (link.id === 'portfolio-menu') {
+        return (
+          <div key={link.id}>
+            <button
+              onClick={() => setIsMobilePortfolioSubMenuOpen(o => !o)}
+              className={`w-full flex items-center justify-between py-2 hover:text-primary ${txtClass}`}
+            >
+              <div className="flex items-center">
+                <Briefcase className="mr-3 h-5 w-5" /> Portafolio
+              </div>
+              <ChevronDown
+                className={`h-5 w-5 transform transition-transform ${
+                  isMobilePortfolioSubMenuOpen ? 'rotate-180' : ''
+                } ${txtClass}`}
+              />
+            </button>
+
+            {isMobilePortfolioSubMenuOpen && (
+              <div className="pl-6 mt-1 space-y-1">
+                {portfolioData
+                  .filter(item => !['acme-seo-audit', 'startup-ppc-launch'].includes(item.id))
+                  .map(item => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        navigate(`/proyectos/${item.slug}`);
+                        toggleMobileMenu();
+                      }}
+                      className={`block w-full text-left py-1 hover:text-primary ${txtClass}`}
+                    >
+                      {item.name ?? item.title}
+                    </button>
+                  ))}
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      // ─── Enlaces “Inicio” y “Nosotros” ───────────────────
+      if (link.id !== 'contact') {
+        return (
+          <NavLink
+            key={link.id}
+            to={link.to}
+            onClick={toggleMobileMenu}
+            className={({ isActive }) =>
+              `flex items-center py-2 hover:text-primary ${
+                isActive ? 'text-primary font-semibold' : txtClass
+              }`
+            }
+          >
+            <link.icon className={`mr-3 h-5 w-5 ${txtClass}`} /> {link.name}
+          </NavLink>
+        );
+      }
+
+      // ─── Botón “Cotiza Gratis” ─────────────────────────────
+      return (
+        <Button
+          key={link.id}
+          variant="primary"
+          size="cta"
+          className="w-full flex items-center justify-center gap-1"
+          onClick={() => {
+            navigate(link.to);
+            toggleMobileMenu();
+          }}
+        >
+          <Mail className="h-5 w-5" /> Cotiza Gratis
+        </Button>
+      );
+    })}
+  </nav>
+
+  <div className="p-5 border-t border-border">
+    <Button
+      variant="primary"
+      size="cta"
+      className="w-full"
+      onClick={() => {
+        navigate('/contact');
+        toggleMobileMenu();
+      }}
+    >
+      Empezar Proyecto
+    </Button>
+  </div>
+</div>
         </nav>
       </header>
-
-      {/* Mobile overlay */}
-      <div
-        className={`fixed inset-0 bg-black/30 z-40 md:hidden transition-opacity ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        onClick={toggleMobileMenu}
-      />
-
-      {/* Mobile sidebar */}
-      <div
-        className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-[90vw] sm:w-64 bg-sidebar text-white transform transition-transform md:hidden ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-      >
-        <div className="p-5 border-b border-border">
-          <h2 className="text-xl font-semibold">Menú</h2>
-        </div>
-        <nav className="p-5 space-y-2 overflow-y-auto h-[calc(100vh-140px)]">
-          {/* Mapear enlaces y submenús como en desktop */}
-        </nav>
-        <div className="p-5 border-t border-border">
-          <Button
-            variant="primary"
-            size="cta"
-            className="w-full"
-            onClick={() => { navigate('/contact'); toggleMobileMenu(); }}
-          >
-            Empezar Proyecto
-          </Button>
-        </div>
-      </div>
     </>
   );
 }
