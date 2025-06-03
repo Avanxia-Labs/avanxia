@@ -46,22 +46,6 @@ const SolutionsLandingPage: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Header */}
-      <div className="container mx-auto px-4 text-center pt-16 mb-16">
-        <motion.h1
-          className="text-4xl sm:text-5xl font-bold text-primary mb-4 py-8"
-          variants={carouselVariants}
-        >
-          Explora Nuestras Soluciones
-        </motion.h1>
-        <motion.p
-          className="text-lg text-[rgb(var(--color-foreground))]/70 max-w-2xl mx-auto"
-          variants={carouselVariants}
-        >
-          Descubre cómo podemos impulsar tu negocio con servicios digitales hechos a tu medida.
-        </motion.p>
-      </div>
-
       {/* Carousel */}
       <div className="container mx-auto px-4 mb-16 relative overflow-visible">
         {particlesReady && (
@@ -133,6 +117,21 @@ const SolutionsLandingPage: React.FC = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+      </div>
+            {/* Header */}
+      <div className="container mx-auto px-4 text-center pt-16 mb-16">
+        <motion.h1
+          className="text-4xl sm:text-5xl font-bold text-primary mb-4 py-8"
+          variants={carouselVariants}
+        >
+          Explora Nuestras Soluciones
+        </motion.h1>
+        <motion.p
+          className="text-lg text-[rgb(var(--color-foreground))]/70 max-w-2xl mx-auto"
+          variants={carouselVariants}
+        >
+          Descubre cómo podemos impulsar tu negocio con servicios digitales hechos a tu medida.
+        </motion.p>
       </div>
 
       {/* Grid of Animated Cards */}
