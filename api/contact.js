@@ -2,6 +2,10 @@
 import 'dotenv/config'
 import nodemailer from 'nodemailer'
 
+// Importamos aquí los datos para resolver IDs a nombres
+import { categoriesData } from '../../data/categoriesData'
+import { servicesData, serviceAddons } from '../../data/servicesData'
+
 export default async function handler(req, res) {
   // Solo aceptamos POST
   if (req.method !== 'POST') {
@@ -9,80 +13,63 @@ export default async function handler(req, res) {
     return res.status(405).end('Method Not Allowed')
   }
 
-  // Desestructuramos TODO lo que llega en el body:
-  // - name, email, phone, company, message, total: del formulario
-  // - selectedList: si sí tenías un carrito (props.location.state)
-  // - plan, service, selectedAddonIds: si seleccionaste plan/servicio o addons
+  // Desestructuramos TODO lo que viene en el body:
   const {
     name,
     email,
     phone,
     company,
     message,
-    selectedList = [],
+    selectedList = [],      // Arreglo de { id, name, price } (si venía preseleccionado)
     total,
-    plan,
-    service,
-    selectedAddonIds = []
+    category,               // ID de categoría (string)
+    plan,                   // ID de plan (string)
+    selectedAddonIds = []   // Array de IDs de addons (string[])
   } = req.body
 
-  // 1) Construimos un arreglo unificado de "servicios seleccionados".
-  //    - Primero incluimos cualquier item que ya viniera en selectedList (slot desde location.state)
-  //    - Luego, si no hay nada en selectedList, armamos el plan/servicio + addons que vinieron en formData.
+  // 1) Resolución de IDs a nombres legibles
+
+  // 1.a) Nombre de la categoría
+  const catObj = categoriesData.find(c => c.id === category)
+  const catName = catObj ? catObj.name : '—'
+
+  // 1.b) Nombre del plan (si existe)
+  const planObj = servicesData.find(s => s.id === plan)
+  const planName = planObj ? `${planObj.name} ($${planObj.price})` : null
+
+  // 1.c) Addons marcados: buscamos en serviceAddons
+  const addonsSeleccionados = serviceAddons
+    .filter(a => selectedAddonIds.includes(a.id))
+    .map(a => `${a.name} ($${a.price})`)
+
+  // 2) Construimos el arreglo “Servicios seleccionados” unificando:
+  //    - Lo que venga en selectedList (carrito)
+  //    - Si selectedList está vacío, incluimos el plan y los addons
   let serviciosSeleccionados = []
 
   if (Array.isArray(selectedList) && selectedList.length > 0) {
-    // Si el usuario llegó con un carrito (por ejemplo, clickeó en “Agregar al contacto”),
-    // selectedList ya contiene objetos { id, name, price, ... }.
-    serviciosSeleccionados = selectedList.map((i) => ({
-      name: i.name,
-      price: i.price
-    }))
+    serviciosSeleccionados = selectedList.map(i => `${i.name} ($${i.price})`)
   } else {
-    // Si no viene carrito, buscamos el plan o servicio
-    if (plan) {
-      serviciosSeleccionados.push({
-        name: `Plan: ${plan}`,
-        price: '' // opcional, podrías inyectar el precio real si lo buscas en tu data
-      })
+    if (planName) {
+      serviciosSeleccionados.push(`Plan: ${planName}`)
     }
-    if (service) {
-      serviciosSeleccionados.push({
-        name: `Servicio: ${service}`,
-        price: ''
-      })
-    }
-    // Finalmente, los addons (solo los IDs), los convertimos a nombre+precio
-    if (Array.isArray(selectedAddonIds) && selectedAddonIds.length > 0) {
-      // Aquí asumimos que existe un arreglo global serviceAddons (o similar) 
-      // importado en este archivo, o bien envías junto a cada ID su nombre/precio.
-      // Si no lo tienes importado aquí, puedes enviar desde el frontend 
-      // los objetos completos en selectedList en lugar de solo los IDs.
-      //
-      // Por simplicidad, supongamos que haces otra petición a tu arreglo de addons:
-      const { serviceAddons } = require('@/data/servicesData') 
-      // (ajusta la ruta si hace falta). Ahora filtramos:
-      selectedAddonIds.forEach((id) => {
-        const addon = serviceAddons.find((a) => a.id === id)
-        if (addon) {
-          serviciosSeleccionados.push({
-            name: addon.name,
-            price: addon.price
-          })
-        }
-      })
-    }
+    // Si tuvieras campo “service” distinto del plan, haz algo similar
+    // if (serviceName) { serviciosSeleccionados.push(`Servicio: ${serviceName}`) }
+
+    // Agregamos cada addon por separado
+    serviciosSeleccionados.push(...addonsSeleccionados)
   }
 
-  // 2) Volvemos a construir el cuerpo de texto, incluyendo la lista completa:
+  // 3) Construimos el texto del correo
   const textLines = [
     `Nombre: ${name}`,
     `Email: ${email}`,
     `Teléfono: ${phone || '—'}`,
     `Empresa: ${company || '—'}`,
+    `Categoría seleccionada: ${catName}`,
     '',
-    'Servicios seleccionados:',
-    ...serviciosSeleccionados.map((item) => ` - ${item.name}${item.price ? ` ($${item.price})` : ''}`),
+    'Plan / Addons marcados:',
+    ...serviciosSeleccionados.map(s => ` - ${s}`),
     '',
     `Total: $${total}`,
     '',
@@ -91,11 +78,11 @@ export default async function handler(req, res) {
   ]
   const text = textLines.join('\n')
 
-  // 3) Configura el transporter con las credenciales que haya en el entorno (.env.local o Vercel)
+  // 4) Configuramos nodemailer
   const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: true, // si usas puerto 465. En Mailtrap también funciona con TLS en 465
+    host:    process.env.SMTP_HOST,
+    port:    Number(process.env.SMTP_PORT),
+    secure:  true, // si usas puerto TLS (465). Mailtrap funciona con 465.
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
@@ -105,7 +92,7 @@ export default async function handler(req, res) {
   try {
     await transporter.sendMail({
       from: `"Avanxia Web" <${process.env.SMTP_USER}>`,
-      to: 'info@avanxia.com', // o la dirección que prefieras simular/enviar
+      to:   'info@avanxia.com', // o la cuenta de Mailtrap para desarrollo
       subject: 'Nuevo mensaje desde formulario web',
       text,
     })
