@@ -47,7 +47,6 @@ const SolutionsLandingPage: React.FC = () => {
       animate="visible"
     >
       {/* Carousel */}
-      {/* Removed `container mx-auto` to allow video to span full width on large screens */}
       <div className="w-full px-4 mb-16 relative overflow-visible">
         {particlesReady && (
           <Particles
@@ -71,31 +70,27 @@ const SolutionsLandingPage: React.FC = () => {
             <SwiperSlide key={cat.id}>
               <div
                 className="
-                  relative w-full 
-                  lg:h-screen         /* altura completa en desktop grande */
-                  md:h-[75vh]          /* 75% de viewport en pantallas medianas */
-                  h-screen             /* en pantallas pequeñas, que ocupe todo el alto */
-                  overflow-hidden 
+                  relative w-full
+                  h-screen            /* en móviles, ocupa 100vh */
+                  md:h-[75vh]         /* en pantallas medianas, ocupa 75vh */
+                  lg:h-screen         /* en pantallas grandes, vuelve a 100vh */
+                  overflow-hidden
                   rounded-xl
                 "
               >
-              
                 {cat.videoUrl && (
-                  <>
-                    <video
-                      src={cat.videoUrl}
-                      autoPlay
-                      muted
-                      loop
-                      className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none"
-                    />
-                    {/* Overlay opcional para mayor contraste */}
-                    {/* <div className="absolute inset-0 bg-black/20 pointer-events-none" /> */}
-                  </>
+                  <video
+                    src={cat.videoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none"
+                  />
                 )}
+
                 <motion.div
                   className="
-                    relative z-10 flex flex-col items-center justify-center h-full 
+                    relative z-10 flex flex-col items-center justify-center h-full
                     px-4 py-6      /* menos padding en móvil */
                     md:px-8 md:py-8 /* padding original en md */
                     text-center gap-4
