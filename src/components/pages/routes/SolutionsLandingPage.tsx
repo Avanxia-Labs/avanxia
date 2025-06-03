@@ -47,7 +47,8 @@ const SolutionsLandingPage: React.FC = () => {
       animate="visible"
     >
       {/* Carousel */}
-      <div className="container mx-auto px-4 mb-16 relative overflow-visible">
+      {/* Removed `container mx-auto` to allow video to span full width on large screens */}
+      <div className="w-full px-4 mb-16 relative overflow-visible">
         {particlesReady && (
           <Particles
             id="tsparticles-carousel-bg"
@@ -68,17 +69,17 @@ const SolutionsLandingPage: React.FC = () => {
         >
           {categoriesData.map((cat) => (
             <SwiperSlide key={cat.id}>
-               <div
-                 className="
-                   relative w-full 
-                   lg:h-screen      /* altura full en desktop grande */
-                   md:h-[75vh]       /* 75% de viewport en pantallas medianas */
-                   sm:h-[60vh]       /* 60% en pantallas pequeñas */
-                   overflow-hidden 
-                   rounded-xl
-                 "
-               >                
-               {cat.videoUrl && (
+              <div
+                className="
+                  relative w-full 
+                  lg:h-screen      /* altura full en desktop grande */
+                  md:h-[75vh]       /* 75% de viewport en pantallas medianas */
+                  sm:h-[60vh]       /* 60% en pantallas pequeñas */
+                  overflow-hidden 
+                  rounded-xl
+                "
+              >
+                {cat.videoUrl && (
                   <>
                     <video
                       src={cat.videoUrl}
@@ -88,25 +89,25 @@ const SolutionsLandingPage: React.FC = () => {
                       className="absolute inset-0 w-full h-full object-cover opacity-50 pointer-events-none"
                     />
                     {/* Overlay opcional para mayor contraste */}
-                    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+                    {/* <div className="absolute inset-0 bg-black/20 pointer-events-none" /> */}
                   </>
                 )}
                 <motion.div
                   className="
                     relative z-10 flex flex-col items-center justify-center h-full 
                     px-4 py-6      /* menos padding en móvil */
-                    md:px-8 md:py-8 /* padding original en md                */
+                    md:px-8 md:py-8 /* padding original en md */
                     text-center gap-4
-                  "       
+                  "
                   variants={carouselVariants}
                 >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
-                  {cat.name}
-                </h2>                  
-                 <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl">
-                   {cat.description}
-                 </p>                  
-                 <button
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">
+                    {cat.name}
+                  </h2>
+                  <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-2xl">
+                    {cat.description}
+                  </p>
+                  <button
                     onClick={() => navigate(cat.path.replace(/^\//, ''))}
                     className="bg-[rgb(var(--color-primary))] text-[rgb(var(--color-primary-foreground))] py-3 px-6 rounded-full hover:opacity-90 transition-opacity text-base sm:text-lg"
                   >
@@ -118,7 +119,8 @@ const SolutionsLandingPage: React.FC = () => {
           ))}
         </Swiper>
       </div>
-            {/* Header */}
+
+      {/* Header */}
       <div className="container mx-auto px-4 text-center pt-16 mb-16">
         <motion.h1
           className="text-4xl sm:text-5xl font-bold text-primary mb-4 py-8"

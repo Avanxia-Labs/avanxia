@@ -7,11 +7,12 @@ export interface ServiceCategory {
   videoPlaceholder: string | undefined;
   id: string;
   name: string;
+  name2: string;              // Nuevo campo para mostrar en el header desplegable
   description: string;
   path: string;
   imagePlaceholder: string; 
-  slug: string; // Añadido para mejor manejo de rutas dinámicas
-  icon: LucideIcon; // Ícono para representar la categoría visualmente
+  slug: string;               // Añadido para mejor manejo de rutas dinámicas
+  icon: LucideIcon;           // Ícono para representar la categoría visualmente
 }
 
 export const categoriesData: ServiceCategory[] = [
@@ -19,6 +20,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "desarrollo-web",
     slug: "desarrollo-web",
     name: "Tu web que convierte",
+    name2: "Desarrollo Web",
     description: "Carga rápida, diseño claro y un camino directo al “Comprar”",
     path: "/desarrollo-web",
     imagePlaceholder: "/images/Services/category-desarrollo-web.png",
@@ -30,6 +32,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "identidad-de-marca",
     slug: "identidad-de-marca",
     name: "Marca inolvidable",
+    name2: "Identidad de Marca",
     description: "Haz que te recuerden por lo que ofreces y por cómo los haces sentir.",
     path: "/identidad-de-marca",
     imagePlaceholder: "/images/Services/category-identidad-marca.png",
@@ -41,6 +44,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "desarrollo-software-aplicaciones",
     slug: "desarrollo-software-aplicaciones",
     name: "App lista para escalar",
+    name2: "Desarrollo Software y Aplicaciones",
     description: "Convertimos tu idea en software estable, fácil de usar y crecer.",
     path: "/desarrollo-software-aplicaciones",
     imagePlaceholder: "/images/Services/category-software.png",
@@ -52,6 +56,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "redes-sociales-marketing",
     slug: "redes-sociales-marketing",
     name: "Redes que venden",
+    name2: "Redes Sociales y Marketing",
     description: "Contenido atractivo y anuncios que convierten seguidores en clientes.",
     path: "/redes-sociales-marketing",
     imagePlaceholder: "/images/Services/category-marketing-digital.png",
@@ -63,6 +68,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "produccion-audiovisual",
     slug: "produccion-audiovisual",
     name: "Contenido que engancha",
+    name2: "Producción Audiovisual",
     description: "Desde motion graphics hasta edición pro, atrae y retén audiencia.",
     path: "/produccion-audiovisual",
     imagePlaceholder: "/images/Services/category-multimedia.png",
@@ -74,6 +80,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "e-commerce",
     slug: "e-commerce",
     name: "Vende mientras duermes",
+    name2: "E-commerce",
     description: "Montamos un e-commerce sólido, rápido y optimizado para conversión.",
     path: "/e-commerce",
     imagePlaceholder: "/images/Services/category-ecommerce.png",
@@ -85,6 +92,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "seo-marketing-contenidos",
     slug: "seo-marketing-contenidos",
     name: "Sé el primero en Google",
+    name2: "SEO y Marketing de Contenidos",
     description: "Sube de posición y recibe visitas que ya buscan lo que ofreces.",
     path: "/seo-marketing-contenidos",
     imagePlaceholder: "/images/Services/category-seo.png",
@@ -96,6 +104,7 @@ export const categoriesData: ServiceCategory[] = [
     id: "publicidad-pagada-ppc",
     slug: "publicidad-pagada-ppc",
     name: "Anuncios que venden",
+    name2: "Publicidad Pagada (PPC)",
     description: "Dirigimos tus anuncios al cliente listo para comprar y medimos cada peso invertido.",
     path: "/publicidad-pagada-ppc",
     imagePlaceholder: "/images/Services/category-ppc.png",
@@ -104,4 +113,3 @@ export const categoriesData: ServiceCategory[] = [
     videoUrl: '/videos/pagada.mp4'
   }
 ];
-

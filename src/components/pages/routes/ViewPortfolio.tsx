@@ -12,13 +12,13 @@ export default function ViewPortfolio() {
   const [activeItem, setActiveItem] = useState<PortfolioItem | null>(null);
 
   const categories = Array.from(
-    new Set(portfolioData.flatMap(item => item.categories))
+    new Set(portfolioData.flatMap((item) => item.categories))
   );
 
   const itemsToShow =
     selectedCategory === 'all'
       ? portfolioData
-      : portfolioData.filter(item =>
+      : portfolioData.filter((item) =>
           item.categories.includes(selectedCategory)
         );
 
@@ -40,7 +40,7 @@ export default function ViewPortfolio() {
 
         {/* Filtros */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
-          {['all', ...categories].map(cat => (
+          {['all', ...categories].map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -65,7 +65,7 @@ export default function ViewPortfolio() {
           animate="visible"
           variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
         >
-          {itemsToShow.map(item => (
+          {itemsToShow.map((item) => (
             <motion.div
               key={item.id}
               className={`
@@ -99,21 +99,10 @@ export default function ViewPortfolio() {
                 className="fixed inset-0 z-50 overflow-y-auto"
                 onClose={() => setActiveItem(null)}
               >
-                <div className="flex items-center justify-center min-h-screen px-4">
-                  {/* Fondo oscuro SIN capturar clicks */}
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <div className="fixed inset-0 pointer-events-none" />
-                  </Transition.Child>
+                {/* Overlay que cierra modal al hacer clic afuera */}
+                <div className="fixed inset-0 bg-black/30 z-10" aria-hidden="true" />
 
-                  {/* Panel modal CON clicks */}
+                <div className="flex items-center justify-center min-h-screen px-4 relative z-20">
                   <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -123,11 +112,14 @@ export default function ViewPortfolio() {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <motion.div
+                    {/* Panel modal: detiene propagación de clics internos */}
+                    <Dialog.Panel
+                      onClick={(e) => e.stopPropagation()}
+                      as={motion.div}
                       className="
                         bg-[rgb(var(--color-card))] rounded-xl overflow-hidden shadow-xl
                         max-w-3xl w-full mx-auto text-[rgb(var(--color-card-foreground))]
-                        pointer-events-auto
+                        pointer-events-auto z-20
                       "
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -136,9 +128,13 @@ export default function ViewPortfolio() {
                       <div className="relative">
                         <button
                           onClick={() => setActiveItem(null)}
-                          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                          className="
+                            absolute top-4 right-4
+                            bg-gray-200/80 hover:bg-gray-200 rounded-full
+                            w-8 h-8 flex items-center justify-center
+                          "
                         >
-                          <X size={24} />
+                          <X size={20} className="text-gray-600" />
                         </button>
                         <img
                           src={activeItem.image}
@@ -180,7 +176,7 @@ export default function ViewPortfolio() {
                             </div>
                           )}
                       </div>
-                    </motion.div>
+                    </Dialog.Panel>
                   </Transition.Child>
                 </div>
               </Dialog>
