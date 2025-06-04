@@ -33,15 +33,28 @@ const getRecipients = () => {
  * Envía el formulario de contacto principal.
  */
 export async function sendContactForm(data) {
-  const { name, email, phone, company, message, selectedList = [], total = 0 } = data
+  // Ahora incluimos category y plan junto a lo que ya había
+  const {
+    name,
+    email,
+    phone,
+    company,
+    message,
+    selectedList = [],
+    total = 0,
+    category = '—',
+    plan = '—'
+  } = data
 
   const lines = [
     `Nombre: ${name}`,
     `Email: ${email}`,
     `Teléfono: ${phone || '—'}`,
     `Empresa: ${company || '—'}`,
+    `Categoría: ${category}`,
+    `Plan: ${plan}`,
     '',
-    'Servicios seleccionados:',
+    'Servicios / Addons seleccionados:',
     ...selectedList.map(i => ` • ${i.name} ($${i.price})`),
     '',
     `Total: $${total}`,

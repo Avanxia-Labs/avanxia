@@ -22,7 +22,7 @@ export interface PortfolioItem {
 // === Proyectos individuales ===
 export const apoloProject: PortfolioItem = {
   id: "apolo",
-  image: "/images/portfolio/services/Apolo.png",
+  image: "/images/portfolio/proyectos/apolo1.png",
   title: "Apolo",
   subtitle: "",
   description: "Apolo Insurance necesitaba conectar con la comunidad inmigrante hispanohablante en Florida, transmitiendo confianza en un sector donde este valor es clave.",
@@ -95,7 +95,7 @@ export const dewProject: PortfolioItem = {
 
 export const digitalProject: PortfolioItem = {
   id: "digital",
-  image: "/images/portfolio/services/digital.png",
+  image: "/images/portfolio/proyectos/digital1.png",
   title: "Digital",
   subtitle: "",
   description: "Digital Lifestyle Designs necesitaba una web que comunicara su liderazgo en domótica. Creamos una experiencia digital moderna que refleja sofisticación y tecnología de punta.",
@@ -138,7 +138,7 @@ export const engadiProject: PortfolioItem = {
 
 export const evemundoProject: PortfolioItem = {
   id: "evemundo",
-  image: "/images/portfolio/services/Evemundo.png",
+  image: "/images/portfolio/proyectos/evem1.png",
   title: "Evemundo",
   subtitle: "",
   description: "Desarrollamos branding, sitios web y contenido audiovisual para Evemundo, creando una presencia digital sólida en Suiza para dos services interconectados.",
@@ -168,7 +168,7 @@ export const gybProject: PortfolioItem = {
 
 export const haiProject: PortfolioItem = {
   id: "hai",
-  image: "/images/portfolio/services/Hai.png",
+  image: "/images/portfolio/proyectos/hai2.png",
   title: "HAI",
   subtitle: "",
   description: "EL HAI necesitaba una estrategia de redes sociales que no solo mostrara sus productos, sino que también comunicara su filosofía de marca artesanal.",
@@ -183,7 +183,7 @@ export const haiProject: PortfolioItem = {
 
 export const heromaticProject: PortfolioItem = {
   id: "heromatic",
-  image: "/images/portfolio/services/heromatic1.png",
+  image: "/images/portfolio/proyectos/heromatic3.png",
   title: "Heromatic",
   subtitle: "Branding, Automatización, UI/UX",
   description: "Creamos Heromatic desde el nombre hasta su presencia digital, posicionándola como una marca experta en automatización con identidad clara y poderosa.",
@@ -198,7 +198,7 @@ export const heromaticProject: PortfolioItem = {
 
 export const incometaxProject: PortfolioItem = {
   id: "incometax",
-  image: "/images/portfolio/services/Incometax.png",
+  image: "/images/portfolio/proyectos/incometax1.png",
   title: "IncomeTax",
   subtitle: "",
   description: "NA Incometax necesitaba una comunicación visual impecable en redes sociales para transmitir confianza y seriedad.",
@@ -213,7 +213,7 @@ export const incometaxProject: PortfolioItem = {
 
 export const milenioProject: PortfolioItem = {
   id: "milenio",
-  image: "/images/portfolio/services/Milenio.png",
+  image: "/images/portfolio/proyectos/milenio1.png",
   title: "Milenio",
   subtitle: "",
   description: "Milenio Smile quería destacar entre su audiencia cubana en Miami. Aprovechamos un jingle espontáneo para crear anuncios auténticos y memorables.",
@@ -245,7 +245,7 @@ export const poolProject: PortfolioItem = {
 
 export const redentorProject: PortfolioItem = {
   id: "redentor",
-  image: "/images/portfolio/services/Redentor.png",
+  image: "/images/portfolio/proyectos/redentor1.png",
   title: "Redentor",
   subtitle: "",
   description: "Redentor confió en nosotros para modernizar su presencia digital y comunicar confianza en servicios de salud para la comunidad hispana.",
@@ -275,7 +275,7 @@ export const smartProject: PortfolioItem = {
 
 export const starchProject: PortfolioItem = {
   id: "star",
-  image: "/images/portfolio/services/StarCH.png",
+  image: "/images/portfolio/proyectos/star1.png",
   title: "Star",
   subtitle: "",
   description: "Creamos la imagen y comunicación visual de Star Chihuas, una marca de pizzas que combina tradición mexicana con sabores urbanos.",
