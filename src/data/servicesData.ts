@@ -30,6 +30,7 @@ export interface ServicePlan {
   slug: string;
   featured?: boolean;
   duration?: string;
+   videoUrl?: string;
   availableAddons?: string[]; // IDs de los addons disponibles para este plan
   includedBonuses?: string[]; // IDs de los bonuses que ya están incluidos
 }
@@ -574,6 +575,7 @@ export const servicesData: ServicePlan[] = [
     duration: "1 – 1.5 semanas",
     featured: false,
     idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
+    videoUrl: '/videos/prueba1.mp4',
     includes: [
       "Diseño web UI/UX personalizado y responsive de una sola página (landing page)",
       "Desarrollo con Next.js/React para máxima velocidad y SEO",

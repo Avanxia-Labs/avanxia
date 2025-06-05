@@ -46,6 +46,8 @@ import Digital from "./components/pages/Digital";
 import Dew from "./components/pages/Dew";
 import Milenio from "./components/pages/Milenio";
 import Engadi from "./components/pages/Engadi";
+import Seo from "./components/pages/Seo";
+import Publicidad from "./components/pages/Publicidad";
 
 // ── Layouts ─────────────────────────────────────────────
 function MainLayout() {
@@ -155,6 +157,8 @@ export default function App() {
           <Route path="/proyectos/dew" element={<Dew />} />
           <Route path="/proyectos/milenio" element={<Milenio />} />
           <Route path="/proyectos/engadi" element={<Engadi />} />
+          <Route path="/proyectos/seo" element={<Seo />} />
+          <Route path="/proyectos/publicidad" element={<Publicidad />} />
         </Route>
       </Routes>
     </>

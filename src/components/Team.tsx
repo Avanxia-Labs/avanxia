@@ -23,26 +23,26 @@ const teamMembers: TeamMember[] = [
     role: 'Desarrollador',
     skills: 'Frontend (React, Next.js, Tailwind)',
     description: 'Asegurando interfaces modernas y funcionales.',
-    imageSrc: '/images/portfolio/desjunior.png',
+    imageSrc: '/images/portfolio/desjunior.jpg',
   },
   {
     role: 'Diseñador',
     skills: 'Creatividad Visual (Figma, Adobe CC)',
     description: 'Dando vida a las marcas y experiencias de usuario.',
-    imageSrc: '/images/portfolio/disjunior.png',
+    imageSrc: '/images/portfolio/disjunior.jpg',
   },
   {
     role: 'Socio Operativo (Ismael)',
     skills: 'Gestión de Proyectos, Estrategia, UX, Relaciones con Clientes',
     description: 'Lidera la ejecución y la visión estratégica de los proyectos.',
-    imageSrc: '/images/portfolio/socioop.png',
+    imageSrc: '/images/portfolio/socioop.jpg',
     objectPosition: 'center 0%',
   },
   {
     role: 'Socio Inversionista (Luis Alberto)',
     skills: 'Dirección Financiera, Visión Estratégica, Networking',
     description: 'Supervisa la dirección financiera y aporta visión estratégica.',
-    imageSrc: '/images/portfolio/tauro.png',
+    imageSrc: '/images/portfolio/tauro.jpg',
   },
 ]
 
