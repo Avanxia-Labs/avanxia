@@ -78,7 +78,8 @@ const Team: React.FC = () => {
                          hover:ring-2 hover:ring-primary
                          transform hover:scale-105 transition-all duration-500"
             >
-              <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden bg-card-foreground/10 flex items-center justify-center text-foreground/40">
+              {/* ✅ CAMBIOS APLICADOS AQUÍ: círculo más grande y con más margen inferior */}
+              <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden bg-card-foreground/10 flex items-center justify-center text-foreground/40">
                 {member.imageSrc ? (
                   <img
                     src={member.imageSrc}
@@ -87,7 +88,8 @@ const Team: React.FC = () => {
                     style={{ objectPosition: member.objectPosition || 'center' }}
                   />
                 ) : (
-                  <User size={28} />
+                  // ✅ Ícono más grande para que encaje en el nuevo círculo
+                  <User size={48} />
                 )}
               </div>
               <h3 className="text-xl font-semibold mb-1">{member.role}</h3>
@@ -102,7 +104,7 @@ const Team: React.FC = () => {
         {/* Nuestra Fortaleza */}
         <div className="text-center mb-8">
             <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
-              <span ref={underlineRef} className="section-title-underline">
+              <span className="section-title-underline">
               Nuestra Fortaleza
               </span>
             </h2>
@@ -118,11 +120,11 @@ const Team: React.FC = () => {
         <p className="text-center text-sm text-foreground/60 italic">
           ¿Quieres formar parte del equipo?{' '}
           <a
-            href="#join-us"
+            href="#contact"
             className="text-primary underline hover:text-primary/80"
             onClick={e => {
               e.preventDefault();
-              const target = document.getElementById('join-us');
+              const target = document.getElementById('contact');
               if (target) target.scrollIntoView({ behavior: 'smooth' });
             }}
           >
