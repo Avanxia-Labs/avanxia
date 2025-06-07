@@ -33,6 +33,7 @@ const cardVariants = {
 const SolutionsLandingPage: React.FC = () => {
   const [particlesReady, setParticlesReady] = useState(false);
   const navigate = useNavigate();
+  const underlineRef = React.useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     initParticlesEngine(async (engine: Engine) => await loadFull(engine)).then(() =>
@@ -118,12 +119,13 @@ const SolutionsLandingPage: React.FC = () => {
 
       {/* Header */}
       <div className="container mx-auto px-4 text-center pt-16 mb-16">
-        <motion.h1
-          className="text-4xl sm:text-5xl font-bold text-primary mb-4 py-8"
+        <motion.h2
+        className="text-4xl md:text-6xl font-extrabold text-center mb-8"
           variants={carouselVariants}
-        >
+        ><span ref={underlineRef} className="section-title-underline">
           Explora Nuestras Soluciones
-        </motion.h1>
+          </span>
+        </motion.h2>
         <motion.p
           className="text-lg text-[rgb(var(--color-foreground))]/70 max-w-2xl mx-auto"
           variants={carouselVariants}

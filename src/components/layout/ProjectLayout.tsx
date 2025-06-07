@@ -26,7 +26,7 @@ export interface ProjectData {
 }
 
 /* ---------- tarjeta estilo “Valor” ------------------------- */
-import { useGlassCardActiveOnView } from "@/hooks/use-section-underline"; // misma ruta que ya usas
+import { useGlassCardActiveOnView } from "@/hooks/use-section-underline";
 import Footer from "../Footer";
 
 const InfoCard = ({ title, text }: { title: string; text: string }) => {
@@ -57,7 +57,7 @@ const renderMedia = (m: Media, isMain = false) =>
         }}
         transition={{
           duration: 4,
-          ease: [0.45, 0, 0.55, 1], // ease-in-out natural
+          ease: [0.45, 0, 0.55, 1],
           repeat: Infinity,
           repeatType: "mirror",
         }}
@@ -96,6 +96,7 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
   const [init, setInit] = useState(false);
   const isMobile = useIsMobile();
   const particlesRef = useRef<Container | null>(null);
+  const underlineRef = useRef<HTMLSpanElement>(null);
 
   const handleParticlesLoaded = useCallback(
     async (container?: Container): Promise<void> => {
@@ -218,9 +219,11 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
           <div className="relative z-10 flex flex-col items-center">
             {/* Título y descripción */}
             <div className="text-center max-w-4xl mx-auto mb-10">
-              <h1 className="text-3xl md:text-5xl font-bold drop-shadow-sm">
+              <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+                <span ref={underlineRef} className="section-title-underline">
                 {data.title}
-              </h1>
+                </span>
+              </h2>
               <p
                 className="text-lg max-w-2xl mx-auto mt-4 opacity-90 leading-relaxed drop-shadow-sm"
                 dangerouslySetInnerHTML={{ __html: data.intro }}
@@ -244,7 +247,11 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
 
         {/* descripción detallada ------------------------------------- */}
         <section className="py-16 px-6 text-center">
-          <h3 className="text-2xl font-bold mb-12">Descripción Detallada</h3>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">
+                Descripción Detallada
+              </span>
+            </h2>
 
           <div className="grid gap-8 md:gap-10 grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto">
             <InfoCard title="Desafío" text={data.challenge} />
@@ -264,13 +271,14 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
         {data.mediaExtra &&
           data.mediaExtra.length === 1 &&
           data.mediaExtra[0].type === "video" && (
-            <section className="flex justify-center items-center py-10">
-              <div className="w-full sm:w-4/5 md:w-3/4 lg:w-2/3 aspect-video overflow-hidden rounded-2xl shadow-2xl">
+            <section className="flex justify-center items-center py-10 px-4">
+              {/* ✅ CAMBIO APLICADO AQUÍ */}
+              <div className="w-full max-w-lg mx-auto overflow-hidden rounded-2xl shadow-2xl">
                 <video
                   src={data.mediaExtra[0].src}
                   poster={data.mediaExtra[0].poster}
                   controls
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto"
                 />
               </div>
             </section>
@@ -287,13 +295,13 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
                   .map((m, i) => (
                     <div
                       key={i}
-                      className="w-full sm:w-1/2 md:w-1/3 aspect-video overflow-hidden rounded-lg shadow-lg"
+                      className="w-full sm:w-1/2 md:w-1/3 overflow-hidden rounded-lg shadow-lg"
                     >
                       <video
                         src={m.src}
                         poster={m.poster}
                         controls
-                        className="w-full h-full object-cover"
+                        className="w-full h-auto"
                       />
                     </div>
                   ))}
@@ -301,32 +309,59 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
             </section>
           )}
 
-        {/* ================= PAGINACIÓN ================= */}
-        <section className="py-10 px-6 flex justify-center items-center gap-4">
-          {prevItem && (
-            <Link
-              to={`/proyectos/${prevItem.slug}`}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition"
-            >
-              ← {prevItem.title}
-            </Link>
-          )}
-          <Link
-            to="/portfolio"
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-          >
-            Volver a Proyectos
-          </Link>
-          {nextItem && (
-            <Link
-              to={`/proyectos/${nextItem.slug}`}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition"
-            >
-              {nextItem.title} →
-            </Link>
-          )}
-        </section>
-        {/* ================================================ */}
+<section className="py-10 px-6">
+  <div className="max-w-lg mx-auto flex gap-4">
+
+    {/* Prev */}
+    {prevItem ? (
+      <Link
+        to={`/proyectos/${prevItem.slug}`}
+        className="
+          inline-flex items-center justify-center
+          whitespace-nowrap
+          px-6 py-3
+          bg-primary text-primary-foreground rounded-lg
+          hover:bg-primary/90 transition
+        "
+      >
+        ← {prevItem.title}
+      </Link>
+    ) : (
+      <div className="flex-1" />
+    )}
+
+    {/* Volver */}
+    <Link
+      to="/portfolio"
+      className="
+        inline-flex items-center justify-center
+        whitespace-nowrap px-6 py-3
+        bg-gray-200 text-gray-800 rounded-lg
+        hover:bg-gray-300 transition
+      "
+    >
+      Volver a Proyectos
+    </Link>
+
+    {/* Next */}
+    {nextItem ? (
+      <Link
+        to={`/proyectos/${nextItem.slug}`}
+        className="
+          inline-flex items-center justify-center
+          whitespace-nowrap px-6 py-3
+          bg-primary text-primary-foreground rounded-lg
+          hover:bg-primary/90 transition
+        "
+      >
+        {nextItem.title} →
+      </Link>
+    ) : (
+      <div className="flex-1" />
+    )}
+  </div>
+</section>
+
 
         <Footer />
       </div>

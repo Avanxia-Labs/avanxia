@@ -18,11 +18,7 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   // Filtrar proyectos no disponibles
-  const visiblePortfolio = portfolioData.filter(
-    (item) =>
-      item.slug !== 'startup-ppc-launch' &&
-      item.slug !== 'acme-seo-audit'
-  );
+  const visiblePortfolio = portfolioData;
 
   // Dividir portafolio en dos mitades parejas
   const half = Math.ceil(visiblePortfolio.length / 2);

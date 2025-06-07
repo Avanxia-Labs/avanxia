@@ -575,7 +575,7 @@ export const servicesData: ServicePlan[] = [
     duration: "1 – 1.5 semanas",
     featured: false,
     idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
-    videoUrl: '/videos/prueba1.mp4',
+    // videoUrl: '/videos/prueba11.mp4',
     includes: [
       "Diseño web UI/UX personalizado y responsive de una sola página (landing page)",
       "Desarrollo con Next.js/React para máxima velocidad y SEO",

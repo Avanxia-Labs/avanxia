@@ -9,27 +9,21 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import SEOHelmet from "./components/SEOHelmet";
-import { ArrowLeft } from "lucide-react";
-// import ThemeSwitcher from "./components/ThemeSwitcher";
-import PersonalizedGreeting from "./components/PersonalizedGreeting"; 
-// import GreetingDemo from "./components/GreetingDemo";
+import PersonalizedGreeting from "./components/PersonalizedGreeting";
 
 import HomePage from "@/components/pages/routes/HomePage";
 import ServicesPage from "@/components/pages/routes/ServicesPage";
 import AboutPage from "@/components/pages/routes/AboutPage";
 import ContactPage from "@/components/pages/routes/ContactPage";
 import Portfolio from "@/components/pages/routes/ViewPortfolio";
-// import SolutionsLandingPage from "@/components/pages/roues/SolutionsLandingPage"; // Comentado para prueba
-// import ServiceCategoryPage from "@/components/pages/routes/ServiceCategoryPage"; // Comentado para prueba
-import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage"; // NUEVA IMPORTACIÓN RELATIVA
-import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage"; // NUEVA IMPORTACIÓN RELATIVA
-
+import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage";
+import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage";
 
 // ── Componentes generales ───────────────────────────────
-import Header           from "./components/Header";
+import Header from "./components/Header";
 
 // ── Página individual ───────────────────────────────────
-import Evemundo         from "./components/pages/Evemundo";
+import Evemundo from "./components/pages/Evemundo";
 import Gyb from "./components/pages/Gyb";
 import Drivers from "./components/pages/Drivers";
 import Pool from "./components/pages/Pool";
@@ -59,29 +53,15 @@ function MainLayout() {
   );
 }
 
-// src/App.tsx (fragment)
-
-// ── Layouts ─────────────────────────────────────────────
+// ── Layout SIN navbar ───────────────────────────────────
 function PlainLayout() {
-  const navigate = useNavigate();
 
   return (
     <>
-      {/* usa los mismos tokens que tu Header principal */}
-      <header className="fixed top-0 left-0 w-full bg-white dark:bg-[#0f172a] text-card-foreground border-b border-border z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between h-12 px-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-sm font-medium hover:opacity-80"
-          >
-            <ArrowLeft size={16} />
-            Volver
-          </button>
-          {/* <ThemeSwitcher /> */}
-        </div>
-      </header>
+      {/* Header simplificado solo con botón “Volver” */}
+ <Header />
 
-      {/* Empuje para contenido */}
+      {/* Empuje para que el contenido no quede oculto tras el header */}
       <div className="pt-12">
         <Outlet />
       </div>
@@ -89,18 +69,16 @@ function PlainLayout() {
   );
 }
 
-
-
-// Componente para persistir la ruta y restaurarla tras recargar
+// ── Componente para persistir la ruta y restaurarla tras recargar ──
 function PersistRoute() {
   const navigate = useNavigate();
   const location = useLocation();
 
   // Guardar la ruta actual en sessionStorage
   useEffect(() => {
-    sessionStorage.setItem('lastPath', location.pathname);
+    sessionStorage.setItem("lastPath", location.pathname);
   }, [location.pathname]);
-  
+
   // Registrar el scroll en cada ruta
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -108,11 +86,11 @@ function PersistRoute() {
 
   // Restaurar la ruta tras recargar
   useEffect(() => {
-    const lastPath = sessionStorage.getItem('lastPath');
+    const lastPath = sessionStorage.getItem("lastPath");
     const currentPath = location.pathname;
-    
+
     // Si estamos en la raíz pero había otra ruta guardada, restaurarla
-    if (currentPath === '/' && lastPath && lastPath !== '/') {
+    if (currentPath === "/" && lastPath && lastPath !== "/") {
       navigate(lastPath);
     }
   }, [location, navigate]);
@@ -120,14 +98,15 @@ function PersistRoute() {
   return null;
 }
 
-// ── App (sin BrowserRouter porque está en main.tsx) ─────
+// ── App (sin BrowserRouter porque se inicializa en main.tsx) ─────
 export default function App() {
   return (
     <>
       <PersistRoute />
-      <SEOHelmet /> {/* Componente para manejar títulos SEO */}
+      <SEOHelmet /> {/* Manejo de títulos SEO */}
       <PersonalizedGreeting />
       <Routes>
+        {/* Rutas con Header completo */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
@@ -135,10 +114,13 @@ export default function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/servicios" element={<SolutionsLandingPage />} />
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/servicios/:categorySlug" element={<ServiceCategoryPage />} />
+          <Route
+            path="/servicios/:categorySlug"
+            element={<ServiceCategoryPage />}
+          />
         </Route>
 
-        {/* Rutas SIN navbar */}
+        {/* Rutas SIN navbar, solo botón “Volver” */}
         <Route element={<PlainLayout />}>
           <Route path="/proyectos/evemundo" element={<Evemundo />} />
           <Route path="/proyectos/gyb" element={<Gyb />} />

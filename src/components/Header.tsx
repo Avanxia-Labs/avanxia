@@ -231,12 +231,6 @@ export default function Header() {
                         }}
                       >
                         {portfolioData
-                          .filter(
-                            (item) =>
-                              !['acme-seo-audit', 'startup-ppc-launch'].includes(
-                                item.id
-                              )
-                          )
                           .map((item, i) => (
                             <button
                               key={item.id}
@@ -382,12 +376,6 @@ export default function Header() {
                       {isMobilePortfolioSubMenuOpen && (
                         <div className="pl-6 mt-1 space-y-1">
                           {portfolioData
-                            .filter(
-                              (item) =>
-                                !['acme-seo-audit', 'startup-ppc-launch'].includes(
-                                  item.id
-                                )
-                            )
                             .map((item) => (
                               <button
                                 key={item.id}

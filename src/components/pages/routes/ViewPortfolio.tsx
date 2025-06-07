@@ -6,10 +6,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { portfolioData, PortfolioItem } from '@/data/portfolioData';
 import { X } from 'lucide-react';
 
+import { useRef } from 'react';
+
 export default function ViewPortfolio() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeItem, setActiveItem] = useState<PortfolioItem | null>(null);
+  const underlineRef = useRef<HTMLSpanElement>(null);
 
   const categories = Array.from(
     new Set(portfolioData.flatMap((item) => item.categories))
@@ -34,8 +37,8 @@ export default function ViewPortfolio() {
     >
       {/* Centered content */}
       <div className="px-6 py-24 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-8">
-          <span className="section-title-underline">Nuestro Portafolio</span>
+        <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+          <span ref={underlineRef} className="section-title-underline">Nuestro Portafolio</span>
         </h2>
 
         {/* Filtros */}

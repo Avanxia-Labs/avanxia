@@ -17,9 +17,12 @@ import { useState, useEffect } from 'react';
     message: string;
   };
 
+  import { useRef } from 'react';
+
   export const ContactForm = () => {
     const location = useLocation();
     const initialItems: (ServicePlan | ServiceAddon)[] = location.state?.selectedItems ?? [];
+    const underlineRef = useRef<HTMLSpanElement | null>(null);
 
     // Estado de selección editable
     const [selectedList, setSelectedList] = useState(initialItems);
@@ -213,7 +216,11 @@ const handleSubmit = async (e: React.FormEvent) => {
     return (
       <section id="contact" className="py-20 bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))]">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-extrabold text-center mb-2">Hablemos de tu Proyecto</h2>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">
+                Hablemos de tu Proyecto
+              </span>
+            </h2>
           <p className="text-center mb-12 max-w-3xl mx-auto text-[rgba(var(--color-foreground),0.7)]">
             Estamos listos para escuchar tus ideas y ayudarte a encontrar la solución digital perfecta para tu negocio.
           </p>
@@ -290,7 +297,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         <option value="">Elige una categoría</option>
                         {categoriesData.map(cat => (
                           <option key={cat.id} value={cat.id}>
-                            {cat.name}
+                            {cat.name2}
                           </option>
                         ))}
                       </select>

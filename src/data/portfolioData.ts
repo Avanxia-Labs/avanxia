@@ -292,10 +292,10 @@ export const starchProject: PortfolioItem = {
 
 export const acmeSeoAuditProject: PortfolioItem = {
   id: "acme-seo-audit",
-  title: "Acme SEO Audit",
+  title: "SEO TSC",
   subtitle: "Optimización y Estrategia de Contenidos",
   image: "/images/portfolio/services/smart1.png",
-  slug: "acme-seo-audit",
+  slug: "seo",
   description: "Implementamos una auditoría SEO completa y optimizamos contenido pilar para Acme Inc., logrando un aumento del 40% en tráfico orgánico.",
   categories: ["seo-marketing-contenidos"],
   name: undefined,
@@ -304,10 +304,10 @@ export const acmeSeoAuditProject: PortfolioItem = {
 
 export const startupPpcLaunchProject: PortfolioItem = {
   id: "startup-ppc-launch",
-  title: "Startup PPC Launch",
+  title: "Publicidad Pagada TSC ",
   subtitle: "Campaña Pagada en Google y Meta",
   image: "/images/portfolio/services/pp.png",
-  slug: "startup-ppc-launch",
+  slug: "publicidad",
   description: "Diseñamos e implementamos una campaña PPC de lanzamiento para Startup X, maximizando conversiones con un ROI del 120%.",
   categories: ["publicidad-pagada-ppc"],
   name: undefined,

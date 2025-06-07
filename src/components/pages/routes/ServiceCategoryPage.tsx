@@ -134,6 +134,9 @@ const ServiceCategoryPage: React.FC = () => {
     );
   }
 
+  // ── Ref para subrayado de título ────────────────
+  const underlineRef = React.useRef<HTMLSpanElement>(null);
+
   // ── Render ─────────────────────────────────────────────────────────────
   return (
     <div className="w-full bg-background text-foreground min-h-screen">
@@ -180,16 +183,17 @@ const ServiceCategoryPage: React.FC = () => {
         </div>
 
         {/* ── Título de la Categoría ────── */}
-        <motion.h1
-          className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 mt-8 text-primary"
+        <motion.h2
+          className="text-4xl md:text-6xl font-extrabold text-center mb-8 py-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
-          {category.name}
-        </motion.h1>
-
-        {/* ── Descripción ────────────────────────────── */}
+          <span ref={underlineRef} className="section-title-underline">
+          {category.name2}
+          </span>
+        </motion.h2>
+        {/* ── Video demostrativo en cuadro grande con bordes redondeados y animación ────── */}
         <motion.p
           className="text-base sm:text-lg text-foreground/80 text-center mb-6 max-w-3xl mx-auto"
           initial={{ opacity: 0, y: -20 }}
@@ -198,23 +202,30 @@ const ServiceCategoryPage: React.FC = () => {
         >
           {category.description}
         </motion.p>
-        {/* ── Video demostrativo en cuadro grande con bordes redondeados y animación ────── */}
-<motion.div
-  className="w-full max-w-3xl mx-auto mb-12 overflow-hidden rounded-xl shadow-lg"
-  initial={{ opacity: 0, scale: 0.95 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={{ duration: 0.6, delay: 0.4 }}
->
-  <video
-    src="/videos/prueba1.mp4"
-    controls
-    autoPlay
-    muted
-    loop
-    playsInline
-    className="w-full h-auto object-cover"
-  />
-</motion.div>
+
+        {/* ── Vídeo demostrativo en cuadro grande con bordes redondeados y animación ────── */}
+        {/*
+          Aquí usamos `category.demoVideoUrl`. Asegúrate de que en tu 
+          `categoriesData` exista esa propiedad (o utilices `category.videoUrl` si ya la tenías).
+        */}
+        {category.demoVideoUrl && (
+          <motion.div
+            className="w-full max-w-3xl mx-auto mb-12 overflow-hidden rounded-xl shadow-lg"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <video
+              src={category.demoVideoUrl}
+              controls
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-auto object-cover"
+            />
+          </motion.div>
+        )}
 
         {/* Aviso de precios aproximados */}
         <motion.div
@@ -233,8 +244,10 @@ const ServiceCategoryPage: React.FC = () => {
         {/* ── Paquetes ───────────────────────────────── */}
         {categoryPlans.length > 0 && (
           <section className="mb-12 sm:mb-16 md:mb-20">
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Nuestros Paquetes de {category.name}
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8 pb-10">
+              <span ref={underlineRef} className="section-title-underline">
+                Nuestros Paquetes de {category.name2}
+              </span>
             </h2>
             <div className="overflow-x-auto px-2 sm:px-4">
               {/* Siempre fila centrada y con wrap */}
@@ -347,8 +360,10 @@ const ServiceCategoryPage: React.FC = () => {
             initial="hidden"
             animate="visible"
           >
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Personaliza Tu Solución de {category.name}
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">
+                Personaliza Tu Solución de {category.name2}
+              </span>
             </h2>
 
             {/*  ▶  un único paginador  */}
@@ -368,8 +383,10 @@ const ServiceCategoryPage: React.FC = () => {
           initial="hidden"
           animate="visible"
         >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-            Nuestra Propuesta de Valor para {category.name}
+          <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+            <span ref={underlineRef} className="section-title-underline">
+              Nuestra Propuesta de Valor para {category.name2}
+            </span>
           </h2>
           <ValueSteps steps={categoryPlans} />
         </motion.section>
@@ -382,8 +399,10 @@ const ServiceCategoryPage: React.FC = () => {
           animate="visible"
         >
           {category.id !== 'e-commerce' && (
-            <h2 className="text-3xl sm:text-4xl font-semibold text-center mb-10 sm:mb-12 text-primary/90">
-              Casos de Éxito en {category.name}
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">
+              Casos de Éxito en {category.name2}
+              </span>
             </h2>
           )}
 
@@ -446,7 +465,7 @@ const ServiceCategoryPage: React.FC = () => {
                     )}
                   </div>
                   <div className="mt-auto pt-4">
-                    {!['acme-seo-audit', 'startup-ppc-launch'].includes(proj.slug) && (
+                    { (
                       <Button
                         onClick={() => navigate(`/proyectos/${proj.slug}`)}
                         variant="secondary"
@@ -482,10 +501,12 @@ const ServiceCategoryPage: React.FC = () => {
           variants={sectionAnimation}
           initial="hidden"
           animate="visible"
-          className="py-12 sm:py-16 md:py-20 rounded-lg bg-gradient-to-r from-primary/5 via-background to-primary/5 text-center"
+          className="py-12 sm:py-16 md:py-20 rounded-lg bg-gradient-to-r  text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-primary mb-6">
-            ¿Listo para potenciar tu negocio con {category.name}?
+          <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+            <span ref={underlineRef} className="section-title-underline">
+              ¿Listo para potenciar tu negocio con {category.name2}?
+            </span>
           </h2>
           <p className="mb-8 max-w-2xl mx-auto text-foreground/80">
             Nuestro equipo está preparado para llevar tu proyecto al siguiente nivel.

@@ -101,7 +101,11 @@ const Team: React.FC = () => {
 
         {/* Nuestra Fortaleza */}
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-semibold mb-4">Nuestra Fortaleza</h3>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span ref={underlineRef} className="section-title-underline">
+              Nuestra Fortaleza
+              </span>
+            </h2>
           <ul className="list-disc list-inside inline-block text-left text-foreground/70">
             {strengths.map((s, i) => (
               <li key={i} className="mb-2">
