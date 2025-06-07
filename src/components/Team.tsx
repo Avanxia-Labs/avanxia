@@ -1,8 +1,8 @@
 // src/components/Team.tsx
 import React from 'react'
 import { useSectionUnderlineOnView } from '../hooks/use-section-underline'
-// Removed Swiper imports
 import { User } from 'lucide-react'
+// No necesitamos useNavigate si están en la misma página
 
 interface TeamMember {
   role: string
@@ -78,7 +78,6 @@ const Team: React.FC = () => {
                          hover:ring-2 hover:ring-primary
                          transform hover:scale-105 transition-all duration-500"
             >
-              {/* ✅ CAMBIOS APLICADOS AQUÍ: círculo más grande y con más margen inferior */}
               <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden bg-card-foreground/10 flex items-center justify-center text-foreground/40">
                 {member.imageSrc ? (
                   <img
@@ -88,7 +87,6 @@ const Team: React.FC = () => {
                     style={{ objectPosition: member.objectPosition || 'center' }}
                   />
                 ) : (
-                  // ✅ Ícono más grande para que encaje en el nuevo círculo
                   <User size={48} />
                 )}
               </div>
@@ -119,12 +117,14 @@ const Team: React.FC = () => {
 
         <p className="text-center text-sm text-foreground/60 italic">
           ¿Quieres formar parte del equipo?{' '}
+          {/* ✅ CAMBIO APLICADO AQUÍ */}
           <a
-            href="#contact"
+            href="#join-us" // <-- Cambiado a #join-us
             className="text-primary underline hover:text-primary/80"
             onClick={e => {
               e.preventDefault();
-              const target = document.getElementById('contact');
+              // Buscamos el ID correcto: 'join-us'
+              const target = document.getElementById('join-us'); 
               if (target) target.scrollIntoView({ behavior: 'smooth' });
             }}
           >
