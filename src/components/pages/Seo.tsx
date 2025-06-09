@@ -1,29 +1,41 @@
-// src/components/pages/Seo.tsx
 import ProjectLayout, { ProjectData } from "../layout/ProjectLayout";
 
+// ✅ Textos acortados y reenfocados para ser más directos y comerciales.
 const seoData: ProjectData = {
-  title: "Optimización SEO Integral",
+  // Título que comunica el beneficio principal
+  title: "Posicionamiento SEO para TSC Seguridad",
+  
+  // Intro que va directo al problema y la meta
   intro:
-    "Implementamos una estrategia de SEO completa para aumentar la visibilidad orgánica y posicionar al cliente en los primeros resultados de búsqueda.",
+    "TSC buscaba atraer clientes de forma orgánica a través de Google. Nuestro objetivo fue claro: llevar su sitio web a las primeras posiciones para captar tráfico de alto valor sin depender de la publicidad pagada.",
+  
   mediaMain: {
     type: "img",
     src: "/images/portfolio/proyectos/seoo.png",
-    alt: "Dashboard de rendimiento SEO",
+    alt: "Dashboard de rendimiento SEO mostrando crecimiento",
   },
-      mediaSecondary: {
+  mediaSecondary: {
     type: "img",
     src: "/images/portfolio/proyectos/seoo1.png",
-    alt: "Segunda imagen de Pool Quality Solutions",
+    alt: "Ejemplo de optimización de contenido para TSC",
   },
-  caption: "Elevando Tráfico Orgánico y Autoridad de Marca",
+  
+  // Caption que resume el impacto del proyecto
+  caption: "Dominando los Resultados de Búsqueda para Atraer Clientes",
+  
+  // Descripción que establece el escenario de forma breve
   description:
-    "El proyecto consistió en realizar una auditoría técnica y de contenido para un sitio de e-commerce enfocado en artículos deportivos. A partir de un análisis profundo de palabras clave, identificamos oportunidades de posicionamiento en nichos de alto valor. Realizamos optimizaciones on-page (metaetiquetas, estructura de encabezados, velocidad de carga) y off-page (link building y desarrollo de contenido de valor). Asimismo, creamos una estrategia de blog con artículos optimizados para temas transaccionales e informativos, asegurando relevancia tanto para Google como para el usuario final.",
+    "A pesar de ser expertos en seguridad, la presencia online de TSC era invisible. Su web no generaba tráfico ni leads, perdiendo oportunidades clave frente a competidores que sí aparecían en Google.",
+  
+  // Textos de las tarjetas más concisos y potentes
   challenge:
-    "Posicionar un sitio nuevo en un sector altamente competitivo, con baja autoridad de dominio y contenido escaso inicialmente, para alcanzar términos clave de búsqueda.",
+    "El reto era posicionar a TSC en un nicho competitivo, donde cada búsqueda tiene una alta intención de contratación. Debíamos superar a la competencia y convertir la visibilidad en negocio.",
+  
   solution:
-    "Auditoría SEO técnica (corrección de errores 404, mejoras en estructura de URLs y optimización de velocidad); investigación y selección de keywords de larga cola; optimización de meta­títulos y descripciones; creación de contenido optimizado en el blog; estrategia de link building con blogs y medios especializados; configuración de Google Search Console y monitorización con herramientas de analítica.",
+    "Ejecutamos una estrategia SEO integral: investigación de palabras clave locales, optimización técnica profunda del sitio, creación de contenido relevante y fortalecimiento del perfil en Google Business.",
+  
   result:
-    "Aumento del 45 % en tráfico orgánico en tres meses, con 12 palabras clave posicionadas en el top 10 de Google. Incremento del tiempo de permanencia en sitio en un 30 % y reducción de la tasa de rebote en un 15 %. La autoridad de dominio subió 10 puntos en el periodo.",
+    "En pocos meses, TSC escaló a las primeras posiciones de Google para sus servicios clave. Esto se tradujo en un aumento drástico del tráfico orgánico y un flujo constante de solicitudes de cotización.",
 };
 
 export default function Seo() {

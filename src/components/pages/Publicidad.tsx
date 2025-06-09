@@ -1,29 +1,41 @@
-// src/components/pages/Publicidad.tsx
 import ProjectLayout, { ProjectData } from "../layout/ProjectLayout";
 
+// ✅ Textos acortados y títulos con más impacto para mejorar la claridad.
 const publicidadData: ProjectData = {
-  title: "Campaña Publicidad Digital",
+  // Título más específico y orientado a la acción
+  title: "Impulso Digital para TSC Seguridad",
+  
+  // Intro más directa y concisa
   intro:
-    "Diseñamos e implementamos una campaña de publicidad pagada para potenciar la visibilidad y generar leads de alta calidad.",
+    "TSC Seguridad nos buscó para potenciar su crecimiento. Lanzamos campañas de publicidad en Facebook y Google Ads para atraer prospectos calificados en sus zonas de interés y convertirlos en clientes.",
+  
   mediaMain: {
     type: "img",
     src: "/images/portfolio/proyectos/publicidad1.png",
-    alt: "Mock-up principal de anuncios digitales",
+    alt: "Mock-up principal de anuncios digitales para TSC",
   },
     mediaSecondary: {
     type: "img",
     src: "/images/portfolio/proyectos/publicidad2.png",
-    alt: "Segunda imagen de Pool Quality Solutions",
+    alt: "Ejemplos de creatividades para campañas de TSC",
   },
-  caption: "Maximizando Alcance y Conversión con Estrategias de Pago",
+
+  // Caption más corto y fácil de entender
+  caption: "Estrategias de Anuncios que Generan Resultados Reales",
+
+  // Descripción que resume la estrategia general
   description:
-    "El objetivo fue desarrollar una campaña de anuncios en redes sociales y buscadores para una marca emergente de ropa deportiva. Creemos creatividades visuales y copys persuasivos, optimizamos la segmentación de audiencia y administramos el presupuesto para obtener el mayor retorno sobre la inversión. Integrando A/B testing y ajustes continuos, logramos ofrecer mensajes relevantes que conectaran directamente con el público objetivo, aumentando el reconocimiento de marca y generando clics cualificados.",
+    "Nuestra estrategia se centró en la hiper-segmentación y la optimización continua para asegurar que cada peso invertido se tradujera en un cliente potencial real para TSC.",
+  
+  // Textos de las tarjetas más breves y al punto
   challenge:
-    "Posicionar la nueva línea de ropa deportiva en un mercado saturado, alcanzando a usuarios interesados en fitness que aún no conocían la marca.",
+    "El principal reto era destacar en un mercado digital competitivo. Necesitábamos generar confianza rápidamente y asegurar que los anuncios llegaran solo a personas con intención real de contratar.",
+  
   solution:
-    "Investigación de audiencia y segmentación precisa; creación de formatos publicitarios (carousels, videos cortos y banners); desarrollo de copys enfocados en beneficios y llamados a la acción claros; configuración de campañas en Facebook Ads, Instagram Ads y Google Ads; monitorización diaria de métricas y optimización de pujas.",
+    "Creamos campañas ultra-segmentadas en Facebook y Google Ads. Usamos creativos de alto impacto y mensajes directos para captar la atención, optimizando los anuncios en tiempo real para maximizar el retorno.",
+  
   result:
-    "Incremento del 50 % en tráfico al sitio web durante el primer mes, con una tasa de conversión del 8 % en formularios de suscripción y un ROI del 220 % sobre el presupuesto invertido.",
+    "Se logró un aumento inmediato y medible en las contrataciones. Las campañas atrajeron un flujo constante de leads de alta calidad, consolidando la reputación de TSC como líder en seguridad en sus zonas clave.",
 };
 
 export default function Publicidad() {

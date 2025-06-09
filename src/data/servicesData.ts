@@ -68,7 +68,7 @@ export const serviceAddons: ServiceAddon[] = [
     price: 120,
     categoryId: [
       "desarrollo-web",
-      "identidad-de-marca",
+      // "identidad-de-marca",
       "consultoria-digital-ia",
       'branding-integral-plan'
     ],
@@ -155,7 +155,7 @@ export const serviceAddons: ServiceAddon[] = [
   // },
   {
     id: "bonus-contenido-visibilidad",
-    name: "Bonus de Contenido y Visibilidad",
+    name: "Kit de Presencia Esencial",
     description: "Impulsa el lanzamiento de tu sitio con contenido estratégico y presencia en redes sociales.",
     price: 0,
     categoryId: "desarrollo-web",

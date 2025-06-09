@@ -296,7 +296,7 @@ export const acmeSeoAuditProject: PortfolioItem = {
   subtitle: "",
   image: "/images/portfolio/services/smart1.png",
   slug: "seo",
-  description: "Implementamos una auditoría SEO completa y optimizamos contenido pilar para Acme Inc., logrando un aumento del 40% en tráfico orgánico.",
+  description: "TSC necesitaba mejorar su visibilidad orgánica para atraer clientes desde Google sin depender únicamente de publicidad pagada. El objetivo era posicionar su sitio web en los primeros resultados del buscador y generar tráfico constante de calidad.",
   categories: ["seo-marketing-contenidos"],
   name: undefined,
   icon: undefined
