@@ -185,7 +185,7 @@ export const heromaticProject: PortfolioItem = {
   id: "heromatic",
   image: "/images/portfolio/proyectos/heromatic3.png",
   title: "Heromatic",
-  subtitle: "Branding, Automatización, UI/UX",
+  subtitle: "",
   description: "Creamos Heromatic desde el nombre hasta su presencia digital, posicionándola como una marca experta en automatización con identidad clara y poderosa.",
   slug: "heromatic",
   categories: [
@@ -293,7 +293,7 @@ export const starchProject: PortfolioItem = {
 export const acmeSeoAuditProject: PortfolioItem = {
   id: "acme-seo-audit",
   title: "SEO TSC",
-  subtitle: "Optimización y Estrategia de Contenidos",
+  subtitle: "",
   image: "/images/portfolio/services/smart1.png",
   slug: "seo",
   description: "Implementamos una auditoría SEO completa y optimizamos contenido pilar para Acme Inc., logrando un aumento del 40% en tráfico orgánico.",
@@ -305,7 +305,7 @@ export const acmeSeoAuditProject: PortfolioItem = {
 export const startupPpcLaunchProject: PortfolioItem = {
   id: "startup-ppc-launch",
   title: "Publicidad Pagada TSC ",
-  subtitle: "Campaña Pagada en Google y Meta",
+  subtitle: "",
   image: "/images/portfolio/services/pp.png",
   slug: "publicidad",
   description: "Diseñamos e implementamos una campaña PPC de lanzamiento para Startup X, maximizando conversiones con un ROI del 120%.",

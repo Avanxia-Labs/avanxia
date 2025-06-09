@@ -1,3 +1,6 @@
+// =================================================================
+// 1. IMPORTS
+// =================================================================
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
@@ -6,7 +9,7 @@ import { categoriesData } from '@/data/categoriesData';
 import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
 
 // =================================================================
-// 1. DEFINICIÓN DE TIPOS
+// 2. DEFINICIÓN DE TIPOS
 // =================================================================
 type FormFields = {
   selectedAddonIds: string[];
@@ -21,7 +24,7 @@ type FormFields = {
 };
 
 // =================================================================
-// 2. COMPONENTE PRINCIPAL
+// 3. COMPONENTE PRINCIPAL
 // =================================================================
 export const ContactForm = () => {
   // -----------------------------------------------------------------
@@ -64,20 +67,12 @@ export const ContactForm = () => {
     return base;
   })();
 
-  const fadeSlide = {
-    initial: { opacity: 0, y: 40 },
-    whileInView: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 },
-  };
-
+  const fadeSlide = { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.6 } };
   const plansAll = servicesData.filter(i => i.type === 'plan');
   const filteredPlans = plansAll.filter(p => p.categoryId === formData.category);
-
+  
   const availableAddons: ServiceAddon[] = formData.category
-    ? serviceAddons.filter(a =>
-        (Array.isArray(a.categoryId) ? a.categoryId.includes(formData.category) : a.categoryId === formData.category) &&
-        (a.type === 'addon' || a.type === 'bonus')
-      )
+    ? serviceAddons.filter(a => (Array.isArray(a.categoryId) ? a.categoryId.includes(formData.category) : a.categoryId === formData.category) && (a.type === 'addon' || a.type === 'bonus'))
     : [];
 
   const categoryAddons = availableAddons.filter(a => a.type === 'addon');
@@ -115,33 +110,61 @@ export const ContactForm = () => {
       alert('Por favor, completa los campos obligatorios y/o selección de plan/servicio.');
       return;
     }
+
     let mergedListToSend: (ServicePlan | ServiceAddon)[] = [];
     let categoryToSend = formData.category;
     let planToSend = formData.plan;
+
     if (selectedList.length > 0) {
+      // CASO A: Vengo de otra página con una selección hecha (el "carrito")
       mergedListToSend = selectedList;
       const itemBase = selectedList.find(item => (item as ServicePlan).type === 'plan' || (item as ServicePlan).type === 'servicio') as (ServicePlan | undefined);
       if (itemBase) {
-        categoryToSend = (itemBase as ServicePlan).categoryId;
+        categoryToSend = itemBase.categoryId;
         planToSend = itemBase.id;
       }
     } else {
+      // CASO B: El usuario selecciona todo desde este formulario
       const baseItem = servicesData.find(i => i.id === formData.plan) || servicesData.find(i => i.id === formData.service);
       if (baseItem) {
         mergedListToSend.push(baseItem);
         categoryToSend = baseItem.categoryId;
         planToSend = baseItem.id;
       }
+
+      // 1. Añadir los Add-ons que el usuario seleccionó
       formData.selectedAddonIds.forEach(addonId => {
         const foundAddon = serviceAddons.find(a => a.id === addonId);
         if (foundAddon) {
           mergedListToSend.push(foundAddon);
         }
       });
+      
+      // ✅ LA SOLUCIÓN: 2. Añadir los Bonos que corresponden a la categoría, automáticamente
+      const bonusesForCategory = serviceAddons.filter(addon => 
+          addon.type === 'bonus' &&
+          (Array.isArray(addon.categoryId)
+            ? addon.categoryId.includes(categoryToSend)
+            : addon.categoryId === categoryToSend)
+      );
+      mergedListToSend.push(...bonusesForCategory);
     }
+    
     const totalToSend = mergedListToSend.reduce((sum, item) => sum + (typeof item.price === 'number' ? item.price : 0), 0);
+
     try {
-      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...formData, selectedList: mergedListToSend, total: totalToSend, category: categoryToSend, plan: planToSend }), });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          selectedList: mergedListToSend,
+          total: totalToSend,
+          category: categoryToSend,
+          plan: planToSend,
+        }),
+      });
+
       if (!res.ok) throw new Error('Error en la petición');
       alert('Mensaje enviado. ¡Gracias!');
       setSelectedList([]);
@@ -160,9 +183,7 @@ export const ContactForm = () => {
     <section id="contact" className="py-20 bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))]">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
-          <span ref={underlineRef} className="section-title-underline">
-            Hablemos de tu Proyecto
-          </span>
+          <span ref={underlineRef} className="section-title-underline">Hablemos de tu Proyecto</span>
         </h2>
         <p className="text-center mb-12 max-w-3xl mx-auto text-[rgba(var(--color-foreground),0.7)]">
           Estamos listos para escuchar tus ideas y ayudarte a encontrar la solución digital perfecta para tu negocio.
@@ -180,7 +201,7 @@ export const ContactForm = () => {
             >
               <h3 className="text-xl font-semibold mb-6 text-[rgb(var(--color-primary))]">Inicia tu Proyecto</h3>
 
-              {/* === VISTA 1: SI HAY UN "CARRITO" PASADO DESDE OTRA PÁGINA === */}
+              {/* === VISTA 1: "CARRITO" === */}
               {selectedList.length > 0 ? (
                 <div className="mb-6">
                   <p className="font-medium mb-2">Tu Selección:</p>
@@ -189,37 +210,20 @@ export const ContactForm = () => {
                       <li key={it.id} className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
                           <span>- {it.name}</span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemove(it.id)}
-                            className="text-red-400 hover:text-red-600"
-                            aria-label={`Eliminar ${it.name}`}
-                          >
-                            ×
-                          </button>
+                          <button type="button" onClick={() => handleRemove(it.id)} className="text-red-400 hover:text-red-600" aria-label={`Eliminar ${it.name}`}>×</button>
                         </div>
-                        <span className="font-semibold">
-                          {typeof it.price === 'number'
-                            ? `$ ${it.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`
-                            : it.price}
-                        </span>
+                        <span className="font-semibold">{typeof it.price === 'number' ? `$ ${it.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD` : it.price}</span>
                       </li>
                     ))}
                   </ul>
                   <div className="mt-4">
                     <label className="block text-sm font-medium">Total (aproximado):</label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={`$ ${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`}
-                      className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"
-                    />
+                    <input type="text" readOnly value={`$ ${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD`} className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border cursor-not-allowed"/>
                   </div>
                 </div>
               ) : (
-                /* === VISTA 2: SI EL USUARIO SELECCIONA TODO DESDE AQUÍ === */
+                /* === VISTA 2: FORMULARIO DE SELECCIÓN === */
                 <div className="mb-6 space-y-4">
-                  {/* Categoría */}
                   <div>
                     <label htmlFor="category" className="block text-sm font-medium">Categoría *</label>
                     <select id="category" name="category" value={formData.category} onChange={handleChange} className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border">
@@ -227,25 +231,14 @@ export const ContactForm = () => {
                       {categoriesData.map(cat => (<option key={cat.id} value={cat.id}>{cat.name2}</option>))}
                     </select>
                   </div>
-
-                  {/* Plan */}
                   <div>
                     <label htmlFor="plan" className="block text-sm font-medium">Plan *</label>
                     <select id="plan" name="plan" disabled={!formData.category} value={formData.plan} onChange={handleChange} className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border">
                       <option value="">Selecciona un plan</option>
                       {filteredPlans.map(p => (<option key={p.id} value={p.id}>{p.name} — ${typeof p.price === 'number' ? p.price.toLocaleString('en-US') : p.price}</option>))}
                     </select>
-                    {selectedPlan && selectedCategory && (
-                      <div className="mt-3 text-right">
-                        <Link to={`/servicios/${selectedCategory.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-semibold text-[rgb(var(--color-primary))] hover:underline">
-                          Ver detalles de "{selectedPlan.name}"
-                          <ArrowUpRight className="w-4 h-4" />
-                        </Link>
-                      </div>
-                    )}
+                    {selectedPlan && selectedCategory && (<div className="mt-3 text-right"><Link to={`/servicios/${selectedCategory.slug}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-sm font-semibold text-[rgb(var(--color-primary))] hover:underline">Ver detalles de "{selectedPlan.name}"<ArrowUpRight className="w-4 h-4" /></Link></div>)}
                   </div>
-
-                  {/* Addons y Bonos */}
                   {(categoryAddons.length > 0 || categoryBonuses.length > 0) && (
                     <div className="space-y-5 pt-2">
                       {categoryAddons.length > 0 && (
@@ -258,11 +251,7 @@ export const ContactForm = () => {
                                   <input type="checkbox" checked={formData.selectedAddonIds.includes(addon.id)} onChange={() => { setFormData(f => ({...f, selectedAddonIds: f.selectedAddonIds.includes(addon.id) ? f.selectedAddonIds.filter(x => x !== addon.id) : [...f.selectedAddonIds, addon.id]}));}} className="form-checkbox h-5 w-5 mt-0.5 flex-shrink-0 accent-primary border-primary checked:accent-primary"/>
                                   <span>{addon.name}</span>
                                 </label>
-                                <span className="text-sm font-semibold text-right flex-shrink-0">
-                                  {typeof addon.price === 'number' ? `$${addon.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : addon.price}
-                                  <br />
-                                  <span className="text-xs font-normal opacity-70">USD</span>
-                                </span>
+                                <span className="text-sm font-semibold text-right flex-shrink-0">{typeof addon.price === 'number' ? `$${addon.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : addon.price}<br /><span className="text-xs font-normal opacity-70">USD</span></span>
                               </li>
                             ))}
                           </ul>
@@ -278,7 +267,7 @@ export const ContactForm = () => {
                                   <input type="checkbox" checked={true} disabled={true} className="form-checkbox h-5 w-5 mt-0.5 flex-shrink-0 accent-primary border-primary checked:accent-primary"/>
                                   <span>{bonus.name}</span>
                                 </label>
-                                <span className="text-sm font-semibold text-right flex-shrink-0 opacity-80">${bonus.price}.00 USD</span>
+                                <span className="text-sm font-semibold text-right flex-shrink-0 opacity-80">{bonus.price}</span>
                               </li>
                             ))}
                           </ul>
@@ -289,7 +278,7 @@ export const ContactForm = () => {
                 </div>
               )}
 
-              {/* === FORMULARIO DE CONTACTO (común para ambas vistas) === */}
+              {/* === FORMULARIO DE CONTACTO === */}
               <form onSubmit={handleSubmit} className="space-y-5">
                 {selectedList.length === 0 && (
                   <div className="mb-4">
@@ -312,9 +301,7 @@ export const ContactForm = () => {
                   <label htmlFor="message" className="block text-sm font-medium">¿En qué podemos ayudarte? *</label>
                   <textarea id="message" name="message" rows={4} value={formData.message} onChange={handleChange} placeholder="Déjanos tu mensaje" className="mt-2 w-full px-4 py-3 bg-[rgb(var(--color-card))] rounded-lg border" required/>
                 </div>
-                <button type="submit" className="w-full py-3 bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] text-white font-semibold rounded-lg transition">
-                  Enviar Mensaje
-                </button>
+                <button type="submit" className="w-full py-3 bg-[rgb(var(--color-primary))] hover:bg-[rgb(var(--color-secondary))] text-white font-semibold rounded-lg transition">Enviar Mensaje</button>
               </form>
             </motion.div>
           </div>
