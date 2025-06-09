@@ -45,11 +45,13 @@ export const serviceAddons: ServiceAddon[] = [
     price: 70,
   categoryId: [
     "desarrollo-web",
-    "identidad-de-marca"
+    "identidad-de-marca",
+    "desarrollo-software-aplicaciones"
   ],
   compatiblePlans: [
     "web-esencial-plan",
-    "branding-integral-plan"    // si también quieres que aparezca aquí sin tocar component
+    "branding-integral-plan",
+    "desarrollo-software-aplicaciones"
   ],
     iconEmoji: "📱",
     benefits: [
@@ -446,6 +448,7 @@ export const servicesData: ServicePlan[] = [
     longDescription: "Nuestro servicio de Desarrollo Completo te acompaña en todo el proceso de creación de tu aplicación. Comenzamos con una fase de consultoría estratégica para entender tu visión y definir claramente los objetivos, lo que nos permite crear un plan detallado que minimiza riesgos. Luego, pasamos al diseño y desarrollo, utilizando tecnologías modernas como Next.js/React para construir una aplicación atractiva, funcional y escalable. Todo el proceso está enfocado en lanzar rápidamente un producto de alta calidad que te permita validar tu idea y comenzar a ganar tracción en el mercado. Es la solución integral que combina estrategia, diseño y tecnología para transformar tu visión en realidad.",
     slug: "desarrollo-completo-app",
     imagePlaceholder: "/images/placeholders/app-desarrollo.jpg",
+    availableAddons: ["addon-redes-sociales", "addon-formulario-avanzado"],
   },
   {
     id: "app-mantenimiento-plan",

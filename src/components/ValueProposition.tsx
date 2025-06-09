@@ -38,7 +38,7 @@ const points: Point[] = [
   {
     title: "Diseño Excepcional y Personalizado",
     desc: "Identidades visuales únicas y UX que te diferencian.",
-    paragraph: "Tu marca merece un universo propio, no un molde genérico. <strong>Rechazamos las plantillas de WordPress</strong> (son lentas) y soluciones prefabricadas que la mayoría usa para ahorrar costos. Nosotros creamos valor real: diseñamos identidades visuales y experiencias de usuario únicas que <strong>capturan tu esencia, resuenan con tu audiencia y te dan resultados tangibles.</strong> No es solo diseño bonito; <strong>es estrategia visual que convierte.</strong>",
+    paragraph: "Tu marca merece un universo propio, no un molde genérico. <strong>No usamos plantillas de WordPress</strong> y soluciones prefabricadas que la mayoría utiliza para ahorrar costos. Nosotros creamos valor real: diseñamos identidades visuales y experiencias de usuario únicas que <strong>capturan tu esencia, resuenan con tu audiencia y te dan resultados tangibles.</strong> No es solo diseño bonito; <strong>es estrategia visual que convierte.</strong>",
     icon: FaPalette,
   },
   {
