@@ -406,94 +406,92 @@ const ServiceCategoryPage: React.FC = () => {
             </h2>
           )}
 
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-screen-xl px-2 sm:px-4 mx-auto"
-            variants={showcaseContainer}
-            initial="hidden"
-            animate="visible"
+<motion.div
+  // ✅ CAMBIO APLICADO AQUÍ: se añadió "items-start"
+  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-screen-xl px-2 sm:px-4 mx-auto items-start"
+  variants={showcaseContainer}
+  initial="hidden"
+  animate="visible"
+>
+  {cases.map((proj, idx) => (
+    <motion.div
+      key={proj.id}
+      className="glass-panel overflow-hidden rounded-lg shadow-md group flex flex-col min-w-0 w-full"
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            type: 'spring',
+            stiffness: 80,
+            damping: 15,
+            delay: idx * 0.1,
+          },
+        },
+      }}
+    >
+      <div className="relative aspect-video w-full bg-black flex items-center justify-center">
+        {proj.videos?.[category!.id] ? (
+          <video
+            src={proj.videos[category!.id]!}
+            className="w-full h-full object-fill"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <img
+            src={proj.images?.[category!.id] ?? proj.image}
+            alt={proj.title}
+            className="w-full h-full object-cover"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+          <div className="p-4 w-full">
+            <h3 className="text-white font-semibold">{proj.title}</h3>
+            <p className="text-white/80 text-sm">{proj.subtitle}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-3 sm:p-4 md:p-6 flex flex-col text-sm sm:text-base">
+        <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
+        {proj.description && (
+          <div
+            className="text-sm text-foreground/80 break-words"
+            dangerouslySetInnerHTML={{ __html: proj.description }}
+          />
+        )}
+        <div className="pt-4">
+          <Button
+            onClick={() => navigate(`/proyectos/${proj.slug}`)}
+            variant="secondary"
+            size="tight"
+            className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
           >
-            {cases.map((proj, idx) => (
-              <motion.div
-                key={proj.id}
-                className="glass-panel overflow-hidden rounded-lg shadow-md group h-full flex flex-col min-w-0 w-full"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      type: 'spring',
-                      stiffness: 80,
-                      damping: 15,
-                      delay: idx * 0.1,
-                    },
-                  },
-                }}
-              >
-                <div className="relative overflow-hidden h-48 sm:h-56 w-full">
-                  {proj.videos?.[category!.id] ? (
-                    <video
-                      src={proj.videos[category!.id]!}
-                      className="w-full h-full object-cover"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                    />
-                  ) : (
-                    <img
-                      src={proj.images?.[category!.id] ?? proj.image}
-                      alt={proj.title}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                    <div className="p-4 w-full">
-                      <h3 className="text-white font-semibold">{proj.title}</h3>
-                      <p className="text-white/80 text-sm">{proj.subtitle}</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-3 sm:p-4 md:p-6 flex flex-col flex-grow text-sm sm:text-base">
-                  <div className="flex-grow">
-                    <h3 className="font-semibold text-primary mb-1">{proj.title}</h3>
-                    {proj.description && (
-                      <div
-                        className="text-sm text-foreground/80 break-words"
-                        dangerouslySetInnerHTML={{ __html: proj.description }}
-                      />
-                    )}
-                  </div>
-                  <div className="mt-auto pt-4">
-                    { (
-                      <Button
-                        onClick={() => navigate(`/proyectos/${proj.slug}`)}
-                        variant="secondary"
-                        size="tight"
-                        className="w-full text-sm text-primary flex items-center justify-center gap-1 border border-primary/40"
-                      >
-                        <span>Ver proyecto</span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <line x1="7" y1="17" x2="17" y2="7" />
-                          <polyline points="7 7 17 7 17 17" />
-                        </svg>
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+            <span>Ver proyecto</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </Button>
+        </div>
+      </div>
+    </motion.div>
+  ))}
+</motion.div>
         </motion.section>
 
         {/* ── CTA Final ────────────────────── */}
