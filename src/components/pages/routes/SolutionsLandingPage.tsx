@@ -186,7 +186,7 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({ category, index }) => {
           className="w-full h-full object-contain"
         />
       </div>
-      <h3 className="text-base font-semibold text-primary mb-1">{category.name}</h3>
+      <h3 className="text-base font-semibold text-primary mb-1">{category.name2}</h3>
       <p className="text-xs text-[rgb(var(--color-foreground))]/80 mb-3 line-clamp-3">
         {category.description}
       </p>

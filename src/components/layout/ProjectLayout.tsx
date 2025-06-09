@@ -98,7 +98,7 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
   // --- D. Renderizado JSX ---
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }} className="bg-background text-foreground font-sans">
-      {/* ... (Otras secciones no tienen cambios) ... */}
+      {/* ... (Otras secciones sin cambios) ... */}
       <section className="glass-panel relative w-full py-20 md:pt-28 pb-20 px-4 mb-0 overflow-hidden !rounded-none" style={{ borderRadius: 0 }}>
         {init && <Particles id="tsparticles-hero" particlesLoaded={handleParticlesLoaded} options={{ fullScreen: { enable: false }, background: { color: { value: "transparent" } }, fpsLimit: 120, interactivity, particles: { color: { value: "#00a6d6" }, links: { color: "#00a6d6", distance: 150, enable: true, opacity: 0.4, width: 1.5 }, move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 1.5, straight: false }, number: { density: { enable: true, width: 800 }, value: 60 }, opacity: { value: 0.6 }, shape: { type: "circle" }, size: { value: { min: 1, max: 4 } } }, detectRetina: true }} className="absolute inset-0 w-full h-full" />}
         <div className="relative z-10 flex flex-col items-center">
@@ -113,14 +113,13 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
       {/* ----- SINGLE EXTRA VIDEO ----- */}
       {data.mediaExtra && data.mediaExtra.length === 1 && data.mediaExtra[0].type === "video" && (
         <section className="flex justify-center items-center py-10 px-4">
-          {/* Se le da más ancho máximo para que se vea más prominente */}
           <div className="w-full max-w-2xl mx-auto">
-            <video
-              src={data.mediaExtra[0].src}
-              poster={data.mediaExtra[0].poster}
-              controls
-              className="w-full h-auto rounded-2xl shadow-2xl" // La altura es automática
-            />
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl bg-black">
+              {/* Video de fondo desenfocado */}
+              <video src={data.mediaExtra[0].src} className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40" autoPlay muted loop playsInline/>
+              {/* Video principal sin cortes */}
+              <video src={data.mediaExtra[0].src} poster={data.mediaExtra[0].poster} controls className="relative w-full h-full object-contain"/>
+            </div>
           </div>
         </section>
       )}
@@ -130,15 +129,15 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
         <section className="bg-background py-10 px-6">
           <div className="flex justify-center items-start flex-wrap gap-8">
             {data.mediaExtra.filter((m): m is Extract<Media, { type: "video" }> => m.type === "video").map((m, i) => (
-              // ✅ CAMBIO CLAVE: Se usa md:w-1/2 para tener 2 columnas, dando más ancho a cada video
-              <div key={i} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2">
-                <video
-                  src={m.src}
-                  poster={m.poster}
-                  controls
-                  // ✅ CAMBIO CLAVE: h-auto deja que el video determine su propia altura para no cortarse
-                  className="w-full h-auto rounded-lg shadow-lg"
-                />
+              // Se mantiene la distribución original de 3 por fila
+              <div key={i} className="w-full sm:w-1/2 md:w-1/3">
+                {/* ✅ LA SOLUCIÓN FINAL: Contenedor rectangular con fondo desenfocado */}
+                <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-lg bg-black">
+                  {/* Video de fondo desenfocado */}
+                  <video src={m.src} className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40" autoPlay muted loop playsInline/>
+                  {/* Video principal sin cortes */}
+                  <video src={m.src} poster={m.poster} controls className="relative w-full h-full object-contain"/>
+                </div>
               </div>
             ))}
           </div>
