@@ -41,7 +41,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: Palette,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/brand.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '/videos/branding.mp4',
   },
   {
     id: "desarrollo-software-aplicaciones",
@@ -54,7 +54,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: Smartphone,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/aplicaciones.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '/videos/desapps.mp4',
   },
   {
     id: "redes-sociales-marketing",
@@ -67,7 +67,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: MessageSquare,
     videoPlaceholder: "/videos/socialmedia.mp4",
     videoUrl: '/videos/socialmedia.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '/videos/redessociales.mp4',
   },
   {
     id: "produccion-audiovisual",
@@ -80,7 +80,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: Clapperboard,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/pvisual.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '/videos/paudiovisual.mp4',
   },
   {
     id: "e-commerce",
@@ -93,7 +93,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: ShoppingCart,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/ecomer.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '',
   },
   {
     id: "seo-marketing-contenidos",
@@ -106,7 +106,7 @@ export const categoriesData: ServiceCategory[] = [
     icon: Search,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/seo.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '',
   },
   {
     id: "publicidad-pagada-ppc",
@@ -119,6 +119,6 @@ export const categoriesData: ServiceCategory[] = [
     icon: MousePointerClick,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
     videoUrl: '/videos/pagada.mp4',
-    demoVideoUrl: '/videos/prueba1.mp4',
+    demoVideoUrl: '',
   }
 ];
