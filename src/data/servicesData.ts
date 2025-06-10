@@ -30,6 +30,7 @@ export interface ServicePlan {
   slug: string;
   featured?: boolean;
   duration?: string;
+   videoUrl?: string;
   availableAddons?: string[]; // IDs de los addons disponibles para este plan
   includedBonuses?: string[]; // IDs de los bonuses que ya están incluidos
 }
@@ -44,11 +45,13 @@ export const serviceAddons: ServiceAddon[] = [
     price: 70,
   categoryId: [
     "desarrollo-web",
-    "identidad-de-marca"
+    "identidad-de-marca",
+    "desarrollo-software-aplicaciones"
   ],
   compatiblePlans: [
     "web-esencial-plan",
-    "branding-integral-plan"    // si también quieres que aparezca aquí sin tocar component
+    "branding-integral-plan",
+    "desarrollo-software-aplicaciones"
   ],
     iconEmoji: "📱",
     benefits: [
@@ -65,7 +68,7 @@ export const serviceAddons: ServiceAddon[] = [
     price: 120,
     categoryId: [
       "desarrollo-web",
-      "identidad-de-marca",
+      // "identidad-de-marca",
       "consultoria-digital-ia",
       'branding-integral-plan'
     ],
@@ -152,7 +155,7 @@ export const serviceAddons: ServiceAddon[] = [
   // },
   {
     id: "bonus-contenido-visibilidad",
-    name: "Bonus de Contenido y Visibilidad",
+    name: "Kit de Presencia Esencial",
     description: "Impulsa el lanzamiento de tu sitio con contenido estratégico y presencia en redes sociales.",
     price: 0,
     categoryId: "desarrollo-web",
@@ -445,6 +448,7 @@ export const servicesData: ServicePlan[] = [
     longDescription: "Nuestro servicio de Desarrollo Completo te acompaña en todo el proceso de creación de tu aplicación. Comenzamos con una fase de consultoría estratégica para entender tu visión y definir claramente los objetivos, lo que nos permite crear un plan detallado que minimiza riesgos. Luego, pasamos al diseño y desarrollo, utilizando tecnologías modernas como Next.js/React para construir una aplicación atractiva, funcional y escalable. Todo el proceso está enfocado en lanzar rápidamente un producto de alta calidad que te permita validar tu idea y comenzar a ganar tracción en el mercado. Es la solución integral que combina estrategia, diseño y tecnología para transformar tu visión en realidad.",
     slug: "desarrollo-completo-app",
     imagePlaceholder: "/images/placeholders/app-desarrollo.jpg",
+    availableAddons: ["addon-redes-sociales", "addon-formulario-avanzado"],
   },
   {
     id: "app-mantenimiento-plan",
@@ -574,6 +578,7 @@ export const servicesData: ServicePlan[] = [
     duration: "1 – 1.5 semanas",
     featured: false,
     idealFor: "Startups y negocios que necesitan validar una idea o lanzar una campaña rápidamente.",
+    // videoUrl: '/videos/prueba11.mp4',
     includes: [
       "Diseño web UI/UX personalizado y responsive de una sola página (landing page)",
       "Desarrollo con Next.js/React para máxima velocidad y SEO",

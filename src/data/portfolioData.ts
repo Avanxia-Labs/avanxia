@@ -185,7 +185,7 @@ export const heromaticProject: PortfolioItem = {
   id: "heromatic",
   image: "/images/portfolio/proyectos/heromatic3.png",
   title: "Heromatic",
-  subtitle: "Branding, Automatización, UI/UX",
+  subtitle: "",
   description: "Creamos Heromatic desde el nombre hasta su presencia digital, posicionándola como una marca experta en automatización con identidad clara y poderosa.",
   slug: "heromatic",
   categories: [
@@ -292,11 +292,11 @@ export const starchProject: PortfolioItem = {
 
 export const acmeSeoAuditProject: PortfolioItem = {
   id: "acme-seo-audit",
-  title: "Acme SEO Audit",
-  subtitle: "Optimización y Estrategia de Contenidos",
+  title: "SEO TSC",
+  subtitle: "",
   image: "/images/portfolio/services/smart1.png",
-  slug: "acme-seo-audit",
-  description: "Implementamos una auditoría SEO completa y optimizamos contenido pilar para Acme Inc., logrando un aumento del 40% en tráfico orgánico.",
+  slug: "seo",
+  description: "TSC necesitaba mejorar su visibilidad orgánica para atraer clientes desde Google sin depender únicamente de publicidad pagada. El objetivo era posicionar su sitio web en los primeros resultados del buscador y generar tráfico constante de calidad.",
   categories: ["seo-marketing-contenidos"],
   name: undefined,
   icon: undefined
@@ -304,10 +304,10 @@ export const acmeSeoAuditProject: PortfolioItem = {
 
 export const startupPpcLaunchProject: PortfolioItem = {
   id: "startup-ppc-launch",
-  title: "Startup PPC Launch",
-  subtitle: "Campaña Pagada en Google y Meta",
+  title: "Publicidad Pagada TSC ",
+  subtitle: "",
   image: "/images/portfolio/services/pp.png",
-  slug: "startup-ppc-launch",
+  slug: "publicidad",
   description: "Diseñamos e implementamos una campaña PPC de lanzamiento para Startup X, maximizando conversiones con un ROI del 120%.",
   categories: ["publicidad-pagada-ppc"],
   name: undefined,

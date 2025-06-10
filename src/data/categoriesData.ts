@@ -13,6 +13,7 @@ export interface ServiceCategory {
   imagePlaceholder: string; 
   slug: string;               // Añadido para mejor manejo de rutas dinámicas
   icon: LucideIcon;           // Ícono para representar la categoría visualmente
+  demoVideoUrl: any;
 }
 
 export const categoriesData: ServiceCategory[] = [
@@ -26,7 +27,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-desarrollo-web.png",
     icon: Globe,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/paginasweb.mp4'
+    videoUrl: '/videos/paginasweb.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "identidad-de-marca",
@@ -38,7 +40,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-identidad-marca.png",
     icon: Palette,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/brand.mp4'
+    videoUrl: '/videos/brand.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "desarrollo-software-aplicaciones",
@@ -50,7 +53,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-software.png",
     icon: Smartphone,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/aplicaciones.mp4'
+    videoUrl: '/videos/aplicaciones.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "redes-sociales-marketing",
@@ -62,7 +66,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-marketing-digital.png",
     icon: MessageSquare,
     videoPlaceholder: "/videos/socialmedia.mp4",
-    videoUrl: '/videos/socialmedia.mp4'
+    videoUrl: '/videos/socialmedia.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "produccion-audiovisual",
@@ -74,7 +79,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-multimedia.png",
     icon: Clapperboard,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/pvisual.mp4'
+    videoUrl: '/videos/pvisual.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "e-commerce",
@@ -86,7 +92,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-ecommerce.png",
     icon: ShoppingCart,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/ecomer.mp4'
+    videoUrl: '/videos/ecomer.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "seo-marketing-contenidos",
@@ -98,7 +105,8 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-seo.png",
     icon: Search,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/seo.mp4'
+    videoUrl: '/videos/seo.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   },
   {
     id: "publicidad-pagada-ppc",
@@ -110,6 +118,7 @@ export const categoriesData: ServiceCategory[] = [
     imagePlaceholder: "/images/Services/category-ppc.png",
     icon: MousePointerClick,
     videoPlaceholder: "/videos/apolo1-opt.mp4",
-    videoUrl: '/videos/pagada.mp4'
+    videoUrl: '/videos/pagada.mp4',
+    demoVideoUrl: '/videos/prueba1.mp4',
   }
 ];

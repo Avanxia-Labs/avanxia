@@ -12,9 +12,8 @@
     "prerender": "node scripts/prerender.cjs",
     "build:seo": "pnpm run build && pnpm run prerender",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "optimize:videos": "node src/scripts/optimize-videos.cjs ./raw-videos ./public/videos --crf 23 --preset slow --width 1920"
-  },
+    "preview": "vite preview"
+    },
   "reactSnap": {
     "include": [
       "/"

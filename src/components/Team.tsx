@@ -1,8 +1,8 @@
 // src/components/Team.tsx
 import React from 'react'
 import { useSectionUnderlineOnView } from '../hooks/use-section-underline'
-// Removed Swiper imports
 import { User } from 'lucide-react'
+// No necesitamos useNavigate si están en la misma página
 
 interface TeamMember {
   role: string
@@ -23,26 +23,26 @@ const teamMembers: TeamMember[] = [
     role: 'Desarrollador',
     skills: 'Frontend (React, Next.js, Tailwind)',
     description: 'Asegurando interfaces modernas y funcionales.',
-    imageSrc: '/images/portfolio/desjunior.png',
+    imageSrc: '/images/portfolio/desjunior.jpg',
   },
   {
     role: 'Diseñador',
     skills: 'Creatividad Visual (Figma, Adobe CC)',
     description: 'Dando vida a las marcas y experiencias de usuario.',
-    imageSrc: '/images/portfolio/disjunior.png',
+    imageSrc: '/images/portfolio/disjunior.jpg',
   },
   {
     role: 'Socio Operativo (Ismael)',
     skills: 'Gestión de Proyectos, Estrategia, UX, Relaciones con Clientes',
     description: 'Lidera la ejecución y la visión estratégica de los proyectos.',
-    imageSrc: '/images/portfolio/socioop.png',
+    imageSrc: '/images/portfolio/socioop.jpg',
     objectPosition: 'center 0%',
   },
   {
     role: 'Socio Inversionista (Luis Alberto)',
     skills: 'Dirección Financiera, Visión Estratégica, Networking',
     description: 'Supervisa la dirección financiera y aporta visión estratégica.',
-    imageSrc: '/images/portfolio/tauro.png',
+    imageSrc: '/images/portfolio/tauro.jpg',
   },
 ]
 
@@ -78,7 +78,7 @@ const Team: React.FC = () => {
                          hover:ring-2 hover:ring-primary
                          transform hover:scale-105 transition-all duration-500"
             >
-              <div className="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden bg-card-foreground/10 flex items-center justify-center text-foreground/40">
+              <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden bg-card-foreground/10 flex items-center justify-center text-foreground/40">
                 {member.imageSrc ? (
                   <img
                     src={member.imageSrc}
@@ -87,7 +87,7 @@ const Team: React.FC = () => {
                     style={{ objectPosition: member.objectPosition || 'center' }}
                   />
                 ) : (
-                  <User size={28} />
+                  <User size={48} />
                 )}
               </div>
               <h3 className="text-xl font-semibold mb-1">{member.role}</h3>
@@ -101,7 +101,11 @@ const Team: React.FC = () => {
 
         {/* Nuestra Fortaleza */}
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-semibold mb-4">Nuestra Fortaleza</h3>
+            <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+              <span className="section-title-underline">
+              Nuestra Fortaleza
+              </span>
+            </h2>
           <ul className="list-disc list-inside inline-block text-left text-foreground/70">
             {strengths.map((s, i) => (
               <li key={i} className="mb-2">
@@ -113,12 +117,14 @@ const Team: React.FC = () => {
 
         <p className="text-center text-sm text-foreground/60 italic">
           ¿Quieres formar parte del equipo?{' '}
+          {/* ✅ CAMBIO APLICADO AQUÍ */}
           <a
-            href="#join-us"
+            href="#join-us" // <-- Cambiado a #join-us
             className="text-primary underline hover:text-primary/80"
             onClick={e => {
               e.preventDefault();
-              const target = document.getElementById('join-us');
+              // Buscamos el ID correcto: 'join-us'
+              const target = document.getElementById('join-us'); 
               if (target) target.scrollIntoView({ behavior: 'smooth' });
             }}
           >
