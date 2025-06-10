@@ -184,7 +184,7 @@ const ServiceCategoryPage: React.FC = () => {
 
         {/* ── Título de la Categoría ────── */}
         <motion.h2
-          className="text-4xl md:text-6xl font-extrabold text-center mb-8 py-8"
+          className="text-4xl md:text-6xl font-extrabold text-center mb-8 py-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -208,7 +208,7 @@ const ServiceCategoryPage: React.FC = () => {
           Aquí usamos `category.demoVideoUrl`. Asegúrate de que en tu 
           `categoriesData` exista esa propiedad (o utilices `category.videoUrl` si ya la tenías).
         */}
-        {category.demoVideoUrl && (
+        {/* {category.demoVideoUrl && (
           <motion.div
             className="w-full max-w-3xl mx-auto mb-12 overflow-hidden rounded-xl shadow-lg"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -225,7 +225,7 @@ const ServiceCategoryPage: React.FC = () => {
               className="w-full h-auto object-cover"
             />
           </motion.div>
-        )}
+        )} */}
 
         {/* Aviso de precios aproximados */}
         <motion.div
