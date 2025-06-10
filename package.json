@@ -11,6 +11,7 @@
     "build": "pnpm run optimize:images && tsc -b && vite build",
     "prerender": "node scripts/prerender.cjs",
     "build:seo": "pnpm run build && pnpm run prerender",
+    "optimize:videos": "node src/scripts/optimize-videos.cjs ./raw-videos ./public/videos --crf 23 --preset slow --width 1080",
     "lint": "eslint .",
     "preview": "vite preview"
     },
