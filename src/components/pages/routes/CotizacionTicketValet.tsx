@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { ArrowRight, CheckCircle, Clock, Shield, Smartphone, Users, BarChart3, Settings, Zap, Globe, Star, Download } from 'lucide-react';
+import { CheckCircle, Clock, Shield, Smartphone, Users, BarChart3, Settings, Zap, Globe, Star, Download } from 'lucide-react';
 import { Button } from '../../ui/button';
 import SEOHelmet from '../../SEOHelmet';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
@@ -20,7 +20,7 @@ interface AnimatedFeatureCardProps {
   index: number;
 }
 
-const AnimatedFeatureCard: React.FC<AnimatedFeatureCardProps> = ({ feature, index }) => {
+const AnimatedFeatureCard: React.FC<AnimatedFeatureCardProps> = ({ feature }) => {
   const [ref, inView] = useInView({ 
     triggerOnce: false, 
     threshold: 0.6, // La card debe estar 60% visible
@@ -175,11 +175,7 @@ const CotizacionTicketValet = () => {
 
   return (
     <>
-      <SEOHelmet
-        title="Cotización - Sistema de Ticket Digital para Valet Parking | Avanxia Labs"
-        description="Propuesta de desarrollo de sistema propietario de ticket digital para valet parking. Solución completa con tecnología de vanguardia."
-        noIndex={true}
-      />
+      <SEOHelmet />
       
       <div ref={contentRef} className="min-h-screen bg-background">
         {/* Hero Section */}
