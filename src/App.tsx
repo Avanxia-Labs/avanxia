@@ -125,6 +125,7 @@ export default function App() {
         <Route element={<PlainLayout />}>
           {/* Cotizaciones */}
           <Route path="/cotizaciones/ticket-valet-parking" element={<CotizacionTicketValet />} />
+          <Route path="/cotizacion-ticket-valet" element={<CotizacionTicketValet />} />
           
           <Route path="/proyectos/evemundo" element={<Evemundo />} />
           <Route path="/proyectos/gyb" element={<Gyb />} />

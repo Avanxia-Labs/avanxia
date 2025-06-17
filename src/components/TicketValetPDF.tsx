@@ -425,10 +425,10 @@ const TicketValetPDF: React.FC<TicketValetPDFProps> = () => {
         <View style={styles.planContainer}>
           <View style={styles.planBox}>
             <Text style={styles.contactTitle}>Contacto</Text>
-            <Text style={styles.contactText}>📞 +52 (729) 688 4671</Text>
-            <Text style={styles.contactText}>📧 contacto@avanxia.com</Text>
-            <Text style={styles.contactText}>📧 ismael@avanxia.com</Text>
-            <Text style={styles.contactText}>📍 307 Local 16, St. Miguel Hidalgo</Text>
+            <Text style={styles.contactText}>Teléfono: +52 (729) 688 4671</Text>
+            <Text style={styles.contactText}>Email: info@avanxia.com</Text>
+            <Text style={styles.contactText}>Email: ismael@avanxia.com</Text>
+            <Text style={styles.contactText}>Dirección: 307 Local 16, St. Miguel Hidalgo</Text>
             <Text style={styles.contactText}>San Mateo Otzacatipan, CP. 50200</Text>
             <Text style={styles.contactText}>Toluca, Edo. Méx.</Text>
           </View>

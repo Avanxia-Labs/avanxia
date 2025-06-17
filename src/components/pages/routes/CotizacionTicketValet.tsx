@@ -226,7 +226,7 @@ const CotizacionTicketValet = () => {
               className="absolute inset-0 w-full h-full z-0 pointer-events-none"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/2 to-secondary/2 dark:from-primary/5 dark:to-secondary/5" />
           <div className="relative max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
@@ -243,12 +243,12 @@ const CotizacionTicketValet = () => {
               </p>
               <div className="flex justify-center">
                 <Button 
-                  variant="primary" 
-                  className="flex items-center gap-2 text-sm font-medium"
+                  size="cta" 
+                  className="bg-gradient-to-r from-secondary to-primary hover:from-secondary/90 hover:to-primary/90 text-white h-12 flex items-center justify-center"
                   onClick={generatePDF}
                   disabled={isGeneratingPDF}
                 >
-                  <Download className="h-4 w-4" />
+                  <Download className="w-4 h-4 mr-2 flex-shrink-0" />
                   {isGeneratingPDF ? 'Generando PDF...' : 'Descargar Propuesta PDF'}
                 </Button>
               </div>
@@ -386,7 +386,7 @@ const CotizacionTicketValet = () => {
         </section>
 
         {/* Módulos Principales */}
-        <section className="py-16 px-4 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
+        <section className="py-16 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -457,7 +457,7 @@ const CotizacionTicketValet = () => {
                 }
               ].map((module, index) => (
                 <div key={index} className="group relative">
-                  <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/30 dark:border-slate-700/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                  <div className="bg-card/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                       <div className={`bg-gradient-to-r ${module.color} text-white rounded-xl p-3 sm:p-4 font-bold text-xl sm:text-2xl min-w-[3rem] sm:min-w-[4rem] text-center shadow-lg flex-shrink-0`}>
                         {module.number}
@@ -542,11 +542,11 @@ const CotizacionTicketValet = () => {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Nuestras Aplicaciones Desarrolladas
               </h2>
-              <p className="text-xl text-foreground/70 max-w-3xl mx-auto">
+              <p className="text-xl text-foreground/70 mb-8">
                 Descubre por qué elegirnos para construir aplicaciones y otros proyectos exitosos
               </p>
             </div>
-            <div className="w-full max-w-3xl mx-auto overflow-hidden rounded-xl shadow-lg">
+            <div className="w-full max-w-3xl mx-auto mb-12 overflow-hidden rounded-xl shadow-lg">
               <video 
                 src="/videos/desapps.mp4" 
                 controls 
@@ -561,7 +561,7 @@ const CotizacionTicketValet = () => {
         </section>
 
         {/* Pricing Plans */}
-        <section className="py-16 px-4 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10">
+        <section className="py-16 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -728,7 +728,7 @@ const CotizacionTicketValet = () => {
         </section>
 
         {/* Why Choose Avanxia */}
-        <section className="py-16 px-4 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10">
+        <section className="py-16 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -808,12 +808,12 @@ const CotizacionTicketValet = () => {
             
             <div className="flex justify-center">
               <Button 
-                variant="primary" 
-                className="flex items-center gap-2 text-sm font-medium"
+                size="cta" 
+                className="bg-gradient-to-r from-secondary to-primary hover:from-secondary/90 hover:to-primary/90 text-white h-12 flex items-center justify-center"
                 onClick={generatePDF}
                 disabled={isGeneratingPDF}
               >
-                <Download className="h-4 w-4" />
+                <Download className="w-4 h-4 mr-2 flex-shrink-0" />
                 {isGeneratingPDF ? 'Generando PDF...' : 'Descargar Propuesta PDF'}
               </Button>
             </div>
