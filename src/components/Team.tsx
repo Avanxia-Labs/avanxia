@@ -44,6 +44,12 @@ const teamMembers: TeamMember[] = [
     description: 'Supervisa la dirección financiera y aporta visión estratégica.',
     imageSrc: '/images/portfolio/tauro.jpg',
   },
+  {
+  role: 'Dirección Comercial',
+  skills: 'Responsable de la Estrategia de Crecimiento y Ventas',
+  description: 'Lidera la expansión del negocio y la consecución de nuestros objetivos comerciales.',
+  imageSrc: '/images/portfolio/amanda.png',
+  },
 ]
 
 const strengths = [
