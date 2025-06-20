@@ -3,7 +3,7 @@ import Team from "@/components/Team";
 // import Portfolio from "@/components/Portfolio";
 import Footer from "@/components/Footer";
 import FormarEquipo from "@/components/FormarEquipo";
-import TeamVideo from "@/components/Teamvideo";
+// import TeamVideo from "@/components/Teamvideo";
 
 export default function AboutPage() {
   return (
@@ -11,7 +11,7 @@ export default function AboutPage() {
       {/* <ValueProposition />
       <Portfolio /> */}
       <Team />
-      <TeamVideo />
+      {/* <TeamVideo /> */}
       <FormarEquipo />    
       <Footer />
     </>
