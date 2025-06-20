@@ -18,6 +18,7 @@ import ContactPage from "@/components/pages/routes/ContactPage";
 import Portfolio from "@/components/pages/routes/ViewPortfolio";
 import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage";
 import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage";
+import CotizacionTicketValet from "./components/pages/routes/CotizacionTicketValet";
 
 // ── Componentes generales ───────────────────────────────
 import Header from "./components/Header";
@@ -120,8 +121,12 @@ export default function App() {
           />
         </Route>
 
-        {/* Rutas SIN navbar, solo botón “Volver” */}
+        {/* Rutas SIN navbar, solo botón "Volver" */}
         <Route element={<PlainLayout />}>
+          {/* Cotizaciones */}
+          <Route path="/cotizaciones/ticket-valet-parking" element={<CotizacionTicketValet />} />
+          <Route path="/cotizacion-ticket-valet" element={<CotizacionTicketValet />} />
+          
           <Route path="/proyectos/evemundo" element={<Evemundo />} />
           <Route path="/proyectos/gyb" element={<Gyb />} />
           <Route path="/proyectos/drivers" element={<Drivers />} />
