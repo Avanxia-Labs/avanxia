@@ -273,7 +273,7 @@ const CotizacionGybConnect = () => {
                         <div className="grid grid-cols-3 p-4 items-center">
                             <div>Segundo Pago</div>
                             <div className="text-center font-bold text-lg">$800 USD</div>
-                            <div className="text-right">Viernes, 11 de julio de 2025</div>
+                            <div className="text-right">Martes, 15 de julio de 2025</div>
                         </div>
                         <div className="grid grid-cols-3 p-4 items-center">
                             <div>Tercer Pago</div>

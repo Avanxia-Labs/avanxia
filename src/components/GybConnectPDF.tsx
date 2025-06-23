@@ -247,7 +247,7 @@ const GybConnectPDF: React.FC = () => {
           <View style={styles.tableRow}>
             <View style={styles.tableCol}><Text style={styles.tableCell}>Segundo Pago</Text></View>
             <View style={styles.tableCol}><Text style={styles.tableCell}>$800 USD</Text></View>
-            <View style={styles.tableCol}><Text style={styles.tableCell}>Viernes, 11 de julio de 2025</Text></View>
+            <View style={styles.tableCol}><Text style={styles.tableCell}>Martes, 15 de julio de 2025</Text></View>
           </View>
           <View style={styles.tableRow}>
             <View style={styles.tableCol}><Text style={styles.tableCell}>Tercer Pago</Text></View>
