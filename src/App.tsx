@@ -19,6 +19,7 @@ import Portfolio from "@/components/pages/routes/ViewPortfolio";
 import SolutionsLandingPage from "./components/pages/routes/SolutionsLandingPage";
 import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage";
 import CotizacionTicketValet from "./components/pages/routes/CotizacionTicketValet";
+import CotizacionGybConnect from "./components/pages/routes/CotizacionGybConnect";
 
 // ── Componentes generales ───────────────────────────────
 import Header from "./components/Header";
@@ -126,6 +127,7 @@ export default function App() {
           {/* Cotizaciones */}
           <Route path="/cotizaciones/ticket-valet-parking" element={<CotizacionTicketValet />} />
           <Route path="/cotizacion-ticket-valet" element={<CotizacionTicketValet />} />
+          <Route path="/cotizaciones/gyb-connect" element={<CotizacionGybConnect />} />
           
           <Route path="/proyectos/evemundo" element={<Evemundo />} />
           <Route path="/proyectos/gyb" element={<Gyb />} />

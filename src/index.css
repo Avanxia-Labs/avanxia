@@ -189,6 +189,11 @@ small, .text-sm {
               transform 0.5s cubic-bezier(.4,0,.2,1);
 }
 
+.glass-panel > * {
+  position: relative;
+  z-index: 1; /* Asegura que el contenido esté sobre los pseudo-elementos del fondo */
+}
+
 /* Gradiente difuminado SUAVE (crossfade) aplicado directamente a .glass-panel */
 .glass-panel::before,
 .glass-panel::after {

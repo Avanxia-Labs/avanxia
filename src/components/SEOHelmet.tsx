@@ -37,6 +37,8 @@ const SEOHelmet = () => {
       document.title = 'Posicionamiento Web (SEO) y Marketing de Contenidos | Avanxia Labs';
     } else if (path === '/servicios/publicidad-pagada-ppc') {
       document.title = 'Publicidad en Google y Redes Sociales (PPC) | Avanxia Labs';
+    } else if (path === '/cotizaciones/gyb-connect') {
+      document.title = 'Propuesta de Desarrollo Web para GYB Connect | Avanxia Labs';
     }
   }, [location]);
 
