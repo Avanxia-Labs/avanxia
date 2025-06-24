@@ -244,7 +244,7 @@ export default function Header() {
             <div className="p-5 border-t border-border">
               <Button variant="primary" size="cta" className="w-full" onClick={() => { navigate('/contact'); toggleMobileMenu(); }}>
                 Cotiza Gratis
-              </Button>
+              </Button>  
             </div>
           </div>
         </nav>
