@@ -6,7 +6,7 @@ import {
 import { IconType } from "react-icons";
 import { useSectionUnderlineOnView } from "../hooks/use-section-underline";
 import { useGlassCardActiveOnView } from "../hooks/use-section-underline";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { Button } from "./ui/button";
 // import { cn } from "@/lib/utils";  
 
@@ -50,95 +50,98 @@ const points: Point[] = [
 ];
 
 /* --------- CARD WRAPPER -------------------------------------------------*/
-const CardWrapper = ({ p }: { p: Point; index?: number }) => {
-  // Track if this specific card is expanded
+// Componente de tarjeta individual con su propio estado
+const Card = ({ point }: { point: Point }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  // Reference to measure the card content
   const contentRef = useRef<HTMLDivElement>(null);
-  
-  // Toggle expanded state for this card only
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
-  };
-  
-  // Apply glass card effect
   const glassRef = useGlassCardActiveOnView<HTMLDivElement>();
-  
-  return (
-    <div className="relative min-h-[450px]">
-      {/* Fixed height container - all cards look the same height */}
-      {!isExpanded && (
-        <div 
-          ref={glassRef}
-          className="glass-panel w-full p-8 md:p-10 flex flex-col min-h-[450px]"
-        >
-          {/* Card header content */}
+
+  const toggleCard = useCallback(() => {
+    setIsExpanded(prev => !prev);
+  }, []);
+
+  if (isExpanded) {
+    return (
+      <div className="glass-panel w-full p-8 md:p-10 flex flex-col rounded-xl shadow-lg h-full">
+        <div className="flex-1 flex flex-col">
           <div className="mb-6">
             <IconWrapper
-              icon={p.icon}
+              icon={point.icon}
               className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
             />
-            <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
+            <h3 className="mb-3 text-xl md:text-2xl relative z-10">{point.title}</h3>
           </div>
           
-          {/* Text content - truncated to 4 lines */}
-          <div 
-            ref={contentRef} 
-            className="opacity-90 leading-relaxed line-clamp-4"
-          >
+          <div className="opacity-90 leading-relaxed mb-6 flex-grow">
             <span 
               className="break-words"
-              dangerouslySetInnerHTML={{ __html: p.paragraph }}
+              dangerouslySetInnerHTML={{ __html: point.paragraph }}
             />
           </div>
           
-          {/* Button container - always at same position for all cards */}
-          <div className="absolute bottom-8 md:bottom-10 left-8 md:left-10 right-8 md:right-10 z-10">
+          <div className="mt-8 pt-4 border-t border-foreground/10">
             <Button
               size="tight"
               className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
                      bg-primary text-white font-semibold
                      hover:bg-primary/90 transition-colors"
-              onClick={toggleExpanded}
-            >
-              Ver más
-            </Button>
-          </div>
-        </div>
-      )}
-      
-      {/* Expanded card - completely replaces the default card when expanded */}
-      {isExpanded && (
-        <div className="glass-panel w-full p-8 md:p-10 flex flex-col rounded-xl shadow-lg">
-          <div className="mb-6">
-            <IconWrapper
-              icon={p.icon}
-              className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
-            />
-            <h3 className="mb-3 text-xl md:text-2xl relative z-10">{p.title}</h3>
-          </div>
-          
-          <div className="opacity-90 leading-relaxed mb-6">
-            <span 
-              className="break-words"
-              dangerouslySetInnerHTML={{ __html: p.paragraph }}
-            />
-          </div>
-          
-          <div className="mt-auto pt-4">
-            <Button
-              size="tight"
-              className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
-                     bg-primary text-white font-semibold
-                     hover:bg-primary/90 transition-colors"
-              onClick={toggleExpanded}
+              onClick={toggleCard}
             >
               Ver menos
             </Button>
           </div>
         </div>
-      )}
+      </div>
+    );
+  }
+
+
+  return (
+    <div 
+      ref={glassRef}
+      className="glass-panel w-full p-8 md:p-10 flex flex-col"
+    >
+      <div className="flex-1 flex flex-col">
+        <div className="mb-6">
+          <IconWrapper
+            icon={point.icon}
+            className="text-4xl md:text-5xl mb-5 md:mb-6 text-primary relative z-10"
+          />
+          <h3 className="mb-3 text-xl md:text-2xl relative z-10">{point.title}</h3>
+        </div>
+        
+        <div 
+          ref={contentRef} 
+          className="opacity-90 leading-relaxed line-clamp-4 flex-grow"
+        >
+          <span 
+            className="break-words"
+            dangerouslySetInnerHTML={{ __html: point.paragraph }}
+          />
+        </div>
+        
+        <div className="mt-8 pt-4 border-t border-foreground/10">
+          <Button
+            size="tight"
+            className="px-6 py-2 rounded-lg shadow w-full sm:w-auto
+                   bg-primary text-white font-semibold
+                   hover:bg-primary/90 transition-colors"
+            onClick={toggleCard}
+          >
+            Ver más
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Componente contenedor para cada tarjeta
+const CardWrapper = ({ p }: { p: Point }) => {
+  // Cada instancia de CardWrapper renderiza su propia Card con estado aislado
+  return (
+    <div className="relative h-full">
+      <Card point={p} />
     </div>
   );
 };
@@ -146,10 +149,18 @@ const CardWrapper = ({ p }: { p: Point; index?: number }) => {
 /* --------- MAIN COMPONENT ----------------------------------------------*/
 const ValueProposition = () => {
   const underlineRef = useSectionUnderlineOnView<HTMLSpanElement>();
+  // Renderizar las tarjetas
+  const cards = useMemo(() => {
+    return points.map((point, index) => (
+      <div key={index} className="relative z-0 w-full">
+        <CardWrapper p={point} />
+      </div>
+    ));
+  }, []);
 
   return (
     <section id="value-proposition" className="py-24 bg-background text-foreground overflow-x-hidden">
-      <div className="container mx-auto px-6 overflow-hidden">
+      <div className="mx-auto px-6 overflow-hidden max-w-screen-xl">
           {/* Título */}
         <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
           <span ref={underlineRef} className="section-title-underline">
@@ -160,13 +171,9 @@ const ValueProposition = () => {
         Entregamos webs de velocidad superior, diseñadas exclusivamente para ti. Convertimos la psicología de la venta en estrategias de marketing efectivas, y elevamos tu imagen con un diseño de impacto global. Confía en nuestro equipo in-house: no delegamos, <span className="text-blue-400 font-bold section-title-underline">creamos excelencia para ti.</span>
         </p>
 
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full">
-          {points.map((p, i) => (
-            <div key={i} className="relative z-0">
-              <CardWrapper p={p} index={i} />
-            </div>
-          ))}
+        {/* Tarjetas: flex-wrap para alturas independientes */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 w-full items-start">
+          {cards}
         </div>
 
         {/* Cita */}

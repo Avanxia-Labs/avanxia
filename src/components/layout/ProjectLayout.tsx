@@ -86,7 +86,29 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
   const prevItem: PortfolioItem | null = currentIndex > 0 ? portfolioData[currentIndex - 1] : null;
   const nextItem: PortfolioItem | null = currentIndex < portfolioData.length - 1 ? portfolioData[currentIndex + 1] : null;
   
-  const interactivity = isMobile ? { events: { onClick: { enable: true, mode: "repulse" }, onTap: { enable: true, mode: "repulse" }, resize: { enable: true } }, modes: { repulse: { distance: 80, duration: 1.2 } } } : { events: { onHover: { enable: true, mode: "repulse" }, resize: { enable: true } }, modes: { repulse: { distance: 70, duration: 5.2 } } };
+  // Configuración de interactividad para móviles
+  const mobileInteractivity = {
+    events: {
+      onClick: { enable: true, mode: "repulse" as const },
+      onHover: { enable: true, mode: "grab" as const, parallax: { enable: true, force: 60 } },
+      resize: { enable: true }
+    },
+    modes: {
+      repulse: { distance: 100, duration: 0.8 },
+      grab: { distance: 140, links: { opacity: 0.8 } }
+    }
+  };
+
+  // Configuración de interactividad para escritorio
+  const desktopInteractivity = {
+    events: {
+      onHover: { enable: true, mode: "grab" as const, parallax: { enable: true, force: 60 } },
+      resize: { enable: true }
+    },
+    modes: {
+      grab: { distance: 140, links: { opacity: 0.8 } }
+    }
+  };
 
   // --- C. Callbacks y Efectos ---
   const handleParticlesLoaded = useCallback(async (container?: Container): Promise<void> => { particlesRef.current = container ?? null; }, []);
@@ -99,11 +121,88 @@ const ProjectLayout = ({ data }: { data: ProjectData }) => {
   return (
     <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }} className="bg-background text-foreground font-sans">
       {/* ... (Otras secciones sin cambios) ... */}
-      <section className="glass-panel relative w-full py-20 md:pt-28 pb-20 px-4 mb-0 overflow-hidden !rounded-none" style={{ borderRadius: 0 }}>
-        {init && <Particles id="tsparticles-hero" particlesLoaded={handleParticlesLoaded} options={{ fullScreen: { enable: false }, background: { color: { value: "transparent" } }, fpsLimit: 120, interactivity, particles: { color: { value: "#00a6d6" }, links: { color: "#00a6d6", distance: 150, enable: true, opacity: 0.4, width: 1.5 }, move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 1.5, straight: false }, number: { density: { enable: true, width: 800 }, value: 60 }, opacity: { value: 0.6 }, shape: { type: "circle" }, size: { value: { min: 1, max: 4 } } }, detectRetina: true }} className="absolute inset-0 w-full h-full" />}
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="text-center max-w-4xl mx-auto mb-10"><h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8"><span ref={underlineRef} className="section-title-underline">{data.title}</span></h2><p className="text-lg max-w-2xl mx-auto mt-4 opacity-90 leading-relaxed drop-shadow-sm" dangerouslySetInnerHTML={{ __html: data.intro }}></p></div>
-          <div className="relative z-10 w-full">{renderMedia(data.mediaMain, true)}</div>
+      <section className="relative w-full py-16 md:py-24 px-4 overflow-hidden group">
+        {/* Fondo con efecto glass mejorado */}
+        <div className="absolute inset-0 w-full h-full">
+          <div className="glass-panel w-full h-full !rounded-none bg-background/60 backdrop-blur-lg border border-border/20 transition-all duration-300 group-hover:backdrop-blur-xl group-hover:bg-background/70" />
+        </div>
+        
+        {/* Partículas interactivas */}
+        {init && (
+          <div className="absolute inset-0 w-full h-full z-10">
+            <Particles 
+              id="tsparticles-hero" 
+              particlesLoaded={handleParticlesLoaded} 
+              options={{
+                fullScreen: { enable: false },
+                background: { color: { value: "transparent" } },
+                fpsLimit: 120,
+                interactivity: isMobile ? mobileInteractivity : desktopInteractivity,
+                particles: { 
+                  color: { value: "#00a6d6" }, 
+                  links: { 
+                    color: "#00a6d6", 
+                    distance: 150, 
+                    enable: true, 
+                    opacity: 0.4, 
+                    width: 1.5 
+                  },
+                  move: { 
+                    direction: "none", 
+                    enable: true, 
+                    outModes: { default: "bounce" }, 
+                    random: false, 
+                    speed: 1.5, 
+                    straight: false 
+                  },
+                  number: { 
+                    density: { 
+                      enable: true, 
+                      width: 800 
+                    }, 
+                    value: 60 
+                  },
+                  opacity: { 
+                    value: 0.6,
+                    animation: {
+                      enable: true,
+                      speed: 1,
+                      sync: false
+                    }
+                  }, 
+                  shape: { type: "circle" }, 
+                  size: { 
+                    value: { min: 1, max: 4 },
+                    animation: {
+                      enable: true,
+                      speed: 2,
+                      sync: false
+                    }
+                  }
+                },
+                detectRetina: true 
+              }} 
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        )}
+        
+        {/* Contenido principal en la capa superior */}
+        <div className="relative z-20 max-w-7xl mx-auto w-full">
+          <div className="flex flex-col items-center">
+            <div className="text-center max-w-4xl mx-auto mb-10">
+              <h2 className="text-4xl md:text-6xl font-extrabold text-center mb-8">
+                <span ref={underlineRef} className="section-title-underline">{data.title}</span>
+              </h2>
+              <p 
+                className="text-lg max-w-2xl mx-auto mt-4 opacity-90 leading-relaxed drop-shadow-sm" 
+                dangerouslySetInnerHTML={{ __html: data.intro }}
+              />
+            </div>
+            <div className="relative w-full">
+              {renderMedia(data.mediaMain, true)}
+            </div>
+          </div>
         </div>
       </section>
       <section className="bg-[#0f172a] dark:bg-card text-white dark:text-foreground text-center px-6 py-16"><h2 className="text-xl md:text-2xl font-bold mb-6">{data.caption}</h2><p className="max-w-3xl mx-auto text-base md:text-lg">{data.description}</p></section>

@@ -16,6 +16,38 @@ function useIsMobile() {
   return isMobile;
 }
 
+// Configuración de interactividad para móviles
+const mobileInteractivity = {
+  events: {
+    onClick: { enable: true, mode: "repulse" as const },
+    onHover: { 
+      enable: true, 
+      mode: "grab" as const, 
+      parallax: { enable: true, force: 60 } 
+    },
+    resize: { enable: true }
+  },
+  modes: {
+    repulse: { distance: 100, duration: 0.8 },
+    grab: { distance: 140, links: { opacity: 0.8 } }
+  }
+};
+
+// Configuración de interactividad para escritorio
+const desktopInteractivity = {
+  events: {
+    onHover: { 
+      enable: true, 
+      mode: "grab" as const, 
+      parallax: { enable: true, force: 60 } 
+    },
+    resize: { enable: true }
+  },
+  modes: {
+    grab: { distance: 140, links: { opacity: 0.8 } }
+  }
+};
+
 const Hero = () => {
   const [init, setInit] = useState(false);
   const isMobile = useIsMobile();
@@ -32,27 +64,8 @@ const Hero = () => {
     });
   }, []);
 
-  // Opciones de interactividad según dispositivo
-  const interactivity = isMobile
-    ? {
-        events: {
-          onClick: { enable: true, mode: "repulse" },
-          onTap: { enable: true, mode: "repulse" },
-          resize: { enable: true },
-        },
-        modes: {
-          repulse: { distance: 80, duration: 1.2 }, // reacción más suave y lenta en mobile
-        },
-      }
-    : {
-        events: {
-          onHover: { enable: true, mode: "repulse" },
-          resize: { enable: true },
-        },
-        modes: {
-          repulse: { distance: 70, duration: 5.2 }, // reacción más suave y lenta en desktop
-        },
-      };
+  // Usar la configuración de interactividad según el dispositivo
+  const interactivity = isMobile ? mobileInteractivity : desktopInteractivity;
 
   return (
     <section id="hero" className="w-full bg-gray-900 text-white py-20 relative overflow-hidden">
@@ -63,35 +76,50 @@ const Hero = () => {
           particlesLoaded={handleParticlesLoaded}
           options={{
             fullScreen: { enable: false },
-            background: {
-              color: { value: "#101828" },
-            },
+            background: { color: { value: "transparent" } },
             fpsLimit: 120,
             interactivity,
-            particles: {
-              color: { value: "#00e0ff" },
-              links: {
+            particles: { 
+              color: { value: "#00e0ff" }, 
+              links: { 
                 color: "#00e0ff",
                 distance: 150,
                 enable: true,
-                opacity: 0.5,
-                width: 2,
+                opacity: 0.4,
+                width: 1
               },
               move: {
                 direction: "none",
                 enable: true,
                 outModes: { default: "bounce" },
                 random: false,
-                speed: 2,
+                speed: 1,
                 straight: false,
               },
-              number: {
-                density: { enable: true, width: 800 },
-                value: 80,
+              number: { 
+                density: { 
+                  enable: true, 
+                  width: 800 
+                },
+                value: 100
               },
-              opacity: { value: 0.8 },
-              shape: { type: "circle" },
-              size: { value: { min: 1, max: 5 } },
+              opacity: { 
+                value: 0.6,
+                animation: {
+                  enable: true,
+                  speed: 1,
+                  sync: false
+                }
+              }, 
+              shape: { type: "circle" }, 
+              size: { 
+                value: { min: 1, max: 4 },
+                animation: {
+                  enable: true,
+                  speed: 2,
+                  sync: false
+                }
+              }
             },
             detectRetina: true,
           }}
