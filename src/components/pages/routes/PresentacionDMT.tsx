@@ -313,7 +313,7 @@ const PresentacionDMT = () => {
                 Le invito a agendar una reunión para conocer más a fondo tu operación y explorar cómo podemos colaborar para aumentar sus oportunidades de venta.
               </p>
 
-              <div className="flex items-center justify-center gap-6 mt-6">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 mt-6">
                 <a href="mailto:info@avanxia.com" className="text-lg text-primary hover:underline">
                   info@avanxia.com
                 </a>
