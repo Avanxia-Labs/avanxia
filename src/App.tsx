@@ -21,6 +21,8 @@ import ServiceCategoryPage from "./components/pages/routes/ServiceCategoryPage";
 import CotizacionTicketValet from "./components/pages/routes/CotizacionTicketValet";
 import CotizacionGybConnect from "./components/pages/routes/CotizacionGybConnect";
 import PresentacionDMT from "./components/pages/routes/PresentacionDMT";
+import RevolucionAILanding from "./components/pages/routes/RevolucionAILanding";
+import GraciasRevolucionAI from "./components/pages/routes/GraciasRevolucionAI";
 
 // ── Componentes generales ───────────────────────────────
 import Header from "./components/Header";
@@ -130,6 +132,8 @@ export default function App() {
           <Route path="/cotizacion-ticket-valet" element={<CotizacionTicketValet />} />
           <Route path="/cotizaciones/gyb-connect" element={<CotizacionGybConnect />} />
           <Route path="/presentacion/dmt" element={<PresentacionDMT />} />
+          <Route path="/revolucion-ai" element={<RevolucionAILanding />} />
+          <Route path="/gracias-revolucion-ai" element={<GraciasRevolucionAI />} />
           
           <Route path="/proyectos/evemundo" element={<Evemundo />} />
           <Route path="/proyectos/gyb" element={<Gyb />} />

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firma de correo - Ismael Silvero</title>
+  <style>
+    /* ------------------------------------------------------
+       Firma de correo Avanxia — Ismael Silvero
+       — Inspirada en la línea gráfica del sitio Avanxia
+       — 600 px máx-ancho, responsiva y con animaciones CSS
+       — Solo CSS/HTML, sin JS para máxima compatibilidad
+       ------------------------------------------------------ */
+    /* Reset básico */
+    body, table, td, p {margin:0; padding:0;}
+    img {border:0; display:block; line-height:100%;}
+
+    /* Colores corporativos */
+    :root {
+      --primary: #2E68FF;
+      --secondary: #00B2FF;
+      --foreground: #131A2B;
+    }
+
+    /* Enlaces */
+    a {color:var(--primary); text-decoration:none;}
+    a:hover {color:var(--secondary);}
+
+    /* Subrayado animado sobre enlaces (soportado en la mayoría de web-mails) */
+    .link-hover {
+      position:relative;
+    }
+    .link-hover::after {
+      content:'';
+      position:absolute;
+      left:0; right:0; bottom:-2px;
+      height:2px;
+      background:linear-gradient(90deg,var(--secondary),var(--primary));
+      transform:scaleX(0);
+      transform-origin:center;
+      transition:transform .35s ease;
+    }
+    .link-hover:hover::after {transform:scaleX(1);} /* Degrada a nada en clientes sin :hover */
+
+    /* Animación fade-in para imagen/divisor (degrada a estático) */
+    @keyframes fadeIn {from{opacity:0;} to{opacity:1;}}
+    .fade-in {animation:fadeIn 1s ease-out forwards;}
+
+    /* Rayos horizontales animados de fondo */
+    @keyframes slideBg { 0% { background-position: 0 0; } 100% { background-position: 200px 0; } }
+    .bg-rays {
+      background: repeating-linear-gradient(90deg, rgba(46,104,255,.08) 0px, rgba(46,104,255,.08) 2px, transparent 2px, transparent 8px);
+      background-size: 200px 100%;
+      animation: slideBg 6s linear infinite;
+    }
+
+    /* ── Responsividad ─────────────────────────────── */
+    @media only screen and (max-width:480px) {
+      .container {width:100% !important; display:block !important;}
+      .stack {display:block !important; width:100% !important;}
+      .photo {margin:0 auto 16px !important;}
+      .text {text-align:center !important;}
+    }
+  </style>
+</head>
+<body>
+  <table role="presentation" cellpadding="0" cellspacing="0" class="bg-rays" style="font-family:Arial,Helvetica,sans-serif; font-size:14px; color:var(--foreground); max-width:600px; background-color:#FFFFFF;">
+    <tr>
+      <!-- Foto / Avatar -->
+      <td class="photo stack" style="padding-right:16px;">
+        <img src="https://res.cloudinary.com/dkrpb5flb/image/upload/v1750878983/socioop_ubj8hf.jpg" alt="Ismael Silvero" width="96" height="96" style="border-radius:50%;" class="fade-in" />
+      </td>
+
+      <!-- Información de contacto -->
+      <td class="text" style="vertical-align:top;">
+        <p style="font-size:16px; font-weight:bold; color:var(--foreground); margin-bottom:4px;">Ismael Silvero</p>
+        <p style="font-size:14px; color:var(--primary); margin-bottom:12px;">CEO · Avanxia</p>
+
+        <p style="margin-bottom:4px;"><strong>Tel:</strong> <a href="tel:+5212202834673" class="link-hover">+52 1 220 283 4673</a></p>
+        <p style="margin-bottom:4px;"><strong>Email:</strong> <a href="mailto:info@avanxia.com" class="link-hover">info@avanxia.com</a></p>
+        <p style="margin-bottom:0;"><strong>Web:</strong> <a href="https://avanxia.com" target="_blank" class="link-hover">avanxia.com</a></p>
+      </td>
+    </tr>
+
+    <!-- Divisor gradiente -->
+    <tr>
+      <td colspan="2" style="padding-top:12px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td height="4" style="background:linear-gradient(90deg,var(--secondary) 0%, var(--primary) 100%); border-radius:2px;" class="fade-in"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Eslogan -->
+    <tr>
+      <td colspan="2" style="padding-top:8px;">
+        <p style="font-size:12px; color:#6b7280;">
+          <em>Transformamos el ruido digital en oportunidades de negocio.</em>
+        </p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
