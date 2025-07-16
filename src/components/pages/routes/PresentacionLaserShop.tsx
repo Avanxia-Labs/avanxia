@@ -226,13 +226,13 @@ const PresentacionLaserShop = () => {
                                 </div>
                                 <h4 className="text-lg font-bold text-foreground">Google Business: Base Sólida</h4>
                             </div>
-                            <div className="mb-4">
-                                <img 
-                                    src="/Memoria/presentacion_lassershop/Google_businnes.png" 
-                                    alt="Google Business LasserShop - 4.8 estrellas, 112 opiniones"
-                                    className="w-full rounded-lg shadow-md"
-                                />
-                            </div>
+                                                         <div className="mb-4">
+                                 <img 
+                                     src="/images/reportes/lassershop/Google_businnes.png" 
+                                     alt="Google Business LasserShop - 4.8 estrellas, 112 opiniones"
+                                     className="w-full rounded-lg shadow-md"
+                                 />
+                             </div>
                             <p className="text-foreground/70 text-sm">
                                 <span className="font-semibold text-green-600">✅ Fortaleza:</span> 4.8 estrellas con 112 opiniones, ubicación establecida en Montevideo
                             </p>
@@ -245,13 +245,13 @@ const PresentacionLaserShop = () => {
                                 </div>
                                 <h4 className="text-lg font-bold text-foreground">Instagram: Problema Crítico</h4>
                             </div>
-                            <div className="mb-4">
-                                <img 
-                                    src="/Memoria/presentacion_lassershop/Instagram.png" 
-                                    alt="Instagram LasserShop - 3.5k seguidores, 0.06% engagement"
-                                    className="w-full rounded-lg shadow-md"
-                                />
-                            </div>
+                                                         <div className="mb-4">
+                                 <img 
+                                     src="/images/reportes/lassershop/Instagram.png" 
+                                     alt="Instagram LasserShop - 3.5k seguidores, 0.06% engagement"
+                                     className="w-full rounded-lg shadow-md"
+                                 />
+                             </div>
                             <p className="text-foreground/70 text-sm">
                                 <span className="font-semibold text-red-600">🚨 Problema:</span> 0.06% engagement rate con seguidores falsos confirmados
                             </p>
@@ -267,13 +267,13 @@ const PresentacionLaserShop = () => {
                                 </div>
                                 <h4 className="text-lg font-bold text-foreground">Mercado Libre: MercadoLíder</h4>
                             </div>
-                            <div className="mb-4">
-                                <img 
-                                    src="/Memoria/presentacion_lassershop/mercado_libre.png" 
-                                    alt="Mercado Libre LasserShop - +500 ventas, MercadoLíder"
-                                    className="w-full rounded-lg shadow-md"
-                                />
-                            </div>
+                                                         <div className="mb-4">
+                                 <img 
+                                     src="/images/reportes/lassershop/mercado_libre.png" 
+                                     alt="Mercado Libre LasserShop - +500 ventas, MercadoLíder"
+                                     className="w-full rounded-lg shadow-md"
+                                 />
+                             </div>
                             <p className="text-foreground/70 text-sm">
                                 <span className="font-semibold text-blue-600">✅ Oportunidad:</span> +500 ventas, status MercadoLíder, base de clientes establecida
                             </p>
@@ -286,13 +286,13 @@ const PresentacionLaserShop = () => {
                                 </div>
                                 <h4 className="text-lg font-bold text-foreground">Web Performance: Lenta</h4>
                             </div>
-                            <div className="mb-4">
-                                <img 
-                                    src="/Memoria/presentacion_lassershop/Page_speed_mobile_56.png" 
-                                    alt="PageSpeed Mobile 56/100"
-                                    className="w-full rounded-lg shadow-md"
-                                />
-                            </div>
+                                                         <div className="mb-4">
+                                 <img 
+                                     src="/images/reportes/lassershop/Page_speed_mobile_56.png" 
+                                     alt="PageSpeed Mobile 56/100"
+                                     className="w-full rounded-lg shadow-md"
+                                 />
+                             </div>
                             <p className="text-foreground/70 text-sm">
                                 <span className="font-semibold text-orange-600">⚠️ A mejorar:</span> 56/100 en mobile, First Contentful Paint 5.9s (debe ser &lt;2.5s)
                             </p>
