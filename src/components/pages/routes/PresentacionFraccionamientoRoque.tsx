@@ -176,6 +176,106 @@ const PresentacionSanRoque = () => {
             </div>
         </section>
 
+
+        
+        {/* Comparación con Competidores */}
+        <section className="py-16 bg-muted/30">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-foreground mb-4">¿Por qué elegir Avanxia sobre la competencia?</h2>
+              <p className="text-lg text-foreground/70 max-w-3xl mx-auto">
+                Compare nuestra propuesta de valor con las principales alternativas del mercado
+              </p>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full bg-background rounded-lg shadow-lg border border-border">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left p-6 font-semibold text-foreground bg-muted/50">Característica</th>
+                    <th className="text-center p-6 font-semibold text-primary bg-primary/5">Nuestra Solución (Avanxia)</th>
+                    <th className="text-center p-6 font-semibold text-foreground bg-muted/50">Competidores<br/><span className="text-sm font-normal text-foreground/60">(Residentia, Neivor, Comunidad Felix, etc.)</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-border hover:bg-muted/20 transition-colors">
+                    <td className="p-6 font-medium text-foreground">Modelo de Pago</td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="text-green-500" size={20} />
+                          <span className="font-semibold text-primary">Pago Único</span>
+                        </div>
+                        <span className="text-sm text-foreground/60">Una sola inversión</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <span className="font-semibold text-red-600">Renta Mensual</span>
+                        <span className="text-sm text-foreground/60">Pago recurrente perpetuo</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="border-b border-border hover:bg-muted/20 transition-colors">
+                    <td className="p-6 font-medium text-foreground">Propiedad del Sistema</td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="text-green-500" size={20} />
+                          <span className="font-semibold text-primary">100% Suyo</span>
+                        </div>
+                        <span className="text-sm text-foreground/60">Es de su propiedad para siempre</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <span className="font-semibold text-red-600">Nunca es suyo</span>
+                        <span className="text-sm text-foreground/60">Solo renta el uso</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="border-b border-border hover:bg-muted/20 transition-colors">
+                    <td className="p-6 font-medium text-foreground">Costo a 3 Años</td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <div className="flex items-center gap-2">
+                          <DollarSign className="text-green-500" size={20} />
+                          <span className="font-semibold text-primary">$37,500 USD</span>
+                        </div>
+                        <span className="text-sm text-foreground/60">(Ejemplo - Pago único)</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center">
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        <span className="font-semibold text-red-600">$4,000 - $6,000+ USD</span>
+                        <span className="text-sm text-foreground/60">(Aproximado - Y sigue contando...)</span>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-muted/20 transition-colors">
+                    <td className="p-6 font-medium text-foreground">Personalización</td>
+                    <td className="p-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <CheckCircle2 className="text-green-500" size={20} />
+                        <span className="font-semibold text-primary">Totalmente a la Medida</span>
+                      </div>
+                    </td>
+                    <td className="p-6 text-center text-foreground/70">Limitada o Nula</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="text-center mt-8">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-3 rounded-lg">
+                <ShieldCheck size={20} />
+                <span className="font-semibold">Inversión inteligente: Pague una vez, sea dueño para siempre</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
         {/* Investment */}
         <section className="py-20 px-4">
             <div className="max-w-5xl mx-auto">
@@ -186,7 +286,7 @@ const PresentacionSanRoque = () => {
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div className="glass-panel p-8 rounded-xl border border-primary/20">
                         <h3 className="text-2xl font-semibold text-foreground mb-2">Sistema de Control de Acceso</h3>
-                        <p className="text-4xl font-bold text-foreground mb-6">000000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
+                        <p className="text-4xl font-bold text-foreground mb-6">$25,000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
                         <ul className="space-y-3 text-foreground/70">
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary/70 mr-3 mt-1 flex-shrink-0" /><span>Dashboard de Administración Web</span></li>
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary/70 mr-3 mt-1 flex-shrink-0" /><span>App Móvil para Residentes y Guardias</span></li>
@@ -200,7 +300,7 @@ const PresentacionSanRoque = () => {
                             <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">Recomendado</div>
                         </div>
                         <h3 className="text-2xl font-semibold text-primary mb-2">Sistema Completo (+ Facturación)</h3>
-                        <p className="text-4xl font-bold text-foreground mb-6">0000000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
+                        <p className="text-4xl font-bold text-foreground mb-6">$37,500 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
                         <ul className="space-y-3 text-foreground/70">
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span><b>Todo lo del Sistema de Acceso</b></span></li>
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span>Módulo de Facturación Integrado</span></li>
