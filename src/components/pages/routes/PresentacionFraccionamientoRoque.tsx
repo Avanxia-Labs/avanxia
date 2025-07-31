@@ -240,7 +240,7 @@ const PresentacionSanRoque = () => {
                       <div className="flex flex-col items-center justify-center gap-1">
                         <div className="flex items-center gap-2">
                           <DollarSign className="text-green-500" size={20} />
-                          <span className="font-semibold text-primary">$37,500 USD</span>
+                          <span className="font-semibold text-primary">$4,000 USD</span>
                         </div>
                         <span className="text-sm text-foreground/60">(Ejemplo - Pago único)</span>
                       </div>
@@ -286,7 +286,7 @@ const PresentacionSanRoque = () => {
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     <div className="glass-panel p-8 rounded-xl border border-primary/20">
                         <h3 className="text-2xl font-semibold text-foreground mb-2">Sistema de Control de Acceso</h3>
-                        <p className="text-4xl font-bold text-foreground mb-6">$25,000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
+                        <p className="text-4xl font-bold text-foreground mb-6">$3,000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
                         <ul className="space-y-3 text-foreground/70">
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary/70 mr-3 mt-1 flex-shrink-0" /><span>Dashboard de Administración Web</span></li>
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary/70 mr-3 mt-1 flex-shrink-0" /><span>App Móvil para Residentes y Guardias</span></li>
@@ -300,7 +300,7 @@ const PresentacionSanRoque = () => {
                             <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-semibold">Recomendado</div>
                         </div>
                         <h3 className="text-2xl font-semibold text-primary mb-2">Sistema Completo (+ Facturación)</h3>
-                        <p className="text-4xl font-bold text-foreground mb-6">$37,500 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
+                        <p className="text-4xl font-bold text-foreground mb-6">$4,000 <span className="text-lg font-normal text-foreground/70">USD (Pago Único)</span></p>
                         <ul className="space-y-3 text-foreground/70">
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span><b>Todo lo del Sistema de Acceso</b></span></li>
                             <li className="flex items-start"><CheckCircle2 className="w-5 h-5 text-primary mr-3 mt-1 flex-shrink-0" /><span>Módulo de Facturación Integrado</span></li>
