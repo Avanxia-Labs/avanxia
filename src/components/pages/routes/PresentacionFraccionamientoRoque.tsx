@@ -194,7 +194,7 @@ const PresentacionSanRoque = () => {
                   <tr className="border-b border-border">
                     <th className="text-left p-6 font-semibold text-foreground bg-muted/50">Característica</th>
                     <th className="text-center p-6 font-semibold text-primary bg-primary/5">Nuestra Solución (Avanxia)</th>
-                    <th className="text-center p-6 font-semibold text-foreground bg-muted/50">Competidores<br/><span className="text-sm font-normal text-foreground/60">(Residentia, Neivor, Comunidad Felix, etc.)</span></th>
+                    <th className="text-center p-6 font-semibold text-foreground bg-muted/50">Competidores<br/><span className="text-sm font-normal text-foreground/60">(Residentia, Neivor, Comunidad Feliz, etc.)</span></th>
                   </tr>
                 </thead>
                 <tbody>
