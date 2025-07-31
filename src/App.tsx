@@ -48,6 +48,7 @@ import Milenio from "./components/pages/Milenio";
 import Engadi from "./components/pages/Engadi";
 import Seo from "./components/pages/Seo";
 import Publicidad from "./components/pages/Publicidad";
+import PresentacionFraccionamientoRoque from "./components/pages/routes/PresentacionFraccionamientoRoque";
 
 // ── Layouts ─────────────────────────────────────────────
 function MainLayout() {
@@ -134,6 +135,7 @@ export default function App() {
           <Route path="/cotizaciones/gyb-connect" element={<CotizacionGybConnect />} />
           <Route path="/presentacion/dmt" element={<PresentacionDMT />} />
           <Route path="/presentacion/lasershop" element={<PresentacionLaserShop />} />
+          <Route path="/presentacion/fraccionamientoroque" element={<PresentacionFraccionamientoRoque />} />
           <Route path="/revolucion-ai" element={<RevolucionAILanding />} />
           <Route path="/gracias-revolucion-ai" element={<GraciasRevolucionAI />} />
           
