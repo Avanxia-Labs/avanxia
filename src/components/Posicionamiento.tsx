@@ -64,33 +64,33 @@ export default function Posicionamiento() {
 
         <div className="flex justify-center">
           <div style={{ width: 500, height: 500, position: 'relative' }}>
-            <Globe
+           <Globe
               ref={globeEl}
               width={500}
               height={500}
               globeImageUrl="https://unpkg.com/three-globe/example/img/earth-night.jpg"
               backgroundColor="rgba(0,0,0,0)"
               showAtmosphere
-              atmosphereColor="rgba(var(--color-secondary),0.4)"
+              atmosphereColor="rgba(60, 100, 200, 0.4)"
               pointsData={markers}
               pointLat={(d:any) => d.lat}
               pointLng={(d:any) => d.lng}
               pointAltitude={0.05}
-              pointRadius={1}
-              pointColor={() => 'rgb(var(--color-primary))'}
-              // Aquí la clave: sólo el país activo
+              pointRadius={0} // Mantenemos los puntos del globo invisibles
+              pointColor={() => 'rgba(0, 0, 0, 0)'}
+              
               htmlElementsData={[markers[activeIndex]]}
               htmlLat={(d:any) => d.lat}
               htmlLng={(d:any) => d.lng}
               htmlElement={(d:any) => {
                 const el = document.createElement('div');
-                // Estilos para puntito + etiqueta
                 el.style.position = 'absolute';
                 el.style.transform = 'translate(-50%, -50%)';
                 el.innerHTML = `
                   <div style="
                     width:12px; height:12px;
-                    background:rgb(var(--color-primary));
+                    /* CAMBIO: El fondo del puntito ahora es azul. */
+                    background: rgb(59, 130, 246); 
                     border-radius:50%;
                     margin-bottom:4px;
                   "></div>
