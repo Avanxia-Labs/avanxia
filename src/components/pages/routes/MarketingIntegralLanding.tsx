@@ -50,11 +50,7 @@ const MarketingIntegralLanding = () => {
 
   return (
     <>
-      <SEOHelmet 
-        title="Marketing Integral con IA - Convierte Leads Fríos en Ventas | Avanxia"
-        description="Transformamos tu estrategia de marketing con IA. Análisis de competencia, campañas automatizadas y conversión de leads. DNM gratuito incluido."
-        keywords="marketing integral, inteligencia artificial marketing, conversión leads, análisis competencia, campañas google ads, automatización marketing, DNM gratuito"
-      />
+      <SEOHelmet />
       
       <div className="min-h-screen bg-background">
         
