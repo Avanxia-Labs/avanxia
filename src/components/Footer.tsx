@@ -4,8 +4,6 @@ import { NavLink } from 'react-router-dom';
 import {
   Facebook,
   Instagram,
-  Twitter,
-  Youtube,
   Briefcase,
   User,
   Mail,
