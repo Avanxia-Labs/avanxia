@@ -22,6 +22,7 @@ import CotizacionTicketValet from "./components/pages/routes/CotizacionTicketVal
 import CotizacionGybConnect from "./components/pages/routes/CotizacionGybConnect";
 import PresentacionDMT from "./components/pages/routes/PresentacionDMT";
 import PresentacionLaserShop from "./components/pages/routes/PresentacionLaserShop";
+import MarketingIntegralLanding from "./components/pages/routes/MarketingIntegralLanding";
 import RevolucionAILanding from "./components/pages/routes/RevolucionAILanding";
 import GraciasRevolucionAI from "./components/pages/routes/GraciasRevolucionAI";
 
@@ -136,6 +137,7 @@ export default function App() {
           <Route path="/presentacion/dmt" element={<PresentacionDMT />} />
           <Route path="/presentacion/lasershop" element={<PresentacionLaserShop />} />
           <Route path="/presentacion/fraccionamientoroque" element={<PresentacionFraccionamientoRoque />} />
+          <Route path="/marketing-integral-ia" element={<MarketingIntegralLanding />} />
           <Route path="/revolucion-ai" element={<RevolucionAILanding />} />
           <Route path="/gracias-revolucion-ai" element={<GraciasRevolucionAI />} />
           

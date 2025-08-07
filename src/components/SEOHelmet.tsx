@@ -41,6 +41,8 @@ const SEOHelmet = () => {
       document.title = 'Propuesta de Desarrollo Web para GYB Connect | Avanxia Labs';
     } else if (path === '/presentacion/lasershop') {
       document.title = 'LaserShop - Motor de Generación B2B | Presentación Estratégica Avanxia';
+    } else if (path === '/marketing-integral-ia') {
+      document.title = 'Marketing Integral con IA - Convierte Leads Fríos en Ventas | Avanxia';
     } else if (path === '/revolucion-ai') {
       document.title = 'Revolucione su Negocio con IA - Oferta Especial | Avanxia Labs';
     } else if (path === '/gracias-revolucion-ai') {
