@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ShoppingCart, CreditCard, Mail, BarChart3, Clock, Users, Settings, Zap, Download, Palette, Code, Search, CheckCircle2, DollarSign, Shield, Smartphone, Globe, Database, Webhook } from 'lucide-react';
+import { ShoppingCart, CreditCard, Mail, BarChart3, Clock, Users, Settings, Download, Code, CheckCircle2, DollarSign, Shield, Smartphone, Globe, Database, Webhook } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
