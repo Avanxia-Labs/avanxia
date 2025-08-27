@@ -25,6 +25,7 @@ import PresentacionLaserShop from "./components/pages/routes/PresentacionLaserSh
 import MarketingIntegralLanding from "./components/pages/routes/MarketingIntegralLanding";
 import RevolucionAILanding from "./components/pages/routes/RevolucionAILanding";
 import GraciasRevolucionAI from "./components/pages/routes/GraciasRevolucionAI";
+import CotizacionECommerce from "./components/pages/routes/CotizacionECommerce";
 
 // ── Componentes generales ───────────────────────────────
 import Header from "./components/Header";
@@ -134,6 +135,7 @@ export default function App() {
           <Route path="/cotizaciones/ticket-valet-parking" element={<CotizacionTicketValet />} />
           <Route path="/cotizacion-ticket-valet" element={<CotizacionTicketValet />} />
           <Route path="/cotizaciones/gyb-connect" element={<CotizacionGybConnect />} />
+          <Route path="/cotizaciones/e-commerce" element={<CotizacionECommerce/>}/>
           <Route path="/presentacion/dmt" element={<PresentacionDMT />} />
           <Route path="/presentacion/lasershop" element={<PresentacionLaserShop />} />
           <Route path="/presentacion/fraccionamientoroque" element={<PresentacionFraccionamientoRoque />} />
