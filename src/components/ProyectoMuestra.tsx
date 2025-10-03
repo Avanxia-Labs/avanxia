@@ -94,7 +94,7 @@ export default function ProyectoMuestra() {
   </p>
   <div className="w-full max-w-3xl mx-auto overflow-hidden rounded-xl shadow-lg">
     <img
-      src="/images/equipo5.png"
+      src="/images/equipo6.jpg"
       alt="Nuestro Equipo"
       className="w-full h-auto object-cover"
     />
